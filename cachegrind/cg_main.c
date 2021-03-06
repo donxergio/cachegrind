@@ -60,6 +60,7 @@
 static Bool  clo_cache_sim  = True;  /* do cache simulation? */
 static Bool  clo_branch_sim = False; /* do branch simulation? */
 static const HChar* clo_cachegrind_out_file = "cachegrind.out.%p";
+static const HChar* clo_cache_policy = "lru";
 
 /*------------------------------------------------------------*/
 /*--- Cachesim configuration                               ---*/
@@ -1748,8 +1749,11 @@ static Bool cg_process_cmd_line_option(const HChar* arg)
    else if VG_STR_CLO( arg, "--cachegrind-out-file", clo_cachegrind_out_file) {}
    else if VG_BOOL_CLO(arg, "--cache-sim",  clo_cache_sim)  {}
    else if VG_BOOL_CLO(arg, "--branch-sim", clo_branch_sim) {}
+   else if VG_STR_CLO( arg, "--cache-policy", clo_cache_policy) {}
    else
       return False;
+
+
 
    return True;
 }
@@ -1758,9 +1762,10 @@ static void cg_print_usage(void)
 {
    VG_(print_cache_clo_opts)();
    VG_(printf)(
-"    --cache-sim=yes|no               collect cache stats? [yes]\n"
-"    --branch-sim=yes|no              collect branch prediction stats? [no]\n"
-"    --cachegrind-out-file=<file>     output file name [cachegrind.out.%%p]\n"
+"    --cache-sim=yes|no                  collect cache stats? [yes]\n"
+"    --branch-sim=yes|no                 collect branch prediction stats? [no]\n"
+"    --cachegrind-out-file=<file>        output file name [cachegrind.out.%%p]\n"
+"    --cache-policy=lru|lip|random|fifo  replacement policy [LRU or LIP or RANDOM or FIFO]\n"
    );
 }
 
@@ -1845,6 +1850,26 @@ static void cg_post_clo_init(void)
       VG_(umsg)("  but it is not.  Exiting now.\n");
       VG_(exit)(1);
    }
+
+
+   if(VG_(strcmp)(clo_cache_policy,"lru") == 0) {
+	cache_replacement_policy = LRU_POLICY;
+	VG_(printf)("LRU cache replacement will be used\n");
+   }
+   else if(VG_(strcmp)(clo_cache_policy,"lip") == 0) {
+	cache_replacement_policy = LIP_POLICY;
+	VG_(printf)("LIP cache replacement will be used\n");
+   }
+   else if(VG_(strcmp)(clo_cache_policy,"random") == 0) {
+	cache_replacement_policy = RANDOM_POLICY;
+	VG_(printf)("Random cache replacement will be used\n");
+   }
+   else if(VG_(strcmp)(clo_cache_policy,"fifo") == 0) {
+	cache_replacement_policy = FIFO_POLICY;
+	VG_(printf)("FIFO cache replacement will be used\n");
+   }
+
+
 
    cachesim_initcaches(I1c, D1c, LLc);
 }

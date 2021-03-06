@@ -1,4 +1,3 @@
-
 /*--------------------------------------------------------------------*/
 /*--- Cache simulation                                    cg_sim.c ---*/
 /*--------------------------------------------------------------------*/
@@ -48,6 +47,15 @@ typedef struct {
    UWord*       tags;
 } cache_t2;
 
+
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lru(cache_t2* c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lip(cache_t2* c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_random(cache_t2* c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fifo(cache_t2* c, UInt set_no, UWord tag);
+
+Bool (*cachesim_setref_is_miss)(cache_t2*, UInt, UWord) = &cachesim_setref_is_miss_lip;
+
+
 /* By this point, the size/assoc/line_size has been checked. */
 static void cachesim_initcache(cache_t config, cache_t2* c)
 {
@@ -70,6 +78,7 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
                                  c->size, c->line_size, c->assoc);
    }
 
+
    c->tags = VG_(malloc)("cg.sim.ci.1",
                          sizeof(UWord) * c->sets * c->assoc);
 
@@ -84,7 +93,7 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
  */
 __attribute__((always_inline))
 static __inline__
-Bool cachesim_setref_is_miss(cache_t2* c, UInt set_no, UWord tag)
+Bool cachesim_setref_is_miss_lru(cache_t2* c, UInt set_no, UWord tag)
 {
    int i, j;
    UWord *set;
@@ -118,6 +127,111 @@ Bool cachesim_setref_is_miss(cache_t2* c, UInt set_no, UWord tag)
 
    return True;
 }
+
+
+/* This attribute forces GCC to inline the function, getting rid of a
+ * lot of indirection around the cache_t2 pointer, if it is known to be
+ * constant in the caller (the caller is inlined itself).
+ * Without inlining of simulator functions, cachegrind can get 40% slower.
+ */
+__attribute__((always_inline))
+static __inline__
+Bool cachesim_setref_is_miss_lip(cache_t2* c, UInt set_no, UWord tag)
+{
+   int i, j;
+   UWord *set;
+
+   set = &(c->tags[set_no * c->assoc]);
+
+   /* This loop is unrolled for just the first case, which is the most */
+   /* common.  We can't unroll any further because it would screw up   */
+   /* if we have a direct-mapped (1-way) cache.                        */
+   if (tag == set[0])
+      return False;
+
+   /* If the tag is one other than the MRU, move it into the MRU spot  */
+   /* and shuffle the rest down.                                       */
+   for (i = 1; i < c->assoc; i++) {
+      if (tag == set[i]) {
+         for (j = i; j > 0; j--) {
+            set[j] = set[j - 1];
+         }
+         set[0] = tag;
+
+         return False;
+      }
+   }
+
+
+   /* A miss;  install this tag as LRU. */
+   set[c->assoc -1] = tag;
+
+   return True;
+}
+
+/* This attribute forces GCC to inline the function, getting rid of a
+ * lot of indirection around the cache_t2 pointer, if it is known to be
+ * constant in the caller (the caller is inlined itself).
+ * Without inlining of simulator functions, cachegrind can get 40% slower.
+ */
+__attribute__((always_inline))
+static __inline__
+Bool cachesim_setref_is_miss_random(cache_t2* c, UInt set_no, UWord tag)
+{
+   int i;
+   UWord *set;
+
+   set = &(c->tags[set_no * c->assoc]);
+
+   /* A hit;  */
+   for (i = 0; i < c->assoc; i++) {
+      if (tag == set[i]) {
+         return False;
+      }
+   }
+
+   /* A miss;  install this tag at random position */
+   i = VG_(random)(NULL) % c->assoc;
+   set[i] = tag;
+
+   return True;
+}
+
+
+/* This attribute forces GCC to inline the function, getting rid of a
+ * lot of indirection around the cache_t2 pointer, if it is known to be
+ * constant in the caller (the caller is inlined itself).
+ * Without inlining of simulator functions, cachegrind can get 40% slower.
+ */
+__attribute__((always_inline))
+static __inline__
+Bool cachesim_setref_is_miss_fifo(cache_t2* c, UInt set_no, UWord tag)
+{
+   int i, j;
+   UWord *set;
+
+   set = &(c->tags[set_no * c->assoc]);
+
+   /* A hit; */
+   for (i = 0; i < c->assoc; i++) {
+      if (tag == set[i]) {
+         return False;
+      }
+   }
+
+   /* A miss;  install this tag as MRU, shuffle rest down. */
+   for (j = c->assoc - 1; j > 0; j--) {
+      set[j] = set[j - 1];
+   }
+   set[0] = tag;
+
+   return True;
+}
+
+
+
+
+
 
 __attribute__((always_inline))
 static __inline__
@@ -170,6 +284,16 @@ static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
    cachesim_initcache(I1c, &I1);
    cachesim_initcache(D1c, &D1);
    cachesim_initcache(LLc, &LL);
+
+   if(cache_replacement_policy == LRU_POLICY)
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
+   else if(cache_replacement_policy == LIP_POLICY) 
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_lip;
+   else if(cache_replacement_policy == RANDOM_POLICY) 
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_random;
+   else if(cache_replacement_policy == FIFO_POLICY) 
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
+
 }
 
 __attribute__((always_inline))
