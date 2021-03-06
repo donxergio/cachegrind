@@ -61,6 +61,7 @@ static Bool  clo_cache_sim  = True;  /* do cache simulation? */
 static Bool  clo_branch_sim = False; /* do branch simulation? */
 static const HChar* clo_cachegrind_out_file = "cachegrind.out.%p";
 static const HChar* clo_cache_policy = "lru";
+static float clo_cache_bip_throttle = -1.0;
 
 /*------------------------------------------------------------*/
 /*--- Cachesim configuration                               ---*/
@@ -1750,6 +1751,7 @@ static Bool cg_process_cmd_line_option(const HChar* arg)
    else if VG_BOOL_CLO(arg, "--cache-sim",  clo_cache_sim)  {}
    else if VG_BOOL_CLO(arg, "--branch-sim", clo_branch_sim) {}
    else if VG_STR_CLO( arg, "--cache-policy", clo_cache_policy) {}
+   else if VG_DBL_CLO( arg, "--bip-throttle", clo_cache_bip_throttle) {}
    else
       return False;
 
@@ -1766,6 +1768,7 @@ static void cg_print_usage(void)
 "    --branch-sim=yes|no                 collect branch prediction stats? [no]\n"
 "    --cachegrind-out-file=<file>        output file name [cachegrind.out.%%p]\n"
 "    --cache-policy=lru|lip|random|fifo  replacement policy [LRU or LIP or RANDOM or FIFO]\n"
+"    --bip-throttle=[0.0,1.0]            bimodal throttle parameter (used in the BIP replacement policy)\n"
    );
 }
 
@@ -1868,8 +1871,17 @@ static void cg_post_clo_init(void)
 	cache_replacement_policy = FIFO_POLICY;
 	VG_(printf)("FIFO cache replacement will be used\n");
    }
+   else if(VG_(strcmp)(clo_cache_policy,"bip") == 0) {
+	cache_replacement_policy = BIP_POLICY;
+	VG_(printf)("BIP cache replacement will be used\n");
+   }
 
-
+   if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      bip_throttle_parameter = clo_cache_bip_throttle;
+      VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   } else {
+      VG_(printf)("BIP Throttle parameter is unset or negative\n");
+   }
 
    cachesim_initcaches(I1c, D1c, LLc);
 }

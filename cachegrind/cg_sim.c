@@ -52,6 +52,8 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lr
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lip(cache_t2* c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_random(cache_t2* c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fifo(cache_t2* c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag);
+
 
 Bool (*cachesim_setref_is_miss)(cache_t2*, UInt, UWord) = &cachesim_setref_is_miss_lip;
 
@@ -228,7 +230,51 @@ Bool cachesim_setref_is_miss_fifo(cache_t2* c, UInt set_no, UWord tag)
    return True;
 }
 
+/* This attribute forces GCC to inline the function, getting rid of a
+ * lot of indirection around the cache_t2 pointer, if it is known to be
+ * constant in the caller (the caller is inlined itself).
+ * Without inlining of simulator functions, cachegrind can get 40% slower.
+ */
+__attribute__((always_inline))
+static __inline__
+Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag)
+{
+   //VG_(printf)("BIP Throttle parameter: %f\n", bip_throttle_parameter); //bip_throttle_parameter is correct here.
+   /*
+    TODO: from Giovani: the code below is a copy from the LIP Policy.
+    Should modify to implement BIP instead.
+   */
 
+   int i, j;
+   UWord *set;
+
+   set = &(c->tags[set_no * c->assoc]);
+
+   /* This loop is unrolled for just the first case, which is the most */
+   /* common.  We can't unroll any further because it would screw up   */
+   /* if we have a direct-mapped (1-way) cache.                        */
+   if (tag == set[0])
+      return False;
+
+   /* If the tag is one other than the MRU, move it into the MRU spot  */
+   /* and shuffle the rest down.                                       */
+   for (i = 1; i < c->assoc; i++) {
+      if (tag == set[i]) {
+         for (j = i; j > 0; j--) {
+            set[j] = set[j - 1];
+         }
+         set[0] = tag;
+
+         return False;
+      }
+   }
+
+
+   /* A miss;  install this tag as LRU. */
+   set[c->assoc -1] = tag;
+
+   return True;
+}
 
 
 
@@ -293,6 +339,8 @@ static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
       cachesim_setref_is_miss = &cachesim_setref_is_miss_random;
    else if(cache_replacement_policy == FIFO_POLICY) 
       cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
+   else if(cache_replacement_policy == BIP_POLICY) 
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
 
 }
 

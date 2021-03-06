@@ -29,12 +29,16 @@
 #ifndef __CG_ARCH_H
 #define __CG_ARCH_H
 
-#define LRU_POLICY  0
-#define LIP_POLICY  1
-#define RANDOM_POLICY  2
-#define FIFO_POLICY  3
+enum {
+   LRU_POLICY,
+   LIP_POLICY,
+   RANDOM_POLICY,
+   FIFO_POLICY,
+   BIP_POLICY
+};
 
 int cache_replacement_policy;
+double bip_throttle_parameter;
 
 // For cache simulation
 typedef struct {
