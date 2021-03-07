@@ -235,6 +235,11 @@ Bool cachesim_setref_is_miss_fifo(cache_t2* c, UInt set_no, UWord tag)
  * constant in the caller (the caller is inlined itself).
  * Without inlining of simulator functions, cachegrind can get 40% slower.
  */
+/*
+ * Bimodal insertion policy (BIP) put most blocks at the tail; with a small probability, insert at head; for thrashing
+ * workloads, it can retain part of the working set and yield hits on them.
+ * Source: https://my.eng.utah.edu/~cs7810/pres/11-7810-09.pdf
+ */
 __attribute__((always_inline))
 static __inline__
 Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag)
@@ -269,10 +274,31 @@ Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag)
       }
    }
 
+   //if bimodal throttle parameter is 1.0, behaves like LRU
+   if(bip_throttle_parameter == 1.0) { 
 
-   /* A miss;  install this tag as LRU. */
-   set[c->assoc -1] = tag;
+      /* A miss;  install this tag as MRU, shuffle rest down. */
+      for (j = c->assoc - 1; j > 0; j--) {
+         set[j] = set[j - 1];
+      }
+      set[0] = tag;
+   } else if(bip_throttle_parameter == 0.0) { //if bimodal throttle parameter is 0.0, behaves like LIP
 
+      /* A miss;  install this tag as LRU. */
+      set[c->assoc -1] = tag;
+   } else { //uses the probability
+      double prob = (double) (VG_(random)(NULL) % 100 + 1.0);
+      if(prob >= (bip_throttle_parameter * 100)) {
+         /* A miss;  install this tag as LRU. */
+         set[c->assoc -1] = tag;
+      } else {
+         /* A miss;  install this tag as MRU, shuffle rest down. */
+         for (j = c->assoc - 1; j > 0; j--) {
+            set[j] = set[j - 1];
+         }
+         set[0] = tag;
+      }
+   }
    return True;
 }
 
