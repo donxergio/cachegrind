@@ -1767,7 +1767,7 @@ static void cg_print_usage(void)
 "    --cache-sim=yes|no                  collect cache stats? [yes]\n"
 "    --branch-sim=yes|no                 collect branch prediction stats? [no]\n"
 "    --cachegrind-out-file=<file>        output file name [cachegrind.out.%%p]\n"
-"    --cache-policy=lru|lip|random|fifo  replacement policy [LRU or LIP or RANDOM or FIFO]\n"
+"    --cache-policy=lru|lip|random|fifo|bip  replacement policy [LRU or LIP or RANDOM or FIFO]\n"
 "    --bip-throttle=[0.0,1.0]            bimodal throttle parameter (used in the BIP replacement policy)\n"
    );
 }
