@@ -290,11 +290,11 @@ Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag)
 
       double prob = (double) (VG_(random)(NULL) % 100 + 1.0);
 
-      if(prob >= (bip_throttle_parameter * 100)) { //LRU
+      if(prob >= (bip_throttle_parameter * 100)) { //LIP
          /* A miss;  install this tag as LRU. */
          set[c->assoc -1] = tag;
 
-      } else { //LIP
+      } else { //LRU
          /* A miss;  install this tag as MRU, shuffle rest down. */
          for (j = c->assoc - 1; j > 0; j--) {
             set[j] = set[j - 1];
