@@ -10,10 +10,10 @@ SIZES=(256 512 1024 2048 4096 8192 16384 32768 65536)
 
 cd $BENCHMARK_DIR
 log_filename="stats_"$benchmark_name".log"
-output_file=$benchmark_name"_results.log"
+output_file=$benchmark_name"_results.csv"
 
 #echo "SIZE LRU-I LRU-D LRU-M LIP-I LIP-D LIP-M RANDOM-I RANDOM-D RANDOM-M FIFO-I FIFO-D FIFO-M" > $output_file
-printf "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n" "SIZE" "LRU-I" "LRU-D" "LRU-M" "LIP-I" "LIP-D" "LIP-M" "RANDOM-I" "RANDOM-D" "RANDOM-M" "FIFO-I" "FIFO-D" "FIFO-M" > $output_file
+printf "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" "SIZE" "LRU-I" "LRU-D" "LRU-M" "LIP-I" "LIP-D" "LIP-M" "RANDOM-I" "RANDOM-D" "RANDOM-M" "FIFO-I" "FIFO-D" "FIFO-M" > $output_file
 
 
 for s in ${SIZES[@]}
@@ -48,7 +48,7 @@ do
 
     echo "FIFO: Number of instructions: $irefs_fifo, Data accesses: $drefs_fifo, Number of misses: $dmiss_fifo"
 
-    printf "%-10d %-10d %-10d %-10d %-10d %-10d %-10d %-10d %-10d %-10d %-10d %-10d %-10d\n" $s $irefs_lru $drefs_lru $dmiss_lru $irefs_lip $drefs_lip $dmiss_lip $irefs_rand $drefs_rand $dmiss_rand $irefs_fifo $drefs_fifo $dmiss_fifo >> $output_file
+    printf "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n" $s $irefs_lru $drefs_lru $dmiss_lru $irefs_lip $drefs_lip $dmiss_lip $irefs_rand $drefs_rand $dmiss_rand $irefs_fifo $drefs_fifo $dmiss_fifo >> $output_file
 
 
 done
