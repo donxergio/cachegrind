@@ -1,0 +1,26 @@
+==59425== Cachegrind, a cache and branch-prediction profiler
+==59425== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59425== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59425== Command: ./a.out large.txt
+==59425== 
+--59425-- warning: L3 cache found, using its data for the LL simulation.
+--59425-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59425-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+ERROR: ld.so: object '/home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so' from LD_PRELOAD cannot be preloaded (failed to map segment from shared object): ignored.
+==59425== 
+==59425== I   refs:      166,691,468,409
+==59425== I1  misses:              1,832
+==59425== LLi misses:              1,800
+==59425== I1  miss rate:            0.00%
+==59425== LLi miss rate:            0.00%
+==59425== 
+==59425== D   refs:      104,424,124,743  (95,529,534,543 rd   + 8,894,590,200 wr)
+==59425== D1  misses:        266,656,797  (   265,057,125 rd   +     1,599,672 wr)
+==59425== LLd misses:            375,739  (        71,529 rd   +       304,210 wr)
+==59425== D1  miss rate:             0.3% (           0.3%     +           0.0%  )
+==59425== LLd miss rate:             0.0% (           0.0%     +           0.0%  )
+==59425== 
+==59425== LL refs:           266,658,629  (   265,058,957 rd   +     1,599,672 wr)
+==59425== LL misses:             377,539  (        73,329 rd   +       304,210 wr)
+==59425== LL miss rate:              0.0% (           0.0%     +           0.0%  )

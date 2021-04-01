@@ -1,0 +1,29 @@
+==48343== Cachegrind, a cache and branch-prediction profiler
+==48343== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==48343== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==48343== Command: ./pca-large large.data 5000 1059 R
+==48343== 
+--48343-- warning: L3 cache found, using its data for the LL simulation.
+--48343-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--48343-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+==48343== brk segment overflow in thread #1: can't grow to 0x4a35000
+==48343== (see section Limitations in user manual)
+==48343== NOTE: further instances of this message will not be shown
+==48343== 
+==48343== I   refs:      71,275,145,867
+==48343== I1  misses:             1,643
+==48343== LLi misses:             1,639
+==48343== I1  miss rate:           0.00%
+==48343== LLi miss rate:           0.00%
+==48343== 
+==48343== D   refs:      28,625,035,470  (20,878,881,321 rd   + 7,746,154,149 wr)
+==48343== D1  misses:     4,066,552,600  ( 4,064,858,876 rd   +     1,693,724 wr)
+==48343== LLd misses:        16,314,729  (    15,406,676 rd   +       908,053 wr)
+==48343== D1  miss rate:           14.2% (          19.5%     +           0.0%  )
+==48343== LLd miss rate:            0.1% (           0.1%     +           0.0%  )
+==48343== 
+==48343== LL refs:        4,066,554,243  ( 4,064,860,519 rd   +     1,693,724 wr)
+==48343== LL misses:         16,316,368  (    15,408,315 rd   +       908,053 wr)
+==48343== LL miss rate:             0.0% (           0.0%     +           0.0%  )

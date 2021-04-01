@@ -1,0 +1,41 @@
+==58222== Cachegrind, a cache and branch-prediction profiler
+==58222== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58222== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58222== Command: ./srr-large
+==58222== 
+--58222-- warning: L3 cache found, using its data for the LL simulation.
+--58222-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58222-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==58222== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==58222== (see section Limitations in user manual)
+==58222== NOTE: further instances of this message will not be shown
+==58222== 
+==58222== Process terminating with default action of signal 11 (SIGSEGV)
+==58222==  Access not within mapped region at address 0x0
+==58222==    at 0x108C22: GaussSeidel (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58222==    by 0x108D0E: Gauss (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58222==    by 0x10992C: solve_row (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58222==    by 0x109A41: SRREngine123 (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58222==    by 0x1088A9: main (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58222==  If you believe this happened as a result of a stack
+==58222==  overflow in your program's main thread (unlikely but
+==58222==  possible), you can try to increase the size of the
+==58222==  main thread stack using the --main-stacksize= flag.
+==58222==  The main thread stack size used in this run was 8388608.
+==58222== 
+==58222== I   refs:      1,243,588,778
+==58222== I1  misses:            1,346
+==58222== LLi misses:            1,343
+==58222== I1  miss rate:          0.00%
+==58222== LLi miss rate:          0.00%
+==58222== 
+==58222== D   refs:        484,697,242  (316,040,362 rd   + 168,656,880 wr)
+==58222== D1  misses:          787,114  (    248,331 rd   +     538,783 wr)
+==58222== LLd misses:          689,582  (    180,989 rd   +     508,593 wr)
+==58222== D1  miss rate:           0.2% (        0.1%     +         0.3%  )
+==58222== LLd miss rate:           0.1% (        0.1%     +         0.3%  )
+==58222== 
+==58222== LL refs:             788,460  (    249,677 rd   +     538,783 wr)
+==58222== LL misses:           690,925  (    182,332 rd   +     508,593 wr)
+==58222== LL miss rate:            0.0% (        0.0%     +         0.3%  )

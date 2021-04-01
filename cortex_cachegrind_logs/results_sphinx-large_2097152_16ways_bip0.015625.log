@@ -1,0 +1,314 @@
+==57895== Cachegrind, a cache and branch-prediction profiler
+==57895== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==57895== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==57895== Command: ./sphinx large/audio.raw language_model/HUB4/
+==57895== 
+--57895-- warning: L3 cache found, using its data for the LL simulation.
+--57895-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--57895-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+INFO: cmd_ln.c(691): Parsing command line:
+\
+	-hmm language_model/HUB4/model \
+	-lm language_model/HUB4/model.DMP \
+	-dict language_model/HUB4/model.dict 
+
+Current configuration:
+[NAME]		[DEFLT]		[VALUE]
+-agc		none		none
+-agcthresh	2.0		2.000000e+00
+-alpha		0.97		9.700000e-01
+-ascale		20.0		2.000000e+01
+-aw		1		1
+-backtrace	no		no
+-beam		1e-48		1.000000e-48
+-bestpath	yes		yes
+-bestpathlw	9.5		9.500000e+00
+-bghist		no		no
+-ceplen		13		13
+-cmn		current		current
+-cmninit	8.0		8.0
+-compallsen	no		no
+-debug				0
+-dict				language_model/HUB4/model.dict
+-dictcase	no		no
+-dither		no		no
+-doublebw	no		no
+-ds		1		1
+-fdict				
+-feat		1s_c_d_dd	1s_c_d_dd
+-featparams			
+-fillprob	1e-8		1.000000e-08
+-frate		100		100
+-fsg				
+-fsgusealtpron	yes		yes
+-fsgusefiller	yes		yes
+-fwdflat	yes		yes
+-fwdflatbeam	1e-64		1.000000e-64
+-fwdflatefwid	4		4
+-fwdflatlw	8.5		8.500000e+00
+-fwdflatsfwin	25		25
+-fwdflatwbeam	7e-29		7.000000e-29
+-fwdtree	yes		yes
+-hmm				language_model/HUB4/model
+-input_endian	little		little
+-jsgf				
+-kdmaxbbi	-1		-1
+-kdmaxdepth	0		0
+-kdtree				
+-latsize	5000		5000
+-lda				
+-ldadim		0		0
+-lextreedump	0		0
+-lifter		0		0
+-lm				language_model/HUB4/model.DMP
+-lmctl				
+-lmname		default		default
+-logbase	1.0001		1.000100e+00
+-logfn				
+-logspec	no		no
+-lowerf		133.33334	1.333333e+02
+-lpbeam		1e-40		1.000000e-40
+-lponlybeam	7e-29		7.000000e-29
+-lw		6.5		6.500000e+00
+-maxhmmpf	-1		-1
+-maxnewoov	20		20
+-maxwpf		-1		-1
+-mdef				
+-mean				
+-mfclogdir			
+-min_endfr	0		0
+-mixw				
+-mixwfloor	0.0000001	1.000000e-07
+-mllr				
+-mmap		yes		yes
+-ncep		13		13
+-nfft		512		512
+-nfilt		40		40
+-nwpen		1.0		1.000000e+00
+-pbeam		1e-48		1.000000e-48
+-pip		1.0		1.000000e+00
+-pl_beam	1e-10		1.000000e-10
+-pl_pbeam	1e-5		1.000000e-05
+-pl_window	0		0
+-rawlogdir			
+-remove_dc	no		no
+-round_filters	yes		yes
+-samprate	16000		1.600000e+04
+-seed		-1		-1
+-sendump			
+-senlogdir			
+-senmgau			
+-silprob	0.005		5.000000e-03
+-smoothspec	no		no
+-svspec				
+-tmat				
+-tmatfloor	0.0001		1.000000e-04
+-topn		4		4
+-topn_beam	0		0
+-toprule			
+-transform	legacy		legacy
+-unit_area	yes		yes
+-upperf		6855.4976	6.855498e+03
+-usewdphones	no		no
+-uw		1.0		1.000000e+00
+-var				
+-varfloor	0.0001		1.000000e-04
+-varnorm	no		no
+-verbose	no		no
+-warp_params			
+-warp_type	inverse_linear	inverse_linear
+-wbeam		7e-29		7.000000e-29
+-wip		0.65		6.500000e-01
+-wlen		0.025625	2.562500e-02
+
+INFO: cmd_ln.c(691): Parsing command line:
+\
+	-nfilt 20 \
+	-lowerf 1 \
+	-upperf 4000 \
+	-wlen 0.025 \
+	-transform dct \
+	-round_filters no \
+	-remove_dc yes \
+	-svspec 0-12/13-25/26-38 \
+	-feat 1s_c_d_dd \
+	-agc none \
+	-cmn current \
+	-cmninit 56,-3,1 \
+	-varnorm no 
+
+Current configuration:
+[NAME]		[DEFLT]		[VALUE]
+-agc		none		none
+-agcthresh	2.0		2.000000e+00
+-alpha		0.97		9.700000e-01
+-ceplen		13		13
+-cmn		current		current
+-cmninit	8.0		56,-3,1
+-dither		no		no
+-doublebw	no		no
+-feat		1s_c_d_dd	1s_c_d_dd
+-frate		100		100
+-input_endian	little		little
+-lda				
+-ldadim		0		0
+-lifter		0		0
+-logspec	no		no
+-lowerf		133.33334	1.000000e+00
+-ncep		13		13
+-nfft		512		512
+-nfilt		40		20
+-remove_dc	no		yes
+-round_filters	yes		no
+-samprate	16000		1.600000e+04
+-seed		-1		-1
+-smoothspec	no		no
+-svspec				0-12/13-25/26-38
+-transform	legacy		dct
+-unit_area	yes		yes
+-upperf		6855.4976	4.000000e+03
+-varnorm	no		no
+-verbose	no		no
+-warp_params			
+-warp_type	inverse_linear	inverse_linear
+-wlen		0.025625	2.500000e-02
+
+INFO: acmod.c(246): Parsed model-specific feature parameters from language_model/HUB4/model/feat.params
+INFO: feat.c(713): Initializing feature stream to type: '1s_c_d_dd', ceplen=13, CMN='current', VARNORM='no', AGC='none'
+INFO: cmn.c(142): mean[0]= 12.00, mean[1..12]= 0.0
+INFO: acmod.c(167): Using subvector specification 0-12/13-25/26-38
+INFO: mdef.c(517): Reading model definition: language_model/HUB4/model/mdef
+INFO: mdef.c(528): Found byte-order mark BMDF, assuming this is a binary mdef file
+INFO: bin_mdef.c(336): Reading binary model definition: language_model/HUB4/model/mdef
+INFO: bin_mdef.c(513): 50 CI-phone, 143047 CD-phone, 3 emitstate/phone, 150 CI-sen, 5150 Sen, 27135 Sen-Seq
+INFO: tmat.c(205): Reading HMM transition probability matrices: language_model/HUB4/model/transition_matrices
+==57895== Cannot map memory to grow the stack for thread #1 to 0x1ffeff6000
+==57895== 
+==57895== Process terminating with default action of signal 11 (SIGSEGV)
+==57895==  Access not within mapped region at address 0x1FFEFF6348
+==57895== Cannot map memory to grow the stack for thread #1 to 0x1ffeff6000
+--57895:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (69 segments)
+--57895:0: aspacem 8 segment names in 9 slots
+--57895:0: aspacem freelist begins at 280
+--57895:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
+--57895:0: aspacem (1,66,4) /home/tkloda/cortexsuite/cortex/sphinx/sphinx
+--57895:0: aspacem (2,116,4) /lib/x86_64-linux-gnu/ld-2.27.so
+--57895:0: aspacem (3,153,1) /tmp/vgdb-pipe-shared-mem-vgdb-57895-by-tkloda-on-???
+--57895:0: aspacem (4,211,5) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
+--57895:0: aspacem (5,280,0) [free slot: size=17  next=0]
+--57895:0: aspacem (6,301,5) /lib/x86_64-linux-gnu/libm-2.27.so
+--57895:0: aspacem (7,340,5) /lib/x86_64-linux-gnu/libc-2.27.so
+--57895:0: aspacem (8,379,1) /home/tkloda/cortexsuite/cortex/sphinx/language_model/HUB4/model/mdef
+--57895:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
+--57895:0: aspacem   1: file 0000108000-000016efff  421888 r-xT- d=0x802 i=49556503 o=0       (1,66)
+--57895:0: aspacem   2: RSVN 000016f000-000036efff 2097152 ----- SmFixed
+--57895:0: aspacem   3: file 000036f000-0000370fff    8192 r---- d=0x802 i=49556503 o=421888  (1,66)
+--57895:0: aspacem   4: file 0000371000-0000371fff    4096 rw--- d=0x802 i=49556503 o=430080  (1,66)
+--57895:0: aspacem   5: anon 0000372000-0000372fff    4096 rw---
+--57895:0: aspacem   6: RSVN 0000373000-0003ffffff     60m ----- SmFixed
+--57895:0: aspacem   7: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,116)
+--57895:0: aspacem   8: anon 0004029000-0004059fff  200704 rw---
+--57895:0: aspacem   9:      000405a000-000405dfff   16384
+--57895:0: aspacem  10: anon 000405e000-0004098fff  241664 rw---
+--57895:0: aspacem  11:      0004099000-0004228fff 1638400
+--57895:0: aspacem  12: file 0004229000-0004229fff    4096 r---- d=0x802 i=12583111 o=167936  (2,116)
+--57895:0: aspacem  13: file 000422a000-000422afff    4096 rw--- d=0x802 i=12583111 o=172032  (2,116)
+--57895:0: aspacem  14: anon 000422b000-000422bfff    4096 rw---
+--57895:0: aspacem  15: anon 000422c000-000424cfff  135168 rwx--
+--57895:0: aspacem  16: RSVN 000424d000-0004a2bfff 8253440 ----- SmLower
+--57895:0: aspacem  17: file 0004a2c000-0004a2cfff    4096 r-xT- d=0x802 i=28344728 o=0       (4,211)
+--57895:0: aspacem  18: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,211)
+--57895:0: aspacem  19: file 0004c2c000-0004c2cfff    4096 r---- d=0x802 i=28344728 o=0       (4,211)
+--57895:0: aspacem  20: file 0004c2d000-0004c2dfff    4096 rw--- d=0x802 i=28344728 o=4096    (4,211)
+--57895:0: aspacem  21: file 0004c2e000-0004dcafff 1691648 r-xT- d=0x802 i=12583362 o=0       (6,301)
+--57895:0: aspacem  22: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,301)
+--57895:0: aspacem  23: file 0004fca000-0004fcafff    4096 r---- d=0x802 i=12583362 o=1687552 (6,301)
+--57895:0: aspacem  24: file 0004fcb000-0004fcbfff    4096 rw--- d=0x802 i=12583362 o=1691648 (6,301)
+--57895:0: aspacem  25: file 0004fcc000-00051b2fff 1994752 r-xT- d=0x802 i=12583345 o=0       (7,340)
+--57895:0: aspacem  26: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,340)
+--57895:0: aspacem  27: file 00053b3000-00053b6fff   16384 r---- d=0x802 i=12583345 o=1994752 (7,340)
+--57895:0: aspacem  28: file 00053b7000-00053b8fff    8192 rw--- d=0x802 i=12583345 o=2011136 (7,340)
+--57895:0: aspacem  29: anon 00053b9000-00053bcfff   16384 rw---
+--57895:0: aspacem  30: file 00053bd000-00056aafff 3072000 r---- d=0x802 i=49555099 o=0       (8,379)
+--57895:0: aspacem  31:      00056ab000-0057ffffff   1321m
+--57895:0: aspacem  32: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
+--57895:0: aspacem  33: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
+--57895:0: aspacem  34: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
+--57895:0: aspacem  35:      0058259000-0058458fff 2097152
+--57895:0: aspacem  36: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
+--57895:0: aspacem  37: ANON 005845f000-0058e56fff      9m rw---
+--57895:0: aspacem  38:      0058e57000-1001ffffff  64145m
+--57895:0: aspacem  39: RSVN 1002000000-1002000fff    4096 ----- SmFixed
+--57895:0: aspacem  40: ANON 1002001000-100278bfff 7909376 rwx--
+--57895:0: aspacem  41: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29548348 o=0       (3,153)
+--57895:0: aspacem  42: ANON 100278d000-10027bcfff  196608 rwx--
+--57895:0: aspacem  43:      10027bd000-10027ccfff   65536
+--57895:0: aspacem  44: ANON 10027cd000-10027f2fff  155648 rwx--
+--57895:0: aspacem  45:      10027f3000-100288bfff  626688
+--57895:0: aspacem  46: ANON 100288c000-100298bfff 1048576 rwx--
+--57895:0: aspacem  47: ANON 100298c000-100298dfff    8192 -----
+--57895:0: aspacem  48: ANON 100298e000-1002a8dfff 1048576 rwx--
+--57895:0: aspacem  49: ANON 1002a8e000-1002a8ffff    8192 -----
+--57895:0: aspacem  50:      1002a90000-1002b80fff  987136
+--57895:0: aspacem  51: ANON 1002b81000-1004c44fff     32m rwx--
+--57895:0: aspacem  52:      1004c45000-1004e44fff 2097152
+--57895:0: aspacem  53: ANON 1004e45000-1005144fff 3145728 rwx--
+--57895:0: aspacem  54:      1005145000-1005344fff 2097152
+--57895:0: aspacem  55: ANON 1005345000-1005744fff 4194304 rwx--
+--57895:0: aspacem  56:      1005745000-1005939fff 2052096
+--57895:0: aspacem  57: ANON 100593a000-1005f7bfff 6561792 rwx--
+--57895:0: aspacem  58:      1005f7c000-1ffe800fff  65416m
+--57895:0: aspacem  59: RSVN 1ffe801000-1ffeffafff 8364032 ----- SmUpper
+--57895:0: aspacem  60: anon 1ffeffb000-1fff000fff   24576 rw---
+--57895:0: aspacem  61:      1fff001000-1fffffffff     15m
+--57895:0: aspacem  62: RSVN 2000000000-7ffd55c0bfff 130933g ----- SmFixed
+--57895:0: aspacem  63: ANON 7ffd55c0c000-7ffd55c2cfff  135168 rw---
+--57895:0: aspacem  64: RSVN 7ffd55c2d000-7ffd55cd0fff  671744 ----- SmFixed
+--57895:0: aspacem  65: ANON 7ffd55cd1000-7ffd55cd3fff   12288 r----
+--57895:0: aspacem  66: RSVN 7ffd55cd4000-ffffffffff5fffff  16383e ----- SmFixed
+--57895:0: aspacem  67: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
+--57895:0: aspacem  68: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
+--57895:0: aspacem >>>
+--57895-- core    :    12,582,912/   12,582,912 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      9,419,712/    9,419,712 max/curr,       12365/  10008512 totalloc-blocks/bytes,       12365 searches 8 rzB
+--57895-- dinfo   :    24,100,864/   16,121,856 max/curr mmap'd, 2/7 unsplit/split sb unmmap'd,     22,647,904/    8,885,776 max/curr,      232190/  61938288 totalloc-blocks/bytes,      238499 searches 8 rzB
+--57895-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
+--57895-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
+--57895-- ttaux   :       221,184/      221,184 max/curr mmap'd, 0/1 unsplit/split sb unmmap'd,        166,128/      114,432 max/curr,         565/    307008 totalloc-blocks/bytes,         564 searches 8 rzB
+--57895-- translate: 30,216 guest insns, 4,568 traces, 1,124 uncond chased, 142 cond chased
+--57895-- translate: no SP updates identified
+--57895-- translate: PX: SPonly 4,568,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
+--57895--     tt/tc: 10,102 tt lookups requiring 10,418 probes
+--57895--     tt/tc: 5,557 fast-cache updates, 2 flushes
+--57895--  transtab: new        4,568 (121,984 -> 1,562,429; ratio 12.8) [0 scs] avg tce size 342
+--57895--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
+--57895--  transtab: discarded  0 (0 -> ??)
+--57895-- scheduler: 1,663,406 event checks.
+--57895-- scheduler: 624,478 indir transfers, 965 misses (1 in 647) ..
+--57895-- scheduler: .. of which: 623,428 hit0, 64 hit1, 21 hit2, 0 hit3, 965 missed
+--57895-- scheduler: 16/6,706 major/minor sched events.
+--57895--    sanity: 16 cheap, 1 expensive checks.
+==57895== 
+==57895==     Valgrind's memory management: out of memory:
+==57895==        newSuperblock's request for 4194304 bytes failed.
+==57895==           69,865,472 bytes have already been mmap-ed ANONYMOUS.
+==57895==     Valgrind cannot continue.  Sorry.
+==57895== 
+==57895==     There are several possible reasons for this.
+==57895==     - You have some kind of memory limit in place.  Look at the
+==57895==       output of 'ulimit -a'.  Is there a limit on the size of
+==57895==       virtual memory or address space?
+==57895==     - You have run out of swap space.
+==57895==     - Valgrind has a bug.  If you think this is the case or you are
+==57895==     not sure, please let us know and we'll try to fix it.
+==57895==     Please note that programs can take substantially more memory than
+==57895==     normal when running under Valgrind tools, eg. up to twice or
+==57895==     more, depending on the tool.  On a 64-bit machine, Valgrind
+==57895==     should be able to make use of up 32GB memory.  On a 32-bit
+==57895==     machine, Valgrind should be able to use all the memory available
+==57895==     to a single process, up to 4GB if that's how you have your
+==57895==     kernel configured.  Most 32-bit Linux setups allow a maximum of
+==57895==     3GB per process.
+==57895== 
+==57895==     Whatever the reason, Valgrind cannot continue.  Sorry.

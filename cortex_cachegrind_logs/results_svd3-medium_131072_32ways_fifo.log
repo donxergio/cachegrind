@@ -1,0 +1,26 @@
+==59145== Cachegrind, a cache and branch-prediction profiler
+==59145== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59145== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59145== Command: ./a.out med.txt
+==59145== 
+--59145-- warning: L3 cache found, using its data for the LL simulation.
+--59145-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59145-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+./a.out: error while loading shared libraries: libm.so.6: cannot create shared object descriptor: Cannot allocate memory
+==59145== 
+==59145== I   refs:      27,058
+==59145== I1  misses:       477
+==59145== LLi misses:       477
+==59145== I1  miss rate:   1.76%
+==59145== LLi miss rate:   1.76%
+==59145== 
+==59145== D   refs:       7,590  (5,805 rd   + 1,785 wr)
+==59145== D1  misses:       325  (  170 rd   +   155 wr)
+==59145== LLd misses:       325  (  170 rd   +   155 wr)
+==59145== D1  miss rate:    4.3% (  2.9%     +   8.7%  )
+==59145== LLd miss rate:    4.3% (  2.9%     +   8.7%  )
+==59145== 
+==59145== LL refs:          802  (  647 rd   +   155 wr)
+==59145== LL misses:        802  (  647 rd   +   155 wr)
+==59145== LL miss rate:     2.3% (  2.0%     +   8.7%  )

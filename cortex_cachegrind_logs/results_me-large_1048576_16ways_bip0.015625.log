@@ -1,0 +1,42 @@
+==44637== Cachegrind, a cache and branch-prediction profiler
+==44637== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==44637== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==44637== Command: ./me-large
+==44637== 
+--44637-- warning: L3 cache found, using its data for the LL simulation.
+--44637-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--44637-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+==44637== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==44637== (see section Limitations in user manual)
+==44637== NOTE: further instances of this message will not be shown
+==44637== 
+==44637== Process terminating with default action of signal 11 (SIGSEGV)
+==44637==  Access not within mapped region at address 0x0
+==44637==    at 0x109728: Taylor_App (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
+==44637==    by 0x109963: FullSearch (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
+==44637==    by 0x108ED2: Motion_Est (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
+==44637==    by 0x109C31: Bidirectional_ME (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
+==44637==    by 0x1089E0: main (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
+==44637==  If you believe this happened as a result of a stack
+==44637==  overflow in your program's main thread (unlikely but
+==44637==  possible), you can try to increase the size of the
+==44637==  main thread stack using the --main-stacksize= flag.
+==44637==  The main thread stack size used in this run was 8388608.
+==44637== 
+==44637== I   refs:      3,493,932,488
+==44637== I1  misses:            1,408
+==44637== LLi misses:            1,404
+==44637== I1  miss rate:          0.00%
+==44637== LLi miss rate:          0.00%
+==44637== 
+==44637== D   refs:        842,257,042  (706,212,660 rd   + 136,044,382 wr)
+==44637== D1  misses:        1,351,279  (    442,292 rd   +     908,987 wr)
+==44637== LLd misses:        1,108,619  (    281,675 rd   +     826,944 wr)
+==44637== D1  miss rate:           0.2% (        0.1%     +         0.7%  )
+==44637== LLd miss rate:           0.1% (        0.0%     +         0.6%  )
+==44637== 
+==44637== LL refs:           1,352,687  (    443,700 rd   +     908,987 wr)
+==44637== LL misses:         1,110,023  (    283,079 rd   +     826,944 wr)
+==44637== LL miss rate:            0.0% (        0.0%     +         0.6%  )

@@ -1,0 +1,39 @@
+==58350== Cachegrind, a cache and branch-prediction profiler
+==58350== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58350== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58350== Command: ./srr-large
+==58350== 
+--58350-- warning: L3 cache found, using its data for the LL simulation.
+--58350-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58350-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==58350== Cannot map memory to grow brk segment in thread #1 to 0x49a6000
+==58350== (see section Limitations in user manual)
+==58350== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==58350== (see section Limitations in user manual)
+==58350== NOTE: further instances of this message will not be shown
+==58350== 
+==58350== Process terminating with default action of signal 11 (SIGSEGV)
+==58350==  Access not within mapped region at address 0x0
+==58350==    at 0x1095B8: get_b (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58350==  If you believe this happened as a result of a stack
+==58350==  overflow in your program's main thread (unlikely but
+==58350==  possible), you can try to increase the size of the
+==58350==  main thread stack using the --main-stacksize= flag.
+==58350==  The main thread stack size used in this run was 8388608.
+==58350== 
+==58350== I   refs:      1,570,213,745
+==58350== I1  misses:            1,549
+==58350== LLi misses:            1,354
+==58350== I1  miss rate:          0.00%
+==58350== LLi miss rate:          0.00%
+==58350== 
+==58350== D   refs:        611,434,716  (401,419,176 rd   + 210,015,540 wr)
+==58350== D1  misses:        4,830,234  (  4,114,485 rd   +     715,749 wr)
+==58350== LLd misses:          486,848  (    110,541 rd   +     376,307 wr)
+==58350== D1  miss rate:           0.8% (        1.0%     +         0.3%  )
+==58350== LLd miss rate:           0.1% (        0.0%     +         0.2%  )
+==58350== 
+==58350== LL refs:           4,831,783  (  4,116,034 rd   +     715,749 wr)
+==58350== LL misses:           488,202  (    111,895 rd   +     376,307 wr)
+==58350== LL miss rate:            0.0% (        0.0%     +         0.2%  )

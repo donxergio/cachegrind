@@ -1,0 +1,27 @@
+==41625== Cachegrind, a cache and branch-prediction profiler
+==41625== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41625== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41625== Command: ./liblinear-tmedium data/10B/epsilon
+==41625== 
+--41625-- warning: L3 cache found, using its data for the LL simulation.
+--41625-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41625-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==41625== Cannot map memory to grow brk segment in thread #1 to 0x426e000
+==41625== (see section Limitations in user manual)
+==41625== 
+==41625== I   refs:      19,285,290,121
+==41625== I1  misses:       227,627,974
+==41625== LLi misses:             3,831
+==41625== I1  miss rate:           1.18%
+==41625== LLi miss rate:           0.00%
+==41625== 
+==41625== D   refs:       5,666,486,198  (3,947,048,766 rd   + 1,719,437,432 wr)
+==41625== D1  misses:       128,930,338  (  118,950,937 rd   +     9,979,401 wr)
+==41625== LLd misses:        39,974,797  (   36,837,908 rd   +     3,136,889 wr)
+==41625== D1  miss rate:            2.3% (          3.0%     +           0.6%  )
+==41625== LLd miss rate:            0.7% (          0.9%     +           0.2%  )
+==41625== 
+==41625== LL refs:          356,558,312  (  346,578,911 rd   +     9,979,401 wr)
+==41625== LL misses:         39,978,628  (   36,841,739 rd   +     3,136,889 wr)
+==41625== LL miss rate:             0.2% (          0.2%     +           0.2%  )

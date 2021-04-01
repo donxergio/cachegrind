@@ -1,0 +1,37 @@
+==58448== Cachegrind, a cache and branch-prediction profiler
+==58448== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58448== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58448== Command: ./srr-large
+==58448== 
+--58448-- warning: L3 cache found, using its data for the LL simulation.
+--58448-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58448-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==58448== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==58448== (see section Limitations in user manual)
+==58448== NOTE: further instances of this message will not be shown
+==58448== 
+==58448== Process terminating with default action of signal 11 (SIGSEGV)
+==58448==  Access not within mapped region at address 0x0
+==58448==    at 0x10952E: get_b (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58448==  If you believe this happened as a result of a stack
+==58448==  overflow in your program's main thread (unlikely but
+==58448==  possible), you can try to increase the size of the
+==58448==  main thread stack using the --main-stacksize= flag.
+==58448==  The main thread stack size used in this run was 8388608.
+==58448== 
+==58448== I   refs:      722,180,230
+==58448== I1  misses:      3,851,914
+==58448== LLi misses:          1,343
+==58448== I1  miss rate:        0.53%
+==58448== LLi miss rate:        0.00%
+==58448== 
+==58448== D   refs:      282,381,129  (179,728,029 rd   + 102,653,100 wr)
+==58448== D1  misses:     29,444,854  ( 26,734,166 rd   +   2,710,688 wr)
+==58448== LLd misses:        344,465  (      2,524 rd   +     341,941 wr)
+==58448== D1  miss rate:        10.4% (       14.9%     +         2.6%  )
+==58448== LLd miss rate:         0.1% (        0.0%     +         0.3%  )
+==58448== 
+==58448== LL refs:        33,296,768  ( 30,586,080 rd   +   2,710,688 wr)
+==58448== LL misses:         345,808  (      3,867 rd   +     341,941 wr)
+==58448== LL miss rate:          0.0% (        0.0%     +         0.3%  )

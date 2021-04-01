@@ -1,0 +1,41 @@
+==40551== Cachegrind, a cache and branch-prediction profiler
+==40551== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==40551== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==40551== Command: ./liblinear-tlarge data/100B/kdda
+==40551== 
+--40551-- warning: L3 cache found, using its data for the LL simulation.
+--40551-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--40551-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==40551== Cannot map memory to grow brk segment in thread #1 to 0x4633000
+==40551== (see section Limitations in user manual)
+==40551== brk segment overflow in thread #1: can't grow to 0x177ed000
+==40551== (see section Limitations in user manual)
+==40551== NOTE: further instances of this message will not be shown
+==40551== 
+==40551== Process terminating with default action of signal 11 (SIGSEGV)
+==40551==  Access not within mapped region at address 0x0
+==40551==    at 0x113940: read_problem (in /home/tkloda/cortexsuite/cortex/liblinear/liblinear-tlarge)
+==40551==    by 0x10922F: main (in /home/tkloda/cortexsuite/cortex/liblinear/liblinear-tlarge)
+==40551==  If you believe this happened as a result of a stack
+==40551==  overflow in your program's main thread (unlikely but
+==40551==  possible), you can try to increase the size of the
+==40551==  main thread stack using the --main-stacksize= flag.
+==40551==  The main thread stack size used in this run was 8388608.
+==40551== 
+==40551== I   refs:      2,211,199,046
+==40551== I1  misses:            1,330
+==40551== LLi misses:            1,274
+==40551== I1  miss rate:          0.00%
+==40551== LLi miss rate:          0.00%
+==40551== 
+==40551== D   refs:        669,225,269  (487,947,326 rd   + 181,277,943 wr)
+==40551== D1  misses:            3,778  (      3,057 rd   +         721 wr)
+==40551== LLd misses:            2,956  (      2,317 rd   +         639 wr)
+==40551== D1  miss rate:           0.0% (        0.0%     +         0.0%  )
+==40551== LLd miss rate:           0.0% (        0.0%     +         0.0%  )
+==40551== 
+==40551== LL refs:               5,108  (      4,387 rd   +         721 wr)
+==40551== LL misses:             4,230  (      3,591 rd   +         639 wr)
+==40551== LL miss rate:            0.0% (        0.0%     +         0.0%  )

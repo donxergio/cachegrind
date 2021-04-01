@@ -1,0 +1,35 @@
+==59171== Cachegrind, a cache and branch-prediction profiler
+==59171== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59171== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59171== Command: ./a.out med.txt
+==59171== 
+--59171-- warning: L3 cache found, using its data for the LL simulation.
+--59171-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59171-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==59171== Cannot map memory to grow the stack for thread #1 to 0x1ffeffe000
+==59171== 
+==59171== Process terminating with default action of signal 11 (SIGSEGV)
+==59171==  Access not within mapped region at address 0x1FFEFFEF10
+==59171==    at 0x4003E50: dl_main (rtld.c:1618)
+==59171==  If you believe this happened as a result of a stack
+==59171==  overflow in your program's main thread (unlikely but
+==59171==  possible), you can try to increase the size of the
+==59171==  main thread stack using the --main-stacksize= flag.
+==59171==  The main thread stack size used in this run was 8388608.
+==59171== 
+==59171== I   refs:      17,816
+==59171== I1  misses:       235
+==59171== LLi misses:       235
+==59171== I1  miss rate:   1.32%
+==59171== LLi miss rate:   1.32%
+==59171== 
+==59171== D   refs:       4,296  (3,677 rd   + 619 wr)
+==59171== D1  misses:       204  (  112 rd   +  92 wr)
+==59171== LLd misses:       204  (  112 rd   +  92 wr)
+==59171== D1  miss rate:    4.7% (  3.0%     + 14.9%  )
+==59171== LLd miss rate:    4.7% (  3.0%     + 14.9%  )
+==59171== 
+==59171== LL refs:          439  (  347 rd   +  92 wr)
+==59171== LL misses:        439  (  347 rd   +  92 wr)
+==59171== LL miss rate:     2.0% (  1.6%     + 14.9%  )

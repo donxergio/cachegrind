@@ -1,0 +1,27 @@
+==58920== Cachegrind, a cache and branch-prediction profiler
+==58920== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58920== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58920== Command: ./srr-small
+==58920== 
+--58920-- warning: L3 cache found, using its data for the LL simulation.
+--58920-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58920-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+ERROR: ld.so: object '/home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so' from LD_PRELOAD cannot be preloaded (failed to map segment from shared object): ignored.
+./srr-small: error while loading shared libraries: cannot allocate symbol search list: Cannot allocate memory
+==58920== 
+==58920== I   refs:      27,602
+==58920== I1  misses:       456
+==58920== LLi misses:       452
+==58920== I1  miss rate:   1.65%
+==58920== LLi miss rate:   1.64%
+==58920== 
+==58920== D   refs:       7,630  (5,810 rd   + 1,820 wr)
+==58920== D1  misses:       317  (  172 rd   +   145 wr)
+==58920== LLd misses:       315  (  170 rd   +   145 wr)
+==58920== D1  miss rate:    4.2% (  3.0%     +   8.0%  )
+==58920== LLd miss rate:    4.1% (  2.9%     +   8.0%  )
+==58920== 
+==58920== LL refs:          773  (  628 rd   +   145 wr)
+==58920== LL misses:        767  (  622 rd   +   145 wr)
+==58920== LL miss rate:     2.2% (  1.9%     +   8.0%  )

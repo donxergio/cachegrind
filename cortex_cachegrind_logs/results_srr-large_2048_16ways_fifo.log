@@ -1,0 +1,40 @@
+==58464== Cachegrind, a cache and branch-prediction profiler
+==58464== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58464== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58464== Command: ./srr-large
+==58464== 
+--58464-- warning: L3 cache found, using its data for the LL simulation.
+--58464-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58464-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==58464== Cannot map memory to grow brk segment in thread #1 to 0x4a2a000
+==58464== (see section Limitations in user manual)
+==58464== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==58464== (see section Limitations in user manual)
+==58464== NOTE: further instances of this message will not be shown
+==58464== 
+==58464== Process terminating with default action of signal 11 (SIGSEGV)
+==58464==  Access not within mapped region at address 0x0
+==58464==    at 0x10C253: AllocImgMem (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58464==    by 0x10888C: main (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58464==  If you believe this happened as a result of a stack
+==58464==  overflow in your program's main thread (unlikely but
+==58464==  possible), you can try to increase the size of the
+==58464==  main thread stack using the --main-stacksize= flag.
+==58464==  The main thread stack size used in this run was 8388608.
+==58464== 
+==58464== I   refs:      56,066,953
+==58464== I1  misses:     1,350,780
+==58464== LLi misses:         1,176
+==58464== I1  miss rate:       2.41%
+==58464== LLi miss rate:       0.00%
+==58464== 
+==58464== D   refs:      24,618,924  (6,580,969 rd   + 18,037,955 wr)
+==58464== D1  misses:       859,909  (  277,500 rd   +    582,409 wr)
+==58464== LLd misses:       307,413  (    2,128 rd   +    305,285 wr)
+==58464== D1  miss rate:        3.5% (      4.2%     +        3.2%  )
+==58464== LLd miss rate:        1.2% (      0.0%     +        1.7%  )
+==58464== 
+==58464== LL refs:        2,210,689  (1,628,280 rd   +    582,409 wr)
+==58464== LL misses:        308,589  (    3,304 rd   +    305,285 wr)
+==58464== LL miss rate:         0.4% (      0.0%     +        1.7%  )

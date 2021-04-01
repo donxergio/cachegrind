@@ -1,0 +1,30 @@
+==48702== Cachegrind, a cache and branch-prediction profiler
+==48702== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==48702== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==48702== Command: ./pca-medium medium.data 722 800 R
+==48702== 
+--48702-- warning: L3 cache found, using its data for the LL simulation.
+--48702-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--48702-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==48702== Cannot map memory to grow brk segment in thread #1 to 0x4712000
+==48702== (see section Limitations in user manual)
+Run-time error:
+Allocation failure 2 in matrix().
+Exiting to system.
+==48702== 
+==48702== I   refs:      2,515,810,521
+==48702== I1  misses:            1,419
+==48702== LLi misses:            1,415
+==48702== I1  miss rate:          0.00%
+==48702== LLi miss rate:          0.00%
+==48702== 
+==48702== D   refs:      1,170,720,434  (846,497,571 rd   + 324,222,863 wr)
+==48702== D1  misses:        4,397,038  (  4,022,764 rd   +     374,274 wr)
+==48702== LLd misses:        2,496,847  (  2,342,332 rd   +     154,515 wr)
+==48702== D1  miss rate:           0.4% (        0.5%     +         0.1%  )
+==48702== LLd miss rate:           0.2% (        0.3%     +         0.0%  )
+==48702== 
+==48702== LL refs:           4,398,457  (  4,024,183 rd   +     374,274 wr)
+==48702== LL misses:         2,498,262  (  2,343,747 rd   +     154,515 wr)
+==48702== LL miss rate:            0.1% (        0.1%     +         0.0%  )

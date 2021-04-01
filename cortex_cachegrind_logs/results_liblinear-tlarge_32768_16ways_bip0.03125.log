@@ -1,0 +1,26 @@
+==40751== Cachegrind, a cache and branch-prediction profiler
+==40751== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==40751== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==40751== Command: ./liblinear-tlarge data/100B/kdda
+==40751== 
+--40751-- warning: L3 cache found, using its data for the LL simulation.
+--40751-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--40751-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+==40751== 
+==40751== I   refs:      111,902,758,013
+==40751== I1  misses:              2,055
+==40751== LLi misses:              1,973
+==40751== I1  miss rate:            0.00%
+==40751== LLi miss rate:            0.00%
+==40751== 
+==40751== D   refs:       44,061,986,476  (36,080,688,134 rd   + 7,981,298,342 wr)
+==40751== D1  misses:      4,165,379,703  ( 4,055,433,151 rd   +   109,946,552 wr)
+==40751== LLd misses:      1,613,392,778  ( 1,607,675,589 rd   +     5,717,189 wr)
+==40751== D1  miss rate:             9.5% (          11.2%     +           1.4%  )
+==40751== LLd miss rate:             3.7% (           4.5%     +           0.1%  )
+==40751== 
+==40751== LL refs:         4,165,381,758  ( 4,055,435,206 rd   +   109,946,552 wr)
+==40751== LL misses:       1,613,394,751  ( 1,607,677,562 rd   +     5,717,189 wr)
+==40751== LL miss rate:              1.0% (           1.1%     +           0.1%  )

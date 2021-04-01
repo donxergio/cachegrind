@@ -1,0 +1,28 @@
+==50703== Cachegrind, a cache and branch-prediction profiler
+==50703== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==50703== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==50703== Command: ./pca-small small.data 1593 256 R
+==50703== 
+--50703-- warning: L3 cache found, using its data for the LL simulation.
+--50703-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--50703-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+==50703== Cannot map memory to grow brk segment in thread #1 to 0x443c000
+==50703== (see section Limitations in user manual)
+==50703== 
+==50703== I   refs:      1,489,764,079
+==50703== I1  misses:            1,625
+==50703== LLi misses:            1,619
+==50703== I1  miss rate:          0.00%
+==50703== LLi miss rate:          0.00%
+==50703== 
+==50703== D   refs:        597,958,281  (426,187,602 rd   + 171,770,679 wr)
+==50703== D1  misses:        5,390,186  (  5,332,959 rd   +      57,227 wr)
+==50703== LLd misses:           37,688  (      2,445 rd   +      35,243 wr)
+==50703== D1  miss rate:           0.9% (        1.3%     +         0.0%  )
+==50703== LLd miss rate:           0.0% (        0.0%     +         0.0%  )
+==50703== 
+==50703== LL refs:           5,391,811  (  5,334,584 rd   +      57,227 wr)
+==50703== LL misses:            39,307  (      4,064 rd   +      35,243 wr)
+==50703== LL miss rate:            0.0% (        0.0%     +         0.0%  )

@@ -1,0 +1,25 @@
+==30775== Cachegrind, a cache and branch-prediction profiler
+==30775== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==30775== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==30775== Command: ./kmeans-medium ../datasets/finland 13467 2 15
+==30775== 
+--30775-- warning: L3 cache found, using its data for the LL simulation.
+--30775-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--30775-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==30775== 
+==30775== I   refs:      261,008,494
+==30775== I1  misses:      5,686,886
+==30775== LLi misses:          1,444
+==30775== I1  miss rate:        2.18%
+==30775== LLi miss rate:        0.00%
+==30775== 
+==30775== D   refs:       60,294,300  (50,971,205 rd   + 9,323,095 wr)
+==30775== D1  misses:     14,701,979  (13,646,474 rd   + 1,055,505 wr)
+==30775== LLd misses:         12,080  (     2,143 rd   +     9,937 wr)
+==30775== D1  miss rate:        24.4% (      26.8%     +      11.3%  )
+==30775== LLd miss rate:         0.0% (       0.0%     +       0.1%  )
+==30775== 
+==30775== LL refs:        20,388,865  (19,333,360 rd   + 1,055,505 wr)
+==30775== LL misses:          13,524  (     3,587 rd   +     9,937 wr)
+==30775== LL miss rate:          0.0% (       0.0%     +       0.1%  )

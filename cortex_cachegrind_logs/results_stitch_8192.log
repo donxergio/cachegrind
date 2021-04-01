@@ -1,0 +1,32 @@
+==61461== Cachegrind, a cache and branch-prediction profiler
+==61461== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==61461== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==61461== Command: ./stitch .
+==61461== 
+--61461-- warning: L3 cache found, using its data for the LL simulation.
+--61461-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--61461-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==61461== brk segment overflow in thread #1: can't grow to 0x4ae1000
+==61461== (see section Limitations in user manual)
+==61461== NOTE: further instances of this message will not be shown
+Input size		- (480x586)
+Checking error: dimensions mismatch. Expected = 26240, Observed = 603392 
+Error in Stitch
+Cycles elapsed		- 37699638984
+
+==61461== 
+==61461== I   refs:      8,280,758,546
+==61461== I1  misses:       16,210,984
+==61461== LLi misses:            1,665
+==61461== I1  miss rate:          0.20%
+==61461== LLi miss rate:          0.00%
+==61461== 
+==61461== D   refs:      2,251,719,197  (1,520,698,500 rd   + 731,020,697 wr)
+==61461== D1  misses:          277,423  (       19,995 rd   +     257,428 wr)
+==61461== LLd misses:          252,970  (        2,277 rd   +     250,693 wr)
+==61461== D1  miss rate:           0.0% (          0.0%     +         0.0%  )
+==61461== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
+==61461== 
+==61461== LL refs:          16,488,407  (   16,230,979 rd   +     257,428 wr)
+==61461== LL misses:           254,635  (        3,942 rd   +     250,693 wr)
+==61461== LL miss rate:            0.0% (          0.0%     +         0.0%  )

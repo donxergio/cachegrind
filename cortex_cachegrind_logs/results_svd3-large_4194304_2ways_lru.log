@@ -1,0 +1,87 @@
+==59356== Cachegrind, a cache and branch-prediction profiler
+==59356== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59356== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59356== Command: ./a.out large.txt
+==59356== 
+--59356-- warning: L3 cache found, using its data for the LL simulation.
+--59356-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59356-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+--59356:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (30 segments)
+--59356:0: aspacem 3 segment names in 3 slots
+--59356:0: aspacem freelist is empty
+--59356:0: aspacem (0,4,3) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
+--59356:0: aspacem (1,66,3) /home/tkloda/cortexsuite/cortex/svd3/a.out
+--59356:0: aspacem (2,113,3) /lib/x86_64-linux-gnu/ld-2.27.so
+--59356:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
+--59356:0: aspacem   1: file 0000108000-0000112fff   45056 r-x-- d=0x802 i=49556510 o=0       (1,66)
+--59356:0: aspacem   2: RSVN 0000113000-0000311fff 2093056 ----- SmFixed
+--59356:0: aspacem   3: file 0000312000-0000313fff    8192 rw--- d=0x802 i=49556510 o=40960   (1,66)
+--59356:0: aspacem   4: RSVN 0000314000-0003ffffff     60m ----- SmFixed
+--59356:0: aspacem   5: file 0004000000-0004028fff  167936 r-x-- d=0x802 i=12583111 o=0       (2,113)
+--59356:0: aspacem   6:      0004029000-0004228fff 2097152
+--59356:0: aspacem   7: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,113)
+--59356:0: aspacem   8: anon 000422b000-000422bfff    4096 rw---
+--59356:0: aspacem   9: anon 000422c000-000422cfff    4096 rwx--
+--59356:0: aspacem  10: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
+--59356:0: aspacem  11:      0004a2c000-0057ffffff   1333m
+--59356:0: aspacem  12: FILE 0058000000-0058258fff 2461696 r-x-- d=0x802 i=28344876 o=0       (0,4)
+--59356:0: aspacem  13:      0058259000-0058458fff 2097152
+--59356:0: aspacem  14: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
+--59356:0: aspacem  15: ANON 005845f000-0058e56fff      9m rw---
+--59356:0: aspacem  16:      0058e57000-1001ffffff  64145m
+--59356:0: aspacem  17: RSVN 1002000000-1002000fff    4096 ----- SmFixed
+--59356:0: aspacem  18: ANON 1002001000-1002c8bfff     12m rwx--
+--59356:0: aspacem  19:      1002c8c000-1ffe800fff  65467m
+--59356:0: aspacem  20: RSVN 1ffe801000-1ffeffefff 8380416 ----- SmUpper
+--59356:0: aspacem  21: anon 1ffefff000-1fff000fff    8192 rw---
+--59356:0: aspacem  22:      1fff001000-1fffffffff     15m
+--59356:0: aspacem  23: RSVN 2000000000-7fff9a20dfff 130942g ----- SmFixed
+--59356:0: aspacem  24: ANON 7fff9a20e000-7fff9a22efff  135168 rw---
+--59356:0: aspacem  25: RSVN 7fff9a22f000-7fff9a3dbfff 1757184 ----- SmFixed
+--59356:0: aspacem  26: ANON 7fff9a3dc000-7fff9a3defff   12288 r----
+--59356:0: aspacem  27: RSVN 7fff9a3df000-ffffffffff5fffff  16383e ----- SmFixed
+--59356:0: aspacem  28: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
+--59356:0: aspacem  29: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
+--59356:0: aspacem >>>
+--59356-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      4,271,088/    4,258,864 max/curr,          60/   4359808 totalloc-blocks/bytes,          59 searches 8 rzB
+--59356-- dinfo   :     4,194,304/    4,194,304 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      3,229,584/    3,165,184 max/curr,       20425/   7911504 totalloc-blocks/bytes,       20689 searches 8 rzB
+--59356-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
+--59356-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            144/          112 max/curr,           6/       208 totalloc-blocks/bytes,           5 searches 8 rzB
+--59356-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
+--59356-- translate: 0 guest insns, 0 traces, 0 uncond chased, 0 cond chased
+--59356-- translate: no SP updates identified
+--59356-- translate: PX: SPonly 0,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
+--59356--     tt/tc: 0 tt lookups requiring 0 probes
+--59356--     tt/tc: 0 fast-cache updates, 1 flushes
+--59356--  transtab: new        0 (0 -> 0; ratio 0.0) [0 scs] avg tce size 0
+--59356--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
+--59356--  transtab: discarded  0 (0 -> ??)
+--59356-- scheduler: 0 event checks.
+--59356-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
+--59356-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
+--59356-- scheduler: 0/0 major/minor sched events.
+--59356--    sanity: 0 cheap, 0 expensive checks.
+==59356== 
+==59356==     Valgrind's memory management: out of memory:
+==59356==        newSuperblock's request for 4194304 bytes failed.
+==59356==           23,773,184 bytes have already been mmap-ed ANONYMOUS.
+==59356==     Valgrind cannot continue.  Sorry.
+==59356== 
+==59356==     There are several possible reasons for this.
+==59356==     - You have some kind of memory limit in place.  Look at the
+==59356==       output of 'ulimit -a'.  Is there a limit on the size of
+==59356==       virtual memory or address space?
+==59356==     - You have run out of swap space.
+==59356==     - Valgrind has a bug.  If you think this is the case or you are
+==59356==     not sure, please let us know and we'll try to fix it.
+==59356==     Please note that programs can take substantially more memory than
+==59356==     normal when running under Valgrind tools, eg. up to twice or
+==59356==     more, depending on the tool.  On a 64-bit machine, Valgrind
+==59356==     should be able to make use of up 32GB memory.  On a 32-bit
+==59356==     machine, Valgrind should be able to use all the memory available
+==59356==     to a single process, up to 4GB if that's how you have your
+==59356==     kernel configured.  Most 32-bit Linux setups allow a maximum of
+==59356==     3GB per process.
+==59356== 
+==59356==     Whatever the reason, Valgrind cannot continue.  Sorry.

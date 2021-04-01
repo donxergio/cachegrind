@@ -1,0 +1,38 @@
+==57950== Cachegrind, a cache and branch-prediction profiler
+==57950== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==57950== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==57950== Command: ./srr-large
+==57950== 
+--57950-- warning: L3 cache found, using its data for the LL simulation.
+--57950-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--57950-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+==57950== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==57950== (see section Limitations in user manual)
+==57950== NOTE: further instances of this message will not be shown
+==57950== 
+==57950== Process terminating with default action of signal 11 (SIGSEGV)
+==57950==  Access not within mapped region at address 0x0
+==57950==    at 0x10C253: AllocImgMem (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==57950==    by 0x10888C: main (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==57950==  If you believe this happened as a result of a stack
+==57950==  overflow in your program's main thread (unlikely but
+==57950==  possible), you can try to increase the size of the
+==57950==  main thread stack using the --main-stacksize= flag.
+==57950==  The main thread stack size used in this run was 8388608.
+==57950== 
+==57950== I   refs:      56,095,348
+==57950== I1  misses:     1,634,175
+==57950== LLi misses:         1,177
+==57950== I1  miss rate:       2.91%
+==57950== LLi miss rate:       0.00%
+==57950== 
+==57950== D   refs:      24,629,626  (6,590,007 rd   + 18,039,619 wr)
+==57950== D1  misses:     1,373,485  (  674,947 rd   +    698,538 wr)
+==57950== LLd misses:       306,910  (    2,128 rd   +    304,782 wr)
+==57950== D1  miss rate:        5.6% (     10.2%     +        3.9%  )
+==57950== LLd miss rate:        1.2% (      0.0%     +        1.7%  )
+==57950== 
+==57950== LL refs:        3,007,660  (2,309,122 rd   +    698,538 wr)
+==57950== LL misses:        308,087  (    3,305 rd   +    304,782 wr)
+==57950== LL miss rate:         0.4% (      0.0%     +        1.7%  )

@@ -1,0 +1,30 @@
+==61349== Cachegrind, a cache and branch-prediction profiler
+==61349== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==61349== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==61349== Command: ./multi_ncut .
+==61349== 
+--61349-- warning: L3 cache found, using its data for the LL simulation.
+--61349-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--61349-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Input size		- (480x640)
+Checking error: Values mismtach at 2910 element
+Expected value = 0, observed = 1
+Error in Multi N Cut
+Cycles elapsed		- 32834115573416
+
+==61349== 
+==61349== I   refs:      9,010,866,281,752
+==61349== I1  misses:           35,038,864
+==61349== LLi misses:                1,746
+==61349== I1  miss rate:              0.00%
+==61349== LLi miss rate:              0.00%
+==61349== 
+==61349== D   refs:      1,501,929,834,878  (1,501,845,024,964 rd   + 84,809,914 wr)
+==61349== D1  misses:       93,859,664,182  (   93,858,354,723 rd   +  1,309,459 wr)
+==61349== LLd misses:              835,482  (          221,704 rd   +    613,778 wr)
+==61349== D1  miss rate:               6.2% (              6.2%     +        1.5%  )
+==61349== LLd miss rate:               0.0% (              0.0%     +        0.7%  )
+==61349== 
+==61349== LL refs:          93,894,703,046  (   93,893,393,587 rd   +  1,309,459 wr)
+==61349== LL misses:               837,228  (          223,450 rd   +    613,778 wr)
+==61349== LL miss rate:                0.0% (              0.0%     +        0.7%  )

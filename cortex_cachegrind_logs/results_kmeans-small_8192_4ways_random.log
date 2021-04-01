@@ -1,0 +1,25 @@
+==29463== Cachegrind, a cache and branch-prediction profiler
+==29463== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==29463== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==29463== Command: ./kmeans-small ../datasets/yeast 1484 8 10
+==29463== 
+--29463-- warning: L3 cache found, using its data for the LL simulation.
+--29463-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--29463-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==29463== 
+==29463== I   refs:      56,158,071
+==29463== I1  misses:       599,671
+==29463== LLi misses:         1,470
+==29463== I1  miss rate:       1.07%
+==29463== LLi miss rate:       0.00%
+==29463== 
+==29463== D   refs:      15,831,405  (13,089,370 rd   + 2,742,035 wr)
+==29463== D1  misses:       140,237  (   127,357 rd   +    12,880 wr)
+==29463== LLd misses:         4,966  (     2,149 rd   +     2,817 wr)
+==29463== D1  miss rate:        0.9% (       1.0%     +       0.5%  )
+==29463== LLd miss rate:        0.0% (       0.0%     +       0.1%  )
+==29463== 
+==29463== LL refs:          739,908  (   727,028 rd   +    12,880 wr)
+==29463== LL misses:          6,436  (     3,619 rd   +     2,817 wr)
+==29463== LL miss rate:         0.0% (       0.0%     +       0.1%  )

@@ -1,0 +1,38 @@
+==58218== Cachegrind, a cache and branch-prediction profiler
+==58218== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58218== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58218== Command: ./srr-large
+==58218== 
+--58218-- warning: L3 cache found, using its data for the LL simulation.
+--58218-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58218-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==58218== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==58218== (see section Limitations in user manual)
+==58218== NOTE: further instances of this message will not be shown
+==58218== 
+==58218== Process terminating with default action of signal 11 (SIGSEGV)
+==58218==  Access not within mapped region at address 0x0
+==58218==    at 0x10C253: AllocImgMem (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58218==    by 0x10888C: main (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58218==  If you believe this happened as a result of a stack
+==58218==  overflow in your program's main thread (unlikely but
+==58218==  possible), you can try to increase the size of the
+==58218==  main thread stack using the --main-stacksize= flag.
+==58218==  The main thread stack size used in this run was 8388608.
+==58218== 
+==58218== I   refs:      56,096,888
+==58218== I1  misses:         1,180
+==58218== LLi misses:         1,177
+==58218== I1  miss rate:       0.00%
+==58218== LLi miss rate:       0.00%
+==58218== 
+==58218== D   refs:      24,630,286  (6,590,458 rd   + 18,039,828 wr)
+==58218== D1  misses:       513,893  (   25,936 rd   +    487,957 wr)
+==58218== LLd misses:       469,977  (    3,879 rd   +    466,098 wr)
+==58218== D1  miss rate:        2.1% (      0.4%     +        2.7%  )
+==58218== LLd miss rate:        1.9% (      0.1%     +        2.6%  )
+==58218== 
+==58218== LL refs:          515,073  (   27,116 rd   +    487,957 wr)
+==58218== LL misses:        471,154  (    5,056 rd   +    466,098 wr)
+==58218== LL miss rate:         0.6% (      0.0%     +        2.6%  )

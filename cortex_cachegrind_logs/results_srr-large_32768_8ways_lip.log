@@ -1,0 +1,28 @@
+==58174== Cachegrind, a cache and branch-prediction profiler
+==58174== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58174== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58174== Command: ./srr-large
+==58174== 
+--58174-- warning: L3 cache found, using its data for the LL simulation.
+--58174-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58174-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==58174== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==58174== (see section Limitations in user manual)
+==58174== NOTE: further instances of this message will not be shown
+==58174== 
+==58174== I   refs:      919,217,731,541
+==58174== I1  misses:              1,708
+==58174== LLi misses:              1,655
+==58174== I1  miss rate:            0.00%
+==58174== LLi miss rate:            0.00%
+==58174== 
+==58174== D   refs:      356,699,040,282  (240,279,389,403 rd   + 116,419,650,879 wr)
+==58174== D1  misses:     13,550,817,748  ( 13,379,282,225 rd   +     171,535,523 wr)
+==58174== LLd misses:            844,603  (        279,061 rd   +         565,542 wr)
+==58174== D1  miss rate:             3.8% (            5.6%     +             0.1%  )
+==58174== LLd miss rate:             0.0% (            0.0%     +             0.0%  )
+==58174== 
+==58174== LL refs:        13,550,819,456  ( 13,379,283,933 rd   +     171,535,523 wr)
+==58174== LL misses:             846,258  (        280,716 rd   +         565,542 wr)
+==58174== LL miss rate:              0.0% (            0.0%     +             0.0%  )

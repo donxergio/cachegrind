@@ -1,0 +1,38 @@
+==40312== Cachegrind, a cache and branch-prediction profiler
+==40312== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==40312== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==40312== Command: ./liblinear-tlarge data/100B/kdda
+==40312== 
+--40312-- warning: L3 cache found, using its data for the LL simulation.
+--40312-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--40312-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==40312== brk segment overflow in thread #1: can't grow to 0x177cd000
+==40312== (see section Limitations in user manual)
+==40312== NOTE: further instances of this message will not be shown
+==40312== 
+==40312== Process terminating with default action of signal 11 (SIGSEGV)
+==40312==  Access not within mapped region at address 0x0
+==40312==    at 0x113940: read_problem (in /home/tkloda/cortexsuite/cortex/liblinear/liblinear-tlarge)
+==40312==    by 0x10922F: main (in /home/tkloda/cortexsuite/cortex/liblinear/liblinear-tlarge)
+==40312==  If you believe this happened as a result of a stack
+==40312==  overflow in your program's main thread (unlikely but
+==40312==  possible), you can try to increase the size of the
+==40312==  main thread stack using the --main-stacksize= flag.
+==40312==  The main thread stack size used in this run was 8388608.
+==40312== 
+==40312== I   refs:      2,211,198,588
+==40312== I1  misses:       27,867,748
+==40312== LLi misses:            1,252
+==40312== I1  miss rate:          1.26%
+==40312== LLi miss rate:          0.00%
+==40312== 
+==40312== D   refs:        669,225,113  (487,947,237 rd   + 181,277,876 wr)
+==40312== D1  misses:       14,199,315  ( 11,305,184 rd   +   2,894,131 wr)
+==40312== LLd misses:            2,938  (      2,302 rd   +         636 wr)
+==40312== D1  miss rate:           2.1% (        2.3%     +         1.6%  )
+==40312== LLd miss rate:           0.0% (        0.0%     +         0.0%  )
+==40312== 
+==40312== LL refs:          42,067,063  ( 39,172,932 rd   +   2,894,131 wr)
+==40312== LL misses:             4,190  (      3,554 rd   +         636 wr)
+==40312== LL miss rate:            0.0% (        0.0%     +         0.0%  )

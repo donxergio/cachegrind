@@ -1,0 +1,26 @@
+==58875== Cachegrind, a cache and branch-prediction profiler
+==58875== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58875== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58875== Command: ./srr-small
+==58875== 
+--58875-- warning: L3 cache found, using its data for the LL simulation.
+--58875-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58875-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+./srr-small: error while loading shared libraries: libc.so.6: cannot create shared object descriptor: Cannot allocate memory
+==58875== 
+==58875== I   refs:      26,838
+==58875== I1  misses:       516
+==58875== LLi misses:       477
+==58875== I1  miss rate:   1.92%
+==58875== LLi miss rate:   1.78%
+==58875== 
+==58875== D   refs:       7,560  (5,777 rd   + 1,783 wr)
+==58875== D1  misses:       355  (  191 rd   +   164 wr)
+==58875== LLd misses:       327  (  173 rd   +   154 wr)
+==58875== D1  miss rate:    4.7% (  3.3%     +   9.2%  )
+==58875== LLd miss rate:    4.3% (  3.0%     +   8.6%  )
+==58875== 
+==58875== LL refs:          871  (  707 rd   +   164 wr)
+==58875== LL misses:        804  (  650 rd   +   154 wr)
+==58875== LL miss rate:     2.3% (  2.0%     +   8.6%  )

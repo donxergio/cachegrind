@@ -1,0 +1,152 @@
+==58863== Cachegrind, a cache and branch-prediction profiler
+==58863== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58863== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58863== Command: ./srr-small
+==58863== 
+--58863-- warning: L3 cache found, using its data for the LL simulation.
+--58863-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58863-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+--58863:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (51 segments)
+--58863:0: aspacem 7 segment names in 7 slots
+--58863:0: aspacem freelist is empty
+--58863:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
+--58863:0: aspacem (1,66,3) /home/tkloda/cortexsuite/cortex/srr/srr-small
+--58863:0: aspacem (2,116,3) /lib/x86_64-linux-gnu/ld-2.27.so
+--58863:0: aspacem (3,153,1) /tmp/vgdb-pipe-shared-mem-vgdb-58863-by-tkloda-on-???
+--58863:0: aspacem (4,211,4) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
+--58863:0: aspacem (5,280,1) /etc/ld.so.cache
+--58863:0: aspacem (6,301,5) /lib/x86_64-linux-gnu/libc-2.27.so
+--58863:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
+--58863:0: aspacem   1: file 0000108000-000010cfff   20480 r-x-- d=0x802 i=49556505 o=0       (1,66)
+--58863:0: aspacem   2: RSVN 000010d000-000030cfff 2097152 ----- SmFixed
+--58863:0: aspacem   3: file 000030d000-000030efff    8192 rw--- d=0x802 i=49556505 o=20480   (1,66)
+--58863:0: aspacem   4: anon 000030f000-0000319fff   45056 rw---
+--58863:0: aspacem   5: RSVN 000031a000-0003ffffff     60m ----- SmFixed
+--58863:0: aspacem   6: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,116)
+--58863:0: aspacem   7: file 0004029000-000405dfff  217088 r---- d=0x802 i=54003425 o=0       (5,280)
+--58863:0: aspacem   8: anon 000405e000-000405ffff    8192 rw---
+--58863:0: aspacem   9:      0004060000-0004228fff 1871872
+--58863:0: aspacem  10: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,116)
+--58863:0: aspacem  11: anon 000422b000-000422bfff    4096 rw---
+--58863:0: aspacem  12: anon 000422c000-000422cfff    4096 rwx--
+--58863:0: aspacem  13: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
+--58863:0: aspacem  14: file 0004a2c000-0004a2cfff    4096 r-x-- d=0x802 i=28344728 o=0       (4,211)
+--58863:0: aspacem  15: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,211)
+--58863:0: aspacem  16: file 0004c2c000-0004c2dfff    8192 rw--- d=0x802 i=28344728 o=0       (4,211)
+--58863:0: aspacem  17: file 0004c2e000-0004e14fff 1994752 r-x-- d=0x802 i=12583345 o=0       (6,301)
+--58863:0: aspacem  18: file 0004e15000-0005014fff 2097152 ----- d=0x802 i=12583345 o=1994752 (6,301)
+--58863:0: aspacem  19: file 0005015000-000501afff   24576 rw--- d=0x802 i=12583345 o=1994752 (6,301)
+--58863:0: aspacem  20: file 000501b000-000501efff   16384 r-x-- d=0x802 i=12583345 o=4116480 (6,301)
+--58863:0: aspacem  21:      000501f000-0057ffffff   1327m
+--58863:0: aspacem  22: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
+--58863:0: aspacem  23: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
+--58863:0: aspacem  24: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
+--58863:0: aspacem  25:      0058259000-0058458fff 2097152
+--58863:0: aspacem  26: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
+--58863:0: aspacem  27: ANON 005845f000-0058e56fff      9m rw---
+--58863:0: aspacem  28:      0058e57000-1001ffffff  64145m
+--58863:0: aspacem  29: RSVN 1002000000-1002000fff    4096 ----- SmFixed
+--58863:0: aspacem  30: ANON 1002001000-100278bfff 7909376 rwx--
+--58863:0: aspacem  31: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29546025 o=0       (3,153)
+--58863:0: aspacem  32: ANON 100278d000-10027bcfff  196608 rwx--
+--58863:0: aspacem  33:      10027bd000-100288bfff  847872
+--58863:0: aspacem  34: ANON 100288c000-100298bfff 1048576 rwx--
+--58863:0: aspacem  35: ANON 100298c000-100298dfff    8192 -----
+--58863:0: aspacem  36: ANON 100298e000-1002a8dfff 1048576 rwx--
+--58863:0: aspacem  37: ANON 1002a8e000-1002a8ffff    8192 -----
+--58863:0: aspacem  38:      1002a90000-1002b80fff  987136
+--58863:0: aspacem  39: ANON 1002b81000-1005444fff     40m rwx--
+--58863:0: aspacem  40:      1005445000-1ffe800fff  65427m
+--58863:0: aspacem  41: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
+--58863:0: aspacem  42: anon 1ffeffe000-1fff000fff   12288 rw---
+--58863:0: aspacem  43:      1fff001000-1fffffffff     15m
+--58863:0: aspacem  44: RSVN 2000000000-7ffc1daf6fff 130928g ----- SmFixed
+--58863:0: aspacem  45: ANON 7ffc1daf7000-7ffc1db17fff  135168 rw---
+--58863:0: aspacem  46: RSVN 7ffc1db18000-7ffc1db28fff   69632 ----- SmFixed
+--58863:0: aspacem  47: ANON 7ffc1db29000-7ffc1db2bfff   12288 r----
+--58863:0: aspacem  48: RSVN 7ffc1db2c000-ffffffffff5fffff  16383e ----- SmFixed
+--58863:0: aspacem  49: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
+--58863:0: aspacem  50: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
+--58863:0: aspacem >>>
+--58863-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      7,448,448/    7,399,232 max/curr,        2693/   7673552 totalloc-blocks/bytes,        2692 searches 8 rzB
+--58863-- dinfo   :    14,802,944/   14,802,944 max/curr mmap'd, 1/1 unsplit/split sb unmmap'd,     14,176,160/   14,081,280 max/curr,       45432/  32859840 totalloc-blocks/bytes,       51013 searches 8 rzB
+--58863-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
+--58863-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
+--58863-- ttaux   :        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,         31,936/       21,536 max/curr,         113/     58656 totalloc-blocks/bytes,         115 searches 8 rzB
+--58863-- translate: 5,284 guest insns, 881 traces, 177 uncond chased, 23 cond chased
+--58863-- translate: no SP updates identified
+--58863-- translate: PX: SPonly 881,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
+--58863--     tt/tc: 1,927 tt lookups requiring 1,936 probes
+--58863--     tt/tc: 1,027 fast-cache updates, 2 flushes
+--58863--  transtab: new        881 (21,300 -> 267,994; ratio 12.6) [0 scs] avg tce size 304
+--58863--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
+--58863--  transtab: discarded  0 (0 -> ??)
+--58863-- scheduler: 2,549 event checks.
+--58863-- scheduler: 319 indir transfers, 133 misses (1 in 2) ..
+--58863-- scheduler: .. of which: 182 hit0, 2 hit1, 2 hit2, 0 hit3, 133 missed
+--58863-- scheduler: 0/1,080 major/minor sched events.
+--58863--    sanity: 0 cheap, 0 expensive checks.
+--58863--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
+--58863--    exectx: 1 searches, 0 full compares (0 per 1000)
+--58863--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
+--58863--  errormgr: 0 supplist searches, 0 comparisons during search
+--58863--  errormgr: 0 errlist searches, 0 comparisons during search
+
+host stacktrace:
+==58863==    at 0x5801074A: show_sched_status_wrk (m_libcassert.c:406)
+==58863==    by 0x58018D75: vgPlain_out_of_memory_NORETURN (m_mallocfree.c:795)
+==58863==    by 0x58019193: newSuperblock (m_mallocfree.c:868)
+==58863==    by 0x58019767: vgPlain_arena_malloc (m_mallocfree.c:1806)
+==58863==    by 0x580A08DD: vgModuleLocal_dinfo_zalloc (misc.c:46)
+==58863==    by 0x5804EDBC: vgModuleLocal_addLineInfo (storage.c:491)
+==58863==    by 0x580ACDEC: vgModuleLocal_read_debuginfo_dwarf3 (readdwarf.c:610)
+==58863==    by 0x58047DC8: vgModuleLocal_read_elf_debug_info (readelf.c:3228)
+==58863==    by 0x5803AA16: vgPlain_di_notify_mmap (debuginfo.c:969)
+==58863==    by 0x5806E385: vgModuleLocal_generic_PRE_sys_mmap (syswrap-generic.c:2400)
+==58863==    by 0x5807A904: vgSysWrap_amd64_linux_sys_mmap_before (syswrap-amd64-linux.c:413)
+==58863==    by 0x58069431: vgPlain_client_syscall (syswrap-main.c:1914)
+==58863==    by 0x58065D82: handle_syscall (scheduler.c:1208)
+==58863==    by 0x58067856: vgPlain_scheduler (scheduler.c:1526)
+==58863==    by 0x580D4340: run_a_thread_NORETURN (syswrap-linux.c:101)
+
+sched status:
+  running_tid=1
+
+Thread 1: status = VgTs_Runnable syscall 9 (lwpid 58863)
+==58863==    at 0x401D143: mmap (mmap64.c:59)
+==58863==    by 0x4006EC6: _dl_map_object_from_fd (dl-map-segments.h:94)
+==58863==    by 0x40091CB: _dl_map_object (dl-load.c:2461)
+==58863==    by 0x400E4E1: openaux (dl-deps.c:63)
+==58863==    by 0x401BE6A: _dl_catch_exception (dl-error-skeleton.c:196)
+==58863==    by 0x400E85A: _dl_map_object_deps (dl-deps.c:249)
+==58863==    by 0x4003EC5: dl_main (rtld.c:1726)
+==58863==    by 0x401AF6F: _dl_sysdep_start (dl-sysdep.c:253)
+==58863==    by 0x4002127: _dl_start (rtld.c:414)
+==58863==    by 0x4001097: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
+client stack range: [0x1FFEFFE000 0x1FFF000FFF] client SP: 0x1FFEFFF558
+valgrind stack range: [0x100298E000 0x1002A8DFFF] top usage: 8552 of 1048576
+
+==58863== 
+==58863==     Valgrind's memory management: out of memory:
+==58863==        newSuperblock's request for 1048576 bytes failed.
+==58863==           63,643,648 bytes have already been mmap-ed ANONYMOUS.
+==58863==     Valgrind cannot continue.  Sorry.
+==58863== 
+==58863==     There are several possible reasons for this.
+==58863==     - You have some kind of memory limit in place.  Look at the
+==58863==       output of 'ulimit -a'.  Is there a limit on the size of
+==58863==       virtual memory or address space?
+==58863==     - You have run out of swap space.
+==58863==     - Valgrind has a bug.  If you think this is the case or you are
+==58863==     not sure, please let us know and we'll try to fix it.
+==58863==     Please note that programs can take substantially more memory than
+==58863==     normal when running under Valgrind tools, eg. up to twice or
+==58863==     more, depending on the tool.  On a 64-bit machine, Valgrind
+==58863==     should be able to make use of up 32GB memory.  On a 32-bit
+==58863==     machine, Valgrind should be able to use all the memory available
+==58863==     to a single process, up to 4GB if that's how you have your
+==58863==     kernel configured.  Most 32-bit Linux setups allow a maximum of
+==58863==     3GB per process.
+==58863== 
+==58863==     Whatever the reason, Valgrind cannot continue.  Sorry.

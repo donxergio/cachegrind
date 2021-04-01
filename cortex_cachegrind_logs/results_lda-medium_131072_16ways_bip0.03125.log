@@ -1,0 +1,26 @@
+==38340== Cachegrind, a cache and branch-prediction profiler
+==38340== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==38340== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==38340== Command: ./lda-medium est .1 3 settings.txt medium/medium_data.dat random medium/results
+==38340== 
+--38340-- warning: L3 cache found, using its data for the LL simulation.
+--38340-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--38340-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+==38340== 
+==38340== I   refs:      60,623,790,934
+==38340== I1  misses:             2,198
+==38340== LLi misses:             2,161
+==38340== I1  miss rate:           0.00%
+==38340== LLi miss rate:           0.00%
+==38340== 
+==38340== D   refs:      22,784,363,354  (17,306,941,879 rd   + 5,477,421,475 wr)
+==38340== D1  misses:        77,061,267  (    76,549,775 rd   +       511,492 wr)
+==38340== LLd misses:            30,663  (         3,649 rd   +        27,014 wr)
+==38340== D1  miss rate:            0.3% (           0.4%     +           0.0%  )
+==38340== LLd miss rate:            0.0% (           0.0%     +           0.0%  )
+==38340== 
+==38340== LL refs:           77,063,465  (    76,551,973 rd   +       511,492 wr)
+==38340== LL misses:             32,824  (         5,810 rd   +        27,014 wr)
+==38340== LL miss rate:             0.0% (           0.0%     +           0.0%  )

@@ -1,0 +1,38 @@
+==58220== Cachegrind, a cache and branch-prediction profiler
+==58220== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58220== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58220== Command: ./srr-large
+==58220== 
+--58220-- warning: L3 cache found, using its data for the LL simulation.
+--58220-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58220-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==58220== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==58220== (see section Limitations in user manual)
+==58220== NOTE: further instances of this message will not be shown
+==58220== 
+==58220== Process terminating with default action of signal 11 (SIGSEGV)
+==58220==  Access not within mapped region at address 0x0
+==58220==    at 0x10C253: AllocImgMem (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58220==    by 0x10888C: main (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
+==58220==  If you believe this happened as a result of a stack
+==58220==  overflow in your program's main thread (unlikely but
+==58220==  possible), you can try to increase the size of the
+==58220==  main thread stack using the --main-stacksize= flag.
+==58220==  The main thread stack size used in this run was 8388608.
+==58220== 
+==58220== I   refs:      56,077,288
+==58220== I1  misses:         1,180
+==58220== LLi misses:         1,177
+==58220== I1  miss rate:       0.00%
+==58220== LLi miss rate:       0.00%
+==58220== 
+==58220== D   refs:      24,621,886  (6,584,718 rd   + 18,037,168 wr)
+==58220== D1  misses:       521,373  (   29,623 rd   +    491,750 wr)
+==58220== LLd misses:       469,430  (    3,784 rd   +    465,646 wr)
+==58220== D1  miss rate:        2.1% (      0.4%     +        2.7%  )
+==58220== LLd miss rate:        1.9% (      0.1%     +        2.6%  )
+==58220== 
+==58220== LL refs:          522,553  (   30,803 rd   +    491,750 wr)
+==58220== LL misses:        470,607  (    4,961 rd   +    465,646 wr)
+==58220== LL miss rate:         0.6% (      0.0%     +        2.6%  )

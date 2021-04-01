@@ -1,0 +1,27 @@
+==50033== Cachegrind, a cache and branch-prediction profiler
+==50033== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==50033== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==50033== Command: ./pca-small small.data 1593 256 R
+==50033== 
+--50033-- warning: L3 cache found, using its data for the LL simulation.
+--50033-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--50033-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==50033== Cannot map memory to grow brk segment in thread #1 to 0x43fa000
+==50033== (see section Limitations in user manual)
+==50033== 
+==50033== I   refs:      1,489,761,520
+==50033== I1  misses:            1,642
+==50033== LLi misses:            1,620
+==50033== I1  miss rate:          0.00%
+==50033== LLi miss rate:          0.00%
+==50033== 
+==50033== D   refs:        597,956,853  (426,186,802 rd   + 171,770,051 wr)
+==50033== D1  misses:        4,629,168  (  4,563,184 rd   +      65,984 wr)
+==50033== LLd misses:           38,113  (      2,890 rd   +      35,223 wr)
+==50033== D1  miss rate:           0.8% (        1.1%     +         0.0%  )
+==50033== LLd miss rate:           0.0% (        0.0%     +         0.0%  )
+==50033== 
+==50033== LL refs:           4,630,810  (  4,564,826 rd   +      65,984 wr)
+==50033== LL misses:            39,733  (      4,510 rd   +      35,223 wr)
+==50033== LL miss rate:            0.0% (        0.0%     +         0.0%  )
