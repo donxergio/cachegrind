@@ -6,14 +6,17 @@ import csv
 import pandas as pd
 
 class Input_Files:
-    def __init__(self, benchmark_name, filename):
+    def __init__(self, benchmark_name, filename=''):
         self.benchmark_name = benchmark_name
         self.filename = filename
+        self.ways = ""
 
 input_files = []
-input_files.append(Input_Files("edn", "edn_results.csv")) #edn benchmark
-input_files.append(Input_Files("pca", "pca_results.csv")) #pca benchmark
+input_files.append(Input_Files("kmeans-large")) #kmeans-large benchmark
+input_files.append(Input_Files("pca-large")) #pca-large benchmark
 #TODO: add all the benchmarks here
+
+directory="/home/giovani/ufsc/riscv/valgrind/cortex_cachegrind_logs/"
 
 class Cache_Parameters:
     def __init__(self, proc_name, cpi, d1_hit_penalty, d1_miss_penalty):
@@ -39,11 +42,11 @@ def l1_cache_analysis(input_file_info, cache_params):
 
     data = pd.read_csv(input_file_info.filename, sep=',')
 
-    output_file = input_file_info.benchmark_name + "_" + cache_params.proc_name + ".csv"
+    output_file = input_file_info.benchmark_name + "_" + input_file_info.ways + "_" + cache_params.proc_name + ".csv"
 
-    file = open(output_file, "w")
+    file = open(directory+output_file, "w")
 
-    file.write("SIZE,LRU,LIP,RANDOM,FIFO\n")
+    file.write("SIZE,LRU,LIP,RANDOM,FIFO,BIP0.015625,BIP0.03125,BIP0.0625\n")
     for index, row in data.iterrows():
         wcet_lru = calculate_wcet(row['LRU-I'], row['LRU-D'], row['LRU-M'], cache_params)
 
@@ -53,13 +56,23 @@ def l1_cache_analysis(input_file_info, cache_params):
 
         wcet_fifo = calculate_wcet(row['FIFO-I'], row['FIFO-D'], row['FIFO-M'], cache_params)
 
+        wcet_bip0015625 = calculate_wcet(row['BIP0.015625-I'], row['BIP0.015625-D'], row['BIP0.015625-M'], cache_params)
+
+        wcet_bip003125 = calculate_wcet(row['BIP0.03125-I'], row['BIP0.03125-D'], row['BIP0.03125-M'], cache_params)
+
+        wcet_bip00625 = calculate_wcet(row['BIP0.0625-I'], row['BIP0.0625-D'], row['BIP0.0625-M'], cache_params)
+
         #TODO: ADD BIP HERE
 
         #print(str(row['SIZE'])+","+str(wcet_lru)+","+str(wcet_lip)+","+str(wcet_rand)+","+str(wcet_fifo))
-        file.write(str(row['SIZE'])+","+str(wcet_lru)+","+str(wcet_lip)+","+str(wcet_rand)+","+str(wcet_fifo)+"\n")
+        file.write(str(row['SIZE'])+","+str(wcet_lru)+","+str(wcet_lip)+","+str(wcet_rand)+","+str(wcet_fifo)+","+str(wcet_bip0015625)+","+str(wcet_bip003125)+","+str(wcet_bip00625)+"\n")
 
 if __name__ == '__main__':
     
+    ways = ["1ways", "2ways", "4ways", "8ways", "16ways", "32ways"]
     for f in input_files:
-        for c in cache_parameters:
-            l1_cache_analysis(f, c)
+        for w in ways:
+            f.filename = directory+f.benchmark_name+"_"+w+"_filtered.csv"
+            f.ways = w
+            for c in cache_parameters:
+                l1_cache_analysis(f, c)
