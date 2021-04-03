@@ -1,0 +1,32 @@
+==34700== Cachegrind, a cache and branch-prediction profiler
+==34700== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==34700== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==34700== Command: ./tracking .
+==34700== 
+--34700-- warning: L3 cache found, using its data for the LL simulation.
+--34700-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--34700-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+==34700== brk segment overflow in thread #1: can't grow to 0x5026000
+==34700== (see section Limitations in user manual)
+==34700== NOTE: further instances of this message will not be shown
+==34700== 
+==34700== Process terminating with default action of signal 15 (SIGTERM)
+==34700==    at 0x10B7FE: calcSobel_dX (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34700==    by 0x108ABC: main (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34700== 
+==34700== I   refs:      1,147,721,579
+==34700== I1  misses:            1,314
+==34700== LLi misses:            1,310
+==34700== I1  miss rate:          0.00%
+==34700== LLi miss rate:          0.00%
+==34700== 
+==34700== D   refs:        409,488,890  (285,708,160 rd   + 123,780,730 wr)
+==34700== D1  misses:        1,603,726  (    478,901 rd   +   1,124,825 wr)
+==34700== LLd misses:          642,586  (     26,273 rd   +     616,313 wr)
+==34700== D1  miss rate:           0.4% (        0.2%     +         0.9%  )
+==34700== LLd miss rate:           0.2% (        0.0%     +         0.5%  )
+==34700== 
+==34700== LL refs:           1,605,040  (    480,215 rd   +   1,124,825 wr)
+==34700== LL misses:           643,896  (     27,583 rd   +     616,313 wr)
+==34700== LL miss rate:            0.0% (        0.0%     +         0.5%  )

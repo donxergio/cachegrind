@@ -1,0 +1,43 @@
+==54888== Cachegrind, a cache and branch-prediction profiler
+==54888== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==54888== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==54888== Command: ./sift .
+==54888== 
+--54888-- warning: L3 cache found, using its data for the LL simulation.
+--54888-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--54888-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==54888== brk segment overflow in thread #1: can't grow to 0x5419000
+==54888== (see section Limitations in user manual)
+==54888== NOTE: further instances of this message will not be shown
+==54888== 
+==54888== Process terminating with default action of signal 11 (SIGSEGV)
+==54888==  Access not within mapped region at address 0x4
+==54888==    at 0x109D03: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
+==54888==    by 0x10C174: fSetArray (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
+==54888==    by 0x10D3F7: doubleSize (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
+==54888==    by 0x10D689: resizeArray (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
+==54888==    by 0x10D783: gaussianss (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
+==54888==    by 0x10CC6E: sift (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
+==54888==    by 0x108C27: main (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
+==54888==  If you believe this happened as a result of a stack
+==54888==  overflow in your program's main thread (unlikely but
+==54888==  possible), you can try to increase the size of the
+==54888==  main thread stack using the --main-stacksize= flag.
+==54888==  The main thread stack size used in this run was 8388608.
+==54888== 
+==54888== I   refs:      489,102,289
+==54888== I1  misses:          1,251
+==54888== LLi misses:          1,247
+==54888== I1  miss rate:        0.00%
+==54888== LLi miss rate:        0.00%
+==54888== 
+==54888== D   refs:      200,755,014  (136,567,253 rd   + 64,187,761 wr)
+==54888== D1  misses:        480,623  (    334,193 rd   +    146,430 wr)
+==54888== LLd misses:        148,686  (      2,281 rd   +    146,405 wr)
+==54888== D1  miss rate:         0.2% (        0.2%     +        0.2%  )
+==54888== LLd miss rate:         0.1% (        0.0%     +        0.2%  )
+==54888== 
+==54888== LL refs:           481,874  (    335,444 rd   +    146,430 wr)
+==54888== LL misses:         149,933  (      3,528 rd   +    146,405 wr)
+==54888== LL miss rate:          0.0% (        0.0%     +        0.2%  )

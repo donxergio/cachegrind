@@ -1,0 +1,38 @@
+==41189== Cachegrind, a cache and branch-prediction profiler
+==41189== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41189== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41189== Command: ./stitch .
+==41189== 
+--41189-- warning: L3 cache found, using its data for the LL simulation.
+--41189-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41189-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==41189== Cannot map memory to grow brk segment in thread #1 to 0x4345000
+==41189== (see section Limitations in user manual)
+==41189== 
+==41189== Process terminating with default action of signal 15 (SIGTERM)
+==41189==    at 0x50DC222: write (write.c:27)
+==41189==    by 0x505728C: _IO_file_write@@GLIBC_2.2.5 (fileops.c:1203)
+==41189==    by 0x5059020: _IO_do_write@@GLIBC_2.2.5 (fileops.c:457)
+==41189==    by 0x505B2D1: _IO_flush_all_lockp (genops.c:769)
+==41189==    by 0x505B4D4: _IO_cleanup (genops.c:929)
+==41189==    by 0x500F221: __run_exit_handlers (exit.c:130)
+==41189==    by 0x500F259: exit (exit.c:139)
+==41189==    by 0x4FEDBFD: (below main) (libc-start.c:344)
+==41189== 
+==41189== I   refs:      223,158,649
+==41189== I1  misses:        780,957
+==41189== LLi misses:          1,714
+==41189== I1  miss rate:        0.35%
+==41189== LLi miss rate:        0.00%
+==41189== 
+==41189== D   refs:       60,655,515  (44,339,125 rd   + 16,316,390 wr)
+==41189== D1  misses:      4,213,950  ( 2,944,401 rd   +  1,269,549 wr)
+==41189== LLd misses:         23,992  (     2,280 rd   +     21,712 wr)
+==41189== D1  miss rate:         6.9% (       6.6%     +        7.8%  )
+==41189== LLd miss rate:         0.0% (       0.0%     +        0.1%  )
+==41189== 
+==41189== LL refs:         4,994,907  ( 3,725,358 rd   +  1,269,549 wr)
+==41189== LL misses:          25,706  (     3,994 rd   +     21,712 wr)
+==41189== LL miss rate:          0.0% (       0.0%     +        0.1%  )

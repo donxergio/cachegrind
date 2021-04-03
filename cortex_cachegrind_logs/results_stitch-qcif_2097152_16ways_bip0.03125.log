@@ -1,0 +1,27 @@
+==41480== Cachegrind, a cache and branch-prediction profiler
+==41480== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41480== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41480== Command: ./stitch .
+==41480== 
+--41480-- warning: L3 cache found, using its data for the LL simulation.
+--41480-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41480-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+./stitch: error while loading shared libraries: libc.so.6: failed to map segment from shared object
+==41480== 
+==41480== I   refs:      33,034
+==41480== I1  misses:       493
+==41480== LLi misses:       493
+==41480== I1  miss rate:   1.49%
+==41480== LLi miss rate:   1.49%
+==41480== 
+==41480== D   refs:       9,533  (7,072 rd   + 2,461 wr)
+==41480== D1  misses:       391  (  203 rd   +   188 wr)
+==41480== LLd misses:       391  (  203 rd   +   188 wr)
+==41480== D1  miss rate:    4.1% (  2.9%     +   7.6%  )
+==41480== LLd miss rate:    4.1% (  2.9%     +   7.6%  )
+==41480== 
+==41480== LL refs:          884  (  696 rd   +   188 wr)
+==41480== LL misses:        884  (  696 rd   +   188 wr)
+==41480== LL miss rate:     2.1% (  1.7%     +   7.6%  )

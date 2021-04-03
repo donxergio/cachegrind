@@ -1,0 +1,41 @@
+==60501== Cachegrind, a cache and branch-prediction profiler
+==60501== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==60501== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==60501== Command: ./stitch .
+==60501== 
+--60501-- warning: L3 cache found, using its data for the LL simulation.
+--60501-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--60501-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==60501== brk segment overflow in thread #1: can't grow to 0x4a37000
+==60501== (see section Limitations in user manual)
+==60501== NOTE: further instances of this message will not be shown
+==60501== 
+==60501== Process terminating with default action of signal 11 (SIGSEGV)
+==60501==  Access not within mapped region at address 0x4
+==60501==    at 0x109CA3: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60501==    by 0x10C114: fSetArray (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60501==    by 0x10A4BB: ffConv2 (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60501==    by 0x10D07B: harris (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60501==    by 0x108B0E: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60501==  If you believe this happened as a result of a stack
+==60501==  overflow in your program's main thread (unlikely but
+==60501==  possible), you can try to increase the size of the
+==60501==  main thread stack using the --main-stacksize= flag.
+==60501==  The main thread stack size used in this run was 8388608.
+==60501== 
+==60501== I   refs:      3,577,634,244
+==60501== I1  misses:            2,337
+==60501== LLi misses:            1,411
+==60501== I1  miss rate:          0.00%
+==60501== LLi miss rate:          0.00%
+==60501== 
+==60501== D   refs:      1,052,836,113  (847,603,462 rd   + 205,232,651 wr)
+==60501== D1  misses:        3,658,712  (  2,613,617 rd   +   1,045,095 wr)
+==60501== LLd misses:        1,541,574  (    619,296 rd   +     922,278 wr)
+==60501== D1  miss rate:           0.3% (        0.3%     +         0.5%  )
+==60501== LLd miss rate:           0.1% (        0.1%     +         0.4%  )
+==60501== 
+==60501== LL refs:           3,661,049  (  2,615,954 rd   +   1,045,095 wr)
+==60501== LL misses:         1,542,985  (    620,707 rd   +     922,278 wr)
+==60501== LL miss rate:            0.0% (        0.0%     +         0.4%  )

@@ -1,11 +1,11 @@
-==57573== Cachegrind, a cache and branch-prediction profiler
-==57573== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57573== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57573== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57573== 
---57573-- warning: L3 cache found, using its data for the LL simulation.
---57573-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57573-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59823== Cachegrind, a cache and branch-prediction profiler
+==59823== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59823== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59823== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59823== 
+--59823-- warning: L3 cache found, using its data for the LL simulation.
+--59823-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59823-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.031250
 INFO: cmd_ln.c(691): Parsing command line:
@@ -202,43 +202,22 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==57573== brk segment overflow in thread #1: can't grow to 0x4a33000
-==57573== (see section Limitations in user manual)
-==57573== NOTE: further instances of this message will not be shown
-INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
-INFO: dict.c(335): 131316 words read
-INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
-INFO: dict.c(211): Allocated 0 KiB for strings, 0 KiB for phones
-INFO: dict.c(344): 11 words read
-INFO: dict2pid.c(396): Building PID tables for dictionary
-INFO: dict2pid.c(404): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
-INFO: dict2pid.c(131): Allocated 60400 bytes (58 KiB) for word-final triphones
-INFO: dict2pid.c(195): Allocated 60400 bytes (58 KiB) for single-phone word triphones
-INFO: ngram_model_arpa.c(77): No \data\ mark in LM file
-INFO: ngram_model_dmp.c(142): Will use memory-mapped I/O for LM file
-INFO: ngram_model_dmp.c(196): ngrams 1=64001, 2=9382014, 3=13459879
-INFO: ngram_model_dmp.c(242):    64001 = LM.unigrams(+trailer) read
-WARNING: "ngram_model_dmp.c", line 250: -mmap specified, but trigram index is not word-aligned.  Will not memory-map.
-INFO: ngram_model_dmp.c(288):  9382014 = LM.bigrams(+trailer) read
-INFO: ngram_model_dmp.c(314): 13459879 = LM.trigrams read
-INFO: ngram_model_dmp.c(339):    32582 = LM.prob2 entries read
-INFO: ngram_model_dmp.c(359):    21467 = LM.bo_wt2 entries read
-INFO: ngram_model_dmp.c(379):    30084 = LM.prob3 entries read
-INFO: ngram_model_dmp.c(407):    18325 = LM.tseg_base entries read
-malloc(10) failed from sphinxbase/lm/ngram_model_dmp.c(454)
-==57573== 
-==57573== I   refs:      1,125,180,752
-==57573== I1  misses:        3,691,860
-==57573== LLi misses:            3,275
-==57573== I1  miss rate:          0.33%
-==57573== LLi miss rate:          0.00%
-==57573== 
-==57573== D   refs:        373,085,188  (262,451,308 rd   + 110,633,880 wr)
-==57573== D1  misses:        1,517,631  (    937,592 rd   +     580,039 wr)
-==57573== LLd misses:          754,332  (    412,945 rd   +     341,387 wr)
-==57573== D1  miss rate:           0.4% (        0.4%     +         0.5%  )
-==57573== LLd miss rate:           0.2% (        0.2%     +         0.3%  )
-==57573== 
-==57573== LL refs:           5,209,491  (  4,629,452 rd   +     580,039 wr)
-==57573== LL misses:           757,607  (    416,220 rd   +     341,387 wr)
-==57573== LL miss rate:            0.1% (        0.0%     +         0.3%  )
+==59823== Cannot map memory to grow brk segment in thread #1 to 0x454d000
+==59823== (see section Limitations in user manual)
+malloc(8) failed from pocketsphinx/dict.c(109)
+==59823== 
+==59823== I   refs:      236,709,913
+==59823== I1  misses:      1,148,920
+==59823== LLi misses:          2,950
+==59823== I1  miss rate:        0.49%
+==59823== LLi miss rate:        0.00%
+==59823== 
+==59823== D   refs:       83,437,377  (60,597,009 rd   + 22,840,368 wr)
+==59823== D1  misses:        285,094  (   187,874 rd   +     97,220 wr)
+==59823== LLd misses:        168,932  (    76,563 rd   +     92,369 wr)
+==59823== D1  miss rate:         0.3% (       0.3%     +        0.4%  )
+==59823== LLd miss rate:         0.2% (       0.1%     +        0.4%  )
+==59823== 
+==59823== LL refs:         1,434,014  ( 1,336,794 rd   +     97,220 wr)
+==59823== LL misses:         171,882  (    79,513 rd   +     92,369 wr)
+==59823== LL miss rate:          0.1% (       0.0%     +        0.4%  )

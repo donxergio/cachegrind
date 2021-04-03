@@ -1,0 +1,26 @@
+==61308== Cachegrind, a cache and branch-prediction profiler
+==61308== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==61308== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==61308== Command: ./stitch .
+==61308== 
+--61308-- warning: L3 cache found, using its data for the LL simulation.
+--61308-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--61308-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+./stitch: error while loading shared libraries: libm.so.6: cannot create shared object descriptor: Cannot allocate memory
+==61308== 
+==61308== I   refs:      27,058
+==61308== I1  misses:     1,051
+==61308== LLi misses:       477
+==61308== I1  miss rate:   3.88%
+==61308== LLi miss rate:   1.76%
+==61308== 
+==61308== D   refs:       7,590  (5,805 rd   + 1,785 wr)
+==61308== D1  misses:     1,951  (1,634 rd   +   317 wr)
+==61308== LLd misses:       325  (  169 rd   +   156 wr)
+==61308== D1  miss rate:   25.7% ( 28.1%     +  17.8%  )
+==61308== LLd miss rate:    4.3% (  2.9%     +   8.7%  )
+==61308== 
+==61308== LL refs:        3,002  (2,685 rd   +   317 wr)
+==61308== LL misses:        802  (  646 rd   +   156 wr)
+==61308== LL miss rate:     2.3% (  2.0%     +   8.7%  )

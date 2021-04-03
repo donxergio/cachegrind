@@ -1,0 +1,28 @@
+==41981== Cachegrind, a cache and branch-prediction profiler
+==41981== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41981== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41981== Command: ./multi_ncut .
+==41981== 
+--41981-- warning: L3 cache found, using its data for the LL simulation.
+--41981-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41981-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+ERROR: ld.so: object '/home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so' from LD_PRELOAD cannot be preloaded (failed to map segment from shared object): ignored.
+cannot allocate TLS data structures for initial thread
+==41981== 
+==41981== I   refs:      42,501
+==41981== I1  misses:       552
+==41981== LLi misses:       552
+==41981== I1  miss rate:   1.30%
+==41981== LLi miss rate:   1.30%
+==41981== 
+==41981== D   refs:      12,631  (9,323 rd   + 3,308 wr)
+==41981== D1  misses:       490  (  248 rd   +   242 wr)
+==41981== LLd misses:       490  (  248 rd   +   242 wr)
+==41981== D1  miss rate:    3.9% (  2.7%     +   7.3%  )
+==41981== LLd miss rate:    3.9% (  2.7%     +   7.3%  )
+==41981== 
+==41981== LL refs:        1,042  (  800 rd   +   242 wr)
+==41981== LL misses:      1,042  (  800 rd   +   242 wr)
+==41981== LL miss rate:     1.9% (  1.5%     +   7.3%  )

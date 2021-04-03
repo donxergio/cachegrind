@@ -1,11 +1,11 @@
-==57285== Cachegrind, a cache and branch-prediction profiler
-==57285== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57285== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57285== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57285== 
---57285-- warning: L3 cache found, using its data for the LL simulation.
---57285-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57285-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59539== Cachegrind, a cache and branch-prediction profiler
+==59539== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59539== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59539== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59539== 
+--59539-- warning: L3 cache found, using its data for the LL simulation.
+--59539-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59539-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 FIFO cache replacement will be used
 INFO: cmd_ln.c(691): Parsing command line:
 \
@@ -201,56 +201,22 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==57285== brk segment overflow in thread #1: can't grow to 0x4a33000
-==57285== (see section Limitations in user manual)
-==57285== NOTE: further instances of this message will not be shown
-INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
-INFO: dict.c(335): 131316 words read
-INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
-INFO: dict.c(211): Allocated 0 KiB for strings, 0 KiB for phones
-INFO: dict.c(344): 11 words read
-INFO: dict2pid.c(396): Building PID tables for dictionary
-INFO: dict2pid.c(404): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
-INFO: dict2pid.c(131): Allocated 60400 bytes (58 KiB) for word-final triphones
-INFO: dict2pid.c(195): Allocated 60400 bytes (58 KiB) for single-phone word triphones
-INFO: ngram_model_arpa.c(77): No \data\ mark in LM file
-INFO: ngram_model_dmp.c(142): Will use memory-mapped I/O for LM file
-INFO: ngram_model_dmp.c(196): ngrams 1=64001, 2=9382014, 3=13459879
-INFO: ngram_model_dmp.c(242):    64001 = LM.unigrams(+trailer) read
-WARNING: "ngram_model_dmp.c", line 250: -mmap specified, but trigram index is not word-aligned.  Will not memory-map.
-INFO: ngram_model_dmp.c(288):  9382014 = LM.bigrams(+trailer) read
-INFO: ngram_model_dmp.c(314): 13459879 = LM.trigrams read
-INFO: ngram_model_dmp.c(339):    32582 = LM.prob2 entries read
-INFO: ngram_model_dmp.c(359):    21467 = LM.bo_wt2 entries read
-INFO: ngram_model_dmp.c(379):    30084 = LM.prob3 entries read
-INFO: ngram_model_dmp.c(407):    18325 = LM.tseg_base entries read
-INFO: ngram_model_dmp.c(463):    64001 = ascii word strings read
-INFO: ngram_search_fwdtree.c(99): 799 unique initial diphones
-INFO: ngram_search_fwdtree.c(147): 0 root, 0 non-root channels, 85 single-phone words
-INFO: ngram_search_fwdtree.c(186): Creating search tree
-INFO: ngram_search_fwdtree.c(191): before: 0 root, 0 non-root channels, 85 single-phone words
-INFO: ngram_search_fwdtree.c(326): after: max nonroot chan increased to 138543
-INFO: ngram_search_fwdtree.c(338): after: 701 root, 138415 non-root channels, 79 single-phone words
-INFO: ngram_search_fwdflat.c(156): fwdflat: min_ef_width = 4, max_sf_win = 25
-INFO: cmn.c(175): CMN: 47.25 -3.51 -0.92 -1.90 -1.87 -1.78 -0.88  0.11 -0.66  0.22 -0.30  0.13 -0.01 
-INFO: ngram_search.c(482): Resized score stack to 200000 entries
-INFO: ngram_search.c(474): Resized backpointer table to 10000 entries
-INFO: ngram_search.c(482): Resized score stack to 400000 entries
-INFO: ngram_search.c(474): Resized backpointer table to 20000 entries
-malloc(3200000) failed from pocketsphinx/ngram_search.c(481)
-==57285== 
-==57285== I   refs:      7,742,598,154
-==57285== I1  misses:            4,128
-==57285== LLi misses:            4,053
-==57285== I1  miss rate:          0.00%
-==57285== LLi miss rate:          0.00%
-==57285== 
-==57285== D   refs:      2,533,414,898  (1,912,399,982 rd   + 621,014,916 wr)
-==57285== D1  misses:      100,178,701  (   95,723,980 rd   +   4,454,721 wr)
-==57285== LLd misses:        2,321,395  (    1,266,947 rd   +   1,054,448 wr)
-==57285== D1  miss rate:           4.0% (          5.0%     +         0.7%  )
-==57285== LLd miss rate:           0.1% (          0.1%     +         0.2%  )
-==57285== 
-==57285== LL refs:         100,182,829  (   95,728,108 rd   +   4,454,721 wr)
-==57285== LL misses:         2,325,448  (    1,271,000 rd   +   1,054,448 wr)
-==57285== LL miss rate:            0.0% (          0.0%     +         0.2%  )
+==59539== Cannot map memory to grow brk segment in thread #1 to 0x4697000
+==59539== (see section Limitations in user manual)
+malloc(11) failed from pocketsphinx/dict.c(121)
+==59539== 
+==59539== I   refs:      299,107,034
+==59539== I1  misses:          2,920
+==59539== LLi misses:          2,855
+==59539== I1  miss rate:        0.00%
+==59539== LLi miss rate:        0.00%
+==59539== 
+==59539== D   refs:      104,600,605  (75,611,065 rd   + 28,989,540 wr)
+==59539== D1  misses:        251,242  (   118,733 rd   +    132,509 wr)
+==59539== LLd misses:        202,762  (    77,040 rd   +    125,722 wr)
+==59539== D1  miss rate:         0.2% (       0.2%     +        0.5%  )
+==59539== LLd miss rate:         0.2% (       0.1%     +        0.4%  )
+==59539== 
+==59539== LL refs:           254,162  (   121,653 rd   +    132,509 wr)
+==59539== LL misses:         205,617  (    79,895 rd   +    125,722 wr)
+==59539== LL miss rate:          0.1% (       0.0%     +        0.4%  )

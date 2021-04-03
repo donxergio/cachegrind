@@ -1,0 +1,42 @@
+==60810== Cachegrind, a cache and branch-prediction profiler
+==60810== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==60810== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==60810== Command: ./stitch .
+==60810== 
+--60810-- warning: L3 cache found, using its data for the LL simulation.
+--60810-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--60810-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==60810== brk segment overflow in thread #1: can't grow to 0x4a37000
+==60810== (see section Limitations in user manual)
+==60810== NOTE: further instances of this message will not be shown
+==60810== 
+==60810== Process terminating with default action of signal 11 (SIGSEGV)
+==60810==  Access not within mapped region at address 0x4
+==60810==    at 0x109CA3: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60810==    by 0x10C114: fSetArray (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60810==    by 0x10A4BB: ffConv2 (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60810==    by 0x10D07B: harris (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60810==    by 0x108B0E: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60810==  If you believe this happened as a result of a stack
+==60810==  overflow in your program's main thread (unlikely but
+==60810==  possible), you can try to increase the size of the
+==60810==  main thread stack using the --main-stacksize= flag.
+==60810==  The main thread stack size used in this run was 8388608.
+==60810== 
+==60810== I   refs:      3,577,634,907
+==60810== I1  misses:       24,919,196
+==60810== LLi misses:            1,553
+==60810== I1  miss rate:          0.70%
+==60810== LLi miss rate:          0.00%
+==60810== 
+==60810== D   refs:      1,052,836,317  (847,603,571 rd   + 205,232,746 wr)
+==60810== D1  misses:      281,738,916  (267,551,769 rd   +  14,187,147 wr)
+==60810== LLd misses:        1,704,583  (    796,751 rd   +     907,832 wr)
+==60810== D1  miss rate:          26.8% (       31.6%     +         6.9%  )
+==60810== LLd miss rate:           0.2% (        0.1%     +         0.4%  )
+==60810== 
+==60810== LL refs:         306,658,112  (292,470,965 rd   +  14,187,147 wr)
+==60810== LL misses:         1,706,136  (    798,304 rd   +     907,832 wr)
+==60810== LL miss rate:            0.0% (        0.0%     +         0.4%  )

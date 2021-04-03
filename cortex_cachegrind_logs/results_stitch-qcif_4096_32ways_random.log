@@ -1,0 +1,32 @@
+==40841== Cachegrind, a cache and branch-prediction profiler
+==40841== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==40841== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==40841== Command: ./stitch .
+==40841== 
+--40841-- warning: L3 cache found, using its data for the LL simulation.
+--40841-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--40841-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==40841== Cannot map memory to grow brk segment in thread #1 to 0x4345000
+==40841== (see section Limitations in user manual)
+==40841== 
+==40841== Process terminating with default action of signal 15 (SIGTERM)
+==40841==    at 0x10BEE0: fDeepCopy (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==40841==    by 0x10CB73: getANMS (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==40841==    by 0x108B1E: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==40841== 
+==40841== I   refs:      120,655,043
+==40841== I1  misses:         75,066
+==40841== LLi misses:          1,377
+==40841== I1  miss rate:        0.06%
+==40841== LLi miss rate:        0.00%
+==40841== 
+==40841== D   refs:       32,963,051  (24,772,052 rd   + 8,190,999 wr)
+==40841== D1  misses:      1,041,816  (   674,099 rd   +   367,717 wr)
+==40841== LLd misses:         23,951  (     2,241 rd   +    21,710 wr)
+==40841== D1  miss rate:         3.2% (       2.7%     +       4.5%  )
+==40841== LLd miss rate:         0.1% (       0.0%     +       0.3%  )
+==40841== 
+==40841== LL refs:         1,116,882  (   749,165 rd   +   367,717 wr)
+==40841== LL misses:          25,328  (     3,618 rd   +    21,710 wr)
+==40841== LL miss rate:          0.0% (       0.0%     +       0.3%  )

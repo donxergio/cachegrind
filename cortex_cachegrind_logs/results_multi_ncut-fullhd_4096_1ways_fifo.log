@@ -1,0 +1,32 @@
+==30382== Cachegrind, a cache and branch-prediction profiler
+==30382== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==30382== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==30382== Command: ./multi_ncut .
+==30382== 
+--30382-- warning: L3 cache found, using its data for the LL simulation.
+--30382-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--30382-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==30382== 
+==30382== Process terminating with default action of signal 15 (SIGTERM)
+==30382==    at 0x10BE38: fDeepCopy (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30382==    by 0x10A930: fSortIndices (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30382==    by 0x10CE27: segment_graph (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30382==    by 0x10CAC9: segment_image (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30382==    by 0x108B0A: main (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30382== 
+==30382== I   refs:      1,487,806,251
+==30382== I1  misses:       12,451,902
+==30382== LLi misses:            1,346
+==30382== I1  miss rate:          0.84%
+==30382== LLi miss rate:          0.00%
+==30382== 
+==30382== D   refs:        535,270,656  (361,918,137 rd   + 173,352,519 wr)
+==30382== D1  misses:       63,810,501  ( 39,946,124 rd   +  23,864,377 wr)
+==30382== LLd misses:        5,059,548  (  2,131,690 rd   +   2,927,858 wr)
+==30382== D1  miss rate:          11.9% (       11.0%     +        13.8%  )
+==30382== LLd miss rate:           0.9% (        0.6%     +         1.7%  )
+==30382== 
+==30382== LL refs:          76,262,403  ( 52,398,026 rd   +  23,864,377 wr)
+==30382== LL misses:         5,060,894  (  2,133,036 rd   +   2,927,858 wr)
+==30382== LL miss rate:            0.3% (        0.1%     +         1.7%  )

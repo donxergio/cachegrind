@@ -1,0 +1,30 @@
+==35444== Cachegrind, a cache and branch-prediction profiler
+==35444== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==35444== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==35444== Command: ./tracking .
+==35444== 
+--35444-- warning: L3 cache found, using its data for the LL simulation.
+--35444-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--35444-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+==35444== 
+==35444== Process terminating with default action of signal 15 (SIGTERM)
+==35444==    at 0x109711: readImage (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==35444==    by 0x108A77: main (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==35444== 
+==35444== I   refs:      719,778,014
+==35444== I1  misses:         45,575
+==35444== LLi misses:          1,126
+==35444== I1  miss rate:        0.01%
+==35444== LLi miss rate:        0.00%
+==35444== 
+==35444== D   refs:      309,802,994  (211,577,684 rd   + 98,225,310 wr)
+==35444== D1  misses:        223,259  (    101,404 rd   +    121,855 wr)
+==35444== LLd misses:        120,851  (      2,243 rd   +    118,608 wr)
+==35444== D1  miss rate:         0.1% (        0.0%     +        0.1%  )
+==35444== LLd miss rate:         0.0% (        0.0%     +        0.1%  )
+==35444== 
+==35444== LL refs:           268,834  (    146,979 rd   +    121,855 wr)
+==35444== LL misses:         121,977  (      3,369 rd   +    118,608 wr)
+==35444== LL miss rate:          0.0% (        0.0%     +        0.1%  )

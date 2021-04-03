@@ -1,0 +1,43 @@
+==56177== Cachegrind, a cache and branch-prediction profiler
+==56177== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==56177== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==56177== Command: ./sift .
+==56177== 
+--56177-- warning: L3 cache found, using its data for the LL simulation.
+--56177-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--56177-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==56177== brk segment overflow in thread #1: can't grow to 0x4cd9000
+==56177== (see section Limitations in user manual)
+==56177== NOTE: further instances of this message will not be shown
+==56177== 
+==56177== Process terminating with default action of signal 11 (SIGSEGV)
+==56177==  Access not within mapped region at address 0x4
+==56177==    at 0x109D03: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==56177==    by 0x10C174: fSetArray (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==56177==    by 0x10DEE4: imsmooth (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==56177==    by 0x10DACC: gaussianss (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==56177==    by 0x10CC6E: sift (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==56177==    by 0x108C27: main (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==56177==  If you believe this happened as a result of a stack
+==56177==  overflow in your program's main thread (unlikely but
+==56177==  possible), you can try to increase the size of the
+==56177==  main thread stack using the --main-stacksize= flag.
+==56177==  The main thread stack size used in this run was 8388608.
+==56177== 
+==56177== I   refs:      2,649,996,845
+==56177== I1  misses:            1,336
+==56177== LLi misses:            1,332
+==56177== I1  miss rate:          0.00%
+==56177== LLi miss rate:          0.00%
+==56177== 
+==56177== D   refs:        797,541,478  (552,602,103 rd   + 244,939,375 wr)
+==56177== D1  misses:        2,870,593  (  1,787,975 rd   +   1,082,618 wr)
+==56177== LLd misses:        1,879,302  (  1,059,599 rd   +     819,703 wr)
+==56177== D1  miss rate:           0.4% (        0.3%     +         0.4%  )
+==56177== LLd miss rate:           0.2% (        0.2%     +         0.3%  )
+==56177== 
+==56177== LL refs:           2,871,929  (  1,789,311 rd   +   1,082,618 wr)
+==56177== LL misses:         1,880,634  (  1,060,931 rd   +     819,703 wr)
+==56177== LL miss rate:            0.1% (        0.0%     +         0.3%  )

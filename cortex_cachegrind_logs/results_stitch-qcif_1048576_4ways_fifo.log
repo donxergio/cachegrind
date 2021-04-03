@@ -1,0 +1,36 @@
+==41121== Cachegrind, a cache and branch-prediction profiler
+==41121== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41121== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41121== Command: ./stitch .
+==41121== 
+--41121-- warning: L3 cache found, using its data for the LL simulation.
+--41121-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41121-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==41121== Cannot map memory to grow brk segment in thread #1 to 0x4377000
+==41121== (see section Limitations in user manual)
+==41121== 
+==41121== Process terminating with default action of signal 15 (SIGTERM)
+==41121==    at 0x50DC14F: read (read.c:27)
+==41121==    by 0x5059217: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:531)
+==41121==    by 0x505A4C1: _IO_default_uflow (genops.c:380)
+==41121==    by 0x503D0CE: _IO_vfscanf (vfscanf.c:1926)
+==41121==    by 0x50483C5: __isoc99_fscanf (isoc99_fscanf.c:34)
+==41121==    by 0x10A047: fSelfCheck (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41121==    by 0x108BD8: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41121== 
+==41121== I   refs:      222,454,383
+==41121== I1  misses:          1,571
+==41121== LLi misses:          1,567
+==41121== I1  miss rate:        0.00%
+==41121== LLi miss rate:        0.00%
+==41121== 
+==41121== D   refs:       60,385,569  (44,167,252 rd   + 16,218,317 wr)
+==41121== D1  misses:         31,334  (     3,959 rd   +     27,375 wr)
+==41121== LLd misses:         23,930  (     2,256 rd   +     21,674 wr)
+==41121== D1  miss rate:         0.1% (       0.0%     +        0.2%  )
+==41121== LLd miss rate:         0.0% (       0.0%     +        0.1%  )
+==41121== 
+==41121== LL refs:            32,905  (     5,530 rd   +     27,375 wr)
+==41121== LL misses:          25,497  (     3,823 rd   +     21,674 wr)
+==41121== LL miss rate:          0.0% (       0.0%     +        0.1%  )

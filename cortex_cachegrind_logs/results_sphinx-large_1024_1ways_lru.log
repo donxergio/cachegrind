@@ -1,11 +1,11 @@
-==56682== Cachegrind, a cache and branch-prediction profiler
-==56682== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==56682== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==56682== Command: ./sphinx large/audio.raw language_model/HUB4/
-==56682== 
---56682-- warning: L3 cache found, using its data for the LL simulation.
---56682-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---56682-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==58938== Cachegrind, a cache and branch-prediction profiler
+==58938== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==58938== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==58938== Command: ./sphinx large/audio.raw language_model/HUB4/
+==58938== 
+--58938-- warning: L3 cache found, using its data for the LL simulation.
+--58938-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--58938-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LRU cache replacement will be used
 INFO: cmd_ln.c(691): Parsing command line:
 \
@@ -201,132 +201,86 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==56682== Cannot map memory to grow brk segment in thread #1 to 0x44c9000
-==56682== (see section Limitations in user manual)
-malloc(4) failed from pocketsphinx/dict.c(109)
---56682:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (71 segments)
---56682:0: aspacem 9 segment names in 10 slots
---56682:0: aspacem freelist begins at 280
---56682:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---56682:0: aspacem (1,66,4) /home/tkloda/cortexsuite/cortex/sphinx/sphinx
---56682:0: aspacem (2,116,4) /lib/x86_64-linux-gnu/ld-2.27.so
---56682:0: aspacem (3,153,1) /tmp/vgdb-pipe-shared-mem-vgdb-56682-by-tkloda-on-???
---56682:0: aspacem (4,211,5) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
---56682:0: aspacem (5,280,0) [free slot: size=17  next=0]
---56682:0: aspacem (6,301,5) /lib/x86_64-linux-gnu/libm-2.27.so
---56682:0: aspacem (7,340,5) /lib/x86_64-linux-gnu/libc-2.27.so
---56682:0: aspacem (8,379,1) /home/tkloda/cortexsuite/cortex/sphinx/language_model/HUB4/model/mdef
---56682:0: aspacem (9,453,1) /home/tkloda/cortexsuite/cortex/sphinx/language_model/HUB4/model/sendump
---56682:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---56682:0: aspacem   1: file 0000108000-000016efff  421888 r-xT- d=0x802 i=49556503 o=0       (1,66)
---56682:0: aspacem   2: RSVN 000016f000-000036efff 2097152 ----- SmFixed
---56682:0: aspacem   3: file 000036f000-0000370fff    8192 r---- d=0x802 i=49556503 o=421888  (1,66)
---56682:0: aspacem   4: file 0000371000-0000371fff    4096 rw--- d=0x802 i=49556503 o=430080  (1,66)
---56682:0: aspacem   5: anon 0000372000-0000372fff    4096 rw---
---56682:0: aspacem   6: RSVN 0000373000-0003ffffff     60m ----- SmFixed
---56682:0: aspacem   7: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,116)
---56682:0: aspacem   8: anon 0004029000-0004059fff  200704 rw---
---56682:0: aspacem   9:      000405a000-000405dfff   16384
---56682:0: aspacem  10: anon 000405e000-0004098fff  241664 rw---
---56682:0: aspacem  11:      0004099000-0004228fff 1638400
---56682:0: aspacem  12: file 0004229000-0004229fff    4096 r---- d=0x802 i=12583111 o=167936  (2,116)
---56682:0: aspacem  13: file 000422a000-000422afff    4096 rw--- d=0x802 i=12583111 o=172032  (2,116)
---56682:0: aspacem  14: anon 000422b000-000422bfff    4096 rw---
---56682:0: aspacem  15: anon 000422c000-00044a7fff 2605056 rwx--
---56682:0: aspacem  16: RSVN 00044a8000-0004a2bfff 5783552 ----- SmLower
---56682:0: aspacem  17: file 0004a2c000-0004a2cfff    4096 r-xT- d=0x802 i=28344728 o=0       (4,211)
---56682:0: aspacem  18: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,211)
---56682:0: aspacem  19: file 0004c2c000-0004c2cfff    4096 r---- d=0x802 i=28344728 o=0       (4,211)
---56682:0: aspacem  20: file 0004c2d000-0004c2dfff    4096 rw--- d=0x802 i=28344728 o=4096    (4,211)
---56682:0: aspacem  21: file 0004c2e000-0004dcafff 1691648 r-xT- d=0x802 i=12583362 o=0       (6,301)
---56682:0: aspacem  22: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,301)
---56682:0: aspacem  23: file 0004fca000-0004fcafff    4096 r---- d=0x802 i=12583362 o=1687552 (6,301)
---56682:0: aspacem  24: file 0004fcb000-0004fcbfff    4096 rw--- d=0x802 i=12583362 o=1691648 (6,301)
---56682:0: aspacem  25: file 0004fcc000-00051b2fff 1994752 r-xT- d=0x802 i=12583345 o=0       (7,340)
---56682:0: aspacem  26: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,340)
---56682:0: aspacem  27: file 00053b3000-00053b6fff   16384 r---- d=0x802 i=12583345 o=1994752 (7,340)
---56682:0: aspacem  28: file 00053b7000-00053b8fff    8192 rw--- d=0x802 i=12583345 o=2011136 (7,340)
---56682:0: aspacem  29: anon 00053b9000-00053bcfff   16384 rw---
---56682:0: aspacem  30: file 00053bd000-00056aafff 3072000 r---- d=0x802 i=49555099 o=0       (8,379)
---56682:0: aspacem  31: file 00056ab000-000588dfff 1978368 r---- d=0x802 i=49555102 o=0       (9,453)
---56682:0: aspacem  32: anon 000588e000-0006403fff     11m rw---
---56682:0: aspacem  33:      0006404000-0057ffffff   1307m
---56682:0: aspacem  34: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---56682:0: aspacem  35: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---56682:0: aspacem  36: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---56682:0: aspacem  37:      0058259000-0058458fff 2097152
---56682:0: aspacem  38: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---56682:0: aspacem  39: ANON 005845f000-0058e56fff      9m rw---
---56682:0: aspacem  40:      0058e57000-1001ffffff  64145m
---56682:0: aspacem  41: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---56682:0: aspacem  42: ANON 1002001000-100278bfff 7909376 rwx--
---56682:0: aspacem  43: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29545436 o=0       (3,153)
---56682:0: aspacem  44: ANON 100278d000-10027bcfff  196608 rwx--
---56682:0: aspacem  45:      10027bd000-10027ccfff   65536
---56682:0: aspacem  46: ANON 10027cd000-10027f2fff  155648 rwx--
---56682:0: aspacem  47:      10027f3000-100288bfff  626688
---56682:0: aspacem  48: ANON 100288c000-100298bfff 1048576 rwx--
---56682:0: aspacem  49: ANON 100298c000-100298dfff    8192 -----
---56682:0: aspacem  50: ANON 100298e000-1002a8dfff 1048576 rwx--
---56682:0: aspacem  51: ANON 1002a8e000-1002a8ffff    8192 -----
---56682:0: aspacem  52:      1002a90000-1002b80fff  987136
---56682:0: aspacem  53: ANON 1002b81000-1004c44fff     32m rwx--
---56682:0: aspacem  54:      1004c45000-1004e44fff 2097152
---56682:0: aspacem  55: ANON 1004e45000-1005144fff 3145728 rwx--
---56682:0: aspacem  56:      1005145000-1005344fff 2097152
---56682:0: aspacem  57: ANON 1005345000-1005744fff 4194304 rwx--
---56682:0: aspacem  58:      1005745000-1005939fff 2052096
---56682:0: aspacem  59: ANON 100593a000-1005f7bfff 6561792 rwx--
---56682:0: aspacem  60:      1005f7c000-1ffe800fff  65416m
---56682:0: aspacem  61: RSVN 1ffe801000-1ffeff4fff 8339456 ----- SmUpper
---56682:0: aspacem  62: anon 1ffeff5000-1fff000fff   49152 rw---
---56682:0: aspacem  63:      1fff001000-1fffffffff     15m
---56682:0: aspacem  64: RSVN 2000000000-7ffcc695efff 130931g ----- SmFixed
---56682:0: aspacem  65: ANON 7ffcc695f000-7ffcc697ffff  135168 rw---
---56682:0: aspacem  66: RSVN 7ffcc6980000-7ffcc698dfff   57344 ----- SmFixed
---56682:0: aspacem  67: ANON 7ffcc698e000-7ffcc6990fff   12288 r----
---56682:0: aspacem  68: RSVN 7ffcc6991000-ffffffffff5fffff  16383e ----- SmFixed
---56682:0: aspacem  69: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---56682:0: aspacem  70: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---56682:0: aspacem >>>
---56682-- core    :    12,582,912/   12,582,912 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      9,119,696/    9,119,696 max/curr,       13664/   9708384 totalloc-blocks/bytes,       13664 searches 8 rzB
---56682-- dinfo   :    24,100,864/   16,121,856 max/curr mmap'd, 2/7 unsplit/split sb unmmap'd,     22,647,904/    8,885,776 max/curr,      232190/  61938288 totalloc-blocks/bytes,      238499 searches 8 rzB
---56682-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---56682-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---56682-- ttaux   :       221,184/      221,184 max/curr mmap'd, 0/1 unsplit/split sb unmmap'd,        166,128/      119,728 max/curr,         642/    318976 totalloc-blocks/bytes,         641 searches 8 rzB
---56682-- translate: 35,506 guest insns, 5,392 traces, 1,400 uncond chased, 155 cond chased
---56682-- translate: no SP updates identified
---56682-- translate: PX: SPonly 5,392,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---56682--     tt/tc: 12,013 tt lookups requiring 12,504 probes
---56682--     tt/tc: 6,612 fast-cache updates, 2 flushes
---56682--  transtab: new        5,392 (142,009 -> 1,850,866; ratio 13.0) [0 scs] avg tce size 343
---56682--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---56682--  transtab: discarded  0 (0 -> ??)
---56682-- scheduler: 14,148,573 event checks.
---56682-- scheduler: 7,629,722 indir transfers, 1,197 misses (1 in 6374) ..
---56682-- scheduler: .. of which: 7,628,419 hit0, 80 hit1, 26 hit2, 0 hit3, 1,197 missed
---56682-- scheduler: 141/9,505 major/minor sched events.
---56682--    sanity: 141 cheap, 6 expensive checks.
-==56682== 
-==56682==     Valgrind's memory management: out of memory:
-==56682==        newSuperblock's request for 4194304 bytes failed.
-==56682==           84,377,600 bytes have already been mmap-ed ANONYMOUS.
-==56682==     Valgrind cannot continue.  Sorry.
-==56682== 
-==56682==     There are several possible reasons for this.
-==56682==     - You have some kind of memory limit in place.  Look at the
-==56682==       output of 'ulimit -a'.  Is there a limit on the size of
-==56682==       virtual memory or address space?
-==56682==     - You have run out of swap space.
-==56682==     - Valgrind has a bug.  If you think this is the case or you are
-==56682==     not sure, please let us know and we'll try to fix it.
-==56682==     Please note that programs can take substantially more memory than
-==56682==     normal when running under Valgrind tools, eg. up to twice or
-==56682==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==56682==     should be able to make use of up 32GB memory.  On a 32-bit
-==56682==     machine, Valgrind should be able to use all the memory available
-==56682==     to a single process, up to 4GB if that's how you have your
-==56682==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==56682==     3GB per process.
-==56682== 
-==56682==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==58938== brk segment overflow in thread #1: can't grow to 0x4a33000
+==58938== (see section Limitations in user manual)
+==58938== NOTE: further instances of this message will not be shown
+INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
+INFO: dict.c(335): 131316 words read
+INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
+INFO: dict.c(211): Allocated 0 KiB for strings, 0 KiB for phones
+INFO: dict.c(344): 11 words read
+INFO: dict2pid.c(396): Building PID tables for dictionary
+INFO: dict2pid.c(404): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
+INFO: dict2pid.c(131): Allocated 60400 bytes (58 KiB) for word-final triphones
+INFO: dict2pid.c(195): Allocated 60400 bytes (58 KiB) for single-phone word triphones
+INFO: ngram_model_arpa.c(77): No \data\ mark in LM file
+INFO: ngram_model_dmp.c(142): Will use memory-mapped I/O for LM file
+INFO: ngram_model_dmp.c(196): ngrams 1=64001, 2=9382014, 3=13459879
+INFO: ngram_model_dmp.c(242):    64001 = LM.unigrams(+trailer) read
+WARNING: "ngram_model_dmp.c", line 250: -mmap specified, but trigram index is not word-aligned.  Will not memory-map.
+INFO: ngram_model_dmp.c(288):  9382014 = LM.bigrams(+trailer) read
+INFO: ngram_model_dmp.c(314): 13459879 = LM.trigrams read
+INFO: ngram_model_dmp.c(339):    32582 = LM.prob2 entries read
+INFO: ngram_model_dmp.c(359):    21467 = LM.bo_wt2 entries read
+INFO: ngram_model_dmp.c(379):    30084 = LM.prob3 entries read
+INFO: ngram_model_dmp.c(407):    18325 = LM.tseg_base entries read
+INFO: ngram_model_dmp.c(463):    64001 = ascii word strings read
+INFO: ngram_search_fwdtree.c(99): 799 unique initial diphones
+INFO: ngram_search_fwdtree.c(147): 0 root, 0 non-root channels, 85 single-phone words
+INFO: ngram_search_fwdtree.c(186): Creating search tree
+INFO: ngram_search_fwdtree.c(191): before: 0 root, 0 non-root channels, 85 single-phone words
+INFO: ngram_search_fwdtree.c(326): after: max nonroot chan increased to 138543
+INFO: ngram_search_fwdtree.c(338): after: 701 root, 138415 non-root channels, 79 single-phone words
+INFO: ngram_search_fwdflat.c(156): fwdflat: min_ef_width = 4, max_sf_win = 25
+INFO: cmn.c(175): CMN: 47.25 -3.51 -0.92 -1.90 -1.87 -1.78 -0.88  0.11 -0.66  0.22 -0.30  0.13 -0.01 
+INFO: ngram_search.c(482): Resized score stack to 200000 entries
+INFO: ngram_search.c(474): Resized backpointer table to 10000 entries
+INFO: ngram_search.c(482): Resized score stack to 400000 entries
+INFO: ngram_search.c(474): Resized backpointer table to 20000 entries
+INFO: ngram_search.c(482): Resized score stack to 800000 entries
+INFO: ngram_search.c(474): Resized backpointer table to 40000 entries
+INFO: ngram_search.c(482): Resized score stack to 1600000 entries
+INFO: ngram_search.c(474): Resized backpointer table to 80000 entries
+INFO: ngram_search.c(482): Resized score stack to 3200000 entries
+INFO: ngram_search.c(474): Resized backpointer table to 160000 entries
+INFO: ngram_search_fwdtree.c(951): cand_sf[] increased to 64 entries
+INFO: ngram_search.c(482): Resized score stack to 6400000 entries
+INFO: ngram_search.c(474): Resized backpointer table to 320000 entries
+INFO: ngram_search_fwdtree.c(1549):   175644 words recognized (34/fr)
+INFO: ngram_search_fwdtree.c(1551): 18052454 senones evaluated (3505/fr)
+INFO: ngram_search_fwdtree.c(1553): 83984511 channels searched (16307/fr), 3223962 1st, 6193226 last
+INFO: ngram_search_fwdtree.c(1557):   365594 words for which last channels evaluated (70/fr)
+INFO: ngram_search_fwdtree.c(1560):  7605423 candidate words for entering last phone (1476/fr)
+INFO: ngram_search_fwdtree.c(1562): fwdtree 851.99 CPU 16.543 xRT
+INFO: ngram_search_fwdtree.c(1565): fwdtree 30681.09 wall 595.749 xRT
+INFO: ngram_search_fwdflat.c(302): Utterance vocabulary contains 4074 words
+INFO: ngram_search_fwdflat.c(937):   101172 words recognized (20/fr)
+INFO: ngram_search_fwdflat.c(939):  6091608 senones evaluated (1183/fr)
+INFO: ngram_search_fwdflat.c(941): 10788389 channels searched (2094/fr)
+INFO: ngram_search_fwdflat.c(943):   635410 words searched (123/fr)
+INFO: ngram_search_fwdflat.c(945):   493924 word transitions (95/fr)
+INFO: ngram_search_fwdflat.c(948): fwdflat 120.62 CPU 2.342 xRT
+INFO: ngram_search_fwdflat.c(951): fwdflat 2922.91 wall 56.756 xRT
+INFO: ngram_search.c(1266): lattice start node <s>.0 end node </s>.5109
+INFO: ngram_search.c(1294): Eliminated 0 nodes before end node
+INFO: ngram_search.c(1399): Lattice has 11285 nodes, 111716 links
+INFO: ps_lattice.c(1365): Normalizer P(O) = alpha(</s>:5109:5148) = -35081824
+INFO: ps_lattice.c(1403): Joint P(O,S) = -36098128 P(S|O) = -1016304
+INFO: ngram_search.c(888): bestpath 96.40 CPU 1.872 xRT
+INFO: ngram_search.c(891): bestpath 2411.92 wall 46.843 xRT
+==58938== 
+==58938== I   refs:      67,808,634,598
+==58938== I1  misses:     2,526,301,025
+==58938== LLi misses:             8,354
+==58938== I1  miss rate:           3.73%
+==58938== LLi miss rate:           0.00%
+==58938== 
+==58938== D   refs:      22,639,764,723  (17,679,285,608 rd   + 4,960,479,115 wr)
+==58938== D1  misses:     7,161,021,633  ( 6,452,052,959 rd   +   708,968,674 wr)
+==58938== LLd misses:         8,818,905  (     5,982,159 rd   +     2,836,746 wr)
+==58938== D1  miss rate:           31.6% (          36.5%     +          14.3%  )
+==58938== LLd miss rate:            0.0% (           0.0%     +           0.1%  )
+==58938== 
+==58938== LL refs:        9,687,322,658  ( 8,978,353,984 rd   +   708,968,674 wr)
+==58938== LL misses:          8,827,259  (     5,990,513 rd   +     2,836,746 wr)
+==58938== LL miss rate:             0.0% (           0.0%     +           0.1%  )

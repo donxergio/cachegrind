@@ -1,11 +1,11 @@
-==57593== Cachegrind, a cache and branch-prediction profiler
-==57593== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57593== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57593== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57593== 
---57593-- warning: L3 cache found, using its data for the LL simulation.
---57593-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57593-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59843== Cachegrind, a cache and branch-prediction profiler
+==59843== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59843== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59843== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59843== 
+--59843-- warning: L3 cache found, using its data for the LL simulation.
+--59843-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59843-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.031250
 INFO: cmd_ln.c(691): Parsing command line:
@@ -202,22 +202,34 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==57593== Cannot map memory to grow brk segment in thread #1 to 0x435e000
-==57593== (see section Limitations in user manual)
-malloc(14) failed from pocketsphinx/dict.c(121)
-==57593== 
-==57593== I   refs:      135,329,431
-==57593== I1  misses:         71,265
-==57593== LLi misses:          3,128
-==57593== I1  miss rate:        0.05%
-==57593== LLi miss rate:        0.00%
-==57593== 
-==57593== D   refs:       49,306,941  (36,268,972 rd   + 13,037,969 wr)
-==57593== D1  misses:        124,597  (    79,473 rd   +     45,124 wr)
-==57593== LLd misses:         85,370  (    50,947 rd   +     34,423 wr)
-==57593== D1  miss rate:         0.3% (       0.2%     +        0.3%  )
-==57593== LLd miss rate:         0.2% (       0.1%     +        0.3%  )
-==57593== 
-==57593== LL refs:           195,862  (   150,738 rd   +     45,124 wr)
-==57593== LL misses:          88,498  (    54,075 rd   +     34,423 wr)
-==57593== LL miss rate:          0.0% (       0.0%     +        0.3%  )
+==59843== Cannot map memory to grow brk segment in thread #1 to 0x4823000
+==59843== (see section Limitations in user manual)
+==59843== brk segment overflow in thread #1: can't grow to 0x4a33000
+==59843== (see section Limitations in user manual)
+==59843== NOTE: further instances of this message will not be shown
+INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
+INFO: dict.c(335): 131316 words read
+INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
+INFO: dict.c(211): Allocated 0 KiB for strings, 0 KiB for phones
+INFO: dict.c(344): 11 words read
+INFO: dict2pid.c(396): Building PID tables for dictionary
+INFO: dict2pid.c(404): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
+INFO: dict2pid.c(131): Allocated 60400 bytes (58 KiB) for word-final triphones
+INFO: dict2pid.c(195): Allocated 60400 bytes (58 KiB) for single-phone word triphones
+calloc(262654,4) failed from pocketsphinx/ngram_search.c(187)
+==59843== 
+==59843== I   refs:      699,192,621
+==59843== I1  misses:        717,130
+==59843== LLi misses:          3,292
+==59843== I1  miss rate:        0.10%
+==59843== LLi miss rate:        0.00%
+==59843== 
+==59843== D   refs:      221,736,095  (161,185,686 rd   + 60,550,409 wr)
+==59843== D1  misses:      1,055,317  (    693,675 rd   +    361,642 wr)
+==59843== LLd misses:        717,634  (    408,213 rd   +    309,421 wr)
+==59843== D1  miss rate:         0.5% (        0.4%     +        0.6%  )
+==59843== LLd miss rate:         0.3% (        0.3%     +        0.5%  )
+==59843== 
+==59843== LL refs:         1,772,447  (  1,410,805 rd   +    361,642 wr)
+==59843== LL misses:         720,926  (    411,505 rd   +    309,421 wr)
+==59843== LL miss rate:          0.1% (        0.0%     +        0.5%  )

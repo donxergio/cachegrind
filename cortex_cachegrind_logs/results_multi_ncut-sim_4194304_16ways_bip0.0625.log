@@ -1,0 +1,88 @@
+==41975== Cachegrind, a cache and branch-prediction profiler
+==41975== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41975== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41975== Command: ./multi_ncut .
+==41975== 
+--41975-- warning: L3 cache found, using its data for the LL simulation.
+--41975-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41975-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+--41975:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (30 segments)
+--41975:0: aspacem 3 segment names in 3 slots
+--41975:0: aspacem freelist is empty
+--41975:0: aspacem (0,4,3) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
+--41975:0: aspacem (1,66,3) /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/sim/multi_ncut
+--41975:0: aspacem (2,144,3) /lib/x86_64-linux-gnu/ld-2.27.so
+--41975:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
+--41975:0: aspacem   1: file 0000108000-000010efff   28672 r-x-- d=0x802 i=49680418 o=0       (1,66)
+--41975:0: aspacem   2: RSVN 000010f000-000030dfff 2093056 ----- SmFixed
+--41975:0: aspacem   3: file 000030e000-000030ffff    8192 rw--- d=0x802 i=49680418 o=24576   (1,66)
+--41975:0: aspacem   4: RSVN 0000310000-0003ffffff     60m ----- SmFixed
+--41975:0: aspacem   5: file 0004000000-0004028fff  167936 r-x-- d=0x802 i=12583111 o=0       (2,144)
+--41975:0: aspacem   6:      0004029000-0004228fff 2097152
+--41975:0: aspacem   7: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,144)
+--41975:0: aspacem   8: anon 000422b000-000422bfff    4096 rw---
+--41975:0: aspacem   9: anon 000422c000-000422cfff    4096 rwx--
+--41975:0: aspacem  10: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
+--41975:0: aspacem  11:      0004a2c000-0057ffffff   1333m
+--41975:0: aspacem  12: FILE 0058000000-0058258fff 2461696 r-x-- d=0x802 i=28344876 o=0       (0,4)
+--41975:0: aspacem  13:      0058259000-0058458fff 2097152
+--41975:0: aspacem  14: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
+--41975:0: aspacem  15: ANON 005845f000-0058e56fff      9m rw---
+--41975:0: aspacem  16:      0058e57000-1001ffffff  64145m
+--41975:0: aspacem  17: RSVN 1002000000-1002000fff    4096 ----- SmFixed
+--41975:0: aspacem  18: ANON 1002001000-1002d8bfff     13m rwx--
+--41975:0: aspacem  19:      1002d8c000-1ffe800fff  65466m
+--41975:0: aspacem  20: RSVN 1ffe801000-1ffeffefff 8380416 ----- SmUpper
+--41975:0: aspacem  21: anon 1ffefff000-1fff000fff    8192 rw---
+--41975:0: aspacem  22:      1fff001000-1fffffffff     15m
+--41975:0: aspacem  23: RSVN 2000000000-7fffe4de1fff 130943g ----- SmFixed
+--41975:0: aspacem  24: ANON 7fffe4de2000-7fffe4e02fff  135168 rw---
+--41975:0: aspacem  25: RSVN 7fffe4e03000-7fffe4e15fff   77824 ----- SmFixed
+--41975:0: aspacem  26: ANON 7fffe4e16000-7fffe4e18fff   12288 r----
+--41975:0: aspacem  27: RSVN 7fffe4e19000-ffffffffff5fffff  16383e ----- SmFixed
+--41975:0: aspacem  28: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
+--41975:0: aspacem  29: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
+--41975:0: aspacem >>>
+--41975-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      4,271,104/    4,258,880 max/curr,          62/   4359936 totalloc-blocks/bytes,          61 searches 8 rzB
+--41975-- dinfo   :     5,242,880/    5,242,880 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      4,257,744/    4,200,304 max/curr,       22082/   9636560 totalloc-blocks/bytes,       22497 searches 8 rzB
+--41975-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
+--41975-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            144/          112 max/curr,           6/       208 totalloc-blocks/bytes,           5 searches 8 rzB
+--41975-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
+--41975-- translate: 0 guest insns, 0 traces, 0 uncond chased, 0 cond chased
+--41975-- translate: no SP updates identified
+--41975-- translate: PX: SPonly 0,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
+--41975--     tt/tc: 0 tt lookups requiring 0 probes
+--41975--     tt/tc: 0 fast-cache updates, 1 flushes
+--41975--  transtab: new        0 (0 -> 0; ratio 0.0) [0 scs] avg tce size 0
+--41975--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
+--41975--  transtab: discarded  0 (0 -> ??)
+--41975-- scheduler: 0 event checks.
+--41975-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
+--41975-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
+--41975-- scheduler: 0/0 major/minor sched events.
+--41975--    sanity: 0 cheap, 0 expensive checks.
+==41975== 
+==41975==     Valgrind's memory management: out of memory:
+==41975==        newSuperblock's request for 4194304 bytes failed.
+==41975==           24,821,760 bytes have already been mmap-ed ANONYMOUS.
+==41975==     Valgrind cannot continue.  Sorry.
+==41975== 
+==41975==     There are several possible reasons for this.
+==41975==     - You have some kind of memory limit in place.  Look at the
+==41975==       output of 'ulimit -a'.  Is there a limit on the size of
+==41975==       virtual memory or address space?
+==41975==     - You have run out of swap space.
+==41975==     - Valgrind has a bug.  If you think this is the case or you are
+==41975==     not sure, please let us know and we'll try to fix it.
+==41975==     Please note that programs can take substantially more memory than
+==41975==     normal when running under Valgrind tools, eg. up to twice or
+==41975==     more, depending on the tool.  On a 64-bit machine, Valgrind
+==41975==     should be able to make use of up 32GB memory.  On a 32-bit
+==41975==     machine, Valgrind should be able to use all the memory available
+==41975==     to a single process, up to 4GB if that's how you have your
+==41975==     kernel configured.  Most 32-bit Linux setups allow a maximum of
+==41975==     3GB per process.
+==41975== 
+==41975==     Whatever the reason, Valgrind cannot continue.  Sorry.

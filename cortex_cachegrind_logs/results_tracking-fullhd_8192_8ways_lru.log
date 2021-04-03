@@ -1,0 +1,34 @@
+==34624== Cachegrind, a cache and branch-prediction profiler
+==34624== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==34624== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==34624== Command: ./tracking .
+==34624== 
+--34624-- warning: L3 cache found, using its data for the LL simulation.
+--34624-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--34624-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+==34624== Cannot map memory to grow brk segment in thread #1 to 0x483d000
+==34624== (see section Limitations in user manual)
+==34624== brk segment overflow in thread #1: can't grow to 0x4e4c000
+==34624== (see section Limitations in user manual)
+==34624== NOTE: further instances of this message will not be shown
+==34624== 
+==34624== Process terminating with default action of signal 15 (SIGTERM)
+==34624==    at 0x10B8B0: calcSobel_dX (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34624==    by 0x108ABC: main (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34624== 
+==34624== I   refs:      1,222,001,758
+==34624== I1  misses:            2,052
+==34624== LLi misses:            1,365
+==34624== I1  miss rate:          0.00%
+==34624== LLi miss rate:          0.00%
+==34624== 
+==34624== D   refs:        428,391,734  (301,910,979 rd   + 126,480,755 wr)
+==34624== D1  misses:        2,800,818  (  1,504,335 rd   +   1,296,483 wr)
+==34624== LLd misses:          748,806  (    130,221 rd   +     618,585 wr)
+==34624== D1  miss rate:           0.7% (        0.5%     +         1.0%  )
+==34624== LLd miss rate:           0.2% (        0.0%     +         0.5%  )
+==34624== 
+==34624== LL refs:           2,802,870  (  1,506,387 rd   +   1,296,483 wr)
+==34624== LL misses:           750,171  (    131,586 rd   +     618,585 wr)
+==34624== LL miss rate:            0.0% (        0.0%     +         0.5%  )

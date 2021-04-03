@@ -1,0 +1,28 @@
+==40234== Cachegrind, a cache and branch-prediction profiler
+==40234== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==40234== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==40234== Command: ./sift .
+==40234== 
+--40234-- warning: L3 cache found, using its data for the LL simulation.
+--40234-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--40234-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+==40234== Cannot map memory to grow brk segment in thread #1 to 0x45c5000
+==40234== (see section Limitations in user manual)
+==40234== 
+==40234== I   refs:      288,803,968
+==40234== I1  misses:          1,799
+==40234== LLi misses:          1,793
+==40234== I1  miss rate:        0.00%
+==40234== LLi miss rate:        0.00%
+==40234== 
+==40234== D   refs:       87,841,950  (61,419,108 rd   + 26,422,842 wr)
+==40234== D1  misses:        472,976  (   281,915 rd   +    191,061 wr)
+==40234== LLd misses:        186,233  (    39,855 rd   +    146,378 wr)
+==40234== D1  miss rate:         0.5% (       0.5%     +        0.7%  )
+==40234== LLd miss rate:         0.2% (       0.1%     +        0.6%  )
+==40234== 
+==40234== LL refs:           474,775  (   283,714 rd   +    191,061 wr)
+==40234== LL misses:         188,026  (    41,648 rd   +    146,378 wr)
+==40234== LL miss rate:          0.0% (       0.0%     +        0.6%  )

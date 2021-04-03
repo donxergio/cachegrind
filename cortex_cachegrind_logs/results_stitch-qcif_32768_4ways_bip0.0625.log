@@ -1,0 +1,28 @@
+==41229== Cachegrind, a cache and branch-prediction profiler
+==41229== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41229== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41229== Command: ./stitch .
+==41229== 
+--41229-- warning: L3 cache found, using its data for the LL simulation.
+--41229-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41229-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==41229== Cannot map memory to grow brk segment in thread #1 to 0x4345000
+==41229== (see section Limitations in user manual)
+==41229== 
+==41229== I   refs:      223,159,121
+==41229== I1  misses:          1,870
+==41229== LLi misses:          1,725
+==41229== I1  miss rate:        0.00%
+==41229== LLi miss rate:        0.00%
+==41229== 
+==41229== D   refs:       60,655,744  (44,339,264 rd   + 16,316,480 wr)
+==41229== D1  misses:        548,606  (   282,536 rd   +    266,070 wr)
+==41229== LLd misses:         23,997  (     2,287 rd   +     21,710 wr)
+==41229== D1  miss rate:         0.9% (       0.6%     +        1.6%  )
+==41229== LLd miss rate:         0.0% (       0.0%     +        0.1%  )
+==41229== 
+==41229== LL refs:           550,476  (   284,406 rd   +    266,070 wr)
+==41229== LL misses:          25,722  (     4,012 rd   +     21,710 wr)
+==41229== LL miss rate:          0.0% (       0.0%     +        0.1%  )

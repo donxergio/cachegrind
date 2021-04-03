@@ -1,0 +1,41 @@
+==30892== Cachegrind, a cache and branch-prediction profiler
+==30892== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==30892== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==30892== Command: ./multi_ncut .
+==30892== 
+--30892-- warning: L3 cache found, using its data for the LL simulation.
+--30892-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--30892-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+==30892== brk segment overflow in thread #1: can't grow to 0x61e9000
+==30892== (see section Limitations in user manual)
+==30892== NOTE: further instances of this message will not be shown
+==30892== 
+==30892== Process terminating with default action of signal 11 (SIGSEGV)
+==30892==  Access not within mapped region at address 0x4
+==30892==    at 0x109BD3: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30892==    by 0x10CDBD: segment_graph (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30892==    by 0x10CAC9: segment_image (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30892==    by 0x108B0A: main (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30892==  If you believe this happened as a result of a stack
+==30892==  overflow in your program's main thread (unlikely but
+==30892==  possible), you can try to increase the size of the
+==30892==  main thread stack using the --main-stacksize= flag.
+==30892==  The main thread stack size used in this run was 8388608.
+==30892== 
+==30892== I   refs:      1,400,727,992
+==30892== I1  misses:       12,451,908
+==30892== LLi misses:            1,388
+==30892== I1  miss rate:          0.89%
+==30892== LLi miss rate:          0.00%
+==30892== 
+==30892== D   refs:        503,753,507  (346,159,562 rd   + 157,593,945 wr)
+==30892== D1  misses:       46,647,229  ( 30,854,741 rd   +  15,792,488 wr)
+==30892== LLd misses:        2,357,453  (    158,362 rd   +   2,199,091 wr)
+==30892== D1  miss rate:           9.3% (        8.9%     +        10.0%  )
+==30892== LLd miss rate:           0.5% (        0.0%     +         1.4%  )
+==30892== 
+==30892== LL refs:          59,099,137  ( 43,306,649 rd   +  15,792,488 wr)
+==30892== LL misses:         2,358,841  (    159,750 rd   +   2,199,091 wr)
+==30892== LL miss rate:            0.1% (        0.0%     +         1.4%  )

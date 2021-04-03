@@ -1,11 +1,11 @@
-==57840== Cachegrind, a cache and branch-prediction profiler
-==57840== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57840== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57840== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57840== 
---57840-- warning: L3 cache found, using its data for the LL simulation.
---57840-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57840-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==60076== Cachegrind, a cache and branch-prediction profiler
+==60076== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==60076== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==60076== Command: ./sphinx large/audio.raw language_model/HUB4/
+==60076== 
+--60076-- warning: L3 cache found, using its data for the LL simulation.
+--60076-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--60076-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.015625
 INFO: cmd_ln.c(691): Parsing command line:
@@ -182,22 +182,42 @@ INFO: acmod.c(167): Using subvector specification 0-12/13-25/26-38
 INFO: mdef.c(517): Reading model definition: language_model/HUB4/model/mdef
 INFO: mdef.c(528): Found byte-order mark BMDF, assuming this is a binary mdef file
 INFO: bin_mdef.c(336): Reading binary model definition: language_model/HUB4/model/mdef
-==57840== Cannot map memory to grow brk segment in thread #1 to 0x428f000
-==57840== (see section Limitations in user manual)
-calloc(27135,8) failed from pocketsphinx/bin_mdef.c(457)
-==57840== 
-==57840== I   refs:      25,401,486
-==57840== I1  misses:         2,574
-==57840== LLi misses:         2,568
-==57840== I1  miss rate:       0.01%
-==57840== LLi miss rate:       0.01%
-==57840== 
-==57840== D   refs:       9,601,678  (7,180,461 rd   + 2,421,217 wr)
-==57840== D1  misses:         7,748  (    6,132 rd   +     1,616 wr)
-==57840== LLd misses:         7,722  (    6,106 rd   +     1,616 wr)
-==57840== D1  miss rate:        0.1% (      0.1%     +       0.1%  )
-==57840== LLd miss rate:        0.1% (      0.1%     +       0.1%  )
-==57840== 
-==57840== LL refs:           10,322  (    8,706 rd   +     1,616 wr)
-==57840== LL misses:         10,290  (    8,674 rd   +     1,616 wr)
-==57840== LL miss rate:         0.0% (      0.0%     +       0.1%  )
+INFO: bin_mdef.c(513): 50 CI-phone, 143047 CD-phone, 3 emitstate/phone, 150 CI-sen, 5150 Sen, 27135 Sen-Seq
+INFO: tmat.c(205): Reading HMM transition probability matrices: language_model/HUB4/model/transition_matrices
+INFO: acmod.c(121): Attempting to use SCHMM computation module
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: language_model/HUB4/model/means
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: language_model/HUB4/model/variances
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(354): 0 variance values floored
+INFO: s2_semi_mgau.c(903): Loading senones from dump file language_model/HUB4/model/sendump
+INFO: s2_semi_mgau.c(927): BEGIN FILE FORMAT DESCRIPTION
+INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
+INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
+INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
+INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
+==60076== Cannot map memory to grow brk segment in thread #1 to 0x4823000
+==60076== (see section Limitations in user manual)
+calloc(1,32) failed from sphinxbase/util/hash_table.c(411)
+==60076== 
+==60076== I   refs:      371,047,940
+==60076== I1  misses:          2,860
+==60076== LLi misses:          2,854
+==60076== I1  miss rate:        0.00%
+==60076== LLi miss rate:        0.00%
+==60076== 
+==60076== D   refs:      129,037,191  (92,918,397 rd   + 36,118,794 wr)
+==60076== D1  misses:        298,567  (   124,384 rd   +    174,183 wr)
+==60076== LLd misses:        286,945  (   114,364 rd   +    172,581 wr)
+==60076== D1  miss rate:         0.2% (       0.1%     +        0.5%  )
+==60076== LLd miss rate:         0.2% (       0.1%     +        0.5%  )
+==60076== 
+==60076== LL refs:           301,427  (   127,244 rd   +    174,183 wr)
+==60076== LL misses:         289,799  (   117,218 rd   +    172,581 wr)
+==60076== LL miss rate:          0.1% (       0.0%     +        0.5%  )

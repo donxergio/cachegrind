@@ -1,11 +1,11 @@
-==57808== Cachegrind, a cache and branch-prediction profiler
-==57808== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57808== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57808== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57808== 
---57808-- warning: L3 cache found, using its data for the LL simulation.
---57808-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57808-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==60044== Cachegrind, a cache and branch-prediction profiler
+==60044== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==60044== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==60044== Command: ./sphinx large/audio.raw language_model/HUB4/
+==60044== 
+--60044-- warning: L3 cache found, using its data for the LL simulation.
+--60044-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--60044-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.015625
 INFO: cmd_ln.c(691): Parsing command line:
@@ -179,39 +179,47 @@ INFO: acmod.c(246): Parsed model-specific feature parameters from language_model
 INFO: feat.c(713): Initializing feature stream to type: '1s_c_d_dd', ceplen=13, CMN='current', VARNORM='no', AGC='none'
 INFO: cmn.c(142): mean[0]= 12.00, mean[1..12]= 0.0
 INFO: acmod.c(167): Using subvector specification 0-12/13-25/26-38
-==57808== Cannot map memory to grow the stack for thread #1 to 0x1ffeffb000
-==57808== 
-==57808== Process terminating with default action of signal 11 (SIGSEGV)
-==57808==  Access not within mapped region at address 0x1FFEFFBF40
-==57808==    at 0x502A6FD: buffered_vfprintf (vfprintf.c:2304)
-==57808==    by 0x5027825: vfprintf (vfprintf.c:1301)
-==57808==    by 0x50FE355: __fprintf_chk (fprintf_chk.c:35)
-==57808==    by 0x151B09: _E__pr_info_header (in /home/tkloda/cortexsuite/cortex/sphinx/sphinx)
-==57808==    by 0x11CC75: mdef_init (in /home/tkloda/cortexsuite/cortex/sphinx/sphinx)
-==57808==    by 0x1106AA: bin_mdef_read_text (in /home/tkloda/cortexsuite/cortex/sphinx/sphinx)
-==57808==    by 0x111548: bin_mdef_read (in /home/tkloda/cortexsuite/cortex/sphinx/sphinx)
-==57808==    by 0x10E35C: acmod_init (in /home/tkloda/cortexsuite/cortex/sphinx/sphinx)
-==57808==    by 0x128E03: ps_reinit (in /home/tkloda/cortexsuite/cortex/sphinx/sphinx)
-==57808==    by 0x129058: ps_init (in /home/tkloda/cortexsuite/cortex/sphinx/sphinx)
-==57808==    by 0x10DB46: main (in /home/tkloda/cortexsuite/cortex/sphinx/sphinx)
-==57808==  If you believe this happened as a result of a stack
-==57808==  overflow in your program's main thread (unlikely but
-==57808==  possible), you can try to increase the size of the
-==57808==  main thread stack using the --main-stacksize= flag.
-==57808==  The main thread stack size used in this run was 8388608.
-==57808== 
-==57808== I   refs:      25,379,698
-==57808== I1  misses:         2,423
-==57808== LLi misses:         2,382
-==57808== I1  miss rate:       0.01%
-==57808== LLi miss rate:       0.01%
-==57808== 
-==57808== D   refs:       9,593,351  (7,175,402 rd   + 2,417,949 wr)
-==57808== D1  misses:         8,506  (    6,743 rd   +     1,763 wr)
-==57808== LLd misses:         7,841  (    6,194 rd   +     1,647 wr)
-==57808== D1  miss rate:        0.1% (      0.1%     +       0.1%  )
-==57808== LLd miss rate:        0.1% (      0.1%     +       0.1%  )
-==57808== 
-==57808== LL refs:           10,929  (    9,166 rd   +     1,763 wr)
-==57808== LL misses:         10,223  (    8,576 rd   +     1,647 wr)
-==57808== LL miss rate:         0.0% (      0.0%     +       0.1%  )
+INFO: mdef.c(517): Reading model definition: language_model/HUB4/model/mdef
+INFO: mdef.c(528): Found byte-order mark BMDF, assuming this is a binary mdef file
+INFO: bin_mdef.c(336): Reading binary model definition: language_model/HUB4/model/mdef
+INFO: bin_mdef.c(513): 50 CI-phone, 143047 CD-phone, 3 emitstate/phone, 150 CI-sen, 5150 Sen, 27135 Sen-Seq
+INFO: tmat.c(205): Reading HMM transition probability matrices: language_model/HUB4/model/transition_matrices
+INFO: acmod.c(121): Attempting to use SCHMM computation module
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: language_model/HUB4/model/means
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: language_model/HUB4/model/variances
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(354): 0 variance values floored
+INFO: s2_semi_mgau.c(903): Loading senones from dump file language_model/HUB4/model/sendump
+INFO: s2_semi_mgau.c(927): BEGIN FILE FORMAT DESCRIPTION
+INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
+INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
+INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
+INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
+==60044== Cannot map memory to grow brk segment in thread #1 to 0x452c000
+==60044== (see section Limitations in user manual)
+==60044== Cannot map memory to grow brk segment in thread #1 to 0x4655000
+==60044== (see section Limitations in user manual)
+malloc(7) failed from pocketsphinx/dict.c(121)
+==60044== 
+==60044== I   refs:      332,957,417
+==60044== I1  misses:          2,928
+==60044== LLi misses:          2,870
+==60044== I1  miss rate:        0.00%
+==60044== LLi miss rate:        0.00%
+==60044== 
+==60044== D   refs:      116,155,567  (83,779,196 rd   + 32,376,371 wr)
+==60044== D1  misses:        273,136  (   120,247 rd   +    152,889 wr)
+==60044== LLd misses:        253,975  (   103,711 rd   +    150,264 wr)
+==60044== D1  miss rate:         0.2% (       0.1%     +        0.5%  )
+==60044== LLd miss rate:         0.2% (       0.1%     +        0.5%  )
+==60044== 
+==60044== LL refs:           276,064  (   123,175 rd   +    152,889 wr)
+==60044== LL misses:         256,845  (   106,581 rd   +    150,264 wr)
+==60044== LL miss rate:          0.1% (       0.0%     +        0.5%  )

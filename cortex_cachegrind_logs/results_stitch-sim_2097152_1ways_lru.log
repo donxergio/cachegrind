@@ -1,0 +1,115 @@
+==42111== Cachegrind, a cache and branch-prediction profiler
+==42111== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==42111== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==42111== Command: ./stitch .
+==42111== 
+--42111-- warning: L3 cache found, using its data for the LL simulation.
+--42111-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--42111-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+--42111:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (53 segments)
+--42111:0: aspacem 8 segment names in 8 slots
+--42111:0: aspacem freelist is empty
+--42111:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
+--42111:0: aspacem (1,66,3) /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/sim/stitch
+--42111:0: aspacem (2,136,3) /lib/x86_64-linux-gnu/ld-2.27.so
+--42111:0: aspacem (3,173,1) /tmp/vgdb-pipe-shared-mem-vgdb-42111-by-tkloda-on-???
+--42111:0: aspacem (4,231,4) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
+--42111:0: aspacem (5,300,1) /etc/ld.so.cache
+--42111:0: aspacem (6,321,4) /lib/x86_64-linux-gnu/libm-2.27.so
+--42111:0: aspacem (7,360,5) /lib/x86_64-linux-gnu/libc-2.27.so
+--42111:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
+--42111:0: aspacem   1: file 0000108000-000010ffff   32768 r-x-- d=0x802 i=49682267 o=0       (1,66)
+--42111:0: aspacem   2: RSVN 0000110000-000030efff 2093056 ----- SmFixed
+--42111:0: aspacem   3: file 000030f000-0000310fff    8192 rw--- d=0x802 i=49682267 o=28672   (1,66)
+--42111:0: aspacem   4: RSVN 0000311000-0003ffffff     60m ----- SmFixed
+--42111:0: aspacem   5: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,136)
+--42111:0: aspacem   6: file 0004029000-000405dfff  217088 r---- d=0x802 i=54001893 o=0       (5,300)
+--42111:0: aspacem   7: anon 000405e000-000405ffff    8192 rw---
+--42111:0: aspacem   8:      0004060000-0004228fff 1871872
+--42111:0: aspacem   9: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,136)
+--42111:0: aspacem  10: anon 000422b000-000422bfff    4096 rw---
+--42111:0: aspacem  11: anon 000422c000-000422cfff    4096 rwx--
+--42111:0: aspacem  12: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
+--42111:0: aspacem  13: file 0004a2c000-0004a2cfff    4096 r-x-- d=0x802 i=28344728 o=0       (4,231)
+--42111:0: aspacem  14: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,231)
+--42111:0: aspacem  15: file 0004c2c000-0004c2dfff    8192 rw--- d=0x802 i=28344728 o=0       (4,231)
+--42111:0: aspacem  16: file 0004c2e000-0004dcafff 1691648 r-x-- d=0x802 i=12583362 o=0       (6,321)
+--42111:0: aspacem  17: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,321)
+--42111:0: aspacem  18: file 0004fca000-0004fcbfff    8192 rw--- d=0x802 i=12583362 o=1687552 (6,321)
+--42111:0: aspacem  19: file 0004fcc000-00051b2fff 1994752 r-x-- d=0x802 i=12583345 o=0       (7,360)
+--42111:0: aspacem  20: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,360)
+--42111:0: aspacem  21: file 00053b3000-00053b8fff   24576 rw--- d=0x802 i=12583345 o=1994752 (7,360)
+--42111:0: aspacem  22: file 00053b9000-00053bcfff   16384 r-x-- d=0x802 i=12583345 o=4116480 (7,360)
+--42111:0: aspacem  23:      00053bd000-0057ffffff   1324m
+--42111:0: aspacem  24: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
+--42111:0: aspacem  25: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
+--42111:0: aspacem  26: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
+--42111:0: aspacem  27:      0058259000-0058458fff 2097152
+--42111:0: aspacem  28: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
+--42111:0: aspacem  29: ANON 005845f000-0058e56fff      9m rw---
+--42111:0: aspacem  30:      0058e57000-1001ffffff  64145m
+--42111:0: aspacem  31: RSVN 1002000000-1002000fff    4096 ----- SmFixed
+--42111:0: aspacem  32: ANON 1002001000-100278bfff 7909376 rwx--
+--42111:0: aspacem  33: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29512526 o=0       (3,173)
+--42111:0: aspacem  34: ANON 100278d000-10027bcfff  196608 rwx--
+--42111:0: aspacem  35:      10027bd000-100288bfff  847872
+--42111:0: aspacem  36: ANON 100288c000-100298bfff 1048576 rwx--
+--42111:0: aspacem  37: ANON 100298c000-100298dfff    8192 -----
+--42111:0: aspacem  38: ANON 100298e000-1002a8dfff 1048576 rwx--
+--42111:0: aspacem  39: ANON 1002a8e000-1002a8ffff    8192 -----
+--42111:0: aspacem  40:      1002a90000-1002b80fff  987136
+--42111:0: aspacem  41: ANON 1002b81000-1005344fff     39m rwx--
+--42111:0: aspacem  42:      1005345000-1ffe800fff  65428m
+--42111:0: aspacem  43: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
+--42111:0: aspacem  44: anon 1ffeffe000-1fff000fff   12288 rw---
+--42111:0: aspacem  45:      1fff001000-1fffffffff     15m
+--42111:0: aspacem  46: RSVN 2000000000-7ffeef08dfff 130939g ----- SmFixed
+--42111:0: aspacem  47: ANON 7ffeef08e000-7ffeef0aefff  135168 rw---
+--42111:0: aspacem  48: RSVN 7ffeef0af000-7ffeef16ffff  790528 ----- SmFixed
+--42111:0: aspacem  49: ANON 7ffeef170000-7ffeef172fff   12288 r----
+--42111:0: aspacem  50: RSVN 7ffeef173000-ffffffffff5fffff  16383e ----- SmFixed
+--42111:0: aspacem  51: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
+--42111:0: aspacem  52: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
+--42111:0: aspacem >>>
+--42111-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      7,890,976/    7,833,392 max/curr,        2807/   8120128 totalloc-blocks/bytes,        2807 searches 8 rzB
+--42111-- dinfo   :    13,754,368/   13,754,368 max/curr mmap'd, 1/2 unsplit/split sb unmmap'd,     13,565,696/   13,565,696 max/curr,       69352/  40720048 totalloc-blocks/bytes,       72013 searches 8 rzB
+--42111-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
+--42111-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
+--42111-- ttaux   :        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,         31,936/       21,904 max/curr,         120/     59216 totalloc-blocks/bytes,         122 searches 8 rzB
+--42111-- translate: 5,425 guest insns, 904 traces, 178 uncond chased, 23 cond chased
+--42111-- translate: no SP updates identified
+--42111-- translate: PX: SPonly 904,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
+--42111--     tt/tc: 1,986 tt lookups requiring 1,995 probes
+--42111--     tt/tc: 1,056 fast-cache updates, 2 flushes
+--42111--  transtab: new        904 (21,925 -> 275,909; ratio 12.6) [0 scs] avg tce size 305
+--42111--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
+--42111--  transtab: discarded  0 (0 -> ??)
+--42111-- scheduler: 2,905 event checks.
+--42111-- scheduler: 447 indir transfers, 139 misses (1 in 3) ..
+--42111-- scheduler: .. of which: 303 hit0, 3 hit1, 2 hit2, 0 hit3, 139 missed
+--42111-- scheduler: 0/1,133 major/minor sched events.
+--42111--    sanity: 0 cheap, 0 expensive checks.
+==42111== 
+==42111==     Valgrind's memory management: out of memory:
+==42111==        newSuperblock's request for 4194304 bytes failed.
+==42111==           62,550,016 bytes have already been mmap-ed ANONYMOUS.
+==42111==     Valgrind cannot continue.  Sorry.
+==42111== 
+==42111==     There are several possible reasons for this.
+==42111==     - You have some kind of memory limit in place.  Look at the
+==42111==       output of 'ulimit -a'.  Is there a limit on the size of
+==42111==       virtual memory or address space?
+==42111==     - You have run out of swap space.
+==42111==     - Valgrind has a bug.  If you think this is the case or you are
+==42111==     not sure, please let us know and we'll try to fix it.
+==42111==     Please note that programs can take substantially more memory than
+==42111==     normal when running under Valgrind tools, eg. up to twice or
+==42111==     more, depending on the tool.  On a 64-bit machine, Valgrind
+==42111==     should be able to make use of up 32GB memory.  On a 32-bit
+==42111==     machine, Valgrind should be able to use all the memory available
+==42111==     to a single process, up to 4GB if that's how you have your
+==42111==     kernel configured.  Most 32-bit Linux setups allow a maximum of
+==42111==     3GB per process.
+==42111== 
+==42111==     Whatever the reason, Valgrind cannot continue.  Sorry.

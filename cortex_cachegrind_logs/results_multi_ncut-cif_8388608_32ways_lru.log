@@ -1,0 +1,31 @@
+==21705== Cachegrind, a cache and branch-prediction profiler
+==21705== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==21705== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==21705== Command: ./multi_ncut .
+==21705== 
+--21705-- warning: L3 cache found, using its data for the LL simulation.
+--21705-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--21705-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+==21705== 
+==21705== Process terminating with default action of signal 15 (SIGTERM)
+==21705==    at 0x10AAB0: fSortIndices (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/cif/multi_ncut)
+==21705==    by 0x10CE27: segment_graph (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/cif/multi_ncut)
+==21705==    by 0x10CAC9: segment_image (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/cif/multi_ncut)
+==21705==    by 0x108B0A: main (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/cif/multi_ncut)
+==21705== 
+==21705== I   refs:      4,558,052,133
+==21705== I1  misses:            1,293
+==21705== LLi misses:            1,289
+==21705== I1  miss rate:          0.00%
+==21705== LLi miss rate:          0.00%
+==21705== 
+==21705== D   refs:        772,541,878  (764,258,003 rd   + 8,283,875 wr)
+==21705== D1  misses:          164,792  (      2,242 rd   +   162,550 wr)
+==21705== LLd misses:          164,792  (      2,242 rd   +   162,550 wr)
+==21705== D1  miss rate:           0.0% (        0.0%     +       2.0%  )
+==21705== LLd miss rate:           0.0% (        0.0%     +       2.0%  )
+==21705== 
+==21705== LL refs:             166,085  (      3,535 rd   +   162,550 wr)
+==21705== LL misses:           166,081  (      3,531 rd   +   162,550 wr)
+==21705== LL miss rate:            0.0% (        0.0%     +       2.0%  )

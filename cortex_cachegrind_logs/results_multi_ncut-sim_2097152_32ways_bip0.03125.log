@@ -1,0 +1,27 @@
+==42014== Cachegrind, a cache and branch-prediction profiler
+==42014== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==42014== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==42014== Command: ./multi_ncut .
+==42014== 
+--42014-- warning: L3 cache found, using its data for the LL simulation.
+--42014-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--42014-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+./multi_ncut: error while loading shared libraries: libc.so.6: failed to map segment from shared object
+==42014== 
+==42014== I   refs:      33,034
+==42014== I1  misses:       492
+==42014== LLi misses:       492
+==42014== I1  miss rate:   1.49%
+==42014== LLi miss rate:   1.49%
+==42014== 
+==42014== D   refs:       9,533  (7,072 rd   + 2,461 wr)
+==42014== D1  misses:       394  (  208 rd   +   186 wr)
+==42014== LLd misses:       394  (  208 rd   +   186 wr)
+==42014== D1  miss rate:    4.1% (  2.9%     +   7.6%  )
+==42014== LLd miss rate:    4.1% (  2.9%     +   7.6%  )
+==42014== 
+==42014== LL refs:          886  (  700 rd   +   186 wr)
+==42014== LL misses:        886  (  700 rd   +   186 wr)
+==42014== LL miss rate:     2.1% (  1.7%     +   7.6%  )

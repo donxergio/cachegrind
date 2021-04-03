@@ -1,0 +1,29 @@
+==43466== Cachegrind, a cache and branch-prediction profiler
+==43466== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==43466== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==43466== Command: ./disparity .
+==43466== 
+--43466-- warning: L3 cache found, using its data for the LL simulation.
+--43466-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--43466-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+==43466== brk segment overflow in thread #1: can't grow to 0x4a37000
+==43466== (see section Limitations in user manual)
+==43466== NOTE: further instances of this message will not be shown
+==43466== 
+==43466== I   refs:      9,424,576,324
+==43466== I1  misses:       12,267,821
+==43466== LLi misses:            1,847
+==43466== I1  miss rate:          0.13%
+==43466== LLi miss rate:          0.00%
+==43466== 
+==43466== D   refs:      3,816,070,782  (2,559,180,384 rd   + 1,256,890,398 wr)
+==43466== D1  misses:      977,938,866  (  683,833,300 rd   +   294,105,566 wr)
+==43466== LLd misses:      103,205,265  (   55,149,036 rd   +    48,056,229 wr)
+==43466== D1  miss rate:          25.6% (         26.7%     +          23.4%  )
+==43466== LLd miss rate:           2.7% (          2.2%     +           3.8%  )
+==43466== 
+==43466== LL refs:         990,206,687  (  696,101,121 rd   +   294,105,566 wr)
+==43466== LL misses:       103,207,112  (   55,150,883 rd   +    48,056,229 wr)
+==43466== LL miss rate:            0.8% (          0.5%     +           3.8%  )

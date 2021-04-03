@@ -1,26 +1,39 @@
-==40606== Cachegrind, a cache and branch-prediction profiler
-==40606== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==40606== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==40606== Command: ./liblinear-tlarge data/100B/kdda
-==40606== 
---40606-- warning: L3 cache found, using its data for the LL simulation.
---40606-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---40606-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==46763== Cachegrind, a cache and branch-prediction profiler
+==46763== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==46763== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==46763== Command: ./liblinear-tlarge data/100B/kdda
+==46763== 
+--46763-- warning: L3 cache found, using its data for the LL simulation.
+--46763-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--46763-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
-==40606== 
-==40606== I   refs:      111,902,758,013
-==40606== I1  misses:              1,823
-==40606== LLi misses:              1,807
-==40606== I1  miss rate:            0.00%
-==40606== LLi miss rate:            0.00%
-==40606== 
-==40606== D   refs:       44,061,986,476  (36,080,688,134 rd   + 7,981,298,342 wr)
-==40606== D1  misses:      2,952,362,909  ( 2,946,595,890 rd   +     5,767,019 wr)
-==40606== LLd misses:      1,656,393,183  ( 1,650,662,464 rd   +     5,730,719 wr)
-==40606== D1  miss rate:             6.7% (           8.2%     +           0.1%  )
-==40606== LLd miss rate:             3.8% (           4.6%     +           0.1%  )
-==40606== 
-==40606== LL refs:         2,952,364,732  ( 2,946,597,713 rd   +     5,767,019 wr)
-==40606== LL misses:       1,656,394,990  ( 1,650,664,271 rd   +     5,730,719 wr)
-==40606== LL miss rate:              1.1% (           1.1%     +           0.1%  )
+==46763== brk segment overflow in thread #1: can't grow to 0x177cd000
+==46763== (see section Limitations in user manual)
+==46763== NOTE: further instances of this message will not be shown
+==46763== 
+==46763== Process terminating with default action of signal 11 (SIGSEGV)
+==46763==  Access not within mapped region at address 0x0
+==46763==    at 0x113940: read_problem (in /home/tkloda/cortexsuite/cortex/liblinear/liblinear-tlarge)
+==46763==    by 0x10922F: main (in /home/tkloda/cortexsuite/cortex/liblinear/liblinear-tlarge)
+==46763==  If you believe this happened as a result of a stack
+==46763==  overflow in your program's main thread (unlikely but
+==46763==  possible), you can try to increase the size of the
+==46763==  main thread stack using the --main-stacksize= flag.
+==46763==  The main thread stack size used in this run was 8388608.
+==46763== 
+==46763== I   refs:      2,211,198,588
+==46763== I1  misses:            1,268
+==46763== LLi misses:            1,252
+==46763== I1  miss rate:          0.00%
+==46763== LLi miss rate:          0.00%
+==46763== 
+==46763== D   refs:        669,225,113  (487,947,237 rd   + 181,277,876 wr)
+==46763== D1  misses:            3,058  (      2,416 rd   +         642 wr)
+==46763== LLd misses:            2,940  (      2,304 rd   +         636 wr)
+==46763== D1  miss rate:           0.0% (        0.0%     +         0.0%  )
+==46763== LLd miss rate:           0.0% (        0.0%     +         0.0%  )
+==46763== 
+==46763== LL refs:               4,326  (      3,684 rd   +         642 wr)
+==46763== LL misses:             4,192  (      3,556 rd   +         636 wr)
+==46763== LL miss rate:            0.0% (        0.0%     +         0.0%  )

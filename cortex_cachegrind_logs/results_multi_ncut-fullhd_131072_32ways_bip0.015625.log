@@ -1,0 +1,33 @@
+==30962== Cachegrind, a cache and branch-prediction profiler
+==30962== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==30962== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==30962== Command: ./multi_ncut .
+==30962== 
+--30962-- warning: L3 cache found, using its data for the LL simulation.
+--30962-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--30962-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+==30962== 
+==30962== Process terminating with default action of signal 15 (SIGTERM)
+==30962==    at 0x10BE38: fDeepCopy (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30962==    by 0x10A930: fSortIndices (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30962==    by 0x10CE27: segment_graph (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30962==    by 0x10CAC9: segment_image (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30962==    by 0x108B0A: main (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30962== 
+==30962== I   refs:      1,475,806,251
+==30962== I1  misses:            1,306
+==30962== LLi misses:            1,285
+==30962== I1  miss rate:          0.00%
+==30962== LLi miss rate:          0.00%
+==30962== 
+==30962== D   refs:        530,470,656  (359,518,137 rd   + 170,952,519 wr)
+==30962== D1  misses:       13,433,235  (  6,271,498 rd   +   7,161,737 wr)
+==30962== LLd misses:        5,391,831  (  2,231,666 rd   +   3,160,165 wr)
+==30962== D1  miss rate:           2.5% (        1.7%     +         4.2%  )
+==30962== LLd miss rate:           1.0% (        0.6%     +         1.8%  )
+==30962== 
+==30962== LL refs:          13,434,541  (  6,272,804 rd   +   7,161,737 wr)
+==30962== LL misses:         5,393,116  (  2,232,951 rd   +   3,160,165 wr)
+==30962== LL miss rate:            0.3% (        0.1%     +         1.8%  )

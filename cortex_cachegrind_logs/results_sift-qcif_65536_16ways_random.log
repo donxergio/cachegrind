@@ -1,0 +1,30 @@
+==39708== Cachegrind, a cache and branch-prediction profiler
+==39708== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==39708== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==39708== Command: ./sift .
+==39708== 
+--39708-- warning: L3 cache found, using its data for the LL simulation.
+--39708-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--39708-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==39708== 
+==39708== Process terminating with default action of signal 15 (SIGTERM)
+==39708==    at 0x10E510: siftlocalmax (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/qcif/sift)
+==39708==    by 0x10CDDE: sift (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/qcif/sift)
+==39708==    by 0x108C27: main (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/qcif/sift)
+==39708== 
+==39708== I   refs:      282,610,555
+==39708== I1  misses:          1,513
+==39708== LLi misses:          1,398
+==39708== I1  miss rate:        0.00%
+==39708== LLi miss rate:        0.00%
+==39708== 
+==39708== D   refs:       86,287,832  (60,071,785 rd   + 26,216,047 wr)
+==39708== D1  misses:        581,122  (   380,759 rd   +    200,363 wr)
+==39708== LLd misses:        160,667  (     9,184 rd   +    151,483 wr)
+==39708== D1  miss rate:         0.7% (       0.6%     +        0.8%  )
+==39708== LLd miss rate:         0.2% (       0.0%     +        0.6%  )
+==39708== 
+==39708== LL refs:           582,635  (   382,272 rd   +    200,363 wr)
+==39708== LL misses:         162,065  (    10,582 rd   +    151,483 wr)
+==39708== LL miss rate:          0.0% (       0.0%     +        0.6%  )

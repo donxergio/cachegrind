@@ -1,0 +1,31 @@
+==41345== Cachegrind, a cache and branch-prediction profiler
+==41345== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41345== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41345== Command: ./stitch .
+==41345== 
+--41345-- warning: L3 cache found, using its data for the LL simulation.
+--41345-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41345-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+==41345== 
+==41345== Process terminating with default action of signal 15 (SIGTERM)
+==41345==    at 0x10A568: ffConv2 (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41345==    by 0x10D7A0: extractFeatures (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41345==    by 0x108B9F: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41345== 
+==41345== I   refs:      178,691,617
+==41345== I1  misses:        654,050
+==41345== LLi misses:          1,382
+==41345== I1  miss rate:        0.37%
+==41345== LLi miss rate:        0.00%
+==41345== 
+==41345== D   refs:       48,900,964  (34,746,240 rd   + 14,154,724 wr)
+==41345== D1  misses:      5,395,302  ( 3,799,485 rd   +  1,595,817 wr)
+==41345== LLd misses:         23,679  (     2,254 rd   +     21,425 wr)
+==41345== D1  miss rate:        11.0% (      10.9%     +       11.3%  )
+==41345== LLd miss rate:         0.0% (       0.0%     +        0.2%  )
+==41345== 
+==41345== LL refs:         6,049,352  ( 4,453,535 rd   +  1,595,817 wr)
+==41345== LL misses:          25,061  (     3,636 rd   +     21,425 wr)
+==41345== LL miss rate:          0.0% (       0.0%     +        0.2%  )

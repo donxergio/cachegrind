@@ -1,0 +1,40 @@
+==60189== Cachegrind, a cache and branch-prediction profiler
+==60189== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==60189== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==60189== Command: ./stitch .
+==60189== 
+--60189-- warning: L3 cache found, using its data for the LL simulation.
+--60189-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--60189-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+==60189== brk segment overflow in thread #1: can't grow to 0x4a37000
+==60189== (see section Limitations in user manual)
+==60189== NOTE: further instances of this message will not be shown
+==60189== 
+==60189== Process terminating with default action of signal 11 (SIGSEGV)
+==60189==  Access not within mapped region at address 0x4
+==60189==    at 0x109CA3: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60189==    by 0x10BE65: ffDivide (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60189==    by 0x10D154: harris (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60189==    by 0x108B0E: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
+==60189==  If you believe this happened as a result of a stack
+==60189==  overflow in your program's main thread (unlikely but
+==60189==  possible), you can try to increase the size of the
+==60189==  main thread stack using the --main-stacksize= flag.
+==60189==  The main thread stack size used in this run was 8388608.
+==60189== 
+==60189== I   refs:      4,912,469,313
+==60189== I1  misses:            1,340
+==60189== LLi misses:            1,320
+==60189== I1  miss rate:          0.00%
+==60189== LLi miss rate:          0.00%
+==60189== 
+==60189== D   refs:      1,407,202,323  (1,148,087,421 rd   + 259,114,902 wr)
+==60189== D1  misses:        5,187,858  (    3,243,027 rd   +   1,944,831 wr)
+==60189== LLd misses:        2,750,219  (    1,320,215 rd   +   1,430,004 wr)
+==60189== D1  miss rate:           0.4% (          0.3%     +         0.8%  )
+==60189== LLd miss rate:           0.2% (          0.1%     +         0.6%  )
+==60189== 
+==60189== LL refs:           5,189,198  (    3,244,367 rd   +   1,944,831 wr)
+==60189== LL misses:         2,751,539  (    1,321,535 rd   +   1,430,004 wr)
+==60189== LL miss rate:            0.0% (          0.0%     +         0.6%  )

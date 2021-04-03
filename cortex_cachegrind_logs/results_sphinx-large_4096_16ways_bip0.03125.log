@@ -1,11 +1,11 @@
-==57563== Cachegrind, a cache and branch-prediction profiler
-==57563== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57563== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57563== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57563== 
---57563-- warning: L3 cache found, using its data for the LL simulation.
---57563-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57563-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59813== Cachegrind, a cache and branch-prediction profiler
+==59813== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59813== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59813== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59813== 
+--59813-- warning: L3 cache found, using its data for the LL simulation.
+--59813-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59813-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.031250
 INFO: cmd_ln.c(691): Parsing command line:
@@ -191,8 +191,6 @@ INFO: ms_gauden.c(294):  256x13
 INFO: ms_gauden.c(294):  256x13
 INFO: ms_gauden.c(294):  256x13
 INFO: ms_gauden.c(198): Reading mixture gaussian parameter: language_model/HUB4/model/variances
-==57563== Cannot map memory to grow brk segment in thread #1 to 0x4277000
-==57563== (see section Limitations in user manual)
 INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
 INFO: ms_gauden.c(294):  256x13
 INFO: ms_gauden.c(294):  256x13
@@ -204,9 +202,9 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==57563== brk segment overflow in thread #1: can't grow to 0x4a4b000
-==57563== (see section Limitations in user manual)
-==57563== NOTE: further instances of this message will not be shown
+==59813== brk segment overflow in thread #1: can't grow to 0x4a33000
+==59813== (see section Limitations in user manual)
+==59813== NOTE: further instances of this message will not be shown
 INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
 INFO: dict.c(335): 131316 words read
 INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
@@ -214,20 +212,20 @@ INFO: dict.c(211): Allocated 0 KiB for strings, 0 KiB for phones
 INFO: dict.c(344): 11 words read
 INFO: dict2pid.c(396): Building PID tables for dictionary
 INFO: dict2pid.c(404): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
-calloc(50,2) failed from pocketsphinx/dict2pid.c(118)
-==57563== 
-==57563== I   refs:      682,761,534
-==57563== I1  misses:     16,095,747
-==57563== LLi misses:          3,029
-==57563== I1  miss rate:        2.36%
-==57563== LLi miss rate:        0.00%
-==57563== 
-==57563== D   refs:      217,453,390  (159,524,105 rd   + 57,929,285 wr)
-==57563== D1  misses:      5,114,880  (  4,373,634 rd   +    741,246 wr)
-==57563== LLd misses:        633,958  (    348,183 rd   +    285,775 wr)
-==57563== D1  miss rate:         2.4% (        2.7%     +        1.3%  )
-==57563== LLd miss rate:         0.3% (        0.2%     +        0.5%  )
-==57563== 
-==57563== LL refs:        21,210,627  ( 20,469,381 rd   +    741,246 wr)
-==57563== LL misses:         636,987  (    351,212 rd   +    285,775 wr)
-==57563== LL miss rate:          0.1% (        0.0%     +        0.5%  )
+malloc(20000) failed from pocketsphinx/dict2pid.c(409)
+==59813== 
+==59813== I   refs:      540,997,947
+==59813== I1  misses:     16,098,115
+==59813== LLi misses:          2,969
+==59813== I1  miss rate:        2.98%
+==59813== LLi miss rate:        0.00%
+==59813== 
+==59813== D   refs:      186,722,776  (133,564,589 rd   + 53,158,187 wr)
+==59813== D1  misses:      5,481,732  (  4,947,443 rd   +    534,289 wr)
+==59813== LLd misses:        427,650  (    151,826 rd   +    275,824 wr)
+==59813== D1  miss rate:         2.9% (        3.7%     +        1.0%  )
+==59813== LLd miss rate:         0.2% (        0.1%     +        0.5%  )
+==59813== 
+==59813== LL refs:        21,579,847  ( 21,045,558 rd   +    534,289 wr)
+==59813== LL misses:         430,619  (    154,795 rd   +    275,824 wr)
+==59813== LL miss rate:          0.1% (        0.0%     +        0.5%  )

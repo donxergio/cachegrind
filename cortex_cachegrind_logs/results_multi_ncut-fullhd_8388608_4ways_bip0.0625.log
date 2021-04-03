@@ -1,0 +1,35 @@
+==30689== Cachegrind, a cache and branch-prediction profiler
+==30689== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==30689== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==30689== Command: ./multi_ncut .
+==30689== 
+--30689-- warning: L3 cache found, using its data for the LL simulation.
+--30689-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--30689-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==30689== brk segment overflow in thread #1: can't grow to 0x61e9000
+==30689== (see section Limitations in user manual)
+==30689== NOTE: further instances of this message will not be shown
+==30689== 
+==30689== Process terminating with default action of signal 15 (SIGTERM)
+==30689==    at 0x10AAB0: fSortIndices (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30689==    by 0x10CE27: segment_graph (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30689==    by 0x10CAC9: segment_image (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30689==    by 0x108B0A: main (in /home/tkloda/cortexsuite/vision/benchmarks/multi_ncut/data/fullhd/multi_ncut)
+==30689== 
+==30689== I   refs:      1,655,933,369
+==30689== I1  misses:            1,317
+==30689== LLi misses:            1,313
+==30689== I1  miss rate:          0.00%
+==30689== LLi miss rate:          0.00%
+==30689== 
+==30689== D   refs:        561,477,968  (379,027,401 rd   + 182,450,567 wr)
+==30689== D1  misses:        6,819,606  (  2,962,986 rd   +   3,856,620 wr)
+==30689== LLd misses:        6,577,828  (  2,754,112 rd   +   3,823,716 wr)
+==30689== D1  miss rate:           1.2% (        0.8%     +         2.1%  )
+==30689== LLd miss rate:           1.2% (        0.7%     +         2.1%  )
+==30689== 
+==30689== LL refs:           6,820,923  (  2,964,303 rd   +   3,856,620 wr)
+==30689== LL misses:         6,579,141  (  2,755,425 rd   +   3,823,716 wr)
+==30689== LL miss rate:            0.3% (        0.1%     +         2.1%  )

@@ -1,0 +1,40 @@
+==34865== Cachegrind, a cache and branch-prediction profiler
+==34865== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==34865== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==34865== Command: ./tracking .
+==34865== 
+--34865-- warning: L3 cache found, using its data for the LL simulation.
+--34865-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--34865-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==34865== brk segment overflow in thread #1: can't grow to 0x5026000
+==34865== (see section Limitations in user manual)
+==34865== NOTE: further instances of this message will not be shown
+==34865== 
+==34865== Process terminating with default action of signal 11 (SIGSEGV)
+==34865==  Access not within mapped region at address 0x4
+==34865==    at 0x109FB3: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34865==    by 0x10C424: fSetArray (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34865==    by 0x10B745: calcSobel_dX (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34865==    by 0x108ABC: main (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34865==  If you believe this happened as a result of a stack
+==34865==  overflow in your program's main thread (unlikely but
+==34865==  possible), you can try to increase the size of the
+==34865==  main thread stack using the --main-stacksize= flag.
+==34865==  The main thread stack size used in this run was 8388608.
+==34865== 
+==34865== I   refs:      1,129,493,449
+==34865== I1  misses:            1,303
+==34865== LLi misses:            1,297
+==34865== I1  miss rate:          0.00%
+==34865== LLi miss rate:          0.00%
+==34865== 
+==34865== D   refs:        404,743,721  (283,418,125 rd   + 121,325,596 wr)
+==34865== D1  misses:        1,426,586  (    455,103 rd   +     971,483 wr)
+==34865== LLd misses:        1,426,301  (    454,943 rd   +     971,358 wr)
+==34865== D1  miss rate:           0.4% (        0.2%     +         0.8%  )
+==34865== LLd miss rate:           0.4% (        0.2%     +         0.8%  )
+==34865== 
+==34865== LL refs:           1,427,889  (    456,406 rd   +     971,483 wr)
+==34865== LL misses:         1,427,598  (    456,240 rd   +     971,358 wr)
+==34865== LL miss rate:            0.1% (        0.0%     +         0.8%  )

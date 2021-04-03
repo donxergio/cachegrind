@@ -1,0 +1,33 @@
+==41407== Cachegrind, a cache and branch-prediction profiler
+==41407== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41407== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41407== Command: ./stitch .
+==41407== 
+--41407-- warning: L3 cache found, using its data for the LL simulation.
+--41407-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41407-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+==41407== Cannot map memory to grow brk segment in thread #1 to 0x427f000
+==41407== (see section Limitations in user manual)
+==41407== 
+==41407== Process terminating with default action of signal 15 (SIGTERM)
+==41407==    at 0x10A568: ffConv2 (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41407==    by 0x10D7B6: extractFeatures (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41407==    by 0x108B9F: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41407== 
+==41407== I   refs:      208,835,398
+==41407== I1  misses:          1,426
+==41407== LLi misses:          1,385
+==41407== I1  miss rate:        0.00%
+==41407== LLi miss rate:        0.00%
+==41407== 
+==41407== D   refs:       56,470,171  (41,305,397 rd   + 15,164,774 wr)
+==41407== D1  misses:        148,334  (    90,175 rd   +     58,159 wr)
+==41407== LLd misses:         23,898  (     2,249 rd   +     21,649 wr)
+==41407== D1  miss rate:         0.3% (       0.2%     +        0.4%  )
+==41407== LLd miss rate:         0.0% (       0.0%     +        0.1%  )
+==41407== 
+==41407== LL refs:           149,760  (    91,601 rd   +     58,159 wr)
+==41407== LL misses:          25,283  (     3,634 rd   +     21,649 wr)
+==41407== LL miss rate:          0.0% (       0.0%     +        0.1%  )

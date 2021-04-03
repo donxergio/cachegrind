@@ -1,11 +1,11 @@
-==56816== Cachegrind, a cache and branch-prediction profiler
-==56816== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==56816== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==56816== Command: ./sphinx large/audio.raw language_model/HUB4/
-==56816== 
---56816-- warning: L3 cache found, using its data for the LL simulation.
---56816-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---56816-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59073== Cachegrind, a cache and branch-prediction profiler
+==59073== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59073== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59073== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59073== 
+--59073-- warning: L3 cache found, using its data for the LL simulation.
+--59073-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59073-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LRU cache replacement will be used
 INFO: cmd_ln.c(691): Parsing command line:
 \
@@ -201,22 +201,22 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==56816== Cannot map memory to grow brk segment in thread #1 to 0x437f000
-==56816== (see section Limitations in user manual)
-malloc(7) failed from pocketsphinx/dict.c(121)
-==56816== 
-==56816== I   refs:      141,997,083
-==56816== I1  misses:          2,873
-==56816== LLi misses:          2,855
-==56816== I1  miss rate:        0.00%
-==56816== LLi miss rate:        0.00%
-==56816== 
-==56816== D   refs:       51,579,699  (37,882,535 rd   + 13,697,164 wr)
-==56816== D1  misses:         91,296  (    52,850 rd   +     38,446 wr)
-==56816== LLd misses:         88,665  (    50,481 rd   +     38,184 wr)
-==56816== D1  miss rate:         0.2% (       0.1%     +        0.3%  )
-==56816== LLd miss rate:         0.2% (       0.1%     +        0.3%  )
-==56816== 
-==56816== LL refs:            94,169  (    55,723 rd   +     38,446 wr)
-==56816== LL misses:          91,520  (    53,336 rd   +     38,184 wr)
-==56816== LL miss rate:          0.0% (       0.0%     +        0.3%  )
+==59073== Cannot map memory to grow brk segment in thread #1 to 0x48c8000
+==59073== (see section Limitations in user manual)
+calloc(1,32) failed from sphinxbase/util/hash_table.c(411)
+==59073== 
+==59073== I   refs:      401,077,818
+==59073== I1  misses:          2,872
+==59073== LLi misses:          2,854
+==59073== I1  miss rate:        0.00%
+==59073== LLi miss rate:        0.00%
+==59073== 
+==59073== D   refs:      139,158,104  (100,105,491 rd   + 39,052,613 wr)
+==59073== D1  misses:        317,562  (    126,953 rd   +    190,609 wr)
+==59073== LLd misses:        270,802  (     88,176 rd   +    182,626 wr)
+==59073== D1  miss rate:         0.2% (        0.1%     +        0.5%  )
+==59073== LLd miss rate:         0.2% (        0.1%     +        0.5%  )
+==59073== 
+==59073== LL refs:           320,434  (    129,825 rd   +    190,609 wr)
+==59073== LL misses:         273,656  (     91,030 rd   +    182,626 wr)
+==59073== LL miss rate:          0.1% (        0.0%     +        0.5%  )

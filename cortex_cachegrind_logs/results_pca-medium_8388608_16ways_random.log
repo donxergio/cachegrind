@@ -1,128 +1,25 @@
-==48900== Cachegrind, a cache and branch-prediction profiler
-==48900== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==48900== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==48900== Command: ./pca-medium medium.data 722 800 R
-==48900== 
---48900-- warning: L3 cache found, using its data for the LL simulation.
---48900-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---48900-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==50010== Cachegrind, a cache and branch-prediction profiler
+==50010== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==50010== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==50010== Command: ./pca-medium medium.data 722 800 R
+==50010== 
+--50010-- warning: L3 cache found, using its data for the LL simulation.
+--50010-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--50010-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 Random cache replacement will be used
---48900:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (66 segments)
---48900:0: aspacem 7 segment names in 8 slots
---48900:0: aspacem freelist begins at 281
---48900:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---48900:0: aspacem (1,66,4) /home/tkloda/cortexsuite/cortex/pca/pca-medium
---48900:0: aspacem (2,117,4) /lib/x86_64-linux-gnu/ld-2.27.so
---48900:0: aspacem (3,154,1) /tmp/vgdb-pipe-shared-mem-vgdb-48900-by-tkloda-on-???
---48900:0: aspacem (4,212,5) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
---48900:0: aspacem (5,281,0) [free slot: size=17  next=0]
---48900:0: aspacem (6,302,5) /lib/x86_64-linux-gnu/libm-2.27.so
---48900:0: aspacem (7,341,5) /lib/x86_64-linux-gnu/libc-2.27.so
---48900:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---48900:0: aspacem   1: file 0000108000-000010bfff   16384 r-xT- d=0x802 i=49556495 o=0       (1,66)
---48900:0: aspacem   2: RSVN 000010c000-000030afff 2093056 ----- SmFixed
---48900:0: aspacem   3: file 000030b000-000030bfff    4096 r---- d=0x802 i=49556495 o=12288   (1,66)
---48900:0: aspacem   4: file 000030c000-000030cfff    4096 rw--- d=0x802 i=49556495 o=16384   (1,66)
---48900:0: aspacem   5: RSVN 000030d000-0003ffffff     60m ----- SmFixed
---48900:0: aspacem   6: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,117)
---48900:0: aspacem   7:      0004029000-000405dfff  217088
---48900:0: aspacem   8: anon 000405e000-0004062fff   20480 rw---
---48900:0: aspacem   9:      0004063000-0004228fff 1859584
---48900:0: aspacem  10: file 0004229000-0004229fff    4096 r---- d=0x802 i=12583111 o=167936  (2,117)
---48900:0: aspacem  11: file 000422a000-000422afff    4096 rw--- d=0x802 i=12583111 o=172032  (2,117)
---48900:0: aspacem  12: anon 000422b000-000422bfff    4096 rw---
---48900:0: aspacem  13: anon 000422c000-0004963fff 7569408 rwx--
---48900:0: aspacem  14: RSVN 0004964000-0004a2bfff  819200 ----- SmLower
---48900:0: aspacem  15: file 0004a2c000-0004a2cfff    4096 r-xT- d=0x802 i=28344728 o=0       (4,212)
---48900:0: aspacem  16: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,212)
---48900:0: aspacem  17: file 0004c2c000-0004c2cfff    4096 r---- d=0x802 i=28344728 o=0       (4,212)
---48900:0: aspacem  18: file 0004c2d000-0004c2dfff    4096 rw--- d=0x802 i=28344728 o=4096    (4,212)
---48900:0: aspacem  19: file 0004c2e000-0004dcafff 1691648 r-xT- d=0x802 i=12583362 o=0       (6,302)
---48900:0: aspacem  20: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,302)
---48900:0: aspacem  21: file 0004fca000-0004fcafff    4096 r---- d=0x802 i=12583362 o=1687552 (6,302)
---48900:0: aspacem  22: file 0004fcb000-0004fcbfff    4096 rw--- d=0x802 i=12583362 o=1691648 (6,302)
---48900:0: aspacem  23: file 0004fcc000-00051b2fff 1994752 r-xT- d=0x802 i=12583345 o=0       (7,341)
---48900:0: aspacem  24: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,341)
---48900:0: aspacem  25: file 00053b3000-00053b6fff   16384 r---- d=0x802 i=12583345 o=1994752 (7,341)
---48900:0: aspacem  26: file 00053b7000-00053b8fff    8192 rw--- d=0x802 i=12583345 o=2011136 (7,341)
---48900:0: aspacem  27: anon 00053b9000-00053bcfff   16384 rw---
---48900:0: aspacem  28:      00053bd000-0057ffffff   1324m
---48900:0: aspacem  29: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---48900:0: aspacem  30: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---48900:0: aspacem  31: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---48900:0: aspacem  32:      0058259000-0058458fff 2097152
---48900:0: aspacem  33: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---48900:0: aspacem  34: ANON 005845f000-0058e56fff      9m rw---
---48900:0: aspacem  35:      0058e57000-1001ffffff  64145m
---48900:0: aspacem  36: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---48900:0: aspacem  37: ANON 1002001000-1002b8bfff     11m rwx--
---48900:0: aspacem  38: FILE 1002b8c000-1002b8cfff    4096 rw--- d=0x802 i=29525822 o=0       (3,154)
---48900:0: aspacem  39: ANON 1002b8d000-1002bccfff  262144 rwx--
---48900:0: aspacem  40:      1002bcd000-1002c8bfff  782336
---48900:0: aspacem  41: ANON 1002c8c000-1002d8bfff 1048576 rwx--
---48900:0: aspacem  42: ANON 1002d8c000-1002d8dfff    8192 -----
---48900:0: aspacem  43: ANON 1002d8e000-1002e8dfff 1048576 rwx--
---48900:0: aspacem  44: ANON 1002e8e000-1002e8ffff    8192 -----
---48900:0: aspacem  45:      1002e90000-1002f80fff  987136
---48900:0: aspacem  46: ANON 1002f81000-1005044fff     32m rwx--
---48900:0: aspacem  47:      1005045000-1005144fff 1048576
---48900:0: aspacem  48: ANON 1005145000-1005344fff 2097152 rwx--
---48900:0: aspacem  49:      1005345000-1005444fff 1048576
---48900:0: aspacem  50: ANON 1005445000-1005544fff 1048576 rwx--
---48900:0: aspacem  51:      1005545000-1005644fff 1048576
---48900:0: aspacem  52: ANON 1005645000-1005b44fff 5242880 rwx--
---48900:0: aspacem  53:      1005b45000-1005e39fff 3100672
---48900:0: aspacem  54: ANON 1005e3a000-100607bfff 2367488 rwx--
---48900:0: aspacem  55:      100607c000-1ffe800fff  65415m
---48900:0: aspacem  56: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
---48900:0: aspacem  57: anon 1ffeffe000-1fff000fff   12288 rw---
---48900:0: aspacem  58:      1fff001000-1fffffffff     15m
---48900:0: aspacem  59: RSVN 2000000000-7ffd41d56fff 130933g ----- SmFixed
---48900:0: aspacem  60: ANON 7ffd41d57000-7ffd41d77fff  135168 rw---
---48900:0: aspacem  61: RSVN 7ffd41d78000-7ffd41de7fff  458752 ----- SmFixed
---48900:0: aspacem  62: ANON 7ffd41de8000-7ffd41deafff   12288 r----
---48900:0: aspacem  63: RSVN 7ffd41deb000-ffffffffff5fffff  16383e ----- SmFixed
---48900:0: aspacem  64: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---48900:0: aspacem  65: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---48900:0: aspacem >>>
---48900-- core    :    12,582,912/   12,582,912 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,     10,088,736/   10,088,736 max/curr,        7182/  10664976 totalloc-blocks/bytes,        7183 searches 8 rzB
---48900-- dinfo   :    24,100,864/   17,170,432 max/curr mmap'd, 2/7 unsplit/split sb unmmap'd,     22,508,928/    8,746,896 max/curr,      230257/  61150800 totalloc-blocks/bytes,      232037 searches 8 rzB
---48900-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---48900-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---48900-- ttaux   :       131,072/      131,072 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,         72,240/       50,464 max/curr,         315/    135440 totalloc-blocks/bytes,         316 searches 8 rzB
---48900-- translate: 14,750 guest insns, 2,395 traces, 449 uncond chased, 73 cond chased
---48900-- translate: no SP updates identified
---48900-- translate: PX: SPonly 2,395,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---48900--     tt/tc: 5,219 tt lookups requiring 5,276 probes
---48900--     tt/tc: 2,833 fast-cache updates, 2 flushes
---48900--  transtab: new        2,395 (60,369 -> 762,521; ratio 12.6) [0 scs] avg tce size 318
---48900--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---48900--  transtab: discarded  0 (0 -> ??)
---48900-- scheduler: 448,699,057 event checks.
---48900-- scheduler: 8,101,312 indir transfers, 419 misses (1 in 19334) ..
---48900-- scheduler: .. of which: 8,100,881 hit0, 8 hit1, 4 hit2, 0 hit3, 419 missed
---48900-- scheduler: 4,486/8,257 major/minor sched events.
---48900--    sanity: 4486 cheap, 75 expensive checks.
-==48900== 
-==48900==     Valgrind's memory management: out of memory:
-==48900==        newSuperblock's request for 4194304 bytes failed.
-==48900==           77,819,904 bytes have already been mmap-ed ANONYMOUS.
-==48900==     Valgrind cannot continue.  Sorry.
-==48900== 
-==48900==     There are several possible reasons for this.
-==48900==     - You have some kind of memory limit in place.  Look at the
-==48900==       output of 'ulimit -a'.  Is there a limit on the size of
-==48900==       virtual memory or address space?
-==48900==     - You have run out of swap space.
-==48900==     - Valgrind has a bug.  If you think this is the case or you are
-==48900==     not sure, please let us know and we'll try to fix it.
-==48900==     Please note that programs can take substantially more memory than
-==48900==     normal when running under Valgrind tools, eg. up to twice or
-==48900==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==48900==     should be able to make use of up 32GB memory.  On a 32-bit
-==48900==     machine, Valgrind should be able to use all the memory available
-==48900==     to a single process, up to 4GB if that's how you have your
-==48900==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==48900==     3GB per process.
-==48900== 
-==48900==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==50010== 
+==50010== I   refs:      14,218,322,245
+==50010== I1  misses:             1,616
+==50010== LLi misses:             1,611
+==50010== I1  miss rate:           0.00%
+==50010== LLi miss rate:           0.00%
+==50010== 
+==50010== D   refs:       5,351,602,516  (4,031,779,776 rd   + 1,319,822,740 wr)
+==50010== D1  misses:           189,953  (       65,823 rd   +       124,130 wr)
+==50010== LLd misses:           127,804  (        9,270 rd   +       118,534 wr)
+==50010== D1  miss rate:            0.0% (          0.0%     +           0.0%  )
+==50010== LLd miss rate:            0.0% (          0.0%     +           0.0%  )
+==50010== 
+==50010== LL refs:              191,569  (       67,439 rd   +       124,130 wr)
+==50010== LL misses:            129,415  (       10,881 rd   +       118,534 wr)
+==50010== LL miss rate:             0.0% (          0.0%     +           0.0%  )

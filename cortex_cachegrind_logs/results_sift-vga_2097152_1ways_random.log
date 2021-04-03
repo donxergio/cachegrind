@@ -1,0 +1,168 @@
+==55875== Cachegrind, a cache and branch-prediction profiler
+==55875== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==55875== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==55875== Command: ./sift .
+==55875== 
+--55875-- warning: L3 cache found, using its data for the LL simulation.
+--55875-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--55875-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==55875== brk segment overflow in thread #1: can't grow to 0x4cd9000
+==55875== (see section Limitations in user manual)
+==55875== NOTE: further instances of this message will not be shown
+==55875== 
+==55875== Process terminating with default action of signal 11 (SIGSEGV)
+==55875==  Access not within mapped region at address 0x4
+--55875:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (70 segments)
+--55875:0: aspacem 7 segment names in 8 slots
+--55875:0: aspacem freelist begins at 296
+--55875:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
+--55875:0: aspacem (1,66,4) /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift
+--55875:0: aspacem (2,132,4) /lib/x86_64-linux-gnu/ld-2.27.so
+--55875:0: aspacem (3,169,1) /tmp/vgdb-pipe-shared-mem-vgdb-55875-by-tkloda-on-???
+--55875:0: aspacem (4,227,5) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
+--55875:0: aspacem (5,296,0) [free slot: size=17  next=0]
+--55875:0: aspacem (6,317,5) /lib/x86_64-linux-gnu/libm-2.27.so
+--55875:0: aspacem (7,356,5) /lib/x86_64-linux-gnu/libc-2.27.so
+--55875:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
+--55875:0: aspacem   1: file 0000108000-0000110fff   36864 r-xT- d=0x802 i=49682285 o=0       (1,66)
+--55875:0: aspacem   2: RSVN 0000111000-000030ffff 2093056 ----- SmFixed
+--55875:0: aspacem   3: file 0000310000-0000310fff    4096 r---- d=0x802 i=49682285 o=32768   (1,66)
+--55875:0: aspacem   4: file 0000311000-0000311fff    4096 rw--- d=0x802 i=49682285 o=36864   (1,66)
+--55875:0: aspacem   5: RSVN 0000312000-0003ffffff     60m ----- SmFixed
+--55875:0: aspacem   6: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,132)
+--55875:0: aspacem   7:      0004029000-000405dfff  217088
+--55875:0: aspacem   8: anon 000405e000-0004164fff 1077248 rw---
+--55875:0: aspacem   9:      0004165000-0004228fff  802816
+--55875:0: aspacem  10: file 0004229000-0004229fff    4096 r---- d=0x802 i=12583111 o=167936  (2,132)
+--55875:0: aspacem  11: file 000422a000-000422afff    4096 rw--- d=0x802 i=12583111 o=172032  (2,132)
+--55875:0: aspacem  12: anon 000422b000-000422bfff    4096 rw---
+--55875:0: aspacem  13: anon 000422c000-0004954fff 7507968 rwx--
+--55875:0: aspacem  14: RSVN 0004955000-0004a2bfff  880640 ----- SmLower
+--55875:0: aspacem  15: file 0004a2c000-0004a2cfff    4096 r-xT- d=0x802 i=28344728 o=0       (4,227)
+--55875:0: aspacem  16: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,227)
+--55875:0: aspacem  17: file 0004c2c000-0004c2cfff    4096 r---- d=0x802 i=28344728 o=0       (4,227)
+--55875:0: aspacem  18: file 0004c2d000-0004c2dfff    4096 rw--- d=0x802 i=28344728 o=4096    (4,227)
+--55875:0: aspacem  19: file 0004c2e000-0004dcafff 1691648 r-xT- d=0x802 i=12583362 o=0       (6,317)
+--55875:0: aspacem  20: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,317)
+--55875:0: aspacem  21: file 0004fca000-0004fcafff    4096 r---- d=0x802 i=12583362 o=1687552 (6,317)
+--55875:0: aspacem  22: file 0004fcb000-0004fcbfff    4096 rw--- d=0x802 i=12583362 o=1691648 (6,317)
+--55875:0: aspacem  23: file 0004fcc000-00051b2fff 1994752 r-xT- d=0x802 i=12583345 o=0       (7,356)
+--55875:0: aspacem  24: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,356)
+--55875:0: aspacem  25: file 00053b3000-00053b6fff   16384 r---- d=0x802 i=12583345 o=1994752 (7,356)
+--55875:0: aspacem  26: file 00053b7000-00053b8fff    8192 rw--- d=0x802 i=12583345 o=2011136 (7,356)
+--55875:0: aspacem  27: anon 00053b9000-0006a5cfff     22m rw---
+--55875:0: aspacem  28:      0006a5d000-0057ffffff   1301m
+--55875:0: aspacem  29: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
+--55875:0: aspacem  30: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
+--55875:0: aspacem  31: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
+--55875:0: aspacem  32:      0058259000-0058458fff 2097152
+--55875:0: aspacem  33: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
+--55875:0: aspacem  34: ANON 005845f000-0058e56fff      9m rw---
+--55875:0: aspacem  35:      0058e57000-1001ffffff  64145m
+--55875:0: aspacem  36: RSVN 1002000000-1002000fff    4096 ----- SmFixed
+--55875:0: aspacem  37: ANON 1002001000-100278bfff 7909376 rwx--
+--55875:0: aspacem  38: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29509200 o=0       (3,169)
+--55875:0: aspacem  39: ANON 100278d000-10027bcfff  196608 rwx--
+--55875:0: aspacem  40:      10027bd000-10027ccfff   65536
+--55875:0: aspacem  41: ANON 10027cd000-10027dcfff   65536 rwx--
+--55875:0: aspacem  42:      10027dd000-100288bfff  716800
+--55875:0: aspacem  43: ANON 100288c000-100298bfff 1048576 rwx--
+--55875:0: aspacem  44: ANON 100298c000-100298dfff    8192 -----
+--55875:0: aspacem  45: ANON 100298e000-1002a8dfff 1048576 rwx--
+--55875:0: aspacem  46: ANON 1002a8e000-1002a8ffff    8192 -----
+--55875:0: aspacem  47:      1002a90000-1002b80fff  987136
+--55875:0: aspacem  48: ANON 1002b81000-1004c44fff     32m rwx--
+--55875:0: aspacem  49:      1004c45000-1004d44fff 1048576
+--55875:0: aspacem  50: ANON 1004d45000-1004f44fff 2097152 rwx--
+--55875:0: aspacem  51:      1004f45000-1005044fff 1048576
+--55875:0: aspacem  52: ANON 1005045000-1005144fff 1048576 rwx--
+--55875:0: aspacem  53:      1005145000-1005244fff 1048576
+--55875:0: aspacem  54: ANON 1005245000-1005544fff 3145728 rwx--
+--55875:0: aspacem  55:      1005545000-1005644fff 1048576
+--55875:0: aspacem  56: ANON 1005645000-1005744fff 1048576 rwx--
+--55875:0: aspacem  57:      1005745000-1005a39fff 3100672
+--55875:0: aspacem  58: ANON 1005a3a000-100607bfff 6561792 rwx--
+--55875:0: aspacem  59:      100607c000-1ffe800fff  65415m
+--55875:0: aspacem  60: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
+--55875:0: aspacem  61: anon 1ffeffe000-1fff000fff   12288 rw---
+--55875:0: aspacem  62:      1fff001000-1fffffffff     15m
+--55875:0: aspacem  63: RSVN 2000000000-7ffd34184fff 130932g ----- SmFixed
+--55875:0: aspacem  64: ANON 7ffd34185000-7ffd341a5fff  135168 rw---
+--55875:0: aspacem  65: RSVN 7ffd341a6000-7ffd341fafff  348160 ----- SmFixed
+--55875:0: aspacem  66: ANON 7ffd341fb000-7ffd341fdfff   12288 r----
+--55875:0: aspacem  67: RSVN 7ffd341fe000-ffffffffff5fffff  16383e ----- SmFixed
+--55875:0: aspacem  68: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
+--55875:0: aspacem  69: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
+--55875:0: aspacem >>>
+--55875-- core    :    12,582,912/   12,582,912 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      8,546,896/    8,546,896 max/curr,        7321/   9123072 totalloc-blocks/bytes,        7320 searches 8 rzB
+--55875-- dinfo   :    24,100,864/   16,121,856 max/curr mmap'd, 2/8 unsplit/split sb unmmap'd,     22,516,720/    8,754,720 max/curr,      230386/  61079744 totalloc-blocks/bytes,      238534 searches 8 rzB
+--55875-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
+--55875-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
+--55875-- ttaux   :       196,608/      131,072 max/curr mmap'd, 0/1 unsplit/split sb unmmap'd,        106,672/       68,672 max/curr,         300/    191872 totalloc-blocks/bytes,         300 searches 8 rzB
+--55875-- translate: 15,325 guest insns, 2,473 traces, 489 uncond chased, 73 cond chased
+--55875-- translate: no SP updates identified
+--55875-- translate: PX: SPonly 2,473,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
+--55875--     tt/tc: 5,383 tt lookups requiring 5,448 probes
+--55875--     tt/tc: 2,955 fast-cache updates, 2 flushes
+--55875--  transtab: new        2,473 (62,410 -> 794,339; ratio 12.7) [0 scs] avg tce size 321
+--55875--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
+--55875--  transtab: discarded  0 (0 -> ??)
+--55875-- scheduler: 174,807,012 event checks.
+--55875-- scheduler: 4,150,636 indir transfers, 459 misses (1 in 9042) ..
+--55875-- scheduler: .. of which: 4,150,162 hit0, 11 hit1, 4 hit2, 0 hit3, 459 missed
+--55875-- scheduler: 1,748/4,910 major/minor sched events.
+--55875--    sanity: 1748 cheap, 41 expensive checks.
+--55875--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
+--55875--    exectx: 1 searches, 0 full compares (0 per 1000)
+--55875--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
+--55875--  errormgr: 0 supplist searches, 0 comparisons during search
+--55875--  errormgr: 0 errlist searches, 0 comparisons during search
+
+host stacktrace:
+==55875==    at 0x5801074A: show_sched_status_wrk (m_libcassert.c:406)
+==55875==    by 0x58018D75: vgPlain_out_of_memory_NORETURN (m_mallocfree.c:795)
+==55875==    by 0x58019193: newSuperblock (m_mallocfree.c:868)
+==55875==    by 0x5801CAAE: vgPlain_perm_malloc (m_mallocfree.c:2613)
+==55875==    by 0x5808EBC8: vgPlain_record_ExeContext (m_execontext.c:526)
+==55875==    by 0x58097ECD: deliver_signal (m_signals.c:1918)
+==55875==    by 0x58099BA9: sync_signalhandler (m_signals.c:2803)
+==55875==    by 0x5809679F: ??? (in /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux)
+==55875==    by 0x6: ???
+
+sched status:
+  running_tid=1
+
+Thread 1: status = VgTs_Runnable (lwpid 55875)
+==55875==    at 0x109D03: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==55875==    by 0x10C174: fSetArray (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==55875==    by 0x10DEE4: imsmooth (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==55875==    by 0x10DACC: gaussianss (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==55875==    by 0x10CC6E: sift (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+==55875==    by 0x108C27: main (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
+client stack range: [0x1FFEFFE000 0x1FFF000FFF] client SP: 0x1FFEFFFDF0
+valgrind stack range: [0x100298E000 0x1002A8DFFF] top usage: 10024 of 1048576
+
+==55875== 
+==55875==     Valgrind's memory management: out of memory:
+==55875==        newSuperblock's request for 4194304 bytes failed.
+==55875==          101,490,688 bytes have already been mmap-ed ANONYMOUS.
+==55875==     Valgrind cannot continue.  Sorry.
+==55875== 
+==55875==     There are several possible reasons for this.
+==55875==     - You have some kind of memory limit in place.  Look at the
+==55875==       output of 'ulimit -a'.  Is there a limit on the size of
+==55875==       virtual memory or address space?
+==55875==     - You have run out of swap space.
+==55875==     - Valgrind has a bug.  If you think this is the case or you are
+==55875==     not sure, please let us know and we'll try to fix it.
+==55875==     Please note that programs can take substantially more memory than
+==55875==     normal when running under Valgrind tools, eg. up to twice or
+==55875==     more, depending on the tool.  On a 64-bit machine, Valgrind
+==55875==     should be able to make use of up 32GB memory.  On a 32-bit
+==55875==     machine, Valgrind should be able to use all the memory available
+==55875==     to a single process, up to 4GB if that's how you have your
+==55875==     kernel configured.  Most 32-bit Linux setups allow a maximum of
+==55875==     3GB per process.
+==55875== 
+==55875==     Whatever the reason, Valgrind cannot continue.  Sorry.

@@ -1,0 +1,29 @@
+==27618== Cachegrind, a cache and branch-prediction profiler
+==27618== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==27618== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==27618== Command: ./mser .
+==27618== 
+--27618-- warning: L3 cache found, using its data for the LL simulation.
+--27618-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--27618-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+==27618== 
+==27618== Process terminating with default action of signal 15 (SIGTERM)
+==27618==    at 0x10D300: mser (in /home/tkloda/cortexsuite/vision/benchmarks/mser/data/fullhd/mser)
+==27618==    by 0x108B07: main (in /home/tkloda/cortexsuite/vision/benchmarks/mser/data/fullhd/mser)
+==27618== 
+==27618== I   refs:      2,339,083,921
+==27618== I1  misses:            1,214
+==27618== LLi misses:            1,202
+==27618== I1  miss rate:          0.00%
+==27618== LLi miss rate:          0.00%
+==27618== 
+==27618== D   refs:        933,614,778  (631,290,495 rd   + 302,324,283 wr)
+==27618== D1  misses:        2,662,898  (  1,331,633 rd   +   1,331,265 wr)
+==27618== LLd misses:        1,389,588  (    279,314 rd   +   1,110,274 wr)
+==27618== D1  miss rate:           0.3% (        0.2%     +         0.4%  )
+==27618== LLd miss rate:           0.1% (        0.0%     +         0.4%  )
+==27618== 
+==27618== LL refs:           2,664,112  (  1,332,847 rd   +   1,331,265 wr)
+==27618== LL misses:         1,390,790  (    280,516 rd   +   1,110,274 wr)
+==27618== LL miss rate:            0.0% (        0.0%     +         0.4%  )

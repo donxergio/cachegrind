@@ -1,0 +1,31 @@
+==34346== Cachegrind, a cache and branch-prediction profiler
+==34346== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==34346== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==34346== Command: ./texture_synthesis .
+==34346== 
+--34346-- warning: L3 cache found, using its data for the LL simulation.
+--34346-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--34346-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+==34346== 
+==34346== Process terminating with default action of signal 15 (SIGTERM)
+==34346==    at 0x10C8C8: create_candidates (in /home/tkloda/cortexsuite/vision/benchmarks/texture_synthesis/data/fullhd/texture_synthesis)
+==34346==    by 0x10D84C: create_texture (in /home/tkloda/cortexsuite/vision/benchmarks/texture_synthesis/data/fullhd/texture_synthesis)
+==34346==    by 0x108AF4: main (in /home/tkloda/cortexsuite/vision/benchmarks/texture_synthesis/data/fullhd/texture_synthesis)
+==34346== 
+==34346== I   refs:      1,395,126,487
+==34346== I1  misses:            1,300
+==34346== LLi misses:            1,295
+==34346== I1  miss rate:          0.00%
+==34346== LLi miss rate:          0.00%
+==34346== 
+==34346== D   refs:        385,327,174  (344,767,479 rd   + 40,559,695 wr)
+==34346== D1  misses:          350,882  (     60,839 rd   +    290,043 wr)
+==34346== LLd misses:          346,105  (     58,430 rd   +    287,675 wr)
+==34346== D1  miss rate:           0.1% (        0.0%     +        0.7%  )
+==34346== LLd miss rate:           0.1% (        0.0%     +        0.7%  )
+==34346== 
+==34346== LL refs:             352,182  (     62,139 rd   +    290,043 wr)
+==34346== LL misses:           347,400  (     59,725 rd   +    287,675 wr)
+==34346== LL miss rate:            0.0% (        0.0%     +        0.7%  )

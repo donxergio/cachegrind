@@ -1,0 +1,29 @@
+==34967== Cachegrind, a cache and branch-prediction profiler
+==34967== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==34967== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==34967== Command: ./tracking .
+==34967== 
+--34967-- warning: L3 cache found, using its data for the LL simulation.
+--34967-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--34967-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==34967== 
+==34967== Process terminating with default action of signal 15 (SIGTERM)
+==34967==    at 0x1099D7: imageBlur (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34967==    by 0x108AA6: main (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
+==34967== 
+==34967== I   refs:      920,336,339
+==34967== I1  misses:          2,039
+==34967== LLi misses:          1,263
+==34967== I1  miss rate:        0.00%
+==34967== LLi miss rate:        0.00%
+==34967== 
+==34967== D   refs:      366,066,368  (251,873,728 rd   + 114,192,640 wr)
+==34967== D1  misses:     30,155,202  ( 21,344,294 rd   +   8,810,908 wr)
+==34967== LLd misses:        509,424  (     79,699 rd   +     429,725 wr)
+==34967== D1  miss rate:         8.2% (        8.5%     +         7.7%  )
+==34967== LLd miss rate:         0.1% (        0.0%     +         0.4%  )
+==34967== 
+==34967== LL refs:        30,157,241  ( 21,346,333 rd   +   8,810,908 wr)
+==34967== LL misses:         510,687  (     80,962 rd   +     429,725 wr)
+==34967== LL miss rate:          0.0% (        0.0%     +         0.4%  )

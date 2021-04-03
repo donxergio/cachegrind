@@ -1,11 +1,11 @@
-==57359== Cachegrind, a cache and branch-prediction profiler
-==57359== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57359== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57359== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57359== 
---57359-- warning: L3 cache found, using its data for the LL simulation.
---57359-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57359-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59613== Cachegrind, a cache and branch-prediction profiler
+==59613== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59613== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59613== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59613== 
+--59613-- warning: L3 cache found, using its data for the LL simulation.
+--59613-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59613-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
 INFO: cmd_ln.c(691): Parsing command line:
@@ -202,32 +202,22 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==57359== brk segment overflow in thread #1: can't grow to 0x4a33000
-==57359== (see section Limitations in user manual)
-==57359== NOTE: further instances of this message will not be shown
-INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
-INFO: dict.c(335): 131316 words read
-INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
-INFO: dict.c(211): Allocated 0 KiB for strings, 0 KiB for phones
-INFO: dict.c(344): 11 words read
-INFO: dict2pid.c(396): Building PID tables for dictionary
-INFO: dict2pid.c(404): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
-INFO: dict2pid.c(131): Allocated 60400 bytes (58 KiB) for word-final triphones
-INFO: dict2pid.c(195): Allocated 60400 bytes (58 KiB) for single-phone word triphones
-calloc(131327,12) failed from pocketsphinx/ngram_search.c(169)
-==57359== 
-==57359== I   refs:      698,632,560
-==57359== I1  misses:     37,057,284
-==57359== LLi misses:          3,052
-==57359== I1  miss rate:        5.30%
-==57359== LLi miss rate:        0.00%
-==57359== 
-==57359== D   refs:      221,175,392  (161,185,273 rd   + 59,990,119 wr)
-==57359== D1  misses:     59,669,917  ( 48,958,732 rd   + 10,711,185 wr)
-==57359== LLd misses:        470,147  (    169,837 rd   +    300,310 wr)
-==57359== D1  miss rate:        27.0% (       30.4%     +       17.9%  )
-==57359== LLd miss rate:         0.2% (        0.1%     +        0.5%  )
-==57359== 
-==57359== LL refs:        96,727,201  ( 86,016,016 rd   + 10,711,185 wr)
-==57359== LL misses:         473,199  (    172,889 rd   +    300,310 wr)
-==57359== LL miss rate:          0.1% (        0.0%     +        0.5%  )
+==59613== Cannot map memory to grow brk segment in thread #1 to 0x473c000
+==59613== (see section Limitations in user manual)
+malloc(4) failed from pocketsphinx/dict.c(121)
+==59613== 
+==59613== I   refs:      328,492,917
+==59613== I1  misses:     22,171,203
+==59613== LLi misses:          2,906
+==59613== I1  miss rate:        6.75%
+==59613== LLi miss rate:        0.00%
+==59613== 
+==59613== D   refs:      114,628,027  (82,699,667 rd   + 31,928,360 wr)
+==59613== D1  misses:     31,590,150  (26,057,166 rd   +  5,532,984 wr)
+==59613== LLd misses:        242,828  (    96,405 rd   +    146,423 wr)
+==59613== D1  miss rate:        27.6% (      31.5%     +       17.3%  )
+==59613== LLd miss rate:         0.2% (       0.1%     +        0.5%  )
+==59613== 
+==59613== LL refs:        53,761,353  (48,228,369 rd   +  5,532,984 wr)
+==59613== LL misses:         245,734  (    99,311 rd   +    146,423 wr)
+==59613== LL miss rate:          0.1% (       0.0%     +        0.5%  )

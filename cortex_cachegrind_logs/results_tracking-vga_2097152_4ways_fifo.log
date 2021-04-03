@@ -1,0 +1,26 @@
+==61919== Cachegrind, a cache and branch-prediction profiler
+==61919== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==61919== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==61919== Command: ./tracking .
+==61919== 
+--61919-- warning: L3 cache found, using its data for the LL simulation.
+--61919-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--61919-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+./tracking: error while loading shared libraries: libc.so.6: failed to map segment from shared object
+==61919== 
+==61919== I   refs:      32,795
+==61919== I1  misses:       489
+==61919== LLi misses:       489
+==61919== I1  miss rate:   1.49%
+==61919== LLi miss rate:   1.49%
+==61919== 
+==61919== D   refs:       9,539  (7,078 rd   + 2,461 wr)
+==61919== D1  misses:       391  (  205 rd   +   186 wr)
+==61919== LLd misses:       391  (  205 rd   +   186 wr)
+==61919== D1  miss rate:    4.1% (  2.9%     +   7.6%  )
+==61919== LLd miss rate:    4.1% (  2.9%     +   7.6%  )
+==61919== 
+==61919== LL refs:          880  (  694 rd   +   186 wr)
+==61919== LL misses:        880  (  694 rd   +   186 wr)
+==61919== LL miss rate:     2.1% (  1.7%     +   7.6%  )

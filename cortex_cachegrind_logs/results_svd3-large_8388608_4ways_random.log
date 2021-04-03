@@ -1,0 +1,69 @@
+==61766== Cachegrind, a cache and branch-prediction profiler
+==61766== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==61766== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==61766== Command: ./a.out large.txt
+==61766== 
+--61766-- warning: L3 cache found, using its data for the LL simulation.
+--61766-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--61766-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+--61766:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (30 segments)
+--61766:0: aspacem 3 segment names in 3 slots
+--61766:0: aspacem freelist is empty
+--61766:0: aspacem (0,4,3) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
+--61766:0: aspacem (1,66,3) /home/tkloda/cortexsuite/cortex/svd3/a.out
+--61766:0: aspacem (2,113,3) /lib/x86_64-linux-gnu/ld-2.27.so
+--61766:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
+--61766:0: aspacem   1: file 0000108000-0000112fff   45056 r-x-- d=0x802 i=49556510 o=0       (1,66)
+--61766:0: aspacem   2: RSVN 0000113000-0000311fff 2093056 ----- SmFixed
+--61766:0: aspacem   3: file 0000312000-0000313fff    8192 rw--- d=0x802 i=49556510 o=40960   (1,66)
+--61766:0: aspacem   4: RSVN 0000314000-0003ffffff     60m ----- SmFixed
+--61766:0: aspacem   5: file 0004000000-0004028fff  167936 r-x-- d=0x802 i=12583111 o=0       (2,113)
+--61766:0: aspacem   6:      0004029000-0004228fff 2097152
+--61766:0: aspacem   7: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,113)
+--61766:0: aspacem   8: anon 000422b000-000422bfff    4096 rw---
+--61766:0: aspacem   9: anon 000422c000-000422cfff    4096 rwx--
+--61766:0: aspacem  10: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
+--61766:0: aspacem  11:      0004a2c000-0057ffffff   1333m
+--61766:0: aspacem  12: FILE 0058000000-0058258fff 2461696 r-x-- d=0x802 i=28344876 o=0       (0,4)
+--61766:0: aspacem  13:      0058259000-0058458fff 2097152
+--61766:0: aspacem  14: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
+--61766:0: aspacem  15: ANON 005845f000-0058e56fff      9m rw---
+--61766:0: aspacem  16:      0058e57000-1001ffffff  64145m
+--61766:0: aspacem  17: RSVN 1002000000-1002000fff    4096 ----- SmFixed
+--61766:0: aspacem  18: ANON 1002001000-1002d8bfff     13m rwx--
+--61766:0: aspacem  19:      1002d8c000-1ffe800fff  65466m
+--61766:0: aspacem  20: RSVN 1ffe801000-1ffeffefff 8380416 ----- SmUpper
+--61766:0: aspacem  21: anon 1ffefff000-1fff000fff    8192 rw---
+--61766:0: aspacem  22:      1fff001000-1fffffffff     15m
+--61766:0: aspacem  23: RSVN 2000000000-7fff5f8aefff 130941g ----- SmFixed
+--61766:0: aspacem  24: ANON 7fff5f8af000-7fff5f8cffff  135168 rw---
+--61766:0: aspacem  25: RSVN 7fff5f8d0000-7fff5f999fff  827392 ----- SmFixed
+--61766:0: aspacem  26: ANON 7fff5f99a000-7fff5f99cfff   12288 r----
+--61766:0: aspacem  27: RSVN 7fff5f99d000-ffffffffff5fffff  16383e ----- SmFixed
+--61766:0: aspacem  28: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
+--61766:0: aspacem  29: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
+--61766:0: aspacem >>>
+--61766-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      5,319,664/    5,307,440 max/curr,          60/   5408384 totalloc-blocks/bytes,          59 searches 8 rzB
+--61766-- dinfo   :     5,242,880/    5,242,880 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      4,253,184/    4,195,744 max/curr,       22103/   9629648 totalloc-blocks/bytes,       22601 searches 8 rzB
+--61766-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
+--61766-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            144/          112 max/curr,           6/       208 totalloc-blocks/bytes,           5 searches 8 rzB
+--61766-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
+--61766-- translate: 0 guest insns, 0 traces, 0 uncond chased, 0 cond chased
+--61766-- translate: no SP updates identified
+--61766-- translate: PX: SPonly 0,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
+--61766--     tt/tc: 0 tt lookups requiring 0 probes
+--61766--     tt/tc: 0 fast-cache updates, 1 flushes
+--61766--  transtab: new        0 (0 -> 0; ratio 0.0) [0 scs] avg tce size 0
+--61766--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
+--61766--  transtab: discarded  0 (0 -> ??)
+--61766-- scheduler: 0 event checks.
+--61766-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
+--61766-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
+--61766-- scheduler: 0/0 major/minor sched events.
+--61766--    sanity: 0 cheap, 0 expensive checks.
+--61766--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
+--61766--    exectx: 1 searches, 0 full compares (0 per 1000)
+--61766--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
+--61766--  errormgr: 0 supplist searches, 0 comparisons during search
+--61766--  errormgr: 0 errlist searches, 0 comparisons during search

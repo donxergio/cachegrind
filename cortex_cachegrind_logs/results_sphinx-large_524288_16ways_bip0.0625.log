@@ -1,11 +1,11 @@
-==57479== Cachegrind, a cache and branch-prediction profiler
-==57479== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57479== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57479== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57479== 
---57479-- warning: L3 cache found, using its data for the LL simulation.
---57479-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57479-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59729== Cachegrind, a cache and branch-prediction profiler
+==59729== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59729== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59729== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59729== 
+--59729-- warning: L3 cache found, using its data for the LL simulation.
+--59729-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59729-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
 INFO: cmd_ln.c(691): Parsing command line:
@@ -202,9 +202,9 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==57479== brk segment overflow in thread #1: can't grow to 0x4a33000
-==57479== (see section Limitations in user manual)
-==57479== NOTE: further instances of this message will not be shown
+==59729== brk segment overflow in thread #1: can't grow to 0x4a33000
+==59729== (see section Limitations in user manual)
+==59729== NOTE: further instances of this message will not be shown
 INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
 INFO: dict.c(335): 131316 words read
 INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
@@ -217,20 +217,23 @@ INFO: dict2pid.c(195): Allocated 60400 bytes (58 KiB) for single-phone word trip
 INFO: ngram_model_arpa.c(77): No \data\ mark in LM file
 INFO: ngram_model_dmp.c(142): Will use memory-mapped I/O for LM file
 INFO: ngram_model_dmp.c(196): ngrams 1=64001, 2=9382014, 3=13459879
-calloc(64001,8) failed from sphinxbase/lm/ngram_model.c(226)
-==57479== 
-==57479== I   refs:      1,098,930,038
-==57479== I1  misses:            3,089
-==57479== LLi misses:            3,066
-==57479== I1  miss rate:          0.00%
-==57479== LLi miss rate:          0.00%
-==57479== 
-==57479== D   refs:        361,630,702  (255,327,992 rd   + 106,302,710 wr)
-==57479== D1  misses:          833,746  (    500,160 rd   +     333,586 wr)
-==57479== LLd misses:          722,164  (    411,572 rd   +     310,592 wr)
-==57479== D1  miss rate:           0.2% (        0.2%     +         0.3%  )
-==57479== LLd miss rate:           0.2% (        0.2%     +         0.3%  )
-==57479== 
-==57479== LL refs:             836,835  (    503,249 rd   +     333,586 wr)
-==57479== LL misses:           725,230  (    414,638 rd   +     310,592 wr)
-==57479== LL miss rate:            0.0% (        0.0%     +         0.3%  )
+INFO: ngram_model_dmp.c(242):    64001 = LM.unigrams(+trailer) read
+WARNING: "ngram_model_dmp.c", line 250: -mmap specified, but trigram index is not word-aligned.  Will not memory-map.
+INFO: ngram_model_dmp.c(288):  9382014 = LM.bigrams(+trailer) read
+calloc(13459879,4) failed from sphinxbase/lm/ngram_model_dmp.c(299)
+==59729== 
+==59729== I   refs:      1,116,842,689
+==59729== I1  misses:            3,119
+==59729== LLi misses:            3,096
+==59729== I1  miss rate:          0.00%
+==59729== LLi miss rate:          0.00%
+==59729== 
+==59729== D   refs:        369,654,347  (260,655,268 rd   + 108,999,079 wr)
+==59729== D1  misses:          858,005  (    500,300 rd   +     357,705 wr)
+==59729== LLd misses:          734,283  (    411,589 rd   +     322,694 wr)
+==59729== D1  miss rate:           0.2% (        0.2%     +         0.3%  )
+==59729== LLd miss rate:           0.2% (        0.2%     +         0.3%  )
+==59729== 
+==59729== LL refs:             861,124  (    503,419 rd   +     357,705 wr)
+==59729== LL misses:           737,379  (    414,685 rd   +     322,694 wr)
+==59729== LL miss rate:            0.0% (        0.0%     +         0.3%  )

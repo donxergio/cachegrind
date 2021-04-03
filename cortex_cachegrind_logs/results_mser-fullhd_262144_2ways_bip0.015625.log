@@ -1,0 +1,39 @@
+==28605== Cachegrind, a cache and branch-prediction profiler
+==28605== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==28605== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==28605== Command: ./mser .
+==28605== 
+--28605-- warning: L3 cache found, using its data for the LL simulation.
+--28605-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--28605-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+==28605== brk segment overflow in thread #1: can't grow to 0x8195000
+==28605== (see section Limitations in user manual)
+==28605== NOTE: further instances of this message will not be shown
+==28605== 
+==28605== Process terminating with default action of signal 11 (SIGSEGV)
+==28605==  Access not within mapped region at address 0xD0C130
+==28605==    at 0x10C9E9: mser (in /home/tkloda/cortexsuite/vision/benchmarks/mser/data/fullhd/mser)
+==28605==    by 0x108B07: main (in /home/tkloda/cortexsuite/vision/benchmarks/mser/data/fullhd/mser)
+==28605==  If you believe this happened as a result of a stack
+==28605==  overflow in your program's main thread (unlikely but
+==28605==  possible), you can try to increase the size of the
+==28605==  main thread stack using the --main-stacksize= flag.
+==28605==  The main thread stack size used in this run was 8388608.
+==28605== 
+==28605== I   refs:      1,603,632,910
+==28605== I1  misses:            1,198
+==28605== LLi misses:            1,194
+==28605== I1  miss rate:          0.00%
+==28605== LLi miss rate:          0.00%
+==28605== 
+==28605== D   refs:        688,722,899  (470,906,171 rd   + 217,816,728 wr)
+==28605== D1  misses:          801,466  (    413,241 rd   +     388,225 wr)
+==28605== LLd misses:          615,669  (    244,489 rd   +     371,180 wr)
+==28605== D1  miss rate:           0.1% (        0.1%     +         0.2%  )
+==28605== LLd miss rate:           0.1% (        0.1%     +         0.2%  )
+==28605== 
+==28605== LL refs:             802,664  (    414,439 rd   +     388,225 wr)
+==28605== LL misses:           616,863  (    245,683 rd   +     371,180 wr)
+==28605== LL miss rate:            0.0% (        0.0%     +         0.2%  )

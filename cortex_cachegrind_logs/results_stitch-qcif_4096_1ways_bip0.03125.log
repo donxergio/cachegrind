@@ -1,0 +1,27 @@
+==41357== Cachegrind, a cache and branch-prediction profiler
+==41357== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41357== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41357== Command: ./stitch .
+==41357== 
+--41357-- warning: L3 cache found, using its data for the LL simulation.
+--41357-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41357-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+cannot allocate TLS data structures for initial thread
+==41357== 
+==41357== I   refs:      42,752
+==41357== I1  misses:     1,174
+==41357== LLi misses:       535
+==41357== I1  miss rate:   2.75%
+==41357== LLi miss rate:   1.25%
+==41357== 
+==41357== D   refs:      12,855  (9,517 rd   + 3,338 wr)
+==41357== D1  misses:     1,457  (1,064 rd   +   393 wr)
+==41357== LLd misses:       500  (  251 rd   +   249 wr)
+==41357== D1  miss rate:   11.3% ( 11.2%     +  11.8%  )
+==41357== LLd miss rate:    3.9% (  2.6%     +   7.5%  )
+==41357== 
+==41357== LL refs:        2,631  (2,238 rd   +   393 wr)
+==41357== LL misses:      1,035  (  786 rd   +   249 wr)
+==41357== LL miss rate:     1.9% (  1.5%     +   7.5%  )

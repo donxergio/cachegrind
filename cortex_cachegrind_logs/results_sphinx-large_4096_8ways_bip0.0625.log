@@ -1,11 +1,11 @@
-==57389== Cachegrind, a cache and branch-prediction profiler
-==57389== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==57389== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==57389== Command: ./sphinx large/audio.raw language_model/HUB4/
-==57389== 
---57389-- warning: L3 cache found, using its data for the LL simulation.
---57389-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---57389-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59643== Cachegrind, a cache and branch-prediction profiler
+==59643== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59643== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59643== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59643== 
+--59643-- warning: L3 cache found, using its data for the LL simulation.
+--59643-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59643-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
 INFO: cmd_ln.c(691): Parsing command line:
@@ -191,22 +191,33 @@ INFO: ms_gauden.c(294):  256x13
 INFO: ms_gauden.c(294):  256x13
 INFO: ms_gauden.c(294):  256x13
 INFO: ms_gauden.c(198): Reading mixture gaussian parameter: language_model/HUB4/model/variances
-==57389== Cannot map memory to grow brk segment in thread #1 to 0x4277000
-==57389== (see section Limitations in user manual)
-calloc(9984,4) failed from pocketsphinx/ms_gauden.c(263)
-==57389== 
-==57389== I   refs:      54,918,228
-==57389== I1  misses:        42,077
-==57389== LLi misses:         2,757
-==57389== I1  miss rate:       0.08%
-==57389== LLi miss rate:       0.01%
-==57389== 
-==57389== D   refs:      20,626,766  (16,412,625 rd   + 4,214,141 wr)
-==57389== D1  misses:       149,451  (   139,766 rd   +     9,685 wr)
-==57389== LLd misses:        43,195  (    36,929 rd   +     6,266 wr)
-==57389== D1  miss rate:        0.7% (       0.9%     +       0.2%  )
-==57389== LLd miss rate:        0.2% (       0.2%     +       0.1%  )
-==57389== 
-==57389== LL refs:          191,528  (   181,843 rd   +     9,685 wr)
-==57389== LL misses:         45,952  (    39,686 rd   +     6,266 wr)
-==57389== LL miss rate:         0.1% (       0.1%     +       0.1%  )
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(354): 0 variance values floored
+INFO: s2_semi_mgau.c(903): Loading senones from dump file language_model/HUB4/model/sendump
+INFO: s2_semi_mgau.c(927): BEGIN FILE FORMAT DESCRIPTION
+INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
+INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
+INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
+INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
+==59643== Cannot map memory to grow brk segment in thread #1 to 0x4403000
+==59643== (see section Limitations in user manual)
+malloc(16) failed from pocketsphinx/dict.c(109)
+==59643== 
+==59643== I   refs:      169,529,036
+==59643== I1  misses:      2,707,597
+==59643== LLi misses:          2,924
+==59643== I1  miss rate:        1.60%
+==59643== LLi miss rate:        0.00%
+==59643== 
+==59643== D   refs:       60,855,468  (44,492,459 rd   + 16,363,009 wr)
+==59643== D1  misses:      1,078,977  (   918,313 rd   +    160,664 wr)
+==59643== LLd misses:        113,366  (    59,250 rd   +     54,116 wr)
+==59643== D1  miss rate:         1.8% (       2.1%     +        1.0%  )
+==59643== LLd miss rate:         0.2% (       0.1%     +        0.3%  )
+==59643== 
+==59643== LL refs:         3,786,574  ( 3,625,910 rd   +    160,664 wr)
+==59643== LL misses:         116,290  (    62,174 rd   +     54,116 wr)
+==59643== LL miss rate:          0.1% (       0.0%     +        0.3%  )

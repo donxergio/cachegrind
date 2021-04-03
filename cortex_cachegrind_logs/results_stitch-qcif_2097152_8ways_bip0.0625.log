@@ -1,0 +1,40 @@
+==41303== Cachegrind, a cache and branch-prediction profiler
+==41303== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==41303== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==41303== Command: ./stitch .
+==41303== 
+--41303-- warning: L3 cache found, using its data for the LL simulation.
+--41303-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--41303-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==41303== Cannot map memory to grow brk segment in thread #1 to 0x427f000
+==41303== (see section Limitations in user manual)
+==41303== 
+==41303== Process terminating with default action of signal 11 (SIGSEGV)
+==41303==  Access not within mapped region at address 0x4
+==41303==    at 0x109CA3: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41303==    by 0x10A626: fiDeepCopy (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41303==    by 0x10CFB9: harris (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41303==    by 0x108B0E: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
+==41303==  If you believe this happened as a result of a stack
+==41303==  overflow in your program's main thread (unlikely but
+==41303==  possible), you can try to increase the size of the
+==41303==  main thread stack using the --main-stacksize= flag.
+==41303==  The main thread stack size used in this run was 8388608.
+==41303== 
+==41303== I   refs:      9,886,146
+==41303== I1  misses:        1,252
+==41303== LLi misses:        1,248
+==41303== I1  miss rate:      0.01%
+==41303== LLi miss rate:      0.01%
+==41303== 
+==41303== D   refs:      4,229,272  (2,895,568 rd   + 1,333,704 wr)
+==41303== D1  misses:        4,432  (    2,241 rd   +     2,191 wr)
+==41303== LLd misses:        4,430  (    2,239 rd   +     2,191 wr)
+==41303== D1  miss rate:       0.1% (      0.1%     +       0.2%  )
+==41303== LLd miss rate:       0.1% (      0.1%     +       0.2%  )
+==41303== 
+==41303== LL refs:           5,684  (    3,493 rd   +     2,191 wr)
+==41303== LL misses:         5,678  (    3,487 rd   +     2,191 wr)
+==41303== LL miss rate:        0.0% (      0.0%     +       0.2%  )

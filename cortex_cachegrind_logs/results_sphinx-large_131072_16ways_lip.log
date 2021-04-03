@@ -1,11 +1,11 @@
-==56943== Cachegrind, a cache and branch-prediction profiler
-==56943== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==56943== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==56943== Command: ./sphinx large/audio.raw language_model/HUB4/
-==56943== 
---56943-- warning: L3 cache found, using its data for the LL simulation.
---56943-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---56943-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59199== Cachegrind, a cache and branch-prediction profiler
+==59199== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59199== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59199== Command: ./sphinx large/audio.raw language_model/HUB4/
+==59199== 
+--59199-- warning: L3 cache found, using its data for the LL simulation.
+--59199-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59199-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LIP cache replacement will be used
 INFO: cmd_ln.c(691): Parsing command line:
 \
@@ -201,11 +201,9 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==56943== Cannot map memory to grow brk segment in thread #1 to 0x45f2000
-==56943== (see section Limitations in user manual)
-==56943== brk segment overflow in thread #1: can't grow to 0x4a33000
-==56943== (see section Limitations in user manual)
-==56943== NOTE: further instances of this message will not be shown
+==59199== brk segment overflow in thread #1: can't grow to 0x4a33000
+==59199== (see section Limitations in user manual)
+==59199== NOTE: further instances of this message will not be shown
 INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
 INFO: dict.c(335): 131316 words read
 INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
@@ -221,31 +219,20 @@ INFO: ngram_model_dmp.c(196): ngrams 1=64001, 2=9382014, 3=13459879
 INFO: ngram_model_dmp.c(242):    64001 = LM.unigrams(+trailer) read
 WARNING: "ngram_model_dmp.c", line 250: -mmap specified, but trigram index is not word-aligned.  Will not memory-map.
 INFO: ngram_model_dmp.c(288):  9382014 = LM.bigrams(+trailer) read
-INFO: ngram_model_dmp.c(314): 13459879 = LM.trigrams read
-INFO: ngram_model_dmp.c(339):    32582 = LM.prob2 entries read
-INFO: ngram_model_dmp.c(359):    21467 = LM.bo_wt2 entries read
-INFO: ngram_model_dmp.c(379):    30084 = LM.prob3 entries read
-INFO: ngram_model_dmp.c(407):    18325 = LM.tseg_base entries read
-INFO: ngram_model_dmp.c(463):    64001 = ascii word strings read
-INFO: ngram_search_fwdtree.c(99): 799 unique initial diphones
-INFO: ngram_search_fwdtree.c(147): 0 root, 0 non-root channels, 85 single-phone words
-INFO: ngram_search_fwdtree.c(186): Creating search tree
-INFO: ngram_search_fwdtree.c(191): before: 0 root, 0 non-root channels, 85 single-phone words
-INFO: ngram_search_fwdtree.c(326): after: max nonroot chan increased to 138543
-calloc(277086,8) failed from pocketsphinx/ngram_search_fwdtree.c(332)
-==56943== 
-==56943== I   refs:      1,946,184,393
-==56943== I1  misses:            3,401
-==56943== LLi misses:            3,342
-==56943== I1  miss rate:          0.00%
-==56943== LLi miss rate:          0.00%
-==56943== 
-==56943== D   refs:        612,088,747  (426,613,711 rd   + 185,475,036 wr)
-==56943== D1  misses:       26,383,707  ( 23,993,898 rd   +   2,389,809 wr)
-==56943== LLd misses:        2,485,319  (  1,635,616 rd   +     849,703 wr)
-==56943== D1  miss rate:           4.3% (        5.6%     +         1.3%  )
-==56943== LLd miss rate:           0.4% (        0.4%     +         0.5%  )
-==56943== 
-==56943== LL refs:          26,387,108  ( 23,997,299 rd   +   2,389,809 wr)
-==56943== LL misses:         2,488,661  (  1,638,958 rd   +     849,703 wr)
-==56943== LL miss rate:            0.1% (        0.1%     +         0.5%  )
+calloc(13459879,4) failed from sphinxbase/lm/ngram_model_dmp.c(299)
+==59199== 
+==59199== I   refs:      1,116,842,689
+==59199== I1  misses:            3,171
+==59199== LLi misses:            3,111
+==59199== I1  miss rate:          0.00%
+==59199== LLi miss rate:          0.00%
+==59199== 
+==59199== D   refs:        369,654,347  (260,655,268 rd   + 108,999,079 wr)
+==59199== D1  misses:          962,526  (    533,604 rd   +     428,922 wr)
+==59199== LLd misses:          750,744  (    428,565 rd   +     322,179 wr)
+==59199== D1  miss rate:           0.3% (        0.2%     +         0.4%  )
+==59199== LLd miss rate:           0.2% (        0.2%     +         0.3%  )
+==59199== 
+==59199== LL refs:             965,697  (    536,775 rd   +     428,922 wr)
+==59199== LL misses:           753,855  (    431,676 rd   +     322,179 wr)
+==59199== LL miss rate:            0.1% (        0.0%     +         0.3%  )

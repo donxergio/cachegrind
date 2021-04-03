@@ -1,0 +1,111 @@
+==61826== Cachegrind, a cache and branch-prediction profiler
+==61826== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==61826== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==61826== Command: ./a.out large.txt
+==61826== 
+--61826-- warning: L3 cache found, using its data for the LL simulation.
+--61826-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--61826-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+--61826:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (49 segments)
+--61826:0: aspacem 7 segment names in 7 slots
+--61826:0: aspacem freelist is empty
+--61826:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
+--61826:0: aspacem (1,66,3) /home/tkloda/cortexsuite/cortex/svd3/a.out
+--61826:0: aspacem (2,113,3) /lib/x86_64-linux-gnu/ld-2.27.so
+--61826:0: aspacem (3,150,1) /tmp/vgdb-pipe-shared-mem-vgdb-61826-by-tkloda-on-???
+--61826:0: aspacem (4,208,4) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
+--61826:0: aspacem (5,277,1) /etc/ld.so.cache
+--61826:0: aspacem (6,298,4) /lib/x86_64-linux-gnu/libm-2.27.so
+--61826:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
+--61826:0: aspacem   1: file 0000108000-0000112fff   45056 r-x-- d=0x802 i=49556510 o=0       (1,66)
+--61826:0: aspacem   2: RSVN 0000113000-0000311fff 2093056 ----- SmFixed
+--61826:0: aspacem   3: file 0000312000-0000313fff    8192 rw--- d=0x802 i=49556510 o=40960   (1,66)
+--61826:0: aspacem   4: RSVN 0000314000-0003ffffff     60m ----- SmFixed
+--61826:0: aspacem   5: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,113)
+--61826:0: aspacem   6: file 0004029000-000405dfff  217088 r---- d=0x802 i=54001893 o=0       (5,277)
+--61826:0: aspacem   7: anon 000405e000-000405ffff    8192 rw---
+--61826:0: aspacem   8:      0004060000-0004228fff 1871872
+--61826:0: aspacem   9: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,113)
+--61826:0: aspacem  10: anon 000422b000-000422bfff    4096 rw---
+--61826:0: aspacem  11: anon 000422c000-000422cfff    4096 rwx--
+--61826:0: aspacem  12: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
+--61826:0: aspacem  13: file 0004a2c000-0004a2cfff    4096 r-x-- d=0x802 i=28344728 o=0       (4,208)
+--61826:0: aspacem  14: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,208)
+--61826:0: aspacem  15: file 0004c2c000-0004c2dfff    8192 rw--- d=0x802 i=28344728 o=0       (4,208)
+--61826:0: aspacem  16: file 0004c2e000-0004dcafff 1691648 r-x-- d=0x802 i=12583362 o=0       (6,298)
+--61826:0: aspacem  17: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,298)
+--61826:0: aspacem  18: file 0004fca000-0004fcbfff    8192 rw--- d=0x802 i=12583362 o=1687552 (6,298)
+--61826:0: aspacem  19:      0004fcc000-0057ffffff   1328m
+--61826:0: aspacem  20: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
+--61826:0: aspacem  21: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
+--61826:0: aspacem  22: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
+--61826:0: aspacem  23:      0058259000-0058458fff 2097152
+--61826:0: aspacem  24: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
+--61826:0: aspacem  25: ANON 005845f000-0058e56fff      9m rw---
+--61826:0: aspacem  26:      0058e57000-1001ffffff  64145m
+--61826:0: aspacem  27: RSVN 1002000000-1002000fff    4096 ----- SmFixed
+--61826:0: aspacem  28: ANON 1002001000-100278bfff 7909376 rwx--
+--61826:0: aspacem  29: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29538710 o=0       (3,150)
+--61826:0: aspacem  30: ANON 100278d000-10027bcfff  196608 rwx--
+--61826:0: aspacem  31:      10027bd000-100288bfff  847872
+--61826:0: aspacem  32: ANON 100288c000-100298bfff 1048576 rwx--
+--61826:0: aspacem  33: ANON 100298c000-100298dfff    8192 -----
+--61826:0: aspacem  34: ANON 100298e000-1002a8dfff 1048576 rwx--
+--61826:0: aspacem  35: ANON 1002a8e000-1002a8ffff    8192 -----
+--61826:0: aspacem  36:      1002a90000-1002b80fff  987136
+--61826:0: aspacem  37: ANON 1002b81000-1004c44fff     32m rwx--
+--61826:0: aspacem  38:      1004c45000-1ffe800fff  65435m
+--61826:0: aspacem  39: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
+--61826:0: aspacem  40: anon 1ffeffe000-1fff000fff   12288 rw---
+--61826:0: aspacem  41:      1fff001000-1fffffffff     15m
+--61826:0: aspacem  42: RSVN 2000000000-7fffff832fff 130943g ----- SmFixed
+--61826:0: aspacem  43: ANON 7fffff833000-7fffff853fff  135168 rw---
+--61826:0: aspacem  44: RSVN 7fffff854000-7fffff8befff  438272 ----- SmFixed
+--61826:0: aspacem  45: ANON 7fffff8bf000-7fffff8c1fff   12288 r----
+--61826:0: aspacem  46: RSVN 7fffff8c2000-ffffffffff5fffff  16383e ----- SmFixed
+--61826:0: aspacem  47: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
+--61826:0: aspacem  48: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
+--61826:0: aspacem >>>
+--61826-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      7,296,784/    7,296,784 max/curr,        2661/   7478720 totalloc-blocks/bytes,        2660 searches 8 rzB
+--61826-- dinfo   :    11,395,072/    6,414,336 max/curr mmap'd, 1/1 unsplit/split sb unmmap'd,     10,358,336/    6,309,584 max/curr,       23592/  22592032 totalloc-blocks/bytes,       24817 searches 8 rzB
+--61826-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
+--61826-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
+--61826-- ttaux   :        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,         31,936/       21,392 max/curr,         112/     58224 totalloc-blocks/bytes,         114 searches 8 rzB
+--61826-- translate: 5,239 guest insns, 874 traces, 174 uncond chased, 23 cond chased
+--61826-- translate: no SP updates identified
+--61826-- translate: PX: SPonly 874,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
+--61826--     tt/tc: 1,909 tt lookups requiring 1,918 probes
+--61826--     tt/tc: 1,019 fast-cache updates, 2 flushes
+--61826--  transtab: new        874 (21,076 -> 265,873; ratio 12.6) [0 scs] avg tce size 304
+--61826--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
+--61826--  transtab: discarded  0 (0 -> ??)
+--61826-- scheduler: 2,551 event checks.
+--61826-- scheduler: 317 indir transfers, 132 misses (1 in 2) ..
+--61826-- scheduler: .. of which: 181 hit0, 2 hit1, 2 hit2, 0 hit3, 132 missed
+--61826-- scheduler: 0/1,069 major/minor sched events.
+--61826--    sanity: 0 cheap, 0 expensive checks.
+==61826== 
+==61826==     Valgrind's memory management: out of memory:
+==61826==        newSuperblock's request for 4194304 bytes failed.
+==61826==           55,209,984 bytes have already been mmap-ed ANONYMOUS.
+==61826==     Valgrind cannot continue.  Sorry.
+==61826== 
+==61826==     There are several possible reasons for this.
+==61826==     - You have some kind of memory limit in place.  Look at the
+==61826==       output of 'ulimit -a'.  Is there a limit on the size of
+==61826==       virtual memory or address space?
+==61826==     - You have run out of swap space.
+==61826==     - Valgrind has a bug.  If you think this is the case or you are
+==61826==     not sure, please let us know and we'll try to fix it.
+==61826==     Please note that programs can take substantially more memory than
+==61826==     normal when running under Valgrind tools, eg. up to twice or
+==61826==     more, depending on the tool.  On a 64-bit machine, Valgrind
+==61826==     should be able to make use of up 32GB memory.  On a 32-bit
+==61826==     machine, Valgrind should be able to use all the memory available
+==61826==     to a single process, up to 4GB if that's how you have your
+==61826==     kernel configured.  Most 32-bit Linux setups allow a maximum of
+==61826==     3GB per process.
+==61826== 
+==61826==     Whatever the reason, Valgrind cannot continue.  Sorry.
