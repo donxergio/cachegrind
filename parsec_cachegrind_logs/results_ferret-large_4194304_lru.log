@@ -1,0 +1,28 @@
+==60296== Cachegrind, a cache and branch-prediction profiler
+==60296== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==60296== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==60296== Command: ./inst/amd64-linux.gcc-serial.pre/bin/ferret inputs/corel_large/ lsh inputs/queries_large/ 10 20 1 /dev/null
+==60296== 
+--60296-- warning: L3 cache found, using its data for the LL simulation.
+--60296-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--60296-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+==60296== brk segment overflow in thread #1: can't grow to 0x4a2d000
+==60296== (see section Limitations in user manual)
+==60296== NOTE: further instances of this message will not be shown
+==60296== 
+==60296== I   refs:      31,123,553,934
+==60296== I1  misses:             5,363
+==60296== LLi misses:             5,358
+==60296== I1  miss rate:           0.00%
+==60296== LLi miss rate:           0.00%
+==60296== 
+==60296== D   refs:      14,075,639,086  (7,298,106,384 rd   + 6,777,532,702 wr)
+==60296== D1  misses:        57,398,257  (   49,362,745 rd   +     8,035,512 wr)
+==60296== LLd misses:        11,629,083  (   11,157,595 rd   +       471,488 wr)
+==60296== D1  miss rate:            0.4% (          0.7%     +           0.1%  )
+==60296== LLd miss rate:            0.1% (          0.2%     +           0.0%  )
+==60296== 
+==60296== LL refs:           57,403,620  (   49,368,108 rd   +     8,035,512 wr)
+==60296== LL misses:         11,634,441  (   11,162,953 rd   +       471,488 wr)
+==60296== LL miss rate:             0.0% (          0.0%     +           0.0%  )

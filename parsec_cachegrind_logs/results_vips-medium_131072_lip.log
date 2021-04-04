@@ -1,0 +1,25 @@
+==18114== Cachegrind, a cache and branch-prediction profiler
+==18114== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==18114== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==18114== Command: ./inst/amd64-linux.gcc-serial.pre/bin/vips --vips-concurrency=1 im_benchmark ./inputs/vulture_2336x2336.v output-medium-date.v
+==18114== 
+--18114-- warning: L3 cache found, using its data for the LL simulation.
+--18114-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--18114-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==18114== 
+==18114== I   refs:      12,118,789,054
+==18114== I1  misses:             6,060
+==18114== LLi misses:             5,570
+==18114== I1  miss rate:           0.00%
+==18114== LLi miss rate:           0.00%
+==18114== 
+==18114== D   refs:       3,142,675,186  (2,573,452,982 rd   + 569,222,204 wr)
+==18114== D1  misses:        49,343,157  (   29,882,021 rd   +  19,461,136 wr)
+==18114== LLd misses:           421,609  (      324,221 rd   +      97,388 wr)
+==18114== D1  miss rate:            1.6% (          1.2%     +         3.4%  )
+==18114== LLd miss rate:            0.0% (          0.0%     +         0.0%  )
+==18114== 
+==18114== LL refs:           49,349,217  (   29,888,081 rd   +  19,461,136 wr)
+==18114== LL misses:            427,179  (      329,791 rd   +      97,388 wr)
+==18114== LL miss rate:             0.0% (          0.0%     +         0.0%  )

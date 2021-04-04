@@ -1,0 +1,29 @@
+==62616== Cachegrind, a cache and branch-prediction profiler
+==62616== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==62616== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==62616== Command: ./inst/amd64-linux.gcc-serial.pre/bin/rtview inputs/happy_buddha.obj -nodisplay -automove -nthreads 1 -frames 3 -res 960 540
+==62616== 
+--62616-- warning: L3 cache found, using its data for the LL simulation.
+--62616-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--62616-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==62616== brk segment overflow in thread #1: can't grow to 0x4a39000
+==62616== (see section Limitations in user manual)
+==62616== NOTE: further instances of this message will not be shown
+==62616== 
+==62616== I   refs:      33,950,961,596
+==62616== I1  misses:             4,312
+==62616== LLi misses:             4,297
+==62616== I1  miss rate:           0.00%
+==62616== LLi miss rate:           0.00%
+==62616== 
+==62616== D   refs:      14,344,892,246  (8,662,306,764 rd   + 5,682,585,482 wr)
+==62616== D1  misses:        13,886,375  (    9,534,104 rd   +     4,352,271 wr)
+==62616== LLd misses:        10,640,193  (    6,746,119 rd   +     3,894,074 wr)
+==62616== D1  miss rate:            0.1% (          0.1%     +           0.1%  )
+==62616== LLd miss rate:            0.1% (          0.1%     +           0.1%  )
+==62616== 
+==62616== LL refs:           13,890,687  (    9,538,416 rd   +     4,352,271 wr)
+==62616== LL misses:         10,644,490  (    6,750,416 rd   +     3,894,074 wr)
+==62616== LL miss rate:             0.0% (          0.0%     +           0.1%  )

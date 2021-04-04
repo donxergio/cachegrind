@@ -1,0 +1,28 @@
+==14239== Cachegrind, a cache and branch-prediction profiler
+==14239== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==14239== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==14239== Command: ./inst/amd64-linux.gcc-serial.pre/bin/streamcluster 10 20 128 16384 16384 1000 none /dev/null 1
+==14239== 
+--14239-- warning: L3 cache found, using its data for the LL simulation.
+--14239-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--14239-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+PARSEC Benchmark Suite Version 2.1
+read 16384 points
+==14239== 
+==14239== I   refs:      20,343,633,218
+==14239== I1  misses:             2,105
+==14239== LLi misses:             2,101
+==14239== I1  miss rate:           0.00%
+==14239== LLi miss rate:           0.00%
+==14239== 
+==14239== D   refs:       8,076,743,674  (7,986,001,273 rd   + 90,742,401 wr)
+==14239== D1  misses:       267,027,726  (  266,331,850 rd   +    695,876 wr)
+==14239== LLd misses:         1,564,118  (    1,403,626 rd   +    160,492 wr)
+==14239== D1  miss rate:            3.3% (          3.3%     +        0.8%  )
+==14239== LLd miss rate:            0.0% (          0.0%     +        0.2%  )
+==14239== 
+==14239== LL refs:          267,029,831  (  266,333,955 rd   +    695,876 wr)
+==14239== LL misses:          1,566,219  (    1,405,727 rd   +    160,492 wr)
+==14239== LL miss rate:             0.0% (          0.0%     +        0.2%  )

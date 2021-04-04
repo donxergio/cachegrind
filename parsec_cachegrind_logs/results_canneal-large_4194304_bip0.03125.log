@@ -1,0 +1,29 @@
+==66851== Cachegrind, a cache and branch-prediction profiler
+==66851== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==66851== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==66851== Command: ./inst/amd64-linux.gcc.pre/bin/canneal 1 15000 2000 run/400000.nets 128
+==66851== 
+--66851-- warning: L3 cache found, using its data for the LL simulation.
+--66851-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--66851-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.031250
+==66851== brk segment overflow in thread #1: can't grow to 0x4a31000
+==66851== (see section Limitations in user manual)
+==66851== NOTE: further instances of this message will not be shown
+==66851== 
+==66851== I   refs:      6,574,245,409
+==66851== I1  misses:            2,669
+==66851== LLi misses:            2,663
+==66851== I1  miss rate:          0.00%
+==66851== LLi miss rate:          0.00%
+==66851== 
+==66851== D   refs:      2,492,073,512  (1,890,322,139 rd   + 601,751,373 wr)
+==66851== D1  misses:       79,080,252  (   75,799,906 rd   +   3,280,346 wr)
+==66851== LLd misses:       40,090,307  (   36,853,231 rd   +   3,237,076 wr)
+==66851== D1  miss rate:           3.2% (          4.0%     +         0.5%  )
+==66851== LLd miss rate:           1.6% (          1.9%     +         0.5%  )
+==66851== 
+==66851== LL refs:          79,082,921  (   75,802,575 rd   +   3,280,346 wr)
+==66851== LL misses:        40,092,970  (   36,855,894 rd   +   3,237,076 wr)
+==66851== LL miss rate:            0.4% (          0.4%     +         0.5%  )
