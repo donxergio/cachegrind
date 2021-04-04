@@ -1,0 +1,25 @@
+==20060== Cachegrind, a cache and branch-prediction profiler
+==20060== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==20060== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==20060== Command: ./susan input_large.pgm output_large.edges.pgm -e
+==20060== 
+--20060-- warning: L3 cache found, using its data for the LL simulation.
+--20060-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--20060-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+FIFO cache replacement will be used
+==20060== 
+==20060== I   refs:      55,547,908
+==20060== I1  misses:         1,465
+==20060== LLi misses:           857
+==20060== I1  miss rate:       0.00%
+==20060== LLi miss rate:       0.00%
+==20060== 
+==20060== D   refs:      22,929,277  (19,043,276 rd   + 3,886,001 wr)
+==20060== D1  misses:        67,622  (    35,357 rd   +    32,265 wr)
+==20060== LLd misses:        10,874  (     1,969 rd   +     8,905 wr)
+==20060== D1  miss rate:        0.3% (       0.2%     +       0.8%  )
+==20060== LLd miss rate:        0.0% (       0.0%     +       0.2%  )
+==20060== 
+==20060== LL refs:           69,087  (    36,822 rd   +    32,265 wr)
+==20060== LL misses:         11,731  (     2,826 rd   +     8,905 wr)
+==20060== LL miss rate:         0.0% (       0.0%     +       0.2%  )

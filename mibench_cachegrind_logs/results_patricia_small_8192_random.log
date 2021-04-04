@@ -1,0 +1,25 @@
+==21046== Cachegrind, a cache and branch-prediction profiler
+==21046== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==21046== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==21046== Command: ./patricia small.udp
+==21046== 
+--21046-- warning: L3 cache found, using its data for the LL simulation.
+--21046-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--21046-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+Random cache replacement will be used
+==21046== 
+==21046== I   refs:      70,993,599
+==21046== I1  misses:     7,325,995
+==21046== LLi misses:           993
+==21046== I1  miss rate:      10.32%
+==21046== LLi miss rate:       0.00%
+==21046== 
+==21046== D   refs:      25,858,499  (15,909,052 rd   + 9,949,447 wr)
+==21046== D1  misses:       539,120  (   359,605 rd   +   179,515 wr)
+==21046== LLd misses:        19,507  (       242 rd   +    19,265 wr)
+==21046== D1  miss rate:        2.1% (       2.3%     +       1.8%  )
+==21046== LLd miss rate:        0.1% (       0.0%     +       0.2%  )
+==21046== 
+==21046== LL refs:        7,865,115  ( 7,685,600 rd   +   179,515 wr)
+==21046== LL misses:         20,500  (     1,235 rd   +    19,265 wr)
+==21046== LL miss rate:         0.0% (       0.0%     +       0.2%  )

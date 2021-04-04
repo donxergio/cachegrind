@@ -1,0 +1,25 @@
+==21816== Cachegrind, a cache and branch-prediction profiler
+==21816== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==21816== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==21816== Command: ./bin/toast -fps -c data/small.au
+==21816== 
+--21816-- warning: L3 cache found, using its data for the LL simulation.
+--21816-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--21816-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==21816== 
+==21816== I   refs:      18,299,237
+==21816== I1  misses:       220,364
+==21816== LLi misses:         1,114
+==21816== I1  miss rate:       1.20%
+==21816== LLi miss rate:       0.01%
+==21816== 
+==21816== D   refs:       6,790,590  (5,021,670 rd   + 1,768,920 wr)
+==21816== D1  misses:        18,894  (   10,947 rd   +     7,947 wr)
+==21816== LLd misses:           445  (      236 rd   +       209 wr)
+==21816== D1  miss rate:        0.3% (      0.2%     +       0.4%  )
+==21816== LLd miss rate:        0.0% (      0.0%     +       0.0%  )
+==21816== 
+==21816== LL refs:          239,258  (  231,311 rd   +     7,947 wr)
+==21816== LL misses:          1,559  (    1,350 rd   +       209 wr)
+==21816== LL miss rate:         0.0% (      0.0%     +       0.0%  )
