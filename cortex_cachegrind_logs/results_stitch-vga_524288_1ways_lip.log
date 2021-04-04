@@ -1,39 +1,28 @@
-==61590== Cachegrind, a cache and branch-prediction profiler
-==61590== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==61590== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==61590== Command: ./stitch .
-==61590== 
---61590-- warning: L3 cache found, using its data for the LL simulation.
---61590-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---61590-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==50043== Cachegrind, a cache and branch-prediction profiler
+==50043== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==50043== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==50043== Command: ./stitch .
+==50043== 
+--50043-- warning: L3 cache found, using its data for the LL simulation.
+--50043-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--50043-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LIP cache replacement will be used
-
-valgrind: m_syswrap/syswrap-linux.c:415 (vgPlain_main_thread_wrapper_NORETURN): Assertion 'sp != 0' failed.
-valgrind: Cannot allocate main thread's stack.
-
-host stacktrace:
-==61590==    at 0x5801074A: show_sched_status_wrk (m_libcassert.c:406)
-
-sched status:
-  running_tid=0
-
-Thread 1: status = VgTs_Init (lwpid 0)
-==61590==    at 0x4001090: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
-==61590==    by 0x1: ???
-==61590==    by 0x1FFF00050A: ???
-==61590==    by 0x1FFF000513: ???
-client stack range: [0x1FFEFFF000 0x1FFF000FFF] client SP: 0x1FFF000290
-
-
-Note: see also the FAQ in the source distribution.
-It contains workarounds to several common problems.
-In particular, if Valgrind aborted or crashed after
-identifying problems in your program, there's a good chance
-that fixing those problems will prevent Valgrind aborting or
-crashing, especially if it happened in m_mallocfree.c.
-
-If that doesn't help, please report this bug to: www.valgrind.org
-
-In the bug report, send all the above text, the valgrind
-version, and what OS and version you are using.  Thanks.
-
+==50043== brk segment overflow in thread #1: can't grow to 0x4ae3000
+==50043== (see section Limitations in user manual)
+==50043== NOTE: further instances of this message will not be shown
+==50043== 
+==50043== I   refs:      8,280,657,689
+==50043== I1  misses:            1,841
+==50043== LLi misses:            1,700
+==50043== I1  miss rate:          0.00%
+==50043== LLi miss rate:          0.00%
+==50043== 
+==50043== D   refs:      2,251,787,239  (1,520,764,435 rd   + 731,022,804 wr)
+==50043== D1  misses:        2,425,447  (    1,590,593 rd   +     834,854 wr)
+==50043== LLd misses:          281,406  (       24,959 rd   +     256,447 wr)
+==50043== D1  miss rate:           0.1% (          0.1%     +         0.1%  )
+==50043== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
+==50043== 
+==50043== LL refs:           2,427,288  (    1,592,434 rd   +     834,854 wr)
+==50043== LL misses:           283,106  (       26,659 rd   +     256,447 wr)
+==50043== LL miss rate:            0.0% (          0.0%     +         0.0%  )

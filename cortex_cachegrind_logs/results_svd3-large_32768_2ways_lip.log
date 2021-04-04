@@ -1,163 +1,25 @@
-==61684== Cachegrind, a cache and branch-prediction profiler
-==61684== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==61684== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==61684== Command: ./a.out large.txt
-==61684== 
---61684-- warning: L3 cache found, using its data for the LL simulation.
---61684-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---61684-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==51176== Cachegrind, a cache and branch-prediction profiler
+==51176== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==51176== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==51176== Command: ./a.out large.txt
+==51176== 
+--51176-- warning: L3 cache found, using its data for the LL simulation.
+--51176-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--51176-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LIP cache replacement will be used
---61684:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (55 segments)
---61684:0: aspacem 8 segment names in 8 slots
---61684:0: aspacem freelist is empty
---61684:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---61684:0: aspacem (1,66,3) /home/tkloda/cortexsuite/cortex/svd3/a.out
---61684:0: aspacem (2,113,3) /lib/x86_64-linux-gnu/ld-2.27.so
---61684:0: aspacem (3,150,1) /tmp/vgdb-pipe-shared-mem-vgdb-61684-by-tkloda-on-???
---61684:0: aspacem (4,208,4) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
---61684:0: aspacem (5,277,1) /etc/ld.so.cache
---61684:0: aspacem (6,298,4) /lib/x86_64-linux-gnu/libm-2.27.so
---61684:0: aspacem (7,337,5) /lib/x86_64-linux-gnu/libc-2.27.so
---61684:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---61684:0: aspacem   1: file 0000108000-0000112fff   45056 r-x-- d=0x802 i=49556510 o=0       (1,66)
---61684:0: aspacem   2: RSVN 0000113000-0000311fff 2093056 ----- SmFixed
---61684:0: aspacem   3: file 0000312000-0000313fff    8192 rw--- d=0x802 i=49556510 o=40960   (1,66)
---61684:0: aspacem   4: RSVN 0000314000-0003ffffff     60m ----- SmFixed
---61684:0: aspacem   5: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,113)
---61684:0: aspacem   6: file 0004029000-000405dfff  217088 r---- d=0x802 i=54001893 o=0       (5,277)
---61684:0: aspacem   7: anon 000405e000-000405ffff    8192 rw---
---61684:0: aspacem   8:      0004060000-0004228fff 1871872
---61684:0: aspacem   9: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,113)
---61684:0: aspacem  10: anon 000422b000-000422bfff    4096 rw---
---61684:0: aspacem  11: anon 000422c000-000422cfff    4096 rwx--
---61684:0: aspacem  12: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
---61684:0: aspacem  13: file 0004a2c000-0004a2cfff    4096 r-x-- d=0x802 i=28344728 o=0       (4,208)
---61684:0: aspacem  14: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,208)
---61684:0: aspacem  15: file 0004c2c000-0004c2dfff    8192 rw--- d=0x802 i=28344728 o=0       (4,208)
---61684:0: aspacem  16: file 0004c2e000-0004dcafff 1691648 r-x-- d=0x802 i=12583362 o=0       (6,298)
---61684:0: aspacem  17: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,298)
---61684:0: aspacem  18: file 0004fca000-0004fcbfff    8192 rw--- d=0x802 i=12583362 o=1687552 (6,298)
---61684:0: aspacem  19: file 0004fcc000-00051b2fff 1994752 r-x-- d=0x802 i=12583345 o=0       (7,337)
---61684:0: aspacem  20: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,337)
---61684:0: aspacem  21: file 00053b3000-00053b8fff   24576 rw--- d=0x802 i=12583345 o=1994752 (7,337)
---61684:0: aspacem  22: file 00053b9000-00053bcfff   16384 r-x-- d=0x802 i=12583345 o=4116480 (7,337)
---61684:0: aspacem  23:      00053bd000-0057ffffff   1324m
---61684:0: aspacem  24: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---61684:0: aspacem  25: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---61684:0: aspacem  26: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---61684:0: aspacem  27:      0058259000-0058458fff 2097152
---61684:0: aspacem  28: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---61684:0: aspacem  29: ANON 005845f000-0058e56fff      9m rw---
---61684:0: aspacem  30:      0058e57000-1001ffffff  64145m
---61684:0: aspacem  31: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---61684:0: aspacem  32: ANON 1002001000-100278bfff 7909376 rwx--
---61684:0: aspacem  33: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29543306 o=0       (3,150)
---61684:0: aspacem  34: ANON 100278d000-10027bcfff  196608 rwx--
---61684:0: aspacem  35:      10027bd000-100288bfff  847872
---61684:0: aspacem  36: ANON 100288c000-100298bfff 1048576 rwx--
---61684:0: aspacem  37: ANON 100298c000-100298dfff    8192 -----
---61684:0: aspacem  38: ANON 100298e000-1002a8dfff 1048576 rwx--
---61684:0: aspacem  39: ANON 1002a8e000-1002a8ffff    8192 -----
---61684:0: aspacem  40:      1002a90000-1002b80fff  987136
---61684:0: aspacem  41: ANON 1002b81000-1004f44fff     35m rwx--
---61684:0: aspacem  42:      1004f45000-1005044fff 1048576
---61684:0: aspacem  43: ANON 1005045000-1005144fff 1048576 rwx--
---61684:0: aspacem  44:      1005145000-1ffe800fff  65430m
---61684:0: aspacem  45: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
---61684:0: aspacem  46: anon 1ffeffe000-1fff000fff   12288 rw---
---61684:0: aspacem  47:      1fff001000-1fffffffff     15m
---61684:0: aspacem  48: RSVN 2000000000-7ffc481c3fff 130929g ----- SmFixed
---61684:0: aspacem  49: ANON 7ffc481c4000-7ffc481e4fff  135168 rw---
---61684:0: aspacem  50: RSVN 7ffc481e5000-7ffc481e7fff   12288 ----- SmFixed
---61684:0: aspacem  51: ANON 7ffc481e8000-7ffc481eafff   12288 r----
---61684:0: aspacem  52: RSVN 7ffc481eb000-ffffffffff5fffff  16383e ----- SmFixed
---61684:0: aspacem  53: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---61684:0: aspacem  54: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---61684:0: aspacem >>>
---61684-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      7,374,880/    7,308,832 max/curr,        2792/   7595568 totalloc-blocks/bytes,        2792 searches 8 rzB
---61684-- dinfo   :    11,657,216/   10,608,640 max/curr mmap'd, 1/2 unsplit/split sb unmmap'd,     10,758,240/   10,427,136 max/curr,       68988/  37722960 totalloc-blocks/bytes,       71365 searches 8 rzB
---61684-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---61684-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---61684-- ttaux   :        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,         31,936/       21,856 max/curr,         118/     59104 totalloc-blocks/bytes,         120 searches 8 rzB
---61684-- translate: 5,413 guest insns, 903 traces, 178 uncond chased, 23 cond chased
---61684-- translate: no SP updates identified
---61684-- translate: PX: SPonly 903,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---61684--     tt/tc: 1,983 tt lookups requiring 1,992 probes
---61684--     tt/tc: 1,054 fast-cache updates, 2 flushes
---61684--  transtab: new        903 (21,877 -> 275,246; ratio 12.6) [0 scs] avg tce size 304
---61684--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---61684--  transtab: discarded  0 (0 -> ??)
---61684-- scheduler: 2,904 event checks.
---61684-- scheduler: 447 indir transfers, 138 misses (1 in 3) ..
---61684-- scheduler: .. of which: 304 hit0, 3 hit1, 2 hit2, 0 hit3, 138 missed
---61684-- scheduler: 0/1,131 major/minor sched events.
---61684--    sanity: 0 cheap, 0 expensive checks.
---61684--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
---61684--    exectx: 1 searches, 0 full compares (0 per 1000)
---61684--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
---61684--  errormgr: 0 supplist searches, 0 comparisons during search
---61684--  errormgr: 0 errlist searches, 0 comparisons during search
-
-host stacktrace:
-==61684==    at 0x5801074A: show_sched_status_wrk (m_libcassert.c:406)
-==61684==    by 0x58018D75: vgPlain_out_of_memory_NORETURN (m_mallocfree.c:795)
-==61684==    by 0x58019193: newSuperblock (m_mallocfree.c:868)
-==61684==    by 0x58019767: vgPlain_arena_malloc (m_mallocfree.c:1806)
-==61684==    by 0x580A08DD: vgModuleLocal_dinfo_zalloc (misc.c:46)
-==61684==    by 0x580A4162: alloc_CEnt (image.c:504)
-==61684==    by 0x580A6D52: get_slowcase (image.c:722)
-==61684==    by 0x580A8044: vgModuleLocal_img_calc_gnu_debuglink_crc32 (image.c:814)
-==61684==    by 0x58001545: open_debug_file (readelf.c:1268)
-==61684==    by 0x5800183A: find_debug_file (readelf.c:1357)
-==61684==    by 0x58047340: vgModuleLocal_read_elf_debug_info (readelf.c:2752)
-==61684==    by 0x5803AA16: vgPlain_di_notify_mmap (debuginfo.c:969)
-==61684==    by 0x5806E385: vgModuleLocal_generic_PRE_sys_mmap (syswrap-generic.c:2400)
-==61684==    by 0x5807A904: vgSysWrap_amd64_linux_sys_mmap_before (syswrap-amd64-linux.c:413)
-==61684==    by 0x58069431: vgPlain_client_syscall (syswrap-main.c:1914)
-==61684==    by 0x58065D82: handle_syscall (scheduler.c:1208)
-==61684==    by 0x58067856: vgPlain_scheduler (scheduler.c:1526)
-==61684==    by 0x580D4340: run_a_thread_NORETURN (syswrap-linux.c:101)
-
-sched status:
-  running_tid=1
-
-Thread 1: status = VgTs_Runnable syscall 9 (lwpid 61684)
-==61684==    at 0x401D143: mmap (mmap64.c:59)
-==61684==    by 0x4006EC6: _dl_map_object_from_fd (dl-map-segments.h:94)
-==61684==    by 0x40091CB: _dl_map_object (dl-load.c:2461)
-==61684==    by 0x400E4E1: openaux (dl-deps.c:63)
-==61684==    by 0x401BE6A: _dl_catch_exception (dl-error-skeleton.c:196)
-==61684==    by 0x400E85A: _dl_map_object_deps (dl-deps.c:249)
-==61684==    by 0x4003EC5: dl_main (rtld.c:1726)
-==61684==    by 0x401AF6F: _dl_sysdep_start (dl-sysdep.c:253)
-==61684==    by 0x4002127: _dl_start (rtld.c:414)
-==61684==    by 0x4001097: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
-==61684==    by 0x1: ???
-==61684==    by 0x1FFF00051A: ???
-==61684==    by 0x1FFF000522: ???
-client stack range: [0x1FFEFFE000 0x1FFF000FFF] client SP: 0x1FFEFFF518
-valgrind stack range: [0x100298E000 0x1002A8DFFF] top usage: 9368 of 1048576
-
-==61684== 
-==61684==     Valgrind's memory management: out of memory:
-==61684==        newSuperblock's request for 1048576 bytes failed.
-==61684==           59,404,288 bytes have already been mmap-ed ANONYMOUS.
-==61684==     Valgrind cannot continue.  Sorry.
-==61684== 
-==61684==     There are several possible reasons for this.
-==61684==     - You have some kind of memory limit in place.  Look at the
-==61684==       output of 'ulimit -a'.  Is there a limit on the size of
-==61684==       virtual memory or address space?
-==61684==     - You have run out of swap space.
-==61684==     - Valgrind has a bug.  If you think this is the case or you are
-==61684==     not sure, please let us know and we'll try to fix it.
-==61684==     Please note that programs can take substantially more memory than
-==61684==     normal when running under Valgrind tools, eg. up to twice or
-==61684==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==61684==     should be able to make use of up 32GB memory.  On a 32-bit
-==61684==     machine, Valgrind should be able to use all the memory available
-==61684==     to a single process, up to 4GB if that's how you have your
-==61684==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==61684==     3GB per process.
-==61684== 
-==61684==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==51176== 
+==51176== I   refs:      166,691,482,167
+==51176== I1  misses:         27,764,397
+==51176== LLi misses:              1,910
+==51176== I1  miss rate:            0.02%
+==51176== LLi miss rate:            0.00%
+==51176== 
+==51176== D   refs:      104,424,129,669  (95,529,538,739 rd   + 8,894,590,930 wr)
+==51176== D1  misses:      4,712,638,410  ( 4,707,262,091 rd   +     5,376,319 wr)
+==51176== LLd misses:            552,058  (       182,325 rd   +       369,733 wr)
+==51176== D1  miss rate:             4.5% (           4.9%     +           0.1%  )
+==51176== LLd miss rate:             0.0% (           0.0%     +           0.0%  )
+==51176== 
+==51176== LL refs:         4,740,402,807  ( 4,735,026,488 rd   +     5,376,319 wr)
+==51176== LL misses:             553,968  (       184,235 rd   +       369,733 wr)
+==51176== LL miss rate:              0.0% (           0.0%     +           0.0%  )

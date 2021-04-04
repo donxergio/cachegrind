@@ -1,0 +1,26 @@
+==51739== Cachegrind, a cache and branch-prediction profiler
+==51739== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==51739== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==51739== Command: ./a.out large.txt
+==51739== 
+--51739-- warning: L3 cache found, using its data for the LL simulation.
+--51739-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--51739-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==51739== 
+==51739== I   refs:      166,691,482,179
+==51739== I1  misses:              1,806
+==51739== LLi misses:              1,794
+==51739== I1  miss rate:            0.00%
+==51739== LLi miss rate:            0.00%
+==51739== 
+==51739== D   refs:      104,424,129,671  (95,529,538,740 rd   + 8,894,590,931 wr)
+==51739== D1  misses:        205,129,320  (   203,350,653 rd   +     1,778,667 wr)
+==51739== LLd misses:            528,922  (       169,196 rd   +       359,726 wr)
+==51739== D1  miss rate:             0.2% (           0.2%     +           0.0%  )
+==51739== LLd miss rate:             0.0% (           0.0%     +           0.0%  )
+==51739== 
+==51739== LL refs:           205,131,126  (   203,352,459 rd   +     1,778,667 wr)
+==51739== LL misses:             530,716  (       170,990 rd   +       359,726 wr)
+==51739== LL miss rate:              0.0% (           0.0%     +           0.0%  )

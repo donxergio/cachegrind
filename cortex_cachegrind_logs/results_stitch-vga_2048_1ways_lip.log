@@ -1,87 +1,28 @@
-==61488== Cachegrind, a cache and branch-prediction profiler
-==61488== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==61488== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==61488== Command: ./stitch .
-==61488== 
---61488-- warning: L3 cache found, using its data for the LL simulation.
---61488-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---61488-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==49947== Cachegrind, a cache and branch-prediction profiler
+==49947== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==49947== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==49947== Command: ./stitch .
+==49947== 
+--49947-- warning: L3 cache found, using its data for the LL simulation.
+--49947-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--49947-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LIP cache replacement will be used
---61488:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (30 segments)
---61488:0: aspacem 3 segment names in 3 slots
---61488:0: aspacem freelist is empty
---61488:0: aspacem (0,4,3) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---61488:0: aspacem (1,66,3) /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/vga/stitch
---61488:0: aspacem (2,136,3) /lib/x86_64-linux-gnu/ld-2.27.so
---61488:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---61488:0: aspacem   1: file 0000108000-000010ffff   32768 r-x-- d=0x802 i=49682275 o=0       (1,66)
---61488:0: aspacem   2: RSVN 0000110000-000030efff 2093056 ----- SmFixed
---61488:0: aspacem   3: file 000030f000-0000310fff    8192 rw--- d=0x802 i=49682275 o=28672   (1,66)
---61488:0: aspacem   4: RSVN 0000311000-0003ffffff     60m ----- SmFixed
---61488:0: aspacem   5: file 0004000000-0004028fff  167936 r-x-- d=0x802 i=12583111 o=0       (2,136)
---61488:0: aspacem   6:      0004029000-0004228fff 2097152
---61488:0: aspacem   7: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,136)
---61488:0: aspacem   8: anon 000422b000-000422bfff    4096 rw---
---61488:0: aspacem   9: anon 000422c000-000422cfff    4096 rwx--
---61488:0: aspacem  10: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
---61488:0: aspacem  11:      0004a2c000-0057ffffff   1333m
---61488:0: aspacem  12: FILE 0058000000-0058258fff 2461696 r-x-- d=0x802 i=28344876 o=0       (0,4)
---61488:0: aspacem  13:      0058259000-0058458fff 2097152
---61488:0: aspacem  14: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---61488:0: aspacem  15: ANON 005845f000-0058e56fff      9m rw---
---61488:0: aspacem  16:      0058e57000-1001ffffff  64145m
---61488:0: aspacem  17: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---61488:0: aspacem  18: ANON 1002001000-100278bfff 7909376 rwx--
---61488:0: aspacem  19:      100278c000-1ffe800fff  65472m
---61488:0: aspacem  20: RSVN 1ffe801000-1ffeffefff 8380416 ----- SmUpper
---61488:0: aspacem  21: anon 1ffefff000-1fff000fff    8192 rw---
---61488:0: aspacem  22:      1fff001000-1fffffffff     15m
---61488:0: aspacem  23: RSVN 2000000000-7fff4612bfff 130941g ----- SmFixed
---61488:0: aspacem  24: ANON 7fff4612c000-7fff4614cfff  135168 rw---
---61488:0: aspacem  25: RSVN 7fff4614d000-7fff461e7fff  634880 ----- SmFixed
---61488:0: aspacem  26: ANON 7fff461e8000-7fff461eafff   12288 r----
---61488:0: aspacem  27: RSVN 7fff461eb000-ffffffffff5fffff  16383e ----- SmFixed
---61488:0: aspacem  28: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---61488:0: aspacem  29: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---61488:0: aspacem >>>
---61488-- core    :     4,194,304/    4,194,304 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      3,223,024/    3,210,800 max/curr,          60/   3311728 totalloc-blocks/bytes,          59 searches 8 rzB
---61488-- dinfo   :     3,145,728/    3,145,728 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      2,719,808/    2,690,896 max/curr,       19380/   7136256 totalloc-blocks/bytes,       19548 searches 8 rzB
---61488-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---61488-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            144/          112 max/curr,           6/       208 totalloc-blocks/bytes,           5 searches 8 rzB
---61488-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---61488-- translate: 0 guest insns, 0 traces, 0 uncond chased, 0 cond chased
---61488-- translate: no SP updates identified
---61488-- translate: PX: SPonly 0,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---61488--     tt/tc: 0 tt lookups requiring 0 probes
---61488--     tt/tc: 0 fast-cache updates, 1 flushes
---61488--  transtab: new        0 (0 -> 0; ratio 0.0) [0 scs] avg tce size 0
---61488--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---61488--  transtab: discarded  0 (0 -> ??)
---61488-- scheduler: 0 event checks.
---61488-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
---61488-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
---61488-- scheduler: 0/0 major/minor sched events.
---61488--    sanity: 0 cheap, 0 expensive checks.
-==61488== 
-==61488==     Valgrind's memory management: out of memory:
-==61488==        newSuperblock's request for 4194304 bytes failed.
-==61488==           18,530,304 bytes have already been mmap-ed ANONYMOUS.
-==61488==     Valgrind cannot continue.  Sorry.
-==61488== 
-==61488==     There are several possible reasons for this.
-==61488==     - You have some kind of memory limit in place.  Look at the
-==61488==       output of 'ulimit -a'.  Is there a limit on the size of
-==61488==       virtual memory or address space?
-==61488==     - You have run out of swap space.
-==61488==     - Valgrind has a bug.  If you think this is the case or you are
-==61488==     not sure, please let us know and we'll try to fix it.
-==61488==     Please note that programs can take substantially more memory than
-==61488==     normal when running under Valgrind tools, eg. up to twice or
-==61488==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==61488==     should be able to make use of up 32GB memory.  On a 32-bit
-==61488==     machine, Valgrind should be able to use all the memory available
-==61488==     to a single process, up to 4GB if that's how you have your
-==61488==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==61488==     3GB per process.
-==61488== 
-==61488==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==49947== brk segment overflow in thread #1: can't grow to 0x4ae3000
+==49947== (see section Limitations in user manual)
+==49947== NOTE: further instances of this message will not be shown
+==49947== 
+==49947== I   refs:      8,280,657,689
+==49947== I1  misses:       10,516,649
+==49947== LLi misses:            1,903
+==49947== I1  miss rate:          0.13%
+==49947== LLi miss rate:          0.00%
+==49947== 
+==49947== D   refs:      2,251,787,239  (1,520,764,435 rd   + 731,022,804 wr)
+==49947== D1  misses:      317,987,470  (  224,609,802 rd   +  93,377,668 wr)
+==49947== LLd misses:          266,558  (       13,690 rd   +     252,868 wr)
+==49947== D1  miss rate:          14.1% (         14.8%     +        12.8%  )
+==49947== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
+==49947== 
+==49947== LL refs:         328,504,119  (  235,126,451 rd   +  93,377,668 wr)
+==49947== LL misses:           268,461  (       15,593 rd   +     252,868 wr)
+==49947== LL miss rate:            0.0% (          0.0%     +         0.0%  )

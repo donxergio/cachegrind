@@ -1,40 +1,28 @@
-==60698== Cachegrind, a cache and branch-prediction profiler
-==60698== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==60698== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==60698== Command: ./stitch .
-==60698== 
---60698-- warning: L3 cache found, using its data for the LL simulation.
---60698-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---60698-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==49160== Cachegrind, a cache and branch-prediction profiler
+==49160== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==49160== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==49160== Command: ./stitch .
+==49160== 
+--49160-- warning: L3 cache found, using its data for the LL simulation.
+--49160-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--49160-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 FIFO cache replacement will be used
-==60698== brk segment overflow in thread #1: can't grow to 0x4a37000
-==60698== (see section Limitations in user manual)
-==60698== NOTE: further instances of this message will not be shown
-==60698== 
-==60698== Process terminating with default action of signal 11 (SIGSEGV)
-==60698==  Access not within mapped region at address 0x4
-==60698==    at 0x109CA3: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
-==60698==    by 0x10A8A5: fMinus (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
-==60698==    by 0x10D0DF: harris (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
-==60698==    by 0x108B0E: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/fullhd/stitch)
-==60698==  If you believe this happened as a result of a stack
-==60698==  overflow in your program's main thread (unlikely but
-==60698==  possible), you can try to increase the size of the
-==60698==  main thread stack using the --main-stacksize= flag.
-==60698==  The main thread stack size used in this run was 8388608.
-==60698== 
-==60698== I   refs:      4,875,143,209
-==60698== I1  misses:            1,342
-==60698== LLi misses:            1,312
-==60698== I1  miss rate:          0.00%
-==60698== LLi miss rate:          0.00%
-==60698== 
-==60698== D   refs:      1,390,613,066  (1,137,719,160 rd   + 252,893,906 wr)
-==60698== D1  misses:        4,455,140  (    2,768,420 rd   +   1,686,720 wr)
-==60698== LLd misses:        2,172,034  (      716,078 rd   +   1,455,956 wr)
-==60698== D1  miss rate:           0.3% (          0.2%     +         0.7%  )
-==60698== LLd miss rate:           0.2% (          0.1%     +         0.6%  )
-==60698== 
-==60698== LL refs:           4,456,482  (    2,769,762 rd   +   1,686,720 wr)
-==60698== LL misses:         2,173,346  (      717,390 rd   +   1,455,956 wr)
-==60698== LL miss rate:            0.0% (          0.0%     +         0.6%  )
+==49160== brk segment overflow in thread #1: can't grow to 0x4a37000
+==49160== (see section Limitations in user manual)
+==49160== NOTE: further instances of this message will not be shown
+==49160== 
+==49160== I   refs:      253,517,705,698
+==49160== I1  misses:              1,898
+==49160== LLi misses:              1,861
+==49160== I1  miss rate:            0.00%
+==49160== LLi miss rate:            0.00%
+==49160== 
+==49160== D   refs:       68,980,624,508  (45,322,620,960 rd   + 23,658,003,548 wr)
+==49160== D1  misses:      4,664,196,116  ( 2,630,169,771 rd   +  2,034,026,345 wr)
+==49160== LLd misses:          4,141,850  (     1,647,221 rd   +      2,494,629 wr)
+==49160== D1  miss rate:             6.8% (           5.8%     +            8.6%  )
+==49160== LLd miss rate:             0.0% (           0.0%     +            0.0%  )
+==49160== 
+==49160== LL refs:         4,664,198,014  ( 2,630,171,669 rd   +  2,034,026,345 wr)
+==49160== LL misses:           4,143,711  (     1,649,082 rd   +      2,494,629 wr)
+==49160== LL miss rate:              0.0% (           0.0%     +            0.0%  )

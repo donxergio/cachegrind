@@ -1,130 +1,25 @@
-==59348== Cachegrind, a cache and branch-prediction profiler
-==59348== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==59348== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==59348== Command: ./a.out large.txt
-==59348== 
---59348-- warning: L3 cache found, using its data for the LL simulation.
---59348-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---59348-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==51084== Cachegrind, a cache and branch-prediction profiler
+==51084== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==51084== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==51084== Command: ./a.out large.txt
+==51084== 
+--51084-- warning: L3 cache found, using its data for the LL simulation.
+--51084-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--51084-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LRU cache replacement will be used
---59348:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (68 segments)
---59348:0: aspacem 7 segment names in 8 slots
---59348:0: aspacem freelist begins at 277
---59348:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---59348:0: aspacem (1,66,4) /home/tkloda/cortexsuite/cortex/svd3/a.out
---59348:0: aspacem (2,113,4) /lib/x86_64-linux-gnu/ld-2.27.so
---59348:0: aspacem (3,150,1) /tmp/vgdb-pipe-shared-mem-vgdb-59348-by-tkloda-on-???
---59348:0: aspacem (4,208,5) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
---59348:0: aspacem (5,277,0) [free slot: size=17  next=0]
---59348:0: aspacem (6,298,5) /lib/x86_64-linux-gnu/libm-2.27.so
---59348:0: aspacem (7,337,5) /lib/x86_64-linux-gnu/libc-2.27.so
---59348:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---59348:0: aspacem   1: file 0000108000-0000112fff   45056 r-xT- d=0x802 i=49556510 o=0       (1,66)
---59348:0: aspacem   2: RSVN 0000113000-0000311fff 2093056 ----- SmFixed
---59348:0: aspacem   3: file 0000312000-0000312fff    4096 r---- d=0x802 i=49556510 o=40960   (1,66)
---59348:0: aspacem   4: file 0000313000-0000313fff    4096 rw--- d=0x802 i=49556510 o=45056   (1,66)
---59348:0: aspacem   5: RSVN 0000314000-0003ffffff     60m ----- SmFixed
---59348:0: aspacem   6: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,113)
---59348:0: aspacem   7:      0004029000-000405dfff  217088
---59348:0: aspacem   8: anon 000405e000-0004062fff   20480 rw---
---59348:0: aspacem   9:      0004063000-0004228fff 1859584
---59348:0: aspacem  10: file 0004229000-0004229fff    4096 r---- d=0x802 i=12583111 o=167936  (2,113)
---59348:0: aspacem  11: file 000422a000-000422afff    4096 rw--- d=0x802 i=12583111 o=172032  (2,113)
---59348:0: aspacem  12: anon 000422b000-000422bfff    4096 rw---
---59348:0: aspacem  13: anon 000422c000-000424cfff  135168 rwx--
---59348:0: aspacem  14: RSVN 000424d000-0004a2bfff 8253440 ----- SmLower
---59348:0: aspacem  15: file 0004a2c000-0004a2cfff    4096 r-xT- d=0x802 i=28344728 o=0       (4,208)
---59348:0: aspacem  16: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,208)
---59348:0: aspacem  17: file 0004c2c000-0004c2cfff    4096 r---- d=0x802 i=28344728 o=0       (4,208)
---59348:0: aspacem  18: file 0004c2d000-0004c2dfff    4096 rw--- d=0x802 i=28344728 o=4096    (4,208)
---59348:0: aspacem  19: file 0004c2e000-0004dcafff 1691648 r-xT- d=0x802 i=12583362 o=0       (6,298)
---59348:0: aspacem  20: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,298)
---59348:0: aspacem  21: file 0004fca000-0004fcafff    4096 r---- d=0x802 i=12583362 o=1687552 (6,298)
---59348:0: aspacem  22: file 0004fcb000-0004fcbfff    4096 rw--- d=0x802 i=12583362 o=1691648 (6,298)
---59348:0: aspacem  23: file 0004fcc000-00051b2fff 1994752 r-xT- d=0x802 i=12583345 o=0       (7,337)
---59348:0: aspacem  24: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,337)
---59348:0: aspacem  25: file 00053b3000-00053b6fff   16384 r---- d=0x802 i=12583345 o=1994752 (7,337)
---59348:0: aspacem  26: file 00053b7000-00053b8fff    8192 rw--- d=0x802 i=12583345 o=2011136 (7,337)
---59348:0: aspacem  27: anon 00053b9000-0005b5efff 8019968 rw---
---59348:0: aspacem  28:      0005b5f000-0057ffffff   1316m
---59348:0: aspacem  29: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---59348:0: aspacem  30: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---59348:0: aspacem  31: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---59348:0: aspacem  32:      0058259000-0058458fff 2097152
---59348:0: aspacem  33: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---59348:0: aspacem  34: ANON 005845f000-0058e56fff      9m rw---
---59348:0: aspacem  35:      0058e57000-1001ffffff  64145m
---59348:0: aspacem  36: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---59348:0: aspacem  37: ANON 1002001000-100278bfff 7909376 rwx--
---59348:0: aspacem  38: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29544895 o=0       (3,150)
---59348:0: aspacem  39: ANON 100278d000-10027ccfff  262144 rwx--
---59348:0: aspacem  40:      10027cd000-100288bfff  782336
---59348:0: aspacem  41: ANON 100288c000-100298bfff 1048576 rwx--
---59348:0: aspacem  42: ANON 100298c000-100298dfff    8192 -----
---59348:0: aspacem  43: ANON 100298e000-1002a8dfff 1048576 rwx--
---59348:0: aspacem  44: ANON 1002a8e000-1002a8ffff    8192 -----
---59348:0: aspacem  45:      1002a90000-1002b80fff  987136
---59348:0: aspacem  46: ANON 1002b81000-1004c44fff     32m rwx--
---59348:0: aspacem  47:      1004c45000-1004d44fff 1048576
---59348:0: aspacem  48: ANON 1004d45000-1004f44fff 2097152 rwx--
---59348:0: aspacem  49:      1004f45000-1005044fff 1048576
---59348:0: aspacem  50: ANON 1005045000-1005144fff 1048576 rwx--
---59348:0: aspacem  51:      1005145000-1005244fff 1048576
---59348:0: aspacem  52: ANON 1005245000-1005544fff 3145728 rwx--
---59348:0: aspacem  53:      1005545000-1005644fff 1048576
---59348:0: aspacem  54: ANON 1005645000-1005744fff 1048576 rwx--
---59348:0: aspacem  55:      1005745000-1005a39fff 3100672
---59348:0: aspacem  56: ANON 1005a3a000-100607bfff 6561792 rwx--
---59348:0: aspacem  57:      100607c000-1ffe800fff  65415m
---59348:0: aspacem  58: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
---59348:0: aspacem  59: anon 1ffeffe000-1fff000fff   12288 rw---
---59348:0: aspacem  60:      1fff001000-1fffffffff     15m
---59348:0: aspacem  61: RSVN 2000000000-7ffd5d89ffff 130933g ----- SmFixed
---59348:0: aspacem  62: ANON 7ffd5d8a0000-7ffd5d8c0fff  135168 rw---
---59348:0: aspacem  63: RSVN 7ffd5d8c1000-7ffd5d901fff  266240 ----- SmFixed
---59348:0: aspacem  64: ANON 7ffd5d902000-7ffd5d904fff   12288 r----
---59348:0: aspacem  65: RSVN 7ffd5d905000-ffffffffff5fffff  16383e ----- SmFixed
---59348:0: aspacem  66: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---59348:0: aspacem  67: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---59348:0: aspacem >>>
---59348-- core    :    12,582,912/   12,582,912 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      8,509,008/    8,509,008 max/curr,        7222/   9085184 totalloc-blocks/bytes,        7221 searches 8 rzB
---59348-- dinfo   :    24,100,864/   16,121,856 max/curr mmap'd, 2/8 unsplit/split sb unmmap'd,     22,510,896/    8,748,848 max/curr,      230389/  61195504 totalloc-blocks/bytes,      233187 searches 8 rzB
---59348-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---59348-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---59348-- ttaux   :       131,072/      131,072 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,         72,224/       49,248 max/curr,         294/    134192 totalloc-blocks/bytes,         295 searches 8 rzB
---59348-- translate: 14,322 guest insns, 2,395 traces, 457 uncond chased, 72 cond chased
---59348-- translate: no SP updates identified
---59348-- translate: PX: SPonly 2,395,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---59348--     tt/tc: 5,181 tt lookups requiring 5,237 probes
---59348--     tt/tc: 2,835 fast-cache updates, 2 flushes
---59348--  transtab: new        2,395 (58,560 -> 740,795; ratio 12.7) [0 scs] avg tce size 309
---59348--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---59348--  transtab: discarded  0 (0 -> ??)
---59348-- scheduler: 36,646,061 event checks.
---59348-- scheduler: 11,352,621 indir transfers, 419 misses (1 in 27094) ..
---59348-- scheduler: .. of which: 11,352,191 hit0, 7 hit1, 4 hit2, 0 hit3, 419 missed
---59348-- scheduler: 366/3,703 major/minor sched events.
---59348--    sanity: 366 cheap, 13 expensive checks.
-==59348== 
-==59348==     Valgrind's memory management: out of memory:
-==59348==        newSuperblock's request for 4194304 bytes failed.
-==59348==           77,340,672 bytes have already been mmap-ed ANONYMOUS.
-==59348==     Valgrind cannot continue.  Sorry.
-==59348== 
-==59348==     There are several possible reasons for this.
-==59348==     - You have some kind of memory limit in place.  Look at the
-==59348==       output of 'ulimit -a'.  Is there a limit on the size of
-==59348==       virtual memory or address space?
-==59348==     - You have run out of swap space.
-==59348==     - Valgrind has a bug.  If you think this is the case or you are
-==59348==     not sure, please let us know and we'll try to fix it.
-==59348==     Please note that programs can take substantially more memory than
-==59348==     normal when running under Valgrind tools, eg. up to twice or
-==59348==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==59348==     should be able to make use of up 32GB memory.  On a 32-bit
-==59348==     machine, Valgrind should be able to use all the memory available
-==59348==     to a single process, up to 4GB if that's how you have your
-==59348==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==59348==     3GB per process.
-==59348== 
-==59348==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==51084== 
+==51084== I   refs:      166,691,482,179
+==51084== I1  misses:              1,789
+==51084== LLi misses:              1,785
+==51084== I1  miss rate:            0.00%
+==51084== LLi miss rate:            0.00%
+==51084== 
+==51084== D   refs:      104,424,129,671  (95,529,538,740 rd   + 8,894,590,931 wr)
+==51084== D1  misses:        128,817,719  (   128,249,600 rd   +       568,119 wr)
+==51084== LLd misses:            253,046  (         2,289 rd   +       250,757 wr)
+==51084== D1  miss rate:             0.1% (           0.1%     +           0.0%  )
+==51084== LLd miss rate:             0.0% (           0.0%     +           0.0%  )
+==51084== 
+==51084== LL refs:           128,819,508  (   128,251,389 rd   +       568,119 wr)
+==51084== LL misses:             254,831  (         4,074 rd   +       250,757 wr)
+==51084== LL miss rate:              0.0% (           0.0%     +           0.0%  )

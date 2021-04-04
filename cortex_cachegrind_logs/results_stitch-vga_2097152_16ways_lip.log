@@ -1,26 +1,28 @@
-==61622== Cachegrind, a cache and branch-prediction profiler
-==61622== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==61622== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==61622== Command: ./stitch .
-==61622== 
---61622-- warning: L3 cache found, using its data for the LL simulation.
---61622-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---61622-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==50075== Cachegrind, a cache and branch-prediction profiler
+==50075== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==50075== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==50075== Command: ./stitch .
+==50075== 
+--50075-- warning: L3 cache found, using its data for the LL simulation.
+--50075-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--50075-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LIP cache replacement will be used
-./stitch: error while loading shared libraries: libm.so.6: cannot create shared object descriptor: Cannot allocate memory
-==61622== 
-==61622== I   refs:      27,058
-==61622== I1  misses:       477
-==61622== LLi misses:       477
-==61622== I1  miss rate:   1.76%
-==61622== LLi miss rate:   1.76%
-==61622== 
-==61622== D   refs:       7,590  (5,805 rd   + 1,785 wr)
-==61622== D1  misses:       325  (  169 rd   +   156 wr)
-==61622== LLd misses:       325  (  169 rd   +   156 wr)
-==61622== D1  miss rate:    4.3% (  2.9%     +   8.7%  )
-==61622== LLd miss rate:    4.3% (  2.9%     +   8.7%  )
-==61622== 
-==61622== LL refs:          802  (  646 rd   +   156 wr)
-==61622== LL misses:        802  (  646 rd   +   156 wr)
-==61622== LL miss rate:     2.3% (  2.0%     +   8.7%  )
+==50075== brk segment overflow in thread #1: can't grow to 0x4ae3000
+==50075== (see section Limitations in user manual)
+==50075== NOTE: further instances of this message will not be shown
+==50075== 
+==50075== I   refs:      8,280,657,689
+==50075== I1  misses:            1,698
+==50075== LLi misses:            1,694
+==50075== I1  miss rate:          0.00%
+==50075== LLi miss rate:          0.00%
+==50075== 
+==50075== D   refs:      2,251,787,239  (1,520,764,435 rd   + 731,022,804 wr)
+==50075== D1  misses:          935,550  (      508,359 rd   +     427,191 wr)
+==50075== LLd misses:          493,960  (      211,648 rd   +     282,312 wr)
+==50075== D1  miss rate:           0.0% (          0.0%     +         0.1%  )
+==50075== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
+==50075== 
+==50075== LL refs:             937,248  (      510,057 rd   +     427,191 wr)
+==50075== LL misses:           495,654  (      213,342 rd   +     282,312 wr)
+==50075== LL miss rate:            0.0% (          0.0%     +         0.0%  )

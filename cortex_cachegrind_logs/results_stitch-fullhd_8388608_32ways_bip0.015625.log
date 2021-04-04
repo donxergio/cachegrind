@@ -1,27 +1,29 @@
-==61306== Cachegrind, a cache and branch-prediction profiler
-==61306== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==61306== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==61306== Command: ./stitch .
-==61306== 
---61306-- warning: L3 cache found, using its data for the LL simulation.
---61306-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---61306-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==49763== Cachegrind, a cache and branch-prediction profiler
+==49763== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==49763== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==49763== Command: ./stitch .
+==49763== 
+--49763-- warning: L3 cache found, using its data for the LL simulation.
+--49763-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--49763-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.015625
-./stitch: error while loading shared libraries: libm.so.6: cannot create shared object descriptor: Cannot allocate memory
-==61306== 
-==61306== I   refs:      27,058
-==61306== I1  misses:       477
-==61306== LLi misses:       477
-==61306== I1  miss rate:   1.76%
-==61306== LLi miss rate:   1.76%
-==61306== 
-==61306== D   refs:       7,590  (5,805 rd   + 1,785 wr)
-==61306== D1  misses:       325  (  169 rd   +   156 wr)
-==61306== LLd misses:       325  (  169 rd   +   156 wr)
-==61306== D1  miss rate:    4.3% (  2.9%     +   8.7%  )
-==61306== LLd miss rate:    4.3% (  2.9%     +   8.7%  )
-==61306== 
-==61306== LL refs:          802  (  646 rd   +   156 wr)
-==61306== LL misses:        802  (  646 rd   +   156 wr)
-==61306== LL miss rate:     2.3% (  2.0%     +   8.7%  )
+==49763== brk segment overflow in thread #1: can't grow to 0x4a37000
+==49763== (see section Limitations in user manual)
+==49763== NOTE: further instances of this message will not be shown
+==49763== 
+==49763== I   refs:      253,517,705,710
+==49763== I1  misses:              1,697
+==49763== LLi misses:              1,693
+==49763== I1  miss rate:            0.00%
+==49763== LLi miss rate:            0.00%
+==49763== 
+==49763== D   refs:       68,980,624,510  (45,322,620,961 rd   + 23,658,003,549 wr)
+==49763== D1  misses:          8,170,679  (     4,887,960 rd   +      3,282,719 wr)
+==49763== LLd misses:          7,935,403  (     4,726,941 rd   +      3,208,462 wr)
+==49763== D1  miss rate:             0.0% (           0.0%     +            0.0%  )
+==49763== LLd miss rate:             0.0% (           0.0%     +            0.0%  )
+==49763== 
+==49763== LL refs:             8,172,376  (     4,889,657 rd   +      3,282,719 wr)
+==49763== LL misses:           7,937,096  (     4,728,634 rd   +      3,208,462 wr)
+==49763== LL miss rate:              0.0% (           0.0%     +            0.0%  )

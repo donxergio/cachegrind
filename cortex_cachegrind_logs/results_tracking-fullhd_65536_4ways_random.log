@@ -1,33 +1,28 @@
-==34995== Cachegrind, a cache and branch-prediction profiler
-==34995== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==34995== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==34995== Command: ./tracking .
-==34995== 
---34995-- warning: L3 cache found, using its data for the LL simulation.
---34995-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---34995-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==53723== Cachegrind, a cache and branch-prediction profiler
+==53723== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==53723== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==53723== Command: ./tracking .
+==53723== 
+--53723-- warning: L3 cache found, using its data for the LL simulation.
+--53723-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--53723-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 Random cache replacement will be used
-==34995== 
-==34995== Process terminating with default action of signal 15 (SIGTERM)
-==34995==    at 0x50DC14F: read (read.c:27)
-==34995==    by 0x5059217: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:531)
-==34995==    by 0x5057817: _IO_file_xsgetn (fileops.c:1344)
-==34995==    by 0x504B4A0: fread (iofread.c:38)
-==34995==    by 0x1096E4: readImage (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
-==34995==    by 0x108A77: main (in /home/tkloda/cortexsuite/vision/benchmarks/tracking/data/fullhd/tracking)
-==34995== 
-==34995== I   refs:      765,127,687
-==34995== I1  misses:          1,201
-==34995== LLi misses:          1,126
-==34995== I1  miss rate:        0.00%
-==34995== LLi miss rate:        0.00%
-==34995== 
-==34995== D   refs:      329,323,671  (224,908,703 rd   + 104,414,968 wr)
-==34995== D1  misses:        137,626  (     10,779 rd   +     126,847 wr)
-==34995== LLd misses:        128,308  (      2,263 rd   +     126,045 wr)
-==34995== D1  miss rate:         0.0% (        0.0%     +         0.1%  )
-==34995== LLd miss rate:         0.0% (        0.0%     +         0.1%  )
-==34995== 
-==34995== LL refs:           138,827  (     11,980 rd   +     126,847 wr)
-==34995== LL misses:         129,434  (      3,389 rd   +     126,045 wr)
-==34995== LL miss rate:          0.0% (        0.0%     +         0.1%  )
+==53723== brk segment overflow in thread #1: can't grow to 0x5026000
+==53723== (see section Limitations in user manual)
+==53723== NOTE: further instances of this message will not be shown
+==53723== 
+==53723== I   refs:      7,862,359,008
+==53723== I1  misses:            2,062
+==53723== LLi misses:            1,945
+==53723== I1  miss rate:          0.00%
+==53723== LLi miss rate:          0.00%
+==53723== 
+==53723== D   refs:      2,585,046,518  (1,824,545,511 rd   + 760,501,007 wr)
+==53723== D1  misses:       37,581,335  (   18,194,981 rd   +  19,386,354 wr)
+==53723== LLd misses:       11,172,274  (    3,695,765 rd   +   7,476,509 wr)
+==53723== D1  miss rate:           1.5% (          1.0%     +         2.5%  )
+==53723== LLd miss rate:           0.4% (          0.2%     +         1.0%  )
+==53723== 
+==53723== LL refs:          37,583,397  (   18,197,043 rd   +  19,386,354 wr)
+==53723== LL misses:        11,174,219  (    3,697,710 rd   +   7,476,509 wr)
+==53723== LL miss rate:            0.1% (          0.0%     +         1.0%  )
