@@ -13,8 +13,67 @@ class Input_Files:
 
 input_files = []
 input_files.append(Input_Files("kmeans-large")) #kmeans-large benchmark
+input_files.append(Input_Files("kmeans-medium")) 
+input_files.append(Input_Files("kmeans-small"))
+
+input_files.append(Input_Files("disparity-cif"))
+input_files.append(Input_Files("disparity-fullhd"))
+input_files.append(Input_Files("disparity-qcif"))
+input_files.append(Input_Files("disparity-vga"))
+
+input_files.append(Input_Files("lda-large"))
+input_files.append(Input_Files("lda-medium"))
+input_files.append(Input_Files("lda-small"))
+
+input_files.append(Input_Files("liblinear-tlarge"))
+input_files.append(Input_Files("liblinear-tmedium"))
+input_files.append(Input_Files("liblinear-tsmall"))
+
+input_files.append(Input_Files("me-large"))
+input_files.append(Input_Files("me-medium"))
+input_files.append(Input_Files("me-small"))
+
+input_files.append(Input_Files("mser-cif"))
+input_files.append(Input_Files("mser-fullhd"))
+input_files.append(Input_Files("mser-qcif"))
+
+input_files.append(Input_Files("multi_ncut-cif"))
+input_files.append(Input_Files("multi_ncut-fullhd"))
+input_files.append(Input_Files("multi_ncut-qcif"))
+
 input_files.append(Input_Files("pca-large")) #pca-large benchmark
-#TODO: add all the benchmarks here
+input_files.append(Input_Files("pca-medium"))
+input_files.append(Input_Files("pca-small"))
+
+input_files.append(Input_Files("rbm-large"))
+input_files.append(Input_Files("rbm-medium"))
+input_files.append(Input_Files("rbm-small"))
+
+input_files.append(Input_Files("sift-cif"))
+input_files.append(Input_Files("sift-fullhd"))
+input_files.append(Input_Files("sift-qcif"))
+input_files.append(Input_Files("sift-vga"))
+
+input_files.append(Input_Files("spc-large"))
+input_files.append(Input_Files("spc-medium"))
+input_files.append(Input_Files("spc-small"))
+
+input_files.append(Input_Files("sphinx-large"))
+input_files.append(Input_Files("sphinx-medium"))
+input_files.append(Input_Files("sphinx-small"))
+
+input_files.append(Input_Files("stitch-cif"))
+input_files.append(Input_Files("stitch-fullhd"))
+input_files.append(Input_Files("stitch-vga"))
+
+input_files.append(Input_Files("svd3-large"))
+
+input_files.append(Input_Files("texture_synthesis-cif"))
+input_files.append(Input_Files("texture_synthesis-fullhd"))
+
+input_files.append(Input_Files("tracking-cif"))
+input_files.append(Input_Files("tracking-fullhd"))
+input_files.append(Input_Files("tracking-vga"))
 
 directory="/home/giovani/ufsc/riscv/valgrind/cortex_cachegrind_logs/"
 
