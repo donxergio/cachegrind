@@ -1,37 +1,28 @@
-==58006== Cachegrind, a cache and branch-prediction profiler
-==58006== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==58006== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==58006== Command: ./srr-large
-==58006== 
---58006-- warning: L3 cache found, using its data for the LL simulation.
---58006-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---58006-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==19788== Cachegrind, a cache and branch-prediction profiler
+==19788== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==19788== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==19788== Command: ./srr-large
+==19788== 
+--19788-- warning: L3 cache found, using its data for the LL simulation.
+--19788-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--19788-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LRU cache replacement will be used
-==58006== brk segment overflow in thread #1: can't grow to 0x4a4b000
-==58006== (see section Limitations in user manual)
-==58006== NOTE: further instances of this message will not be shown
-==58006== 
-==58006== Process terminating with default action of signal 11 (SIGSEGV)
-==58006==  Access not within mapped region at address 0x0
-==58006==    at 0x1095B8: get_b (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
-==58006==  If you believe this happened as a result of a stack
-==58006==  overflow in your program's main thread (unlikely but
-==58006==  possible), you can try to increase the size of the
-==58006==  main thread stack using the --main-stacksize= flag.
-==58006==  The main thread stack size used in this run was 8388608.
-==58006== 
-==58006== I   refs:      1,571,350,793
-==58006== I1  misses:            1,357
-==58006== LLi misses:            1,343
-==58006== I1  miss rate:          0.00%
-==58006== LLi miss rate:          0.00%
-==58006== 
-==58006== D   refs:        611,900,368  (401,741,282 rd   + 210,159,086 wr)
-==58006== D1  misses:       21,117,365  ( 20,277,614 rd   +     839,751 wr)
-==58006== LLd misses:          333,436  (      2,524 rd   +     330,912 wr)
-==58006== D1  miss rate:           3.5% (        5.0%     +         0.4%  )
-==58006== LLd miss rate:           0.1% (        0.0%     +         0.2%  )
-==58006== 
-==58006== LL refs:          21,118,722  ( 20,278,971 rd   +     839,751 wr)
-==58006== LL misses:           334,779  (      3,867 rd   +     330,912 wr)
-==58006== LL miss rate:            0.0% (        0.0%     +         0.2%  )
+==19788== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==19788== (see section Limitations in user manual)
+==19788== NOTE: further instances of this message will not be shown
+==19788== 
+==19788== I   refs:      919,217,731,559
+==19788== I1  misses:              1,669
+==19788== LLi misses:              1,629
+==19788== I1  miss rate:            0.00%
+==19788== LLi miss rate:            0.00%
+==19788== 
+==19788== D   refs:      356,699,040,284  (240,279,389,404 rd   + 116,419,650,880 wr)
+==19788== D1  misses:     12,603,265,846  ( 12,433,511,674 rd   +     169,754,172 wr)
+==19788== LLd misses:            402,943  (          3,006 rd   +         399,937 wr)
+==19788== D1  miss rate:             3.5% (            5.2%     +             0.1%  )
+==19788== LLd miss rate:             0.0% (            0.0%     +             0.0%  )
+==19788== 
+==19788== LL refs:        12,603,267,515  ( 12,433,513,343 rd   +     169,754,172 wr)
+==19788== LL misses:             404,572  (          4,635 rd   +         399,937 wr)
+==19788== LL miss rate:              0.0% (            0.0%     +             0.0%  )

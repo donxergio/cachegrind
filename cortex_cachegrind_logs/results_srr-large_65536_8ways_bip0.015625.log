@@ -1,1 +1,29 @@
-sh: 1: /home/tkloda/valgrind/bin/valgrind: Cannot allocate memory
+==20809== Cachegrind, a cache and branch-prediction profiler
+==20809== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==20809== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==20809== Command: ./srr-large
+==20809== 
+--20809-- warning: L3 cache found, using its data for the LL simulation.
+--20809-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--20809-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.015625
+==20809== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==20809== (see section Limitations in user manual)
+==20809== NOTE: further instances of this message will not be shown
+==20809== 
+==20809== I   refs:      919,217,731,559
+==20809== I1  misses:              1,589
+==20809== LLi misses:              1,566
+==20809== I1  miss rate:            0.00%
+==20809== LLi miss rate:            0.00%
+==20809== 
+==20809== D   refs:      356,699,040,284  (240,279,389,404 rd   + 116,419,650,880 wr)
+==20809== D1  misses:        656,176,644  (    572,806,443 rd   +      83,370,201 wr)
+==20809== LLd misses:          1,012,427  (        446,945 rd   +         565,482 wr)
+==20809== D1  miss rate:             0.2% (            0.2%     +             0.1%  )
+==20809== LLd miss rate:             0.0% (            0.0%     +             0.0%  )
+==20809== 
+==20809== LL refs:           656,178,233  (    572,808,032 rd   +      83,370,201 wr)
+==20809== LL misses:           1,013,993  (        448,511 rd   +         565,482 wr)
+==20809== LL miss rate:              0.0% (            0.0%     +             0.0%  )

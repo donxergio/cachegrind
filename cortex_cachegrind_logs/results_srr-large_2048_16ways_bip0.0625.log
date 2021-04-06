@@ -1,77 +1,29 @@
-==58642== Cachegrind, a cache and branch-prediction profiler
-==58642== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==58642== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==58642== Command: ./srr-large
-==58642== 
---58642-- warning: L3 cache found, using its data for the LL simulation.
---58642-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---58642-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==20412== Cachegrind, a cache and branch-prediction profiler
+==20412== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==20412== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==20412== Command: ./srr-large
+==20412== 
+--20412-- warning: L3 cache found, using its data for the LL simulation.
+--20412-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--20412-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
---58642:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (37 segments)
---58642:0: aspacem 3 segment names in 3 slots
---58642:0: aspacem freelist is empty
---58642:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---58642:0: aspacem (1,66,3) /home/tkloda/cortexsuite/cortex/srr/srr-large
---58642:0: aspacem (2,116,3) /lib/x86_64-linux-gnu/ld-2.27.so
---58642:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---58642:0: aspacem   1: file 0000108000-000010dfff   24576 r-x-- d=0x802 i=49556507 o=0       (1,66)
---58642:0: aspacem   2: RSVN 000010e000-000030cfff 2093056 ----- SmFixed
---58642:0: aspacem   3: file 000030d000-000030efff    8192 rw--- d=0x802 i=49556507 o=20480   (1,66)
---58642:0: aspacem   4: anon 000030f000-0000321fff   77824 rw---
---58642:0: aspacem   5: RSVN 0000322000-0003ffffff     60m ----- SmFixed
---58642:0: aspacem   6: file 0004000000-0004028fff  167936 r-x-- d=0x802 i=12583111 o=0       (2,116)
---58642:0: aspacem   7:      0004029000-0004228fff 2097152
---58642:0: aspacem   8: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,116)
---58642:0: aspacem   9: anon 000422b000-000422bfff    4096 rw---
---58642:0: aspacem  10: anon 000422c000-000422cfff    4096 rwx--
---58642:0: aspacem  11: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
---58642:0: aspacem  12:      0004a2c000-0057ffffff   1333m
---58642:0: aspacem  13: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---58642:0: aspacem  14: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---58642:0: aspacem  15: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---58642:0: aspacem  16:      0058259000-0058458fff 2097152
---58642:0: aspacem  17: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---58642:0: aspacem  18: ANON 005845f000-0058e56fff      9m rw---
---58642:0: aspacem  19:      0058e57000-1001ffffff  64145m
---58642:0: aspacem  20: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---58642:0: aspacem  21: ANON 1002001000-100278bfff 7909376 rwx--
---58642:0: aspacem  22:      100278c000-100288bfff 1048576
---58642:0: aspacem  23: ANON 100288c000-100298bfff 1048576 rwx--
---58642:0: aspacem  24:      100298c000-1002b80fff 2052096
---58642:0: aspacem  25: ANON 1002b81000-1002d9efff 2220032 rwx--
---58642:0: aspacem  26:      1002d9f000-1ffe800fff  65466m
---58642:0: aspacem  27: RSVN 1ffe801000-1ffeffefff 8380416 ----- SmUpper
---58642:0: aspacem  28: anon 1ffefff000-1fff000fff    8192 rw---
---58642:0: aspacem  29:      1fff001000-1fffffffff     15m
---58642:0: aspacem  30: RSVN 2000000000-7ffdcbe8efff 130935g ----- SmFixed
---58642:0: aspacem  31: ANON 7ffdcbe8f000-7ffdcbeaffff  135168 rw---
---58642:0: aspacem  32: RSVN 7ffdcbeb0000-7ffdcbeb2fff   12288 ----- SmFixed
---58642:0: aspacem  33: ANON 7ffdcbeb3000-7ffdcbeb5fff   12288 r----
---58642:0: aspacem  34: RSVN 7ffdcbeb6000-ffffffffff5fffff  16383e ----- SmFixed
---58642:0: aspacem  35: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---58642:0: aspacem  36: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---58642:0: aspacem >>>
---58642-- core    :     4,194,304/    4,194,304 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      3,223,040/    3,149,120 max/curr,          62/   3312016 totalloc-blocks/bytes,          61 searches 8 rzB
---58642-- dinfo   :    11,395,072/    6,414,336 max/curr mmap'd, 1/1 unsplit/split sb unmmap'd,     10,357,760/    3,598,960 max/curr,       22848/  17901088 totalloc-blocks/bytes,       23279 searches 8 rzB
---58642-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---58642-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---58642-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---58642-- translate: 0 guest insns, 0 traces, 0 uncond chased, 0 cond chased
---58642-- translate: no SP updates identified
---58642-- translate: PX: SPonly 0,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---58642--     tt/tc: 0 tt lookups requiring 0 probes
---58642--     tt/tc: 0 fast-cache updates, 1 flushes
---58642--  transtab: new        0 (0 -> 0; ratio 0.0) [0 scs] avg tce size 0
---58642--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---58642--  transtab: discarded  0 (0 -> ??)
---58642-- scheduler: 0 event checks.
---58642-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
---58642-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
---58642-- scheduler: 0/0 major/minor sched events.
---58642--    sanity: 0 cheap, 0 expensive checks.
---58642--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
---58642--    exectx: 1 searches, 0 full compares (0 per 1000)
---58642--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
---58642--  errormgr: 0 supplist searches, 0 comparisons during search
---58642--  errormgr: 0 errlist searches, 0 comparisons during search
+==20412== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==20412== (see section Limitations in user manual)
+==20412== NOTE: further instances of this message will not be shown
+==20412== 
+==20412== I   refs:      919,217,731,571
+==20412== I1  misses:        514,460,619
+==20412== LLi misses:              1,909
+==20412== I1  miss rate:            0.06%
+==20412== LLi miss rate:            0.00%
+==20412== 
+==20412== D   refs:      356,699,040,286  (240,279,389,405 rd   + 116,419,650,881 wr)
+==20412== D1  misses:     38,095,231,558  ( 35,521,005,835 rd   +   2,574,225,723 wr)
+==20412== LLd misses:            775,449  (        227,641 rd   +         547,808 wr)
+==20412== D1  miss rate:            10.7% (           14.8%     +             2.2%  )
+==20412== LLd miss rate:             0.0% (            0.0%     +             0.0%  )
+==20412== 
+==20412== LL refs:        38,609,692,177  ( 36,035,466,454 rd   +   2,574,225,723 wr)
+==20412== LL misses:             777,358  (        229,550 rd   +         547,808 wr)
+==20412== LL miss rate:              0.0% (            0.0%     +             0.0%  )

@@ -1,41 +1,28 @@
-==58380== Cachegrind, a cache and branch-prediction profiler
-==58380== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==58380== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==58380== Command: ./srr-large
-==58380== 
---58380-- warning: L3 cache found, using its data for the LL simulation.
---58380-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---58380-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==20160== Cachegrind, a cache and branch-prediction profiler
+==20160== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==20160== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==20160== Command: ./srr-large
+==20160== 
+--20160-- warning: L3 cache found, using its data for the LL simulation.
+--20160-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--20160-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 Random cache replacement will be used
-==58380== brk segment overflow in thread #1: can't grow to 0x4a4b000
-==58380== (see section Limitations in user manual)
-==58380== NOTE: further instances of this message will not be shown
-==58380== 
-==58380== Process terminating with default action of signal 11 (SIGSEGV)
-==58380==  Access not within mapped region at address 0x0
-==58380==    at 0x109858: modify_b (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
-==58380==    by 0x84: ???
-==58380==    by 0x109920: solve_row (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
-==58380==    by 0x109A41: SRREngine123 (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
-==58380==    by 0x1088A9: main (in /home/tkloda/cortexsuite/cortex/srr/srr-large)
-==58380==  If you believe this happened as a result of a stack
-==58380==  overflow in your program's main thread (unlikely but
-==58380==  possible), you can try to increase the size of the
-==58380==  main thread stack using the --main-stacksize= flag.
-==58380==  The main thread stack size used in this run was 8388608.
-==58380== 
-==58380== I   refs:      1,077,999,503
-==58380== I1  misses:            1,369
-==58380== LLi misses:            1,349
-==58380== I1  miss rate:          0.00%
-==58380== LLi miss rate:          0.00%
-==58380== 
-==58380== D   refs:        420,444,085  (272,757,647 rd   + 147,686,438 wr)
-==58380== D1  misses:          978,382  (    395,370 rd   +     583,012 wr)
-==58380== LLd misses:          447,929  (     73,170 rd   +     374,759 wr)
-==58380== D1  miss rate:           0.2% (        0.1%     +         0.4%  )
-==58380== LLd miss rate:           0.1% (        0.0%     +         0.3%  )
-==58380== 
-==58380== LL refs:             979,751  (    396,739 rd   +     583,012 wr)
-==58380== LL misses:           449,278  (     74,519 rd   +     374,759 wr)
-==58380== LL miss rate:            0.0% (        0.0%     +         0.3%  )
+==20160== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==20160== (see section Limitations in user manual)
+==20160== NOTE: further instances of this message will not be shown
+==20160== 
+==20160== I   refs:      919,217,731,571
+==20160== I1  misses:              1,605
+==20160== LLi misses:              1,577
+==20160== I1  miss rate:            0.00%
+==20160== LLi miss rate:            0.00%
+==20160== 
+==20160== D   refs:      356,699,040,286  (240,279,389,405 rd   + 116,419,650,881 wr)
+==20160== D1  misses:        341,586,578  (    314,756,141 rd   +      26,830,437 wr)
+==20160== LLd misses:            815,306  (        373,800 rd   +         441,506 wr)
+==20160== D1  miss rate:             0.1% (            0.1%     +             0.0%  )
+==20160== LLd miss rate:             0.0% (            0.0%     +             0.0%  )
+==20160== 
+==20160== LL refs:           341,588,183  (    314,757,746 rd   +      26,830,437 wr)
+==20160== LL misses:             816,883  (        375,377 rd   +         441,506 wr)
+==20160== LL miss rate:              0.0% (            0.0%     +             0.0%  )

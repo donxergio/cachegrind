@@ -1,98 +1,25 @@
-==59179== Cachegrind, a cache and branch-prediction profiler
-==59179== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==59179== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==59179== Command: ./a.out med.txt
-==59179== 
---59179-- warning: L3 cache found, using its data for the LL simulation.
---59179-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---59179-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==25070== Cachegrind, a cache and branch-prediction profiler
+==25070== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==25070== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==25070== Command: ./a.out med.txt
+==25070== 
+--25070-- warning: L3 cache found, using its data for the LL simulation.
+--25070-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--25070-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 FIFO cache replacement will be used
---59179:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (40 segments)
---59179:0: aspacem 4 segment names in 4 slots
---59179:0: aspacem freelist is empty
---59179:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---59179:0: aspacem (1,66,3) /home/tkloda/cortexsuite/cortex/svd3/a.out
---59179:0: aspacem (2,113,3) /lib/x86_64-linux-gnu/ld-2.27.so
---59179:0: aspacem (3,150,1) /tmp/vgdb-pipe-shared-mem-vgdb-59179-by-tkloda-on-???
---59179:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---59179:0: aspacem   1: file 0000108000-0000112fff   45056 r-x-- d=0x802 i=49556510 o=0       (1,66)
---59179:0: aspacem   2: RSVN 0000113000-0000311fff 2093056 ----- SmFixed
---59179:0: aspacem   3: file 0000312000-0000313fff    8192 rw--- d=0x802 i=49556510 o=40960   (1,66)
---59179:0: aspacem   4: RSVN 0000314000-0003ffffff     60m ----- SmFixed
---59179:0: aspacem   5: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,113)
---59179:0: aspacem   6:      0004029000-0004228fff 2097152
---59179:0: aspacem   7: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,113)
---59179:0: aspacem   8: anon 000422b000-000422bfff    4096 rw---
---59179:0: aspacem   9: anon 000422c000-000422cfff    4096 rwx--
---59179:0: aspacem  10: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
---59179:0: aspacem  11:      0004a2c000-0057ffffff   1333m
---59179:0: aspacem  12: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---59179:0: aspacem  13: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---59179:0: aspacem  14: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---59179:0: aspacem  15:      0058259000-0058458fff 2097152
---59179:0: aspacem  16: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---59179:0: aspacem  17: ANON 005845f000-0058e56fff      9m rw---
---59179:0: aspacem  18:      0058e57000-1001ffffff  64145m
---59179:0: aspacem  19: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---59179:0: aspacem  20: ANON 1002001000-100278bfff 7909376 rwx--
---59179:0: aspacem  21: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29546885 o=0       (3,150)
---59179:0: aspacem  22:      100278d000-100288bfff 1044480
---59179:0: aspacem  23: ANON 100288c000-100298bfff 1048576 rwx--
---59179:0: aspacem  24: ANON 100298c000-100298dfff    8192 -----
---59179:0: aspacem  25: ANON 100298e000-1002a8dfff 1048576 rwx--
---59179:0: aspacem  26: ANON 1002a8e000-1002a8ffff    8192 -----
---59179:0: aspacem  27:      1002a90000-1002b80fff  987136
---59179:0: aspacem  28: ANON 1002b81000-1004c44fff     32m rwx--
---59179:0: aspacem  29:      1004c45000-1ffe800fff  65435m
---59179:0: aspacem  30: RSVN 1ffe801000-1ffeffefff 8380416 ----- SmUpper
---59179:0: aspacem  31: anon 1ffefff000-1fff000fff    8192 rw---
---59179:0: aspacem  32:      1fff001000-1fffffffff     15m
---59179:0: aspacem  33: RSVN 2000000000-7fffef4b7fff 130943g ----- SmFixed
---59179:0: aspacem  34: ANON 7fffef4b8000-7fffef4d8fff  135168 rw---
---59179:0: aspacem  35: RSVN 7fffef4d9000-7fffef4f7fff  126976 ----- SmFixed
---59179:0: aspacem  36: ANON 7fffef4f8000-7fffef4fafff   12288 r----
---59179:0: aspacem  37: RSVN 7fffef4fb000-ffffffffff5fffff  16383e ----- SmFixed
---59179:0: aspacem  38: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---59179:0: aspacem  39: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---59179:0: aspacem >>>
---59179-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      7,044,064/    7,044,064 max/curr,          95/   7207184 totalloc-blocks/bytes,          94 searches 8 rzB
---59179-- dinfo   :    11,395,072/    6,414,336 max/curr mmap'd, 1/1 unsplit/split sb unmmap'd,     10,358,336/    3,599,536 max/curr,       22895/  17943088 totalloc-blocks/bytes,       23627 searches 8 rzB
---59179-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---59179-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---59179-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---59179-- translate: 24 guest insns, 1 traces, 1 uncond chased, 0 cond chased
---59179-- translate: no SP updates identified
---59179-- translate: PX: SPonly 1,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---59179--     tt/tc: 2 tt lookups requiring 0 probes
---59179--     tt/tc: 0 fast-cache updates, 1 flushes
---59179--  transtab: new        1 (93 -> 1,103; ratio 11.9) [0 scs] avg tce size 1103
---59179--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---59179--  transtab: discarded  0 (0 -> ??)
---59179-- scheduler: 0 event checks.
---59179-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
---59179-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
---59179-- scheduler: 0/1 major/minor sched events.
---59179--    sanity: 0 cheap, 0 expensive checks.
-==59179== 
-==59179==     Valgrind's memory management: out of memory:
-==59179==        newSuperblock's request for 4194304 bytes failed.
-==59179==           55,001,088 bytes have already been mmap-ed ANONYMOUS.
-==59179==     Valgrind cannot continue.  Sorry.
-==59179== 
-==59179==     There are several possible reasons for this.
-==59179==     - You have some kind of memory limit in place.  Look at the
-==59179==       output of 'ulimit -a'.  Is there a limit on the size of
-==59179==       virtual memory or address space?
-==59179==     - You have run out of swap space.
-==59179==     - Valgrind has a bug.  If you think this is the case or you are
-==59179==     not sure, please let us know and we'll try to fix it.
-==59179==     Please note that programs can take substantially more memory than
-==59179==     normal when running under Valgrind tools, eg. up to twice or
-==59179==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==59179==     should be able to make use of up 32GB memory.  On a 32-bit
-==59179==     machine, Valgrind should be able to use all the memory available
-==59179==     to a single process, up to 4GB if that's how you have your
-==59179==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==59179==     3GB per process.
-==59179== 
-==59179==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==25070== 
+==25070== I   refs:      21,540,689,427
+==25070== I1  misses:             1,791
+==25070== LLi misses:             1,787
+==25070== I1  miss rate:           0.00%
+==25070== LLi miss rate:           0.00%
+==25070== 
+==25070== D   refs:      13,370,670,449  (12,167,996,488 rd   + 1,202,673,961 wr)
+==25070== D1  misses:         9,133,454  (     9,013,389 rd   +       120,065 wr)
+==25070== LLd misses:            65,436  (         2,287 rd   +        63,149 wr)
+==25070== D1  miss rate:            0.1% (           0.1%     +           0.0%  )
+==25070== LLd miss rate:            0.0% (           0.0%     +           0.0%  )
+==25070== 
+==25070== LL refs:            9,135,245  (     9,015,180 rd   +       120,065 wr)
+==25070== LL misses:             67,223  (         4,074 rd   +        63,149 wr)
+==25070== LL miss rate:             0.0% (           0.0%     +           0.0%  )

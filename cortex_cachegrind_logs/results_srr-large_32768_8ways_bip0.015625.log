@@ -1,89 +1,29 @@
-==58777== Cachegrind, a cache and branch-prediction profiler
-==58777== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==58777== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==58777== Command: ./srr-large
-==58777== 
---58777-- warning: L3 cache found, using its data for the LL simulation.
---58777-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---58777-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==20796== Cachegrind, a cache and branch-prediction profiler
+==20796== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==20796== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==20796== Command: ./srr-large
+==20796== 
+--20796-- warning: L3 cache found, using its data for the LL simulation.
+--20796-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--20796-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.015625
---58777:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (31 segments)
---58777:0: aspacem 3 segment names in 3 slots
---58777:0: aspacem freelist is empty
---58777:0: aspacem (0,4,3) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---58777:0: aspacem (1,66,3) /home/tkloda/cortexsuite/cortex/srr/srr-large
---58777:0: aspacem (2,116,3) /lib/x86_64-linux-gnu/ld-2.27.so
---58777:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---58777:0: aspacem   1: file 0000108000-000010dfff   24576 r-x-- d=0x802 i=49556507 o=0       (1,66)
---58777:0: aspacem   2: RSVN 000010e000-000030cfff 2093056 ----- SmFixed
---58777:0: aspacem   3: file 000030d000-000030efff    8192 rw--- d=0x802 i=49556507 o=20480   (1,66)
---58777:0: aspacem   4: anon 000030f000-0000321fff   77824 rw---
---58777:0: aspacem   5: RSVN 0000322000-0003ffffff     60m ----- SmFixed
---58777:0: aspacem   6: file 0004000000-0004028fff  167936 r-x-- d=0x802 i=12583111 o=0       (2,116)
---58777:0: aspacem   7:      0004029000-0004228fff 2097152
---58777:0: aspacem   8: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,116)
---58777:0: aspacem   9: anon 000422b000-000422bfff    4096 rw---
---58777:0: aspacem  10: anon 000422c000-000422cfff    4096 rwx--
---58777:0: aspacem  11: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
---58777:0: aspacem  12:      0004a2c000-0057ffffff   1333m
---58777:0: aspacem  13: FILE 0058000000-0058258fff 2461696 r-x-- d=0x802 i=28344876 o=0       (0,4)
---58777:0: aspacem  14:      0058259000-0058458fff 2097152
---58777:0: aspacem  15: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---58777:0: aspacem  16: ANON 005845f000-0058e56fff      9m rw---
---58777:0: aspacem  17:      0058e57000-1001ffffff  64145m
---58777:0: aspacem  18: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---58777:0: aspacem  19: ANON 1002001000-100288bfff 8957952 rwx--
---58777:0: aspacem  20:      100288c000-1ffe800fff  65471m
---58777:0: aspacem  21: RSVN 1ffe801000-1ffeffefff 8380416 ----- SmUpper
---58777:0: aspacem  22: anon 1ffefff000-1fff000fff    8192 rw---
---58777:0: aspacem  23:      1fff001000-1fffffffff     15m
---58777:0: aspacem  24: RSVN 2000000000-7fffe5b87fff 130943g ----- SmFixed
---58777:0: aspacem  25: ANON 7fffe5b88000-7fffe5ba8fff  135168 rw---
---58777:0: aspacem  26: RSVN 7fffe5ba9000-7fffe5bf6fff  319488 ----- SmFixed
---58777:0: aspacem  27: ANON 7fffe5bf7000-7fffe5bf9fff   12288 r----
---58777:0: aspacem  28: RSVN 7fffe5bfa000-ffffffffff5fffff  16383e ----- SmFixed
---58777:0: aspacem  29: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---58777:0: aspacem  30: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---58777:0: aspacem >>>
---58777-- core    :     4,194,304/    4,194,304 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      3,230,720/    3,218,496 max/curr,          60/   3319536 totalloc-blocks/bytes,          59 searches 8 rzB
---58777-- dinfo   :     4,194,304/    4,194,304 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      3,229,008/    3,164,608 max/curr,       20378/   7878256 totalloc-blocks/bytes,       20548 searches 8 rzB
---58777-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---58777-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            144/          112 max/curr,           6/       208 totalloc-blocks/bytes,           5 searches 8 rzB
---58777-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---58777-- translate: 0 guest insns, 0 traces, 0 uncond chased, 0 cond chased
---58777-- translate: no SP updates identified
---58777-- translate: PX: SPonly 0,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---58777--     tt/tc: 0 tt lookups requiring 0 probes
---58777--     tt/tc: 0 fast-cache updates, 1 flushes
---58777--  transtab: new        0 (0 -> 0; ratio 0.0) [0 scs] avg tce size 0
---58777--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---58777--  transtab: discarded  0 (0 -> ??)
---58777-- scheduler: 0 event checks.
---58777-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
---58777-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
---58777-- scheduler: 0/0 major/minor sched events.
---58777--    sanity: 0 cheap, 0 expensive checks.
-==58777== 
-==58777==     Valgrind's memory management: out of memory:
-==58777==        newSuperblock's request for 4194304 bytes failed.
-==58777==           19,656,704 bytes have already been mmap-ed ANONYMOUS.
-==58777==     Valgrind cannot continue.  Sorry.
-==58777== 
-==58777==     There are several possible reasons for this.
-==58777==     - You have some kind of memory limit in place.  Look at the
-==58777==       output of 'ulimit -a'.  Is there a limit on the size of
-==58777==       virtual memory or address space?
-==58777==     - You have run out of swap space.
-==58777==     - Valgrind has a bug.  If you think this is the case or you are
-==58777==     not sure, please let us know and we'll try to fix it.
-==58777==     Please note that programs can take substantially more memory than
-==58777==     normal when running under Valgrind tools, eg. up to twice or
-==58777==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==58777==     should be able to make use of up 32GB memory.  On a 32-bit
-==58777==     machine, Valgrind should be able to use all the memory available
-==58777==     to a single process, up to 4GB if that's how you have your
-==58777==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==58777==     3GB per process.
-==58777== 
-==58777==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==20796== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==20796== (see section Limitations in user manual)
+==20796== NOTE: further instances of this message will not be shown
+==20796== 
+==20796== I   refs:      919,217,731,559
+==20796== I1  misses:              1,709
+==20796== LLi misses:              1,656
+==20796== I1  miss rate:            0.00%
+==20796== LLi miss rate:            0.00%
+==20796== 
+==20796== D   refs:      356,699,040,284  (240,279,389,404 rd   + 116,419,650,880 wr)
+==20796== D1  misses:     13,379,288,434  ( 13,207,434,498 rd   +     171,853,936 wr)
+==20796== LLd misses:            838,492  (        274,634 rd   +         563,858 wr)
+==20796== D1  miss rate:             3.8% (            5.5%     +             0.1%  )
+==20796== LLd miss rate:             0.0% (            0.0%     +             0.0%  )
+==20796== 
+==20796== LL refs:        13,379,290,143  ( 13,207,436,207 rd   +     171,853,936 wr)
+==20796== LL misses:             840,148  (        276,290 rd   +         563,858 wr)
+==20796== LL miss rate:              0.0% (            0.0%     +             0.0%  )
