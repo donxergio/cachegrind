@@ -1,39 +1,26 @@
-==46755== Cachegrind, a cache and branch-prediction profiler
-==46755== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==46755== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==46755== Command: ./liblinear-tlarge data/100B/kdda
-==46755== 
---46755-- warning: L3 cache found, using its data for the LL simulation.
---46755-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---46755-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==29849== Cachegrind, a cache and branch-prediction profiler
+==29849== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==29849== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==29849== Command: ./liblinear-tlarge data/100B/kdda
+==29849== 
+--29849-- warning: L3 cache found, using its data for the LL simulation.
+--29849-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--29849-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
-==46755== brk segment overflow in thread #1: can't grow to 0x177cd000
-==46755== (see section Limitations in user manual)
-==46755== NOTE: further instances of this message will not be shown
-==46755== 
-==46755== Process terminating with default action of signal 11 (SIGSEGV)
-==46755==  Access not within mapped region at address 0x0
-==46755==    at 0x113940: read_problem (in /home/tkloda/cortexsuite/cortex/liblinear/liblinear-tlarge)
-==46755==    by 0x10922F: main (in /home/tkloda/cortexsuite/cortex/liblinear/liblinear-tlarge)
-==46755==  If you believe this happened as a result of a stack
-==46755==  overflow in your program's main thread (unlikely but
-==46755==  possible), you can try to increase the size of the
-==46755==  main thread stack using the --main-stacksize= flag.
-==46755==  The main thread stack size used in this run was 8388608.
-==46755== 
-==46755== I   refs:      2,211,198,588
-==46755== I1  misses:            1,256
-==46755== LLi misses:            1,252
-==46755== I1  miss rate:          0.00%
-==46755== LLi miss rate:          0.00%
-==46755== 
-==46755== D   refs:        669,225,113  (487,947,237 rd   + 181,277,876 wr)
-==46755== D1  misses:            2,943  (      2,307 rd   +         636 wr)
-==46755== LLd misses:            2,940  (      2,304 rd   +         636 wr)
-==46755== D1  miss rate:           0.0% (        0.0%     +         0.0%  )
-==46755== LLd miss rate:           0.0% (        0.0%     +         0.0%  )
-==46755== 
-==46755== LL refs:               4,199  (      3,563 rd   +         636 wr)
-==46755== LL misses:             4,192  (      3,556 rd   +         636 wr)
-==46755== LL miss rate:            0.0% (        0.0%     +         0.0%  )
+==29849== 
+==29849== I   refs:      111,902,758,013
+==29849== I1  misses:              1,806
+==29849== LLi misses:              1,802
+==29849== I1  miss rate:            0.00%
+==29849== LLi miss rate:            0.00%
+==29849== 
+==29849== D   refs:       44,061,986,476  (36,080,688,134 rd   + 7,981,298,342 wr)
+==29849== D1  misses:      2,988,504,845  ( 2,982,755,538 rd   +     5,749,307 wr)
+==29849== LLd misses:      1,655,382,857  ( 1,649,651,842 rd   +     5,731,015 wr)
+==29849== D1  miss rate:             6.8% (           8.3%     +           0.1%  )
+==29849== LLd miss rate:             3.8% (           4.6%     +           0.1%  )
+==29849== 
+==29849== LL refs:         2,988,506,651  ( 2,982,757,344 rd   +     5,749,307 wr)
+==29849== LL misses:       1,655,384,659  ( 1,649,653,644 rd   +     5,731,015 wr)
+==29849== LL miss rate:              1.1% (           1.1%     +           0.1%  )
