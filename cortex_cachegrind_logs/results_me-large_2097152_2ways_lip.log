@@ -1,41 +1,28 @@
-==43765== Cachegrind, a cache and branch-prediction profiler
-==43765== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==43765== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==43765== Command: ./me-large
-==43765== 
---43765-- warning: L3 cache found, using its data for the LL simulation.
---43765-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---43765-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59515== Cachegrind, a cache and branch-prediction profiler
+==59515== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59515== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59515== Command: ./me-large
+==59515== 
+--59515-- warning: L3 cache found, using its data for the LL simulation.
+--59515-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59515-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LIP cache replacement will be used
-==43765== brk segment overflow in thread #1: can't grow to 0x4a4b000
-==43765== (see section Limitations in user manual)
-==43765== NOTE: further instances of this message will not be shown
-==43765== 
-==43765== Process terminating with default action of signal 11 (SIGSEGV)
-==43765==  Access not within mapped region at address 0x0
-==43765==    at 0x1095A7: Taylor_App (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43765==    by 0x109963: FullSearch (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43765==    by 0x108ED2: Motion_Est (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43765==    by 0x109C31: Bidirectional_ME (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43765==    by 0x1089E0: main (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43765==  If you believe this happened as a result of a stack
-==43765==  overflow in your program's main thread (unlikely but
-==43765==  possible), you can try to increase the size of the
-==43765==  main thread stack using the --main-stacksize= flag.
-==43765==  The main thread stack size used in this run was 8388608.
-==43765== 
-==43765== I   refs:      4,005,766,397
-==43765== I1  misses:            1,407
-==43765== LLi misses:            1,404
-==43765== I1  miss rate:          0.00%
-==43765== LLi miss rate:          0.00%
-==43765== 
-==43765== D   refs:        963,550,984  (809,331,748 rd   + 154,219,236 wr)
-==43765== D1  misses:        1,395,347  (    439,357 rd   +     955,990 wr)
-==43765== LLd misses:        1,126,366  (    261,085 rd   +     865,281 wr)
-==43765== D1  miss rate:           0.1% (        0.1%     +         0.6%  )
-==43765== LLd miss rate:           0.1% (        0.0%     +         0.6%  )
-==43765== 
-==43765== LL refs:           1,396,754  (    440,764 rd   +     955,990 wr)
-==43765== LL misses:         1,127,770  (    262,489 rd   +     865,281 wr)
-==43765== LL miss rate:            0.0% (        0.0%     +         0.6%  )
+==59515== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==59515== (see section Limitations in user manual)
+==59515== NOTE: further instances of this message will not be shown
+==59515== 
+==59515== I   refs:      7,528,529,082
+==59515== I1  misses:            1,499
+==59515== LLi misses:            1,495
+==59515== I1  miss rate:          0.00%
+==59515== LLi miss rate:          0.00%
+==59515== 
+==59515== D   refs:      1,825,539,721  (1,535,870,322 rd   + 289,669,399 wr)
+==59515== D1  misses:        2,280,184  (      800,114 rd   +   1,480,070 wr)
+==59515== LLd misses:        1,751,760  (      450,161 rd   +   1,301,599 wr)
+==59515== D1  miss rate:           0.1% (          0.1%     +         0.5%  )
+==59515== LLd miss rate:           0.1% (          0.0%     +         0.4%  )
+==59515== 
+==59515== LL refs:           2,281,683  (      801,613 rd   +   1,480,070 wr)
+==59515== LL misses:         1,753,255  (      451,656 rd   +   1,301,599 wr)
+==59515== LL miss rate:            0.0% (          0.0%     +         0.4%  )

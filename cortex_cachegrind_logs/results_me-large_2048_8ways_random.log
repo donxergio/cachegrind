@@ -1,41 +1,28 @@
-==43817== Cachegrind, a cache and branch-prediction profiler
-==43817== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==43817== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==43817== Command: ./me-large
-==43817== 
---43817-- warning: L3 cache found, using its data for the LL simulation.
---43817-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---43817-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59567== Cachegrind, a cache and branch-prediction profiler
+==59567== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59567== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59567== Command: ./me-large
+==59567== 
+--59567-- warning: L3 cache found, using its data for the LL simulation.
+--59567-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59567-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 Random cache replacement will be used
-==43817== brk segment overflow in thread #1: can't grow to 0x4a4b000
-==43817== (see section Limitations in user manual)
-==43817== NOTE: further instances of this message will not be shown
-==43817== 
-==43817== Process terminating with default action of signal 11 (SIGSEGV)
-==43817==  Access not within mapped region at address 0x0
-==43817==    at 0x1095A7: Taylor_App (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43817==    by 0x109963: FullSearch (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43817==    by 0x108ED2: Motion_Est (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43817==    by 0x109C31: Bidirectional_ME (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43817==    by 0x1089E0: main (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43817==  If you believe this happened as a result of a stack
-==43817==  overflow in your program's main thread (unlikely but
-==43817==  possible), you can try to increase the size of the
-==43817==  main thread stack using the --main-stacksize= flag.
-==43817==  The main thread stack size used in this run was 8388608.
-==43817== 
-==43817== I   refs:      2,085,420,623
-==43817== I1  misses:        2,395,624
-==43817== LLi misses:            1,700
-==43817== I1  miss rate:          0.11%
-==43817== LLi miss rate:          0.00%
-==43817== 
-==43817== D   refs:        496,564,008  (415,099,578 rd   + 81,464,430 wr)
-==43817== D1  misses:       40,739,745  ( 39,558,663 rd   +  1,181,082 wr)
-==43817== LLd misses:          512,942  (     34,259 rd   +    478,683 wr)
-==43817== D1  miss rate:           8.2% (        9.5%     +        1.4%  )
-==43817== LLd miss rate:           0.1% (        0.0%     +        0.6%  )
-==43817== 
-==43817== LL refs:          43,135,369  ( 41,954,287 rd   +  1,181,082 wr)
-==43817== LL misses:           514,642  (     35,959 rd   +    478,683 wr)
-==43817== LL miss rate:            0.0% (        0.0%     +        0.6%  )
+==59567== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==59567== (see section Limitations in user manual)
+==59567== NOTE: further instances of this message will not be shown
+==59567== 
+==59567== I   refs:      7,528,529,082
+==59567== I1  misses:        8,005,134
+==59567== LLi misses:            2,448
+==59567== I1  miss rate:          0.11%
+==59567== LLi miss rate:          0.00%
+==59567== 
+==59567== D   refs:      1,825,539,721  (1,535,870,322 rd   + 289,669,399 wr)
+==59567== D1  misses:      147,208,885  (  143,887,849 rd   +   3,321,036 wr)
+==59567== LLd misses:        1,295,145  (      163,057 rd   +   1,132,088 wr)
+==59567== D1  miss rate:           8.1% (          9.4%     +         1.1%  )
+==59567== LLd miss rate:           0.1% (          0.0%     +         0.4%  )
+==59567== 
+==59567== LL refs:         155,214,019  (  151,892,983 rd   +   3,321,036 wr)
+==59567== LL misses:         1,297,593  (      165,505 rd   +   1,132,088 wr)
+==59567== LL miss rate:            0.0% (          0.0%     +         0.4%  )

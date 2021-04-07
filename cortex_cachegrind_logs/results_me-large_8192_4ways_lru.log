@@ -1,41 +1,28 @@
-==43498== Cachegrind, a cache and branch-prediction profiler
-==43498== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==43498== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==43498== Command: ./me-large
-==43498== 
---43498-- warning: L3 cache found, using its data for the LL simulation.
---43498-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---43498-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==59253== Cachegrind, a cache and branch-prediction profiler
+==59253== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==59253== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==59253== Command: ./me-large
+==59253== 
+--59253-- warning: L3 cache found, using its data for the LL simulation.
+--59253-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--59253-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LRU cache replacement will be used
-==43498== brk segment overflow in thread #1: can't grow to 0x4a4b000
-==43498== (see section Limitations in user manual)
-==43498== NOTE: further instances of this message will not be shown
-==43498== 
-==43498== Process terminating with default action of signal 11 (SIGSEGV)
-==43498==  Access not within mapped region at address 0x0
-==43498==    at 0x1095A7: Taylor_App (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43498==    by 0x109963: FullSearch (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43498==    by 0x108ED2: Motion_Est (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43498==    by 0x109C31: Bidirectional_ME (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43498==    by 0x1089E0: main (in /home/tkloda/cortexsuite/cortex/motion-estimation/me-large)
-==43498==  If you believe this happened as a result of a stack
-==43498==  overflow in your program's main thread (unlikely but
-==43498==  possible), you can try to increase the size of the
-==43498==  main thread stack using the --main-stacksize= flag.
-==43498==  The main thread stack size used in this run was 8388608.
-==43498== 
-==43498== I   refs:      4,959,622,232
-==43498== I1  misses:          317,284
-==43498== LLi misses:            1,405
-==43498== I1  miss rate:          0.01%
-==43498== LLi miss rate:          0.00%
-==43498== 
-==43498== D   refs:      1,195,044,851  (1,004,792,610 rd   + 190,252,241 wr)
-==43498== D1  misses:       44,161,596  (   42,796,116 rd   +   1,365,480 wr)
-==43498== LLd misses:          858,815  (       69,326 rd   +     789,489 wr)
-==43498== D1  miss rate:           3.7% (          4.3%     +         0.7%  )
-==43498== LLd miss rate:           0.1% (          0.0%     +         0.4%  )
-==43498== 
-==43498== LL refs:          44,478,880  (   43,113,400 rd   +   1,365,480 wr)
-==43498== LL misses:           860,220  (       70,731 rd   +     789,489 wr)
-==43498== LL miss rate:            0.0% (          0.0%     +         0.4%  )
+==59253== brk segment overflow in thread #1: can't grow to 0x4a4b000
+==59253== (see section Limitations in user manual)
+==59253== NOTE: further instances of this message will not be shown
+==59253== 
+==59253== I   refs:      7,528,529,082
+==59253== I1  misses:          469,168
+==59253== LLi misses:            1,548
+==59253== I1  miss rate:          0.01%
+==59253== LLi miss rate:          0.00%
+==59253== 
+==59253== D   refs:      1,825,539,721  (1,535,870,322 rd   + 289,669,399 wr)
+==59253== D1  misses:       68,305,305  (   66,432,348 rd   +   1,872,957 wr)
+==59253== LLd misses:        1,205,294  (      117,843 rd   +   1,087,451 wr)
+==59253== D1  miss rate:           3.7% (          4.3%     +         0.6%  )
+==59253== LLd miss rate:           0.1% (          0.0%     +         0.4%  )
+==59253== 
+==59253== LL refs:          68,774,473  (   66,901,516 rd   +   1,872,957 wr)
+==59253== LL misses:         1,206,842  (      119,391 rd   +   1,087,451 wr)
+==59253== LL miss rate:            0.0% (          0.0%     +         0.4%  )
