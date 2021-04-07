@@ -1,33 +1,25 @@
-==27867== Cachegrind, a cache and branch-prediction profiler
-==27867== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==27867== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==27867== Command: ./mser .
-==27867== 
---27867-- warning: L3 cache found, using its data for the LL simulation.
---27867-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---27867-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==73703== Cachegrind, a cache and branch-prediction profiler
+==73703== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==73703== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==73703== Command: ./mser .
+==73703== 
+--73703-- warning: L3 cache found, using its data for the LL simulation.
+--73703-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--73703-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 Random cache replacement will be used
-==27867== 
-==27867== Process terminating with default action of signal 15 (SIGTERM)
-==27867==    at 0x50DC14F: read (read.c:27)
-==27867==    by 0x5059217: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:531)
-==27867==    by 0x5057817: _IO_file_xsgetn (fileops.c:1344)
-==27867==    by 0x504B4A0: fread (iofread.c:38)
-==27867==    by 0x10933B: readImage (in /home/tkloda/cortexsuite/vision/benchmarks/mser/data/fullhd/mser)
-==27867==    by 0x108A87: main (in /home/tkloda/cortexsuite/vision/benchmarks/mser/data/fullhd/mser)
-==27867== 
-==27867== I   refs:      1,237,491,346
-==27867== I1  misses:            2,704
-==27867== LLi misses:            1,231
-==27867== I1  miss rate:          0.00%
-==27867== LLi miss rate:          0.00%
-==27867== 
-==27867== D   refs:        532,648,516  (363,763,312 rd   + 168,885,204 wr)
-==27867== D1  misses:          473,086  (    248,523 rd   +     224,563 wr)
-==27867== LLd misses:          205,774  (      2,263 rd   +     203,511 wr)
-==27867== D1  miss rate:           0.1% (        0.1%     +         0.1%  )
-==27867== LLd miss rate:           0.0% (        0.0%     +         0.1%  )
-==27867== 
-==27867== LL refs:             475,790  (    251,227 rd   +     224,563 wr)
-==27867== LL misses:           207,005  (      3,494 rd   +     203,511 wr)
-==27867== LL miss rate:            0.0% (        0.0%     +         0.1%  )
+==73703== 
+==73703== I   refs:      3,434,253,558
+==73703== I1  misses:           24,352
+==73703== LLi misses:            1,838
+==73703== I1  miss rate:          0.00%
+==73703== LLi miss rate:          0.00%
+==73703== 
+==73703== D   refs:      1,308,839,719  (891,688,008 rd   + 417,151,711 wr)
+==73703== D1  misses:       24,616,633  ( 20,494,621 rd   +   4,122,012 wr)
+==73703== LLd misses:        7,167,924  (  4,998,624 rd   +   2,169,300 wr)
+==73703== D1  miss rate:           1.9% (        2.3%     +         1.0%  )
+==73703== LLd miss rate:           0.5% (        0.6%     +         0.5%  )
+==73703== 
+==73703== LL refs:          24,640,985  ( 20,518,973 rd   +   4,122,012 wr)
+==73703== LL misses:         7,169,762  (  5,000,462 rd   +   2,169,300 wr)
+==73703== LL miss rate:            0.2% (        0.1%     +         0.5%  )
