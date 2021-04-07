@@ -1,11 +1,11 @@
-==56266== Cachegrind, a cache and branch-prediction profiler
-==56266== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==56266== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==56266== Command: ./sphinx medium/audio.raw language_model/HUB4/
-==56266== 
---56266-- warning: L3 cache found, using its data for the LL simulation.
---56266-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---56266-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==16194== Cachegrind, a cache and branch-prediction profiler
+==16194== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==16194== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==16194== Command: ./sphinx medium/audio.raw language_model/HUB4/
+==16194== 
+--16194-- warning: L3 cache found, using its data for the LL simulation.
+--16194-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--16194-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
 INFO: cmd_ln.c(691): Parsing command line:
@@ -202,9 +202,9 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==56266== brk segment overflow in thread #1: can't grow to 0x4a33000
-==56266== (see section Limitations in user manual)
-==56266== NOTE: further instances of this message will not be shown
+==16194== brk segment overflow in thread #1: can't grow to 0x4a33000
+==16194== (see section Limitations in user manual)
+==16194== NOTE: further instances of this message will not be shown
 INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
 INFO: dict.c(335): 131316 words read
 INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
@@ -239,36 +239,36 @@ INFO: ngram_search_fwdtree.c(1551):   992467 senones evaluated (3557/fr)
 INFO: ngram_search_fwdtree.c(1553):  4006537 channels searched (14360/fr), 182832 1st, 152126 last
 INFO: ngram_search_fwdtree.c(1557):    14834 words for which last channels evaluated (53/fr)
 INFO: ngram_search_fwdtree.c(1560):   324694 candidate words for entering last phone (1163/fr)
-INFO: ngram_search_fwdtree.c(1562): fwdtree 40.68 CPU 14.582 xRT
-INFO: ngram_search_fwdtree.c(1565): fwdtree 3900.07 wall 1397.875 xRT
+INFO: ngram_search_fwdtree.c(1562): fwdtree 38.22 CPU 13.698 xRT
+INFO: ngram_search_fwdtree.c(1565): fwdtree 607.11 wall 217.604 xRT
 INFO: ngram_search_fwdflat.c(302): Utterance vocabulary contains 192 words
 INFO: ngram_search_fwdflat.c(937):     2567 words recognized (9/fr)
 INFO: ngram_search_fwdflat.c(939):   147850 senones evaluated (530/fr)
 INFO: ngram_search_fwdflat.c(941):   217680 channels searched (780/fr)
 INFO: ngram_search_fwdflat.c(943):    12556 words searched (45/fr)
 INFO: ngram_search_fwdflat.c(945):    10259 word transitions (36/fr)
-INFO: ngram_search_fwdflat.c(948): fwdflat 2.67 CPU 0.958 xRT
-INFO: ngram_search_fwdflat.c(951): fwdflat 203.39 wall 72.900 xRT
+INFO: ngram_search_fwdflat.c(948): fwdflat 2.40 CPU 0.861 xRT
+INFO: ngram_search_fwdflat.c(951): fwdflat 28.51 wall 10.218 xRT
 INFO: ngram_search.c(1266): lattice start node <s>.0 end node </s>.213
 INFO: ngram_search.c(1294): Eliminated 0 nodes before end node
 INFO: ngram_search.c(1399): Lattice has 291 nodes, 680 links
 INFO: ps_lattice.c(1365): Normalizer P(O) = alpha(</s>:213:277) = -1579240
 INFO: ps_lattice.c(1403): Joint P(O,S) = -1606198 P(S|O) = -26958
-INFO: ngram_search.c(888): bestpath 0.13 CPU 0.046 xRT
-INFO: ngram_search.c(891): bestpath 11.03 wall 3.968 xRT
-==56266== 
-==56266== I   refs:      4,250,579,620
-==56266== I1  misses:            4,185
-==56266== LLi misses:            4,125
-==56266== I1  miss rate:          0.00%
-==56266== LLi miss rate:          0.00%
-==56266== 
-==56266== D   refs:      1,415,403,259  (1,035,865,098 rd   + 379,538,161 wr)
-==56266== D1  misses:       49,167,883  (   45,939,405 rd   +   3,228,478 wr)
-==56266== LLd misses:        2,557,537  (    1,561,961 rd   +     995,576 wr)
-==56266== D1  miss rate:           3.5% (          4.4%     +         0.9%  )
-==56266== LLd miss rate:           0.2% (          0.2%     +         0.3%  )
-==56266== 
-==56266== LL refs:          49,172,068  (   45,943,590 rd   +   3,228,478 wr)
-==56266== LL misses:         2,561,662  (    1,566,086 rd   +     995,576 wr)
-==56266== LL miss rate:            0.0% (          0.0%     +         0.3%  )
+INFO: ngram_search.c(888): bestpath 0.12 CPU 0.044 xRT
+INFO: ngram_search.c(891): bestpath 1.49 wall 0.535 xRT
+==16194== 
+==16194== I   refs:      4,250,579,678
+==16194== I1  misses:            4,184
+==16194== LLi misses:            4,121
+==16194== I1  miss rate:          0.00%
+==16194== LLi miss rate:          0.00%
+==16194== 
+==16194== D   refs:      1,415,402,776  (1,035,864,782 rd   + 379,537,994 wr)
+==16194== D1  misses:       49,171,601  (   45,943,332 rd   +   3,228,269 wr)
+==16194== LLd misses:        2,556,867  (    1,561,159 rd   +     995,708 wr)
+==16194== D1  miss rate:           3.5% (          4.4%     +         0.9%  )
+==16194== LLd miss rate:           0.2% (          0.2%     +         0.3%  )
+==16194== 
+==16194== LL refs:          49,175,785  (   45,947,516 rd   +   3,228,269 wr)
+==16194== LL misses:         2,560,988  (    1,565,280 rd   +     995,708 wr)
+==16194== LL miss rate:            0.0% (          0.0%     +         0.3%  )

@@ -1,11 +1,11 @@
-==56210== Cachegrind, a cache and branch-prediction profiler
-==56210== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==56210== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==56210== Command: ./sphinx medium/audio.raw language_model/HUB4/
-==56210== 
---56210-- warning: L3 cache found, using its data for the LL simulation.
---56210-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---56210-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==16138== Cachegrind, a cache and branch-prediction profiler
+==16138== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==16138== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==16138== Command: ./sphinx medium/audio.raw language_model/HUB4/
+==16138== 
+--16138-- warning: L3 cache found, using its data for the LL simulation.
+--16138-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--16138-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
 INFO: cmd_ln.c(691): Parsing command line:
@@ -202,24 +202,73 @@ INFO: s2_semi_mgau.c(1022): Using memory-mapped I/O for senones
 INFO: s2_semi_mgau.c(1296): Maximum top-N: 4 Top-N beams: 0 0 0
 INFO: dict.c(317): Allocating 135423 * 32 bytes (4231 KiB) for word entries
 INFO: dict.c(332): Reading main dictionary: language_model/HUB4/model.dict
-==56210== Cannot map memory to grow brk segment in thread #1 to 0x435e000
-==56210== (see section Limitations in user manual)
-==56210== Cannot map memory to grow brk segment in thread #1 to 0x496d000
-==56210== (see section Limitations in user manual)
-calloc(1,32) failed from sphinxbase/util/hash_table.c(411)
-==56210== 
-==56210== I   refs:      475,173,711
-==56210== I1  misses:     13,550,043
-==56210== LLi misses:          2,936
-==56210== I1  miss rate:        2.85%
-==56210== LLi miss rate:        0.00%
-==56210== 
-==56210== D   refs:      164,200,891  (117,845,629 rd   + 46,355,262 wr)
-==56210== D1  misses:      2,703,311  (  2,357,828 rd   +    345,483 wr)
-==56210== LLd misses:        362,395  (    130,713 rd   +    231,682 wr)
-==56210== D1  miss rate:         1.6% (        2.0%     +        0.7%  )
-==56210== LLd miss rate:         0.2% (        0.1%     +        0.5%  )
-==56210== 
-==56210== LL refs:        16,253,354  ( 15,907,871 rd   +    345,483 wr)
-==56210== LL misses:         365,331  (    133,649 rd   +    231,682 wr)
-==56210== LL miss rate:          0.1% (        0.0%     +        0.5%  )
+==16138== brk segment overflow in thread #1: can't grow to 0x4a33000
+==16138== (see section Limitations in user manual)
+==16138== NOTE: further instances of this message will not be shown
+INFO: dict.c(211): Allocated 992 KiB for strings, 1633 KiB for phones
+INFO: dict.c(335): 131316 words read
+INFO: dict.c(341): Reading filler dictionary: language_model/HUB4/model/noisedict
+INFO: dict.c(211): Allocated 0 KiB for strings, 0 KiB for phones
+INFO: dict.c(344): 11 words read
+INFO: dict2pid.c(396): Building PID tables for dictionary
+INFO: dict2pid.c(404): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
+INFO: dict2pid.c(131): Allocated 60400 bytes (58 KiB) for word-final triphones
+INFO: dict2pid.c(195): Allocated 60400 bytes (58 KiB) for single-phone word triphones
+INFO: ngram_model_arpa.c(77): No \data\ mark in LM file
+INFO: ngram_model_dmp.c(142): Will use memory-mapped I/O for LM file
+INFO: ngram_model_dmp.c(196): ngrams 1=64001, 2=9382014, 3=13459879
+INFO: ngram_model_dmp.c(242):    64001 = LM.unigrams(+trailer) read
+WARNING: "ngram_model_dmp.c", line 250: -mmap specified, but trigram index is not word-aligned.  Will not memory-map.
+INFO: ngram_model_dmp.c(288):  9382014 = LM.bigrams(+trailer) read
+INFO: ngram_model_dmp.c(314): 13459879 = LM.trigrams read
+INFO: ngram_model_dmp.c(339):    32582 = LM.prob2 entries read
+INFO: ngram_model_dmp.c(359):    21467 = LM.bo_wt2 entries read
+INFO: ngram_model_dmp.c(379):    30084 = LM.prob3 entries read
+INFO: ngram_model_dmp.c(407):    18325 = LM.tseg_base entries read
+INFO: ngram_model_dmp.c(463):    64001 = ascii word strings read
+INFO: ngram_search_fwdtree.c(99): 799 unique initial diphones
+INFO: ngram_search_fwdtree.c(147): 0 root, 0 non-root channels, 85 single-phone words
+INFO: ngram_search_fwdtree.c(186): Creating search tree
+INFO: ngram_search_fwdtree.c(191): before: 0 root, 0 non-root channels, 85 single-phone words
+INFO: ngram_search_fwdtree.c(326): after: max nonroot chan increased to 138543
+INFO: ngram_search_fwdtree.c(338): after: 701 root, 138415 non-root channels, 79 single-phone words
+INFO: ngram_search_fwdflat.c(156): fwdflat: min_ef_width = 4, max_sf_win = 25
+INFO: cmn.c(175): CMN: 37.32 -0.91  0.57  0.52 -0.62  0.13 -0.06  0.28  0.39  0.59  0.12 -0.16  0.18 
+INFO: ngram_search_fwdtree.c(1549):     4741 words recognized (17/fr)
+INFO: ngram_search_fwdtree.c(1551):   992467 senones evaluated (3557/fr)
+INFO: ngram_search_fwdtree.c(1553):  4006537 channels searched (14360/fr), 182832 1st, 152126 last
+INFO: ngram_search_fwdtree.c(1557):    14834 words for which last channels evaluated (53/fr)
+INFO: ngram_search_fwdtree.c(1560):   324694 candidate words for entering last phone (1163/fr)
+INFO: ngram_search_fwdtree.c(1562): fwdtree 53.47 CPU 19.165 xRT
+INFO: ngram_search_fwdtree.c(1565): fwdtree 690.80 wall 247.597 xRT
+INFO: ngram_search_fwdflat.c(302): Utterance vocabulary contains 192 words
+INFO: ngram_search_fwdflat.c(937):     2567 words recognized (9/fr)
+INFO: ngram_search_fwdflat.c(939):   147850 senones evaluated (530/fr)
+INFO: ngram_search_fwdflat.c(941):   217680 channels searched (780/fr)
+INFO: ngram_search_fwdflat.c(943):    12556 words searched (45/fr)
+INFO: ngram_search_fwdflat.c(945):    10259 word transitions (36/fr)
+INFO: ngram_search_fwdflat.c(948): fwdflat 3.36 CPU 1.206 xRT
+INFO: ngram_search_fwdflat.c(951): fwdflat 33.58 wall 12.035 xRT
+INFO: ngram_search.c(1266): lattice start node <s>.0 end node </s>.213
+INFO: ngram_search.c(1294): Eliminated 0 nodes before end node
+INFO: ngram_search.c(1399): Lattice has 291 nodes, 680 links
+INFO: ps_lattice.c(1365): Normalizer P(O) = alpha(</s>:213:277) = -1579240
+INFO: ps_lattice.c(1403): Joint P(O,S) = -1606198 P(S|O) = -26958
+INFO: ngram_search.c(888): bestpath 0.19 CPU 0.067 xRT
+INFO: ngram_search.c(891): bestpath 1.88 wall 0.675 xRT
+==16138== 
+==16138== I   refs:      4,250,579,516
+==16138== I1  misses:       24,316,421
+==16138== LLi misses:            4,983
+==16138== I1  miss rate:          0.57%
+==16138== LLi miss rate:          0.00%
+==16138== 
+==16138== D   refs:      1,415,402,742  (1,035,864,759 rd   + 379,537,983 wr)
+==16138== D1  misses:      136,805,122  (  127,491,970 rd   +   9,313,152 wr)
+==16138== LLd misses:        2,167,853  (    1,186,809 rd   +     981,044 wr)
+==16138== D1  miss rate:           9.7% (         12.3%     +         2.5%  )
+==16138== LLd miss rate:           0.2% (          0.1%     +         0.3%  )
+==16138== 
+==16138== LL refs:         161,121,543  (  151,808,391 rd   +   9,313,152 wr)
+==16138== LL misses:         2,172,836  (    1,191,792 rd   +     981,044 wr)
+==16138== LL miss rate:            0.0% (          0.0%     +         0.3%  )
