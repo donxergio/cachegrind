@@ -1,42 +1,28 @@
-==54809== Cachegrind, a cache and branch-prediction profiler
-==54809== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==54809== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==54809== Command: ./sift .
-==54809== 
---54809-- warning: L3 cache found, using its data for the LL simulation.
---54809-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---54809-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==61847== Cachegrind, a cache and branch-prediction profiler
+==61847== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==61847== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==61847== Command: ./sift .
+==61847== 
+--61847-- warning: L3 cache found, using its data for the LL simulation.
+--61847-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--61847-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 FIFO cache replacement will be used
-==54809== brk segment overflow in thread #1: can't grow to 0x5419000
-==54809== (see section Limitations in user manual)
-==54809== NOTE: further instances of this message will not be shown
-==54809== 
-==54809== Process terminating with default action of signal 11 (SIGSEGV)
-==54809==  Access not within mapped region at address 0x4
-==54809==    at 0x109D03: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
-==54809==    by 0x10C174: fSetArray (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
-==54809==    by 0x10DEE4: imsmooth (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
-==54809==    by 0x10D8E4: gaussianss (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
-==54809==    by 0x10CC6E: sift (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
-==54809==    by 0x108C27: main (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/fullhd/sift)
-==54809==  If you believe this happened as a result of a stack
-==54809==  overflow in your program's main thread (unlikely but
-==54809==  possible), you can try to increase the size of the
-==54809==  main thread stack using the --main-stacksize= flag.
-==54809==  The main thread stack size used in this run was 8388608.
-==54809== 
-==54809== I   refs:      4,819,011,737
-==54809== I1  misses:            1,324
-==54809== LLi misses:            1,312
-==54809== I1  miss rate:          0.00%
-==54809== LLi miss rate:          0.00%
-==54809== 
-==54809== D   refs:      1,483,553,516  (1,032,599,508 rd   + 450,954,008 wr)
-==54809== D1  misses:       17,186,722  (   14,119,752 rd   +   3,066,970 wr)
-==54809== LLd misses:        4,708,843  (    2,626,907 rd   +   2,081,936 wr)
-==54809== D1  miss rate:           1.2% (          1.4%     +         0.7%  )
-==54809== LLd miss rate:           0.3% (          0.3%     +         0.5%  )
-==54809== 
-==54809== LL refs:          17,188,046  (   14,121,076 rd   +   3,066,970 wr)
-==54809== LL misses:         4,710,155  (    2,628,219 rd   +   2,081,936 wr)
-==54809== LL miss rate:            0.1% (          0.0%     +         0.5%  )
+==61847== brk segment overflow in thread #1: can't grow to 0x5419000
+==61847== (see section Limitations in user manual)
+==61847== NOTE: further instances of this message will not be shown
+==61847== 
+==61847== I   refs:      16,043,915,040
+==61847== I1  misses:             1,893
+==61847== LLi misses:             1,871
+==61847== I1  miss rate:           0.00%
+==61847== LLi miss rate:           0.00%
+==61847== 
+==61847== D   refs:       4,941,072,985  (3,428,287,658 rd   + 1,512,785,327 wr)
+==61847== D1  misses:        86,969,714  (   75,254,492 rd   +    11,715,222 wr)
+==61847== LLd misses:        22,789,047  (   13,112,921 rd   +     9,676,126 wr)
+==61847== D1  miss rate:            1.8% (          2.2%     +           0.8%  )
+==61847== LLd miss rate:            0.5% (          0.4%     +           0.6%  )
+==61847== 
+==61847== LL refs:           86,971,607  (   75,256,385 rd   +    11,715,222 wr)
+==61847== LL misses:         22,790,918  (   13,114,792 rd   +     9,676,126 wr)
+==61847== LL miss rate:             0.1% (          0.1%     +           0.6%  )
