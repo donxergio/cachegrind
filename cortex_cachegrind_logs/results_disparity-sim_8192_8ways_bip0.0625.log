@@ -1,111 +1,26 @@
-==41784== Cachegrind, a cache and branch-prediction profiler
-==41784== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==41784== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==41784== Command: ./disparity .
-==41784== 
---41784-- warning: L3 cache found, using its data for the LL simulation.
---41784-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---41784-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==3633== Cachegrind, a cache and branch-prediction profiler
+==3633== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==3633== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==3633== Command: ./disparity .
+==3633== 
+--3633-- warning: L3 cache found, using its data for the LL simulation.
+--3633-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--3633-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
---41784:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (49 segments)
---41784:0: aspacem 7 segment names in 7 slots
---41784:0: aspacem freelist is empty
---41784:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---41784:0: aspacem (1,66,3) /home/tkloda/cortexsuite/vision/benchmarks/disparity/data/sim/disparity
---41784:0: aspacem (2,142,3) /lib/x86_64-linux-gnu/ld-2.27.so
---41784:0: aspacem (3,179,1) /tmp/vgdb-pipe-shared-mem-vgdb-41784-by-tkloda-on-???
---41784:0: aspacem (4,237,4) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
---41784:0: aspacem (5,306,1) /etc/ld.so.cache
---41784:0: aspacem (6,327,4) /lib/x86_64-linux-gnu/libm-2.27.so
---41784:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---41784:0: aspacem   1: file 0000108000-000010efff   28672 r-x-- d=0x802 i=49682254 o=0       (1,66)
---41784:0: aspacem   2: RSVN 000010f000-000030dfff 2093056 ----- SmFixed
---41784:0: aspacem   3: file 000030e000-000030ffff    8192 rw--- d=0x802 i=49682254 o=24576   (1,66)
---41784:0: aspacem   4: RSVN 0000310000-0003ffffff     60m ----- SmFixed
---41784:0: aspacem   5: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,142)
---41784:0: aspacem   6: file 0004029000-000405dfff  217088 r---- d=0x802 i=54001893 o=0       (5,306)
---41784:0: aspacem   7: anon 000405e000-000405ffff    8192 rw---
---41784:0: aspacem   8:      0004060000-0004228fff 1871872
---41784:0: aspacem   9: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,142)
---41784:0: aspacem  10: anon 000422b000-000422bfff    4096 rw---
---41784:0: aspacem  11: anon 000422c000-000422cfff    4096 rwx--
---41784:0: aspacem  12: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
---41784:0: aspacem  13: file 0004a2c000-0004a2cfff    4096 r-x-- d=0x802 i=28344728 o=0       (4,237)
---41784:0: aspacem  14: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,237)
---41784:0: aspacem  15: file 0004c2c000-0004c2dfff    8192 rw--- d=0x802 i=28344728 o=0       (4,237)
---41784:0: aspacem  16: file 0004c2e000-0004dcafff 1691648 r-x-- d=0x802 i=12583362 o=0       (6,327)
---41784:0: aspacem  17: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,327)
---41784:0: aspacem  18: file 0004fca000-0004fcbfff    8192 rw--- d=0x802 i=12583362 o=1687552 (6,327)
---41784:0: aspacem  19:      0004fcc000-0057ffffff   1328m
---41784:0: aspacem  20: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---41784:0: aspacem  21: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---41784:0: aspacem  22: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---41784:0: aspacem  23:      0058259000-0058458fff 2097152
---41784:0: aspacem  24: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---41784:0: aspacem  25: ANON 005845f000-0058e56fff      9m rw---
---41784:0: aspacem  26:      0058e57000-1001ffffff  64145m
---41784:0: aspacem  27: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---41784:0: aspacem  28: ANON 1002001000-100278bfff 7909376 rwx--
---41784:0: aspacem  29: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29507979 o=0       (3,179)
---41784:0: aspacem  30: ANON 100278d000-10027bcfff  196608 rwx--
---41784:0: aspacem  31:      10027bd000-100288bfff  847872
---41784:0: aspacem  32: ANON 100288c000-100298bfff 1048576 rwx--
---41784:0: aspacem  33: ANON 100298c000-100298dfff    8192 -----
---41784:0: aspacem  34: ANON 100298e000-1002a8dfff 1048576 rwx--
---41784:0: aspacem  35: ANON 1002a8e000-1002a8ffff    8192 -----
---41784:0: aspacem  36:      1002a90000-1002b80fff  987136
---41784:0: aspacem  37: ANON 1002b81000-1004d44fff     33m rwx--
---41784:0: aspacem  38:      1004d45000-1ffe800fff  65434m
---41784:0: aspacem  39: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
---41784:0: aspacem  40: anon 1ffeffe000-1fff000fff   12288 rw---
---41784:0: aspacem  41:      1fff001000-1fffffffff     15m
---41784:0: aspacem  42: RSVN 2000000000-7fff73d18fff 130941g ----- SmFixed
---41784:0: aspacem  43: ANON 7fff73d19000-7fff73d39fff  135168 rw---
---41784:0: aspacem  44: RSVN 7fff73d3a000-7fff73dacfff  471040 ----- SmFixed
---41784:0: aspacem  45: ANON 7fff73dad000-7fff73daffff   12288 r----
---41784:0: aspacem  46: RSVN 7fff73db0000-ffffffffff5fffff  16383e ----- SmFixed
---41784:0: aspacem  47: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---41784:0: aspacem  48: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---41784:0: aspacem >>>
---41784-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      7,284,704/    7,284,704 max/curr,        2674/   7466640 totalloc-blocks/bytes,        2673 searches 8 rzB
---41784-- dinfo   :    11,395,072/    7,462,912 max/curr mmap'd, 1/1 unsplit/split sb unmmap'd,     10,363,632/    7,351,136 max/curr,       23703/  23647552 totalloc-blocks/bytes,       24968 searches 8 rzB
---41784-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---41784-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---41784-- ttaux   :        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,         31,936/       21,392 max/curr,         112/     58224 totalloc-blocks/bytes,         114 searches 8 rzB
---41784-- translate: 5,251 guest insns, 875 traces, 174 uncond chased, 23 cond chased
---41784-- translate: no SP updates identified
---41784-- translate: PX: SPonly 875,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---41784--     tt/tc: 1,912 tt lookups requiring 1,921 probes
---41784--     tt/tc: 1,021 fast-cache updates, 2 flushes
---41784--  transtab: new        875 (21,124 -> 266,553; ratio 12.6) [0 scs] avg tce size 304
---41784--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---41784--  transtab: discarded  0 (0 -> ??)
---41784-- scheduler: 2,552 event checks.
---41784-- scheduler: 317 indir transfers, 133 misses (1 in 2) ..
---41784-- scheduler: .. of which: 180 hit0, 2 hit1, 2 hit2, 0 hit3, 133 missed
---41784-- scheduler: 0/1,071 major/minor sched events.
---41784--    sanity: 0 cheap, 0 expensive checks.
-==41784== 
-==41784==     Valgrind's memory management: out of memory:
-==41784==        newSuperblock's request for 4194304 bytes failed.
-==41784==           56,258,560 bytes have already been mmap-ed ANONYMOUS.
-==41784==     Valgrind cannot continue.  Sorry.
-==41784== 
-==41784==     There are several possible reasons for this.
-==41784==     - You have some kind of memory limit in place.  Look at the
-==41784==       output of 'ulimit -a'.  Is there a limit on the size of
-==41784==       virtual memory or address space?
-==41784==     - You have run out of swap space.
-==41784==     - Valgrind has a bug.  If you think this is the case or you are
-==41784==     not sure, please let us know and we'll try to fix it.
-==41784==     Please note that programs can take substantially more memory than
-==41784==     normal when running under Valgrind tools, eg. up to twice or
-==41784==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==41784==     should be able to make use of up 32GB memory.  On a 32-bit
-==41784==     machine, Valgrind should be able to use all the memory available
-==41784==     to a single process, up to 4GB if that's how you have your
-==41784==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==41784==     3GB per process.
-==41784== 
-==41784==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==3633== 
+==3633== I   refs:      7,590,565
+==3633== I1  misses:        2,825
+==3633== LLi misses:        1,513
+==3633== I1  miss rate:      0.04%
+==3633== LLi miss rate:      0.02%
+==3633== 
+==3633== D   refs:      3,072,795  (2,024,003 rd   + 1,048,792 wr)
+==3633== D1  misses:       57,469  (   25,532 rd   +    31,937 wr)
+==3633== LLd misses:        5,462  (    2,263 rd   +     3,199 wr)
+==3633== D1  miss rate:       1.9% (      1.3%     +       3.0%  )
+==3633== LLd miss rate:       0.2% (      0.1%     +       0.3%  )
+==3633== 
+==3633== LL refs:          60,294  (   28,357 rd   +    31,937 wr)
+==3633== LL misses:         6,975  (    3,776 rd   +     3,199 wr)
+==3633== LL miss rate:        0.1% (      0.0%     +       0.3%  )

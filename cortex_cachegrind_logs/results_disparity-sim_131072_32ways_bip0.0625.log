@@ -1,1 +1,26 @@
-sh: 1: /home/tkloda/valgrind/bin/valgrind: Cannot allocate memory
+==3687== Cachegrind, a cache and branch-prediction profiler
+==3687== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==3687== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==3687== Command: ./disparity .
+==3687== 
+--3687-- warning: L3 cache found, using its data for the LL simulation.
+--3687-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--3687-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==3687== 
+==3687== I   refs:      7,590,565
+==3687== I1  misses:        1,549
+==3687== LLi misses:        1,511
+==3687== I1  miss rate:      0.02%
+==3687== LLi miss rate:      0.02%
+==3687== 
+==3687== D   refs:      3,072,795  (2,024,003 rd   + 1,048,792 wr)
+==3687== D1  misses:        8,650  (    4,486 rd   +     4,164 wr)
+==3687== LLd misses:        5,457  (    2,259 rd   +     3,198 wr)
+==3687== D1  miss rate:       0.3% (      0.2%     +       0.4%  )
+==3687== LLd miss rate:       0.2% (      0.1%     +       0.3%  )
+==3687== 
+==3687== LL refs:          10,199  (    6,035 rd   +     4,164 wr)
+==3687== LL misses:         6,968  (    3,770 rd   +     3,198 wr)
+==3687== LL miss rate:        0.1% (      0.0%     +       0.3%  )
