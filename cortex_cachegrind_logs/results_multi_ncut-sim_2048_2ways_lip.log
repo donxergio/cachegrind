@@ -1,1 +1,25 @@
-valgrind: mmap(0x30e000, 8192) failed in UME with error 12 (Cannot allocate memory).
+==71777== Cachegrind, a cache and branch-prediction profiler
+==71777== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==71777== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==71777== Command: ./multi_ncut .
+==71777== 
+--71777-- warning: L3 cache found, using its data for the LL simulation.
+--71777-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--71777-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LIP cache replacement will be used
+==71777== 
+==71777== I   refs:      4,435,393,118
+==71777== I1  misses:          644,124
+==71777== LLi misses:            1,605
+==71777== I1  miss rate:          0.01%
+==71777== LLi miss rate:          0.00%
+==71777== 
+==71777== D   refs:        741,896,593  (740,027,025 rd   + 1,869,568 wr)
+==71777== D1  misses:       46,692,293  ( 46,460,597 rd   +   231,696 wr)
+==71777== LLd misses:           15,183  (      2,280 rd   +    12,903 wr)
+==71777== D1  miss rate:           6.3% (        6.3%     +      12.4%  )
+==71777== LLd miss rate:           0.0% (        0.0%     +       0.7%  )
+==71777== 
+==71777== LL refs:          47,336,417  ( 47,104,721 rd   +   231,696 wr)
+==71777== LL misses:            16,788  (      3,885 rd   +    12,903 wr)
+==71777== LL miss rate:            0.0% (        0.0%     +       0.7%  )
