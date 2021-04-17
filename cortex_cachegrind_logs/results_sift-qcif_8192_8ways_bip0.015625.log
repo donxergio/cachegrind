@@ -1,165 +1,26 @@
-==40345== Cachegrind, a cache and branch-prediction profiler
-==40345== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==40345== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==40345== Command: ./sift .
-==40345== 
---40345-- warning: L3 cache found, using its data for the LL simulation.
---40345-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---40345-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==26453== Cachegrind, a cache and branch-prediction profiler
+==26453== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==26453== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==26453== Command: ./sift .
+==26453== 
+--26453-- warning: L3 cache found, using its data for the LL simulation.
+--26453-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--26453-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.015625
---40345:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (70 segments)
---40345:0: aspacem 7 segment names in 8 slots
---40345:0: aspacem freelist begins at 297
---40345:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---40345:0: aspacem (1,66,4) /home/tkloda/cortexsuite/vision/benchmarks/sift/data/qcif/sift
---40345:0: aspacem (2,133,4) /lib/x86_64-linux-gnu/ld-2.27.so
---40345:0: aspacem (3,170,1) /tmp/vgdb-pipe-shared-mem-vgdb-40345-by-tkloda-on-???
---40345:0: aspacem (4,228,5) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
---40345:0: aspacem (5,297,0) [free slot: size=17  next=0]
---40345:0: aspacem (6,318,5) /lib/x86_64-linux-gnu/libm-2.27.so
---40345:0: aspacem (7,357,5) /lib/x86_64-linux-gnu/libc-2.27.so
---40345:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---40345:0: aspacem   1: file 0000108000-0000110fff   36864 r-xT- d=0x802 i=49682295 o=0       (1,66)
---40345:0: aspacem   2: RSVN 0000111000-000030ffff 2093056 ----- SmFixed
---40345:0: aspacem   3: file 0000310000-0000310fff    4096 r---- d=0x802 i=49682295 o=32768   (1,66)
---40345:0: aspacem   4: file 0000311000-0000311fff    4096 rw--- d=0x802 i=49682295 o=36864   (1,66)
---40345:0: aspacem   5: RSVN 0000312000-0003ffffff     60m ----- SmFixed
---40345:0: aspacem   6: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,133)
---40345:0: aspacem   7:      0004029000-000405dfff  217088
---40345:0: aspacem   8: anon 000405e000-0004062fff   20480 rw---
---40345:0: aspacem   9:      0004063000-0004228fff 1859584
---40345:0: aspacem  10: file 0004229000-0004229fff    4096 r---- d=0x802 i=12583111 o=167936  (2,133)
---40345:0: aspacem  11: file 000422a000-000422afff    4096 rw--- d=0x802 i=12583111 o=172032  (2,133)
---40345:0: aspacem  12: anon 000422b000-000422bfff    4096 rw---
---40345:0: aspacem  13: anon 000422c000-00047b6fff 5812224 rwx--
---40345:0: aspacem  14: RSVN 00047b7000-0004a2bfff 2576384 ----- SmLower
---40345:0: aspacem  15: file 0004a2c000-0004a2cfff    4096 r-xT- d=0x802 i=28344728 o=0       (4,228)
---40345:0: aspacem  16: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,228)
---40345:0: aspacem  17: file 0004c2c000-0004c2cfff    4096 r---- d=0x802 i=28344728 o=0       (4,228)
---40345:0: aspacem  18: file 0004c2d000-0004c2dfff    4096 rw--- d=0x802 i=28344728 o=4096    (4,228)
---40345:0: aspacem  19: file 0004c2e000-0004dcafff 1691648 r-xT- d=0x802 i=12583362 o=0       (6,318)
---40345:0: aspacem  20: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,318)
---40345:0: aspacem  21: file 0004fca000-0004fcafff    4096 r---- d=0x802 i=12583362 o=1687552 (6,318)
---40345:0: aspacem  22: file 0004fcb000-0004fcbfff    4096 rw--- d=0x802 i=12583362 o=1691648 (6,318)
---40345:0: aspacem  23: file 0004fcc000-00051b2fff 1994752 r-xT- d=0x802 i=12583345 o=0       (7,357)
---40345:0: aspacem  24: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,357)
---40345:0: aspacem  25: file 00053b3000-00053b6fff   16384 r---- d=0x802 i=12583345 o=1994752 (7,357)
---40345:0: aspacem  26: file 00053b7000-00053b8fff    8192 rw--- d=0x802 i=12583345 o=2011136 (7,357)
---40345:0: aspacem  27: anon 00053b9000-00053bcfff   16384 rw---
---40345:0: aspacem  28:      00053bd000-0057ffffff   1324m
---40345:0: aspacem  29: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---40345:0: aspacem  30: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---40345:0: aspacem  31: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---40345:0: aspacem  32:      0058259000-0058458fff 2097152
---40345:0: aspacem  33: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---40345:0: aspacem  34: ANON 005845f000-0058e56fff      9m rw---
---40345:0: aspacem  35:      0058e57000-1001ffffff  64145m
---40345:0: aspacem  36: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---40345:0: aspacem  37: ANON 1002001000-100278bfff 7909376 rwx--
---40345:0: aspacem  38: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29534381 o=0       (3,170)
---40345:0: aspacem  39: ANON 100278d000-10027bcfff  196608 rwx--
---40345:0: aspacem  40:      10027bd000-10027ccfff   65536
---40345:0: aspacem  41: ANON 10027cd000-10027dcfff   65536 rwx--
---40345:0: aspacem  42:      10027dd000-100288bfff  716800
---40345:0: aspacem  43: ANON 100288c000-100298bfff 1048576 rwx--
---40345:0: aspacem  44: ANON 100298c000-100298dfff    8192 -----
---40345:0: aspacem  45: ANON 100298e000-1002a8dfff 1048576 rwx--
---40345:0: aspacem  46: ANON 1002a8e000-1002a8ffff    8192 -----
---40345:0: aspacem  47:      1002a90000-1002b80fff  987136
---40345:0: aspacem  48: ANON 1002b81000-1004c44fff     32m rwx--
---40345:0: aspacem  49:      1004c45000-1004d44fff 1048576
---40345:0: aspacem  50: ANON 1004d45000-1004f44fff 2097152 rwx--
---40345:0: aspacem  51:      1004f45000-1005044fff 1048576
---40345:0: aspacem  52: ANON 1005045000-1005144fff 1048576 rwx--
---40345:0: aspacem  53:      1005145000-1005244fff 1048576
---40345:0: aspacem  54: ANON 1005245000-1005544fff 3145728 rwx--
---40345:0: aspacem  55:      1005545000-1005644fff 1048576
---40345:0: aspacem  56: ANON 1005645000-1005744fff 1048576 rwx--
---40345:0: aspacem  57:      1005745000-1005a39fff 3100672
---40345:0: aspacem  58: ANON 1005a3a000-1005c7bfff 2367488 rwx--
---40345:0: aspacem  59:      1005c7c000-1ffe800fff  65419m
---40345:0: aspacem  60: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
---40345:0: aspacem  61: anon 1ffeffe000-1fff000fff   12288 rw---
---40345:0: aspacem  62:      1fff001000-1fffffffff     15m
---40345:0: aspacem  63: RSVN 2000000000-7ffe02ecafff 130936g ----- SmFixed
---40345:0: aspacem  64: ANON 7ffe02ecb000-7ffe02eebfff  135168 rw---
---40345:0: aspacem  65: RSVN 7ffe02eec000-7ffe02febfff 1048576 ----- SmFixed
---40345:0: aspacem  66: ANON 7ffe02fec000-7ffe02feefff   12288 r----
---40345:0: aspacem  67: RSVN 7ffe02fef000-ffffffffff5fffff  16383e ----- SmFixed
---40345:0: aspacem  68: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---40345:0: aspacem  69: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---40345:0: aspacem >>>
---40345-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      8,137,408/    8,137,408 max/curr,        7920/   8713696 totalloc-blocks/bytes,        7920 searches 8 rzB
---40345-- dinfo   :    24,100,864/   16,121,856 max/curr mmap'd, 2/8 unsplit/split sb unmmap'd,     22,516,720/    8,754,720 max/curr,      230386/  61079744 totalloc-blocks/bytes,      238534 searches 8 rzB
---40345-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---40345-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---40345-- ttaux   :       196,608/      131,072 max/curr mmap'd, 0/1 unsplit/split sb unmmap'd,        106,448/       73,520 max/curr,         384/    199792 totalloc-blocks/bytes,         384 searches 8 rzB
---40345-- translate: 18,274 guest insns, 2,857 traces, 595 uncond chased, 81 cond chased
---40345-- translate: no SP updates identified
---40345-- translate: PX: SPonly 2,858,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---40345--     tt/tc: 6,339 tt lookups requiring 6,434 probes
---40345--     tt/tc: 3,432 fast-cache updates, 2 flushes
---40345--  transtab: new        2,857 (73,530 -> 944,157; ratio 12.8) [0 scs] avg tce size 330
---40345--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---40345--  transtab: discarded  0 (0 -> ??)
---40345-- scheduler: 19,126,170 event checks.
---40345-- scheduler: 377,548 indir transfers, 551 misses (1 in 685) ..
---40345-- scheduler: .. of which: 376,982 hit0, 11 hit1, 4 hit2, 0 hit3, 551 missed
---40345-- scheduler: 191/3,779 major/minor sched events.
---40345--    sanity: 191 cheap, 8 expensive checks.
---40345--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
---40345--    exectx: 1 searches, 0 full compares (0 per 1000)
---40345--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
---40345--  errormgr: 0 supplist searches, 0 comparisons during search
---40345--  errormgr: 0 errlist searches, 0 comparisons during search
-
-host stacktrace:
-==40345==    at 0x5801074A: show_sched_status_wrk (m_libcassert.c:406)
-==40345==    by 0x58018D75: vgPlain_out_of_memory_NORETURN (m_mallocfree.c:795)
-==40345==    by 0x58019193: newSuperblock (m_mallocfree.c:868)
-==40345==    by 0x58019767: vgPlain_arena_malloc (m_mallocfree.c:1806)
-==40345==    by 0x5801E5A6: vgPlain_OSetGen_AllocNode (m_oset.c:433)
-==40345==    by 0x5800BD52: cg_instrument (cg_main.c:625)
-==40345==    by 0x5809C8BF: tool_instrument_then_gdbserver_if_needed (m_translate.c:241)
-==40345==    by 0x5811EBF7: LibVEX_FrontEnd (main_main.c:675)
-==40345==    by 0x5811F0BC: LibVEX_Translate (main_main.c:1235)
-==40345==    by 0x5809F51B: vgPlain_translate (m_translate.c:1828)
-==40345==    by 0x58064CBB: handle_chain_me (scheduler.c:1166)
-==40345==    by 0x5806790F: vgPlain_scheduler (scheduler.c:1511)
-==40345==    by 0x580D4340: run_a_thread_NORETURN (syswrap-linux.c:101)
-
-sched status:
-  running_tid=1
-
-Thread 1: status = VgTs_Runnable (lwpid 40345)
-==40345==    at 0x5057A46: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1254)
-==40345==    by 0x5028D01: vfprintf (vfprintf.c:1642)
-==40345==    by 0x50FE17B: __printf_chk (printf_chk.c:35)
-==40345==    by 0x108C4D: main (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/qcif/sift)
-client stack range: [0x1FFEFFE000 0x1FFF000FFF] client SP: 0x1FFEFFFA50
-valgrind stack range: [0x100298E000 0x1002A8DFFF] top usage: 10024 of 1048576
-
-==40345== 
-==40345==     Valgrind's memory management: out of memory:
-==40345==        newSuperblock's request for 4194304 bytes failed.
-==40345==           70,819,840 bytes have already been mmap-ed ANONYMOUS.
-==40345==     Valgrind cannot continue.  Sorry.
-==40345== 
-==40345==     There are several possible reasons for this.
-==40345==     - You have some kind of memory limit in place.  Look at the
-==40345==       output of 'ulimit -a'.  Is there a limit on the size of
-==40345==       virtual memory or address space?
-==40345==     - You have run out of swap space.
-==40345==     - Valgrind has a bug.  If you think this is the case or you are
-==40345==     not sure, please let us know and we'll try to fix it.
-==40345==     Please note that programs can take substantially more memory than
-==40345==     normal when running under Valgrind tools, eg. up to twice or
-==40345==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==40345==     should be able to make use of up 32GB memory.  On a 32-bit
-==40345==     machine, Valgrind should be able to use all the memory available
-==40345==     to a single process, up to 4GB if that's how you have your
-==40345==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==40345==     3GB per process.
-==40345== 
-==40345==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==26453== 
+==26453== I   refs:      288,804,896
+==26453== I1  misses:         12,983
+==26453== LLi misses:          1,993
+==26453== I1  miss rate:        0.00%
+==26453== LLi miss rate:        0.00%
+==26453== 
+==26453== D   refs:       87,842,238  (61,419,189 rd   + 26,423,049 wr)
+==26453== D1  misses:      7,945,239  ( 7,063,519 rd   +    881,720 wr)
+==26453== LLd misses:        178,680  (    23,052 rd   +    155,628 wr)
+==26453== D1  miss rate:         9.0% (      11.5%     +        3.3%  )
+==26453== LLd miss rate:         0.2% (       0.0%     +        0.6%  )
+==26453== 
+==26453== LL refs:         7,958,222  ( 7,076,502 rd   +    881,720 wr)
+==26453== LL misses:         180,673  (    25,045 rd   +    155,628 wr)
+==26453== LL miss rate:          0.0% (       0.0%     +        0.6%  )

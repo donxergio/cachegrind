@@ -1,39 +1,26 @@
-==40325== Cachegrind, a cache and branch-prediction profiler
-==40325== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==40325== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==40325== Command: ./sift .
-==40325== 
---40325-- warning: L3 cache found, using its data for the LL simulation.
---40325-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---40325-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==26433== Cachegrind, a cache and branch-prediction profiler
+==26433== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==26433== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==26433== Command: ./sift .
+==26433== 
+--26433-- warning: L3 cache found, using its data for the LL simulation.
+--26433-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--26433-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.015625
-==40325== Cannot map memory to grow brk segment in thread #1 to 0x468b000
-==40325== (see section Limitations in user manual)
-==40325== 
-==40325== Process terminating with default action of signal 15 (SIGTERM)
-==40325==    at 0x50E19E6: tcgetattr (tcgetattr.c:38)
-==40325==    by 0x50DDCCB: isatty (isatty.c:27)
-==40325==    by 0x504A30A: _IO_file_doallocate (filedoalloc.c:69)
-==40325==    by 0x505A448: _IO_doallocbuf (genops.c:365)
-==40325==    by 0x5059567: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:759)
-==40325==    by 0x5057ABC: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1266)
-==40325==    by 0x5027633: vfprintf (vfprintf.c:1328)
-==40325==    by 0x50FE17B: __printf_chk (printf_chk.c:35)
-==40325==    by 0x108C4D: main (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/qcif/sift)
-==40325== 
-==40325== I   refs:      288,658,917
-==40325== I1  misses:         18,260
-==40325== LLi misses:          1,541
-==40325== I1  miss rate:        0.01%
-==40325== LLi miss rate:        0.00%
-==40325== 
-==40325== D   refs:       87,789,973  (61,386,311 rd   + 26,403,662 wr)
-==40325== D1  misses:     14,090,326  (12,050,996 rd   +  2,039,330 wr)
-==40325== LLd misses:        150,730  (     4,407 rd   +    146,323 wr)
-==40325== D1  miss rate:        16.1% (      19.6%     +        7.7%  )
-==40325== LLd miss rate:         0.2% (       0.0%     +        0.6%  )
-==40325== 
-==40325== LL refs:        14,108,586  (12,069,256 rd   +  2,039,330 wr)
-==40325== LL misses:         152,271  (     5,948 rd   +    146,323 wr)
-==40325== LL miss rate:          0.0% (       0.0%     +        0.6%  )
+==26433== 
+==26433== I   refs:      288,804,908
+==26433== I1  misses:         31,324
+==26433== LLi misses:          1,948
+==26433== I1  miss rate:        0.01%
+==26433== LLi miss rate:        0.00%
+==26433== 
+==26433== D   refs:       87,842,240  (61,419,190 rd   + 26,423,050 wr)
+==26433== D1  misses:     14,060,939  (12,031,391 rd   +  2,029,548 wr)
+==26433== LLd misses:        161,314  (     5,697 rd   +    155,617 wr)
+==26433== D1  miss rate:        16.0% (      19.6%     +        7.7%  )
+==26433== LLd miss rate:         0.2% (       0.0%     +        0.6%  )
+==26433== 
+==26433== LL refs:        14,092,263  (12,062,715 rd   +  2,029,548 wr)
+==26433== LL misses:         163,262  (     7,645 rd   +    155,617 wr)
+==26433== LL miss rate:          0.0% (       0.0%     +        0.6%  )
