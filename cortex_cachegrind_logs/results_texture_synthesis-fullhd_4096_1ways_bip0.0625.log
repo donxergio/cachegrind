@@ -1,31 +1,26 @@
-==34101== Cachegrind, a cache and branch-prediction profiler
-==34101== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==34101== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==34101== Command: ./texture_synthesis .
-==34101== 
---34101-- warning: L3 cache found, using its data for the LL simulation.
---34101-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---34101-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==5821== Cachegrind, a cache and branch-prediction profiler
+==5821== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==5821== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==5821== Command: ./texture_synthesis .
+==5821== 
+--5821-- warning: L3 cache found, using its data for the LL simulation.
+--5821-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--5821-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
-==34101== 
-==34101== Process terminating with default action of signal 15 (SIGTERM)
-==34101==    at 0x10D230: compare_rest (in /home/tkloda/cortexsuite/vision/benchmarks/texture_synthesis/data/fullhd/texture_synthesis)
-==34101==    by 0x10D482: create_texture (in /home/tkloda/cortexsuite/vision/benchmarks/texture_synthesis/data/fullhd/texture_synthesis)
-==34101==    by 0x108AF4: main (in /home/tkloda/cortexsuite/vision/benchmarks/texture_synthesis/data/fullhd/texture_synthesis)
-==34101== 
-==34101== I   refs:      1,354,240,230
-==34101== I1  misses:          507,581
-==34101== LLi misses:            1,298
-==34101== I1  miss rate:          0.04%
-==34101== LLi miss rate:          0.00%
-==34101== 
-==34101== D   refs:        374,896,809  (334,831,224 rd   + 40,065,585 wr)
-==34101== D1  misses:       30,153,766  ( 24,233,118 rd   +  5,920,648 wr)
-==34101== LLd misses:          342,740  (     56,571 rd   +    286,169 wr)
-==34101== D1  miss rate:           8.0% (        7.2%     +       14.8%  )
-==34101== LLd miss rate:           0.1% (        0.0%     +        0.7%  )
-==34101== 
-==34101== LL refs:          30,661,347  ( 24,740,699 rd   +  5,920,648 wr)
-==34101== LL misses:           344,038  (     57,869 rd   +    286,169 wr)
-==34101== LL miss rate:            0.0% (        0.0%     +        0.7%  )
+==5821== 
+==5821== I   refs:      108,075,087,226
+==5821== I1  misses:        228,430,663
+==5821== LLi misses:              1,711
+==5821== I1  miss rate:            0.21%
+==5821== LLi miss rate:            0.00%
+==5821== 
+==5821== D   refs:       28,920,419,318  (26,973,975,322 rd   + 1,946,443,996 wr)
+==5821== D1  misses:      2,002,757,810  ( 1,811,479,067 rd   +   191,278,743 wr)
+==5821== LLd misses:            501,881  (        75,539 rd   +       426,342 wr)
+==5821== D1  miss rate:             6.9% (           6.7%     +           9.8%  )
+==5821== LLd miss rate:             0.0% (           0.0%     +           0.0%  )
+==5821== 
+==5821== LL refs:         2,231,188,473  ( 2,039,909,730 rd   +   191,278,743 wr)
+==5821== LL misses:             503,592  (        77,250 rd   +       426,342 wr)
+==5821== LL miss rate:              0.0% (           0.0%     +           0.0%  )
