@@ -1,160 +1,26 @@
-==38581== Cachegrind, a cache and branch-prediction profiler
-==38581== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==38581== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==38581== Command: ./lda-medium est .1 3 settings.txt medium/medium_data.dat random medium/results
-==38581== 
---38581-- warning: L3 cache found, using its data for the LL simulation.
---38581-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---38581-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==44864== Cachegrind, a cache and branch-prediction profiler
+==44864== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==44864== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==44864== Command: ./lda-medium est .1 3 settings.txt medium/medium_data.dat random medium/results
+==44864== 
+--44864-- warning: L3 cache found, using its data for the LL simulation.
+--44864-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--44864-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.015625
---38581:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (69 segments)
---38581:0: aspacem 7 segment names in 8 slots
---38581:0: aspacem freelist begins at 281
---38581:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---38581:0: aspacem (1,66,4) /home/tkloda/cortexsuite/cortex/lda/lda-medium
---38581:0: aspacem (2,117,4) /lib/x86_64-linux-gnu/ld-2.27.so
---38581:0: aspacem (3,154,1) /tmp/vgdb-pipe-shared-mem-vgdb-38581-by-tkloda-on-???
---38581:0: aspacem (4,212,5) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
---38581:0: aspacem (5,281,0) [free slot: size=17  next=0]
---38581:0: aspacem (6,302,5) /lib/x86_64-linux-gnu/libm-2.27.so
---38581:0: aspacem (7,341,5) /lib/x86_64-linux-gnu/libc-2.27.so
---38581:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---38581:0: aspacem   1: file 0000108000-000010cfff   20480 r-xT- d=0x802 i=49556481 o=0       (1,66)
---38581:0: aspacem   2: RSVN 000010d000-000030bfff 2093056 ----- SmFixed
---38581:0: aspacem   3: file 000030c000-000030cfff    4096 r---- d=0x802 i=49556481 o=16384   (1,66)
---38581:0: aspacem   4: file 000030d000-000030dfff    4096 rw--- d=0x802 i=49556481 o=20480   (1,66)
---38581:0: aspacem   5: anon 000030e000-000030efff    4096 rw---
---38581:0: aspacem   6: RSVN 000030f000-0003ffffff     60m ----- SmFixed
---38581:0: aspacem   7: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,117)
---38581:0: aspacem   8:      0004029000-000405dfff  217088
---38581:0: aspacem   9: anon 000405e000-0004062fff   20480 rw---
---38581:0: aspacem  10:      0004063000-0004228fff 1859584
---38581:0: aspacem  11: file 0004229000-0004229fff    4096 r---- d=0x802 i=12583111 o=167936  (2,117)
---38581:0: aspacem  12: file 000422a000-000422afff    4096 rw--- d=0x802 i=12583111 o=172032  (2,117)
---38581:0: aspacem  13: anon 000422b000-000422bfff    4096 rw---
---38581:0: aspacem  14: anon 000422c000-00043cafff 1699840 rwx--
---38581:0: aspacem  15: RSVN 00043cb000-0004a2bfff 6688768 ----- SmLower
---38581:0: aspacem  16: file 0004a2c000-0004a2cfff    4096 r-xT- d=0x802 i=28344728 o=0       (4,212)
---38581:0: aspacem  17: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,212)
---38581:0: aspacem  18: file 0004c2c000-0004c2cfff    4096 r---- d=0x802 i=28344728 o=0       (4,212)
---38581:0: aspacem  19: file 0004c2d000-0004c2dfff    4096 rw--- d=0x802 i=28344728 o=4096    (4,212)
---38581:0: aspacem  20: file 0004c2e000-0004dcafff 1691648 r-xT- d=0x802 i=12583362 o=0       (6,302)
---38581:0: aspacem  21: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,302)
---38581:0: aspacem  22: file 0004fca000-0004fcafff    4096 r---- d=0x802 i=12583362 o=1687552 (6,302)
---38581:0: aspacem  23: file 0004fcb000-0004fcbfff    4096 rw--- d=0x802 i=12583362 o=1691648 (6,302)
---38581:0: aspacem  24: file 0004fcc000-00051b2fff 1994752 r-xT- d=0x802 i=12583345 o=0       (7,341)
---38581:0: aspacem  25: file 00051b3000-00053b2fff 2097152 ----- d=0x802 i=12583345 o=1994752 (7,341)
---38581:0: aspacem  26: file 00053b3000-00053b6fff   16384 r---- d=0x802 i=12583345 o=1994752 (7,341)
---38581:0: aspacem  27: file 00053b7000-00053b8fff    8192 rw--- d=0x802 i=12583345 o=2011136 (7,341)
---38581:0: aspacem  28: anon 00053b9000-00053bcfff   16384 rw---
---38581:0: aspacem  29:      00053bd000-0057ffffff   1324m
---38581:0: aspacem  30: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---38581:0: aspacem  31: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---38581:0: aspacem  32: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---38581:0: aspacem  33:      0058259000-0058458fff 2097152
---38581:0: aspacem  34: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---38581:0: aspacem  35: ANON 005845f000-0058e56fff      9m rw---
---38581:0: aspacem  36:      0058e57000-1001ffffff  64145m
---38581:0: aspacem  37: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---38581:0: aspacem  38: ANON 1002001000-1002b8bfff     11m rwx--
---38581:0: aspacem  39: FILE 1002b8c000-1002b8cfff    4096 rw--- d=0x802 i=29516461 o=0       (3,154)
---38581:0: aspacem  40: ANON 1002b8d000-1002bbcfff  196608 rwx--
---38581:0: aspacem  41:      1002bbd000-1002bccfff   65536
---38581:0: aspacem  42: ANON 1002bcd000-1002bdcfff   65536 rwx--
---38581:0: aspacem  43:      1002bdd000-1002c8bfff  716800
---38581:0: aspacem  44: ANON 1002c8c000-1002d8bfff 1048576 rwx--
---38581:0: aspacem  45: ANON 1002d8c000-1002d8dfff    8192 -----
---38581:0: aspacem  46: ANON 1002d8e000-1002e8dfff 1048576 rwx--
---38581:0: aspacem  47: ANON 1002e8e000-1002e8ffff    8192 -----
---38581:0: aspacem  48:      1002e90000-1002f80fff  987136
---38581:0: aspacem  49: ANON 1002f81000-1005044fff     32m rwx--
---38581:0: aspacem  50:      1005045000-1005144fff 1048576
---38581:0: aspacem  51: ANON 1005145000-1005344fff 2097152 rwx--
---38581:0: aspacem  52:      1005345000-1005444fff 1048576
---38581:0: aspacem  53: ANON 1005445000-1005544fff 1048576 rwx--
---38581:0: aspacem  54:      1005545000-1005644fff 1048576
---38581:0: aspacem  55: ANON 1005645000-1005b44fff 5242880 rwx--
---38581:0: aspacem  56:      1005b45000-1005e39fff 3100672
---38581:0: aspacem  57: ANON 1005e3a000-100607bfff 2367488 rwx--
---38581:0: aspacem  58:      100607c000-1ffe800fff  65415m
---38581:0: aspacem  59: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
---38581:0: aspacem  60: anon 1ffeffe000-1fff000fff   12288 rw---
---38581:0: aspacem  61:      1fff001000-1fffffffff     15m
---38581:0: aspacem  62: RSVN 2000000000-7ffe8f7b4fff 130938g ----- SmFixed
---38581:0: aspacem  63: ANON 7ffe8f7b5000-7ffe8f7d5fff  135168 rw---
---38581:0: aspacem  64: RSVN 7ffe8f7d6000-7ffe8f7f3fff  122880 ----- SmFixed
---38581:0: aspacem  65: ANON 7ffe8f7f4000-7ffe8f7f6fff   12288 r----
---38581:0: aspacem  66: RSVN 7ffe8f7f7000-ffffffffff5fffff  16383e ----- SmFixed
---38581:0: aspacem  67: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---38581:0: aspacem  68: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---38581:0: aspacem >>>
---38581-- core    :    12,582,912/   12,582,912 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,     10,595,184/   10,595,184 max/curr,       10148/  11171792 totalloc-blocks/bytes,       10149 searches 8 rzB
---38581-- dinfo   :    24,100,864/   17,170,432 max/curr mmap'd, 2/7 unsplit/split sb unmmap'd,     22,511,152/    8,749,104 max/curr,      230311/  61007136 totalloc-blocks/bytes,      236162 searches 8 rzB
---38581-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---38581-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---38581-- ttaux   :       196,608/      131,072 max/curr mmap'd, 0/1 unsplit/split sb unmmap'd,        106,944/       75,472 max/curr,         430/    204320 totalloc-blocks/bytes,         430 searches 8 rzB
---38581-- translate: 22,864 guest insns, 3,594 traces, 791 uncond chased, 108 cond chased
---38581-- translate: no SP updates identified
---38581-- translate: PX: SPonly 3,594,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---38581--     tt/tc: 7,872 tt lookups requiring 8,007 probes
---38581--     tt/tc: 4,227 fast-cache updates, 2 flushes
---38581--  transtab: new        3,594 (94,300 -> 1,180,108; ratio 12.5) [0 scs] avg tce size 328
---38581--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---38581--  transtab: discarded  0 (0 -> ??)
---38581-- scheduler: 105,429,006 event checks.
---38581-- scheduler: 69,848,247 indir transfers, 611 misses (1 in 114317) ..
---38581-- scheduler: .. of which: 69,847,610 hit0, 20 hit1, 6 hit2, 0 hit3, 611 missed
---38581-- scheduler: 1,054/5,759 major/minor sched events.
---38581--    sanity: 1054 cheap, 29 expensive checks.
---38581--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
---38581--    exectx: 1 searches, 0 full compares (0 per 1000)
---38581--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
---38581--  errormgr: 0 supplist searches, 0 comparisons during search
---38581--  errormgr: 0 errlist searches, 0 comparisons during search
-
-host stacktrace:
-==38581==    at 0x5801074A: show_sched_status_wrk (m_libcassert.c:406)
-==38581==    by 0x58018D75: vgPlain_out_of_memory_NORETURN (m_mallocfree.c:795)
-==38581==    by 0x58019193: newSuperblock (m_mallocfree.c:868)
-==38581==    by 0x58019767: vgPlain_arena_malloc (m_mallocfree.c:1806)
-==38581==    by 0x5802997B: vgPlain_addToXA (m_xarray.c:180)
-==38581==    by 0x58026AAA: vgPlain_add_to_transtab (m_transtab.c:1892)
-==38581==    by 0x5809F9A5: vgPlain_translate (m_translate.c:1860)
-==38581==    by 0x58067B96: vgPlain_scheduler (scheduler.c:1138)
-==38581==    by 0x580D4340: run_a_thread_NORETURN (syswrap-linux.c:101)
-
-sched status:
-  running_tid=1
-
-Thread 1: status = VgTs_Runnable (lwpid 38581)
-==38581==    at 0x109009: opt_alpha (in /home/tkloda/cortexsuite/cortex/lda/lda-medium)
-==38581==    by 0x10968C: lda_mle (in /home/tkloda/cortexsuite/cortex/lda/lda-medium)
-==38581==    by 0x10A5D0: run_em (in /home/tkloda/cortexsuite/cortex/lda/lda-medium)
-==38581==    by 0x108CAC: main (in /home/tkloda/cortexsuite/cortex/lda/lda-medium)
-client stack range: [0x1FFEFFE000 0x1FFF000FFF] client SP: 0x1FFEFFFF90
-valgrind stack range: [0x1002D8E000 0x1002E8DFFF] top usage: 10040 of 1048576
-
-==38581== 
-==38581==     Valgrind's memory management: out of memory:
-==38581==        newSuperblock's request for 90112 bytes failed.
-==38581==           71,954,432 bytes have already been mmap-ed ANONYMOUS.
-==38581==     Valgrind cannot continue.  Sorry.
-==38581== 
-==38581==     There are several possible reasons for this.
-==38581==     - You have some kind of memory limit in place.  Look at the
-==38581==       output of 'ulimit -a'.  Is there a limit on the size of
-==38581==       virtual memory or address space?
-==38581==     - You have run out of swap space.
-==38581==     - Valgrind has a bug.  If you think this is the case or you are
-==38581==     not sure, please let us know and we'll try to fix it.
-==38581==     Please note that programs can take substantially more memory than
-==38581==     normal when running under Valgrind tools, eg. up to twice or
-==38581==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==38581==     should be able to make use of up 32GB memory.  On a 32-bit
-==38581==     machine, Valgrind should be able to use all the memory available
-==38581==     to a single process, up to 4GB if that's how you have your
-==38581==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==38581==     3GB per process.
-==38581== 
-==38581==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==44864== 
+==44864== I   refs:      74,910,264,775
+==44864== I1  misses:             2,180
+==44864== LLi misses:             2,176
+==44864== I1  miss rate:           0.00%
+==44864== LLi miss rate:           0.00%
+==44864== 
+==44864== D   refs:      28,158,824,638  (21,397,287,863 rd   + 6,761,536,775 wr)
+==44864== D1  misses:            29,587  (         2,785 rd   +        26,802 wr)
+==44864== LLd misses:            29,585  (         2,783 rd   +        26,802 wr)
+==44864== D1  miss rate:            0.0% (           0.0%     +           0.0%  )
+==44864== LLd miss rate:            0.0% (           0.0%     +           0.0%  )
+==44864== 
+==44864== LL refs:               31,767  (         4,965 rd   +        26,802 wr)
+==44864== LL misses:             31,761  (         4,959 rd   +        26,802 wr)
+==44864== LL miss rate:             0.0% (           0.0%     +           0.0%  )
