@@ -1,36 +1,26 @@
-==42205== Cachegrind, a cache and branch-prediction profiler
-==42205== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==42205== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==42205== Command: ./stitch .
-==42205== 
---42205-- warning: L3 cache found, using its data for the LL simulation.
---42205-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---42205-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==13236== Cachegrind, a cache and branch-prediction profiler
+==13236== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==13236== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==13236== Command: ./stitch .
+==13236== 
+--13236-- warning: L3 cache found, using its data for the LL simulation.
+--13236-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--13236-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.062500
-==42205== Cannot map memory to grow the stack for thread #1 to 0x1ffeffe000
-==42205== 
-==42205== Process terminating with default action of signal 11 (SIGSEGV)
-==42205==  Access not within mapped region at address 0x1FFEFFEF00
-==42205==    at 0x4003E50: dl_main (rtld.c:1618)
-==42205==  If you believe this happened as a result of a stack
-==42205==  overflow in your program's main thread (unlikely but
-==42205==  possible), you can try to increase the size of the
-==42205==  main thread stack using the --main-stacksize= flag.
-==42205==  The main thread stack size used in this run was 8388608.
-==42205== 
-==42205== I   refs:      17,816
-==42205== I1  misses:       235
-==42205== LLi misses:       235
-==42205== I1  miss rate:   1.32%
-==42205== LLi miss rate:   1.32%
-==42205== 
-==42205== D   refs:       4,296  (3,677 rd   + 619 wr)
-==42205== D1  misses:       204  (  112 rd   +  92 wr)
-==42205== LLd misses:       204  (  112 rd   +  92 wr)
-==42205== D1  miss rate:    4.7% (  3.0%     + 14.9%  )
-==42205== LLd miss rate:    4.7% (  3.0%     + 14.9%  )
-==42205== 
-==42205== LL refs:          439  (  347 rd   +  92 wr)
-==42205== LL misses:        439  (  347 rd   +  92 wr)
-==42205== LL miss rate:     2.0% (  1.6%     + 14.9%  )
+==13236== 
+==13236== I   refs:      1,011,704
+==13236== I1  misses:        1,628
+==13236== LLi misses:        1,624
+==13236== I1  miss rate:      0.16%
+==13236== LLi miss rate:      0.16%
+==13236== 
+==13236== D   refs:        278,054  (224,284 rd   + 53,770 wr)
+==13236== D1  misses:        3,004  (  2,233 rd   +    771 wr)
+==13236== LLd misses:        2,981  (  2,211 rd   +    770 wr)
+==13236== D1  miss rate:       1.1% (    1.0%     +    1.4%  )
+==13236== LLd miss rate:       1.1% (    1.0%     +    1.4%  )
+==13236== 
+==13236== LL refs:           4,632  (  3,861 rd   +    771 wr)
+==13236== LL misses:         4,605  (  3,835 rd   +    770 wr)
+==13236== LL miss rate:        0.4% (    0.3%     +    1.4%  )
