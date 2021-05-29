@@ -40,6 +40,8 @@ typedef struct {
    Int          assoc;
    Int          line_size;              /* bytes */
    Int          sets;
+   Int          sets_lru;
+   Int          sets_bip;
    Int          sets_min_1;
    Int          line_size_bits;
    Int          tag_shift;
@@ -53,6 +55,7 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_li
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_random(cache_t2* c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fifo(cache_t2* c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip(cache_t2* c, UInt set_no, UWord tag);
 
 
 Bool (*cachesim_setref_is_miss)(cache_t2*, UInt, UWord) = &cachesim_setref_is_miss_lip;
@@ -68,6 +71,8 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
    c->line_size = config.line_size;
 
    c->sets           = (c->size / c->line_size) / c->assoc;
+   //c->sets_lru           = (c->size / c->line_size) / c->assoc;
+   //c->sets_bip           = (c->size / c->line_size) / c->assoc;   
    c->sets_min_1     = c->sets - 1;
    c->line_size_bits = VG_(log2)(c->line_size);
    c->tag_shift      = c->line_size_bits + VG_(log2)(c->sets);
@@ -274,6 +279,8 @@ Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag)
       }
    }
 
+
+
    //if bimodal throttle parameter is 1.0, behaves like LRU
    if(bip_throttle_parameter == 1.0) { 
 
@@ -303,6 +310,184 @@ Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag)
       }
    }
    return True;
+}
+
+__attribute__((always_inline))
+static __inline__
+Bool cachesim_setref_is_miss_dip(cache_t2* c, UInt set_no, UWord tag)
+{
+
+static int psel = 0;
+//bip_throttle_parameter == 0.7;
+
+int i, j;
+   UWord *set_lru;
+
+   set_lru = &(c->tags[set_no * c->assoc]);
+
+  
+   if (tag == set_lru[0])
+      return False;
+                                    
+   for (i = 1; i < c->assoc; i++) {
+      if (tag == set_lru[i]) {
+         for (j = i; j > 0; j--) {
+            set_lru[j] = set_lru[j - 1];
+         }
+         set_lru[0] = tag;
+
+         return False;
+      } 
+   }
+
+    for (j = c->assoc - 1; j > 0; j--) {
+        set_lru[j] = set_lru[j - 1];
+    
+   set_lru[0] = tag;
+   psel ++; // A miss at LRU sets increments psel
+   return True;
+    }
+
+   
+   UWord *set_bip;
+
+   set_bip = &(c->tags[set_no * c->assoc]);
+
+
+   if (tag == set_bip[0])
+      return False;
+
+
+   for (i = 1; i < c->assoc; i++) {
+      if (tag == set_bip[i]) {
+         for (j = i; j > 0; j--) {
+            set_bip[j] = set_bip[j - 1];
+         }
+         set_bip[0] = tag;
+
+         return False;
+      }
+   } 
+
+
+   if(bip_throttle_parameter == 1.0) { 
+
+
+      set_bip[c->assoc -1] = tag;
+   } else { 
+
+      double prob = (double) (VG_(random)(NULL) % 100 + 1.0);
+
+      if(prob >= (bip_throttle_parameter * 100)) { 
+        
+         set_bip[c->assoc -1] = tag;
+
+      } else {
+         
+         for (j = c->assoc - 1; j > 0; j--) {
+            set_bip[j] = set_bip[j - 1];
+         }
+         set_bip[0] = tag;
+      }
+   
+   psel--; // A miss at BIP sets decrements psel
+   return True;
+   }
+
+ 
+
+if (psel >= 0) {
+
+
+   UWord *set;
+
+   set = &(c->tags[set_no * c->assoc]);
+
+   /* This loop is unrolled for just the first case, which is the most */
+   /* common.  We can't unroll any further because it would screw up   */
+   /* if we have a direct-mapped (1-way) cache.                        */
+   if (tag == set[0])
+      return False;
+
+   /* If the tag is one other than the MRU, move it into the MRU spot  */
+   /* and shuffle the rest down.                                       */
+   for (i = 1; i < c->assoc; i++) {
+      if (tag == set[i]) {
+         for (j = i; j > 0; j--) {
+            set[j] = set[j - 1];
+         }
+         set[0] = tag;
+
+         return False;
+      }
+   }
+
+   /* A miss;  install this tag as MRU, shuffle rest down. */
+   for (j = c->assoc - 1; j > 0; j--) {
+      set[j] = set[j - 1];
+   }
+   set[0] = tag;
+
+   return True;
+
+} else {
+
+    //int i, j;
+   UWord *set;
+
+   set = &(c->tags[set_no * c->assoc]);
+
+   /* This loop is unrolled for just the first case, which is the most */
+   /* common.  We can't unroll any further because it would screw up   */
+   /* if we have a direct-mapped (1-way) cache.                        */
+   if (tag == set[0])
+      return False;
+
+   /* If the tag is one other than the MRU, move it into the MRU spot  */
+   /* and shuffle the rest down.                                       */
+   for (i = 1; i < c->assoc; i++) {
+      if (tag == set[i]) {
+         for (j = i; j > 0; j--) {
+            set[j] = set[j - 1];
+         }
+         set[0] = tag;
+
+         return False;
+      }
+   }
+
+   //if bimodal throttle parameter is 1.0, behaves like LRU
+   if(bip_throttle_parameter == 1.0) { 
+
+      /* A miss;  install this tag as MRU, shuffle rest down. */
+      for (j = c->assoc - 1; j > 0; j--) {
+         set[j] = set[j - 1];
+      }
+      set[0] = tag;
+   } else if(bip_throttle_parameter == 0.0) { //if bimodal throttle parameter is 0.0, behaves like LIP
+
+      /* A miss;  install this tag as LRU. */
+      set[c->assoc -1] = tag;
+   } else { //uses the probability, either LRU or LIP
+
+      double prob = (double) (VG_(random)(NULL) % 100 + 1.0);
+
+      if(prob >= (bip_throttle_parameter * 100)) { //LIP
+         /* A miss;  install this tag as LRU. */
+         set[c->assoc -1] = tag;
+
+      } else { //LRU
+         /* A miss;  install this tag as MRU, shuffle rest down. */
+         for (j = c->assoc - 1; j > 0; j--) {
+            set[j] = set[j - 1];
+         }
+         set[0] = tag;
+      }
+   }
+   return True;
+}
+
+
 }
 
 
@@ -370,6 +555,8 @@ static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
       cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
    else if(cache_replacement_policy == BIP_POLICY) 
       cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
+    else if(cache_replacement_policy == DIP_POLICY) 
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
 
 }
 

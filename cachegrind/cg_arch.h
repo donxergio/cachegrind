@@ -34,7 +34,8 @@ enum {
    LIP_POLICY,
    RANDOM_POLICY,
    FIFO_POLICY,
-   BIP_POLICY
+   BIP_POLICY,
+   DIP_POLICY
 };
 
 int cache_replacement_policy;

@@ -1767,7 +1767,7 @@ static void cg_print_usage(void)
 "    --cache-sim=yes|no                  collect cache stats? [yes]\n"
 "    --branch-sim=yes|no                 collect branch prediction stats? [no]\n"
 "    --cachegrind-out-file=<file>        output file name [cachegrind.out.%%p]\n"
-"    --cache-policy=lru|lip|random|fifo|bip  replacement policy [LRU or LIP or RANDOM or FIFO]\n"
+"    --cache-policy=lru|lip|random|fifo|bip|dip  replacement policy [LRU or LIP or RANDOM or FIFO]\n"
 "    --bip-throttle=[0.0,1.0]            bimodal throttle parameter (used in the BIP replacement policy only)\n"
    );
 }
@@ -1874,6 +1874,18 @@ static void cg_post_clo_init(void)
    else if(VG_(strcmp)(clo_cache_policy,"bip") == 0) {
 	cache_replacement_policy = BIP_POLICY;
 	VG_(printf)("BIP cache replacement will be used\n");
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+   	}
+   
+   }
+   else if(VG_(strcmp)(clo_cache_policy,"dip") == 0) {
+	cache_replacement_policy = DIP_POLICY;
+	VG_(printf)("DIP cache replacement will be used\n");
 
    	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
       		bip_throttle_parameter = clo_cache_bip_throttle;
