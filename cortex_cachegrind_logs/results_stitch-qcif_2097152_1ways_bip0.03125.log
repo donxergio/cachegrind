@@ -1,40 +1,26 @@
-==41465== Cachegrind, a cache and branch-prediction profiler
-==41465== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==41465== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==41465== Command: ./stitch .
-==41465== 
---41465-- warning: L3 cache found, using its data for the LL simulation.
---41465-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---41465-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==31671== Cachegrind, a cache and branch-prediction profiler
+==31671== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==31671== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==31671== Command: ./stitch .
+==31671== 
+--31671-- warning: L3 cache found, using its data for the LL simulation.
+--31671-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--31671-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.031250
-==41465== Cannot map memory to grow brk segment in thread #1 to 0x424d000
-==41465== (see section Limitations in user manual)
-==41465== Cannot map memory to grow brk segment in thread #1 to 0x424d000
-==41465== (see section Limitations in user manual)
-File pointer error: Cannot allocate memory
-==41465== 
-==41465== Process terminating with default action of signal 11 (SIGSEGV)
-==41465==  Access not within mapped region at address 0x4
-==41465==    at 0x108AE1: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
-==41465==  If you believe this happened as a result of a stack
-==41465==  overflow in your program's main thread (unlikely but
-==41465==  possible), you can try to increase the size of the
-==41465==  main thread stack using the --main-stacksize= flag.
-==41465==  The main thread stack size used in this run was 8388608.
-==41465== 
-==41465== I   refs:      222,028
-==41465== I1  misses:      1,130
-==41465== LLi misses:      1,126
-==41465== I1  miss rate:    0.51%
-==41465== LLi miss rate:    0.51%
-==41465== 
-==41465== D   refs:       69,662  (54,907 rd   + 14,755 wr)
-==41465== D1  misses:      2,842  ( 2,195 rd   +    647 wr)
-==41465== LLd misses:      2,842  ( 2,195 rd   +    647 wr)
-==41465== D1  miss rate:     4.1% (   4.0%     +    4.4%  )
-==41465== LLd miss rate:     4.1% (   4.0%     +    4.4%  )
-==41465== 
-==41465== LL refs:         3,972  ( 3,325 rd   +    647 wr)
-==41465== LL misses:       3,968  ( 3,321 rd   +    647 wr)
-==41465== LL miss rate:      1.4% (   1.2%     +    4.4%  )
+==31671== 
+==31671== I   refs:      223,094,015
+==31671== I1  misses:          1,687
+==31671== LLi misses:          1,683
+==31671== I1  miss rate:        0.00%
+==31671== LLi miss rate:        0.00%
+==31671== 
+==31671== D   refs:       60,620,644  (44,316,440 rd   + 16,304,204 wr)
+==31671== D1  misses:         23,754  (     2,322 rd   +     21,432 wr)
+==31671== LLd misses:         23,753  (     2,322 rd   +     21,431 wr)
+==31671== D1  miss rate:         0.0% (       0.0%     +        0.1%  )
+==31671== LLd miss rate:         0.0% (       0.0%     +        0.1%  )
+==31671== 
+==31671== LL refs:            25,441  (     4,009 rd   +     21,432 wr)
+==31671== LL misses:          25,436  (     4,005 rd   +     21,431 wr)
+==31671== LL miss rate:          0.0% (       0.0%     +        0.1%  )

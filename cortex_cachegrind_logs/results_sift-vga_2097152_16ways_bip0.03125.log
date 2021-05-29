@@ -1,41 +1,29 @@
-==56387== Cachegrind, a cache and branch-prediction profiler
-==56387== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==56387== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==56387== Command: ./sift .
-==56387== 
---56387-- warning: L3 cache found, using its data for the LL simulation.
---56387-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---56387-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==39384== Cachegrind, a cache and branch-prediction profiler
+==39384== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==39384== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==39384== Command: ./sift .
+==39384== 
+--39384-- warning: L3 cache found, using its data for the LL simulation.
+--39384-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--39384-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.031250
-==56387== brk segment overflow in thread #1: can't grow to 0x4cd9000
-==56387== (see section Limitations in user manual)
-==56387== NOTE: further instances of this message will not be shown
-==56387== 
-==56387== Process terminating with default action of signal 11 (SIGSEGV)
-==56387==  Access not within mapped region at address 0x4
-==56387==    at 0x109D03: fMallocHandle (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
-==56387==    by 0x10DD04: diffss (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
-==56387==    by 0x10CC86: sift (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
-==56387==    by 0x108C27: main (in /home/tkloda/cortexsuite/vision/benchmarks/sift/data/vga/sift)
-==56387==  If you believe this happened as a result of a stack
-==56387==  overflow in your program's main thread (unlikely but
-==56387==  possible), you can try to increase the size of the
-==56387==  main thread stack using the --main-stacksize= flag.
-==56387==  The main thread stack size used in this run was 8388608.
-==56387== 
-==56387== I   refs:      2,971,571,966
-==56387== I1  misses:            1,352
-==56387== LLi misses:            1,348
-==56387== I1  miss rate:          0.00%
-==56387== LLi miss rate:          0.00%
-==56387== 
-==56387== D   refs:        899,028,769  (622,298,467 rd   + 276,730,302 wr)
-==56387== D1  misses:        3,560,387  (  2,238,652 rd   +   1,321,735 wr)
-==56387== LLd misses:        2,961,886  (  1,731,475 rd   +   1,230,411 wr)
-==56387== D1  miss rate:           0.4% (        0.4%     +         0.5%  )
-==56387== LLd miss rate:           0.3% (        0.3%     +         0.4%  )
-==56387== 
-==56387== LL refs:           3,561,739  (  2,240,004 rd   +   1,321,735 wr)
-==56387== LL misses:         2,963,234  (  1,732,823 rd   +   1,230,411 wr)
-==56387== LL miss rate:            0.1% (        0.0%     +         0.4%  )
+==39384== brk segment overflow in thread #1: can't grow to 0x4cd9000
+==39384== (see section Limitations in user manual)
+==39384== NOTE: further instances of this message will not be shown
+==39384== 
+==39384== I   refs:      3,167,698,658
+==39384== I1  misses:            1,821
+==39384== LLi misses:            1,817
+==39384== I1  miss rate:          0.00%
+==39384== LLi miss rate:          0.00%
+==39384== 
+==39384== D   refs:        974,218,288  (676,537,038 rd   + 297,681,250 wr)
+==39384== D1  misses:        5,393,864  (  3,228,858 rd   +   2,165,006 wr)
+==39384== LLd misses:        4,620,021  (  2,564,616 rd   +   2,055,405 wr)
+==39384== D1  miss rate:           0.6% (        0.5%     +         0.7%  )
+==39384== LLd miss rate:           0.5% (        0.4%     +         0.7%  )
+==39384== 
+==39384== LL refs:           5,395,685  (  3,230,679 rd   +   2,165,006 wr)
+==39384== LL misses:         4,621,838  (  2,566,433 rd   +   2,055,405 wr)
+==39384== LL miss rate:            0.1% (        0.1%     +         0.7%  )

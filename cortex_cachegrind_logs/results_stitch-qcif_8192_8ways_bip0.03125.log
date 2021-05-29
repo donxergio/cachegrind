@@ -1,33 +1,26 @@
-==41375== Cachegrind, a cache and branch-prediction profiler
-==41375== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==41375== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==41375== Command: ./stitch .
-==41375== 
---41375-- warning: L3 cache found, using its data for the LL simulation.
---41375-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---41375-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==31581== Cachegrind, a cache and branch-prediction profiler
+==31581== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==31581== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==31581== Command: ./stitch .
+==31581== 
+--31581-- warning: L3 cache found, using its data for the LL simulation.
+--31581-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--31581-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.031250
-==41375== Cannot map memory to grow brk segment in thread #1 to 0x4345000
-==41375== (see section Limitations in user manual)
-==41375== 
-==41375== Process terminating with default action of signal 15 (SIGTERM)
-==41375==    at 0x10A568: ffConv2 (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
-==41375==    by 0x10D7A0: extractFeatures (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
-==41375==    by 0x108B9F: main (in /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch)
-==41375== 
-==41375== I   refs:      178,672,708
-==41375== I1  misses:         18,558
-==41375== LLi misses:          1,412
-==41375== I1  miss rate:        0.01%
-==41375== LLi miss rate:        0.00%
-==41375== 
-==41375== D   refs:       48,914,684  (34,750,587 rd   + 14,164,097 wr)
-==41375== D1  misses:      2,453,368  ( 1,447,044 rd   +  1,006,324 wr)
-==41375== LLd misses:         23,962  (     2,253 rd   +     21,709 wr)
-==41375== D1  miss rate:         5.0% (       4.2%     +        7.1%  )
-==41375== LLd miss rate:         0.0% (       0.0%     +        0.2%  )
-==41375== 
-==41375== LL refs:         2,471,926  ( 1,465,602 rd   +  1,006,324 wr)
-==41375== LL misses:          25,374  (     3,665 rd   +     21,709 wr)
-==41375== LL miss rate:          0.0% (       0.0%     +        0.2%  )
+==31581== 
+==31581== I   refs:      223,094,015
+==31581== I1  misses:        330,652
+==31581== LLi misses:          1,757
+==31581== I1  miss rate:        0.15%
+==31581== LLi miss rate:        0.00%
+==31581== 
+==31581== D   refs:       60,620,644  (44,316,440 rd   + 16,304,204 wr)
+==31581== D1  misses:      2,492,403  ( 1,468,326 rd   +  1,024,077 wr)
+==31581== LLd misses:         23,713  (     2,285 rd   +     21,428 wr)
+==31581== D1  miss rate:         4.1% (       3.3%     +        6.3%  )
+==31581== LLd miss rate:         0.0% (       0.0%     +        0.1%  )
+==31581== 
+==31581== LL refs:         2,823,055  ( 1,798,978 rd   +  1,024,077 wr)
+==31581== LL misses:          25,470  (     4,042 rd   +     21,428 wr)
+==31581== LL miss rate:          0.0% (       0.0%     +        0.1%  )

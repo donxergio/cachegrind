@@ -1,1 +1,25 @@
-/home/tkloda/valgrind/bin/valgrind: error while loading shared libraries: libc.so.6: failed to map segment from shared object
+==64633== Cachegrind, a cache and branch-prediction profiler
+==64633== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==64633== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==64633== Command: ./texture_synthesis .
+==64633== 
+--64633-- warning: L3 cache found, using its data for the LL simulation.
+--64633-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--64633-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+LRU cache replacement will be used
+==64633== 
+==64633== I   refs:      97,081,269
+==64633== I1  misses:         1,604
+==64633== LLi misses:         1,600
+==64633== I1  miss rate:       0.00%
+==64633== LLi miss rate:       0.00%
+==64633== 
+==64633== D   refs:      36,004,842  (24,735,898 rd   + 11,268,944 wr)
+==64633== D1  misses:        15,468  (     2,285 rd   +     13,183 wr)
+==64633== LLd misses:        15,468  (     2,285 rd   +     13,183 wr)
+==64633== D1  miss rate:        0.0% (       0.0%     +        0.1%  )
+==64633== LLd miss rate:        0.0% (       0.0%     +        0.1%  )
+==64633== 
+==64633== LL refs:           17,072  (     3,889 rd   +     13,183 wr)
+==64633== LL misses:         17,068  (     3,885 rd   +     13,183 wr)
+==64633== LL miss rate:         0.0% (       0.0%     +        0.1%  )

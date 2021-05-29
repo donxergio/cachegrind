@@ -1,39 +1,25 @@
-==42300== Cachegrind, a cache and branch-prediction profiler
-==42300== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==42300== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==42300== Command: ./texture_synthesis .
-==42300== 
---42300-- warning: L3 cache found, using its data for the LL simulation.
---42300-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---42300-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==51752== Cachegrind, a cache and branch-prediction profiler
+==51752== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==51752== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==51752== Command: ./texture_synthesis .
+==51752== 
+--51752-- warning: L3 cache found, using its data for the LL simulation.
+--51752-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--51752-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LIP cache replacement will be used
-
-valgrind: m_syswrap/syswrap-linux.c:415 (vgPlain_main_thread_wrapper_NORETURN): Assertion 'sp != 0' failed.
-valgrind: Cannot allocate main thread's stack.
-
-host stacktrace:
-==42300==    at 0x5801074A: show_sched_status_wrk (m_libcassert.c:406)
-
-sched status:
-  running_tid=0
-
-Thread 1: status = VgTs_Init (lwpid 0)
-==42300==    at 0x4001090: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
-==42300==    by 0x1: ???
-==42300==    by 0x1FFF0004E6: ???
-==42300==    by 0x1FFF0004FA: ???
-client stack range: [0x1FFEFFF000 0x1FFF000FFF] client SP: 0x1FFF000270
-
-
-Note: see also the FAQ in the source distribution.
-It contains workarounds to several common problems.
-In particular, if Valgrind aborted or crashed after
-identifying problems in your program, there's a good chance
-that fixing those problems will prevent Valgrind aborting or
-crashing, especially if it happened in m_mallocfree.c.
-
-If that doesn't help, please report this bug to: www.valgrind.org
-
-In the bug report, send all the above text, the valgrind
-version, and what OS and version you are using.  Thanks.
-
+==51752== 
+==51752== I   refs:      21,866,796
+==51752== I1  misses:       567,698
+==51752== LLi misses:         1,614
+==51752== I1  miss rate:       2.60%
+==51752== LLi miss rate:       0.01%
+==51752== 
+==51752== D   refs:       8,087,422  (5,550,426 rd   + 2,536,996 wr)
+==51752== D1  misses:       383,357  (  286,138 rd   +    97,219 wr)
+==51752== LLd misses:         5,971  (    2,331 rd   +     3,640 wr)
+==51752== D1  miss rate:        4.7% (      5.2%     +       3.8%  )
+==51752== LLd miss rate:        0.1% (      0.0%     +       0.1%  )
+==51752== 
+==51752== LL refs:          951,055  (  853,836 rd   +    97,219 wr)
+==51752== LL misses:          7,585  (    3,945 rd   +     3,640 wr)
+==51752== LL miss rate:         0.0% (      0.0%     +       0.1%  )

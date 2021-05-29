@@ -1,75 +1,25 @@
-==42308== Cachegrind, a cache and branch-prediction profiler
-==42308== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==42308== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==42308== Command: ./texture_synthesis .
-==42308== 
---42308-- warning: L3 cache found, using its data for the LL simulation.
---42308-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---42308-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==51760== Cachegrind, a cache and branch-prediction profiler
+==51760== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==51760== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==51760== Command: ./texture_synthesis .
+==51760== 
+--51760-- warning: L3 cache found, using its data for the LL simulation.
+--51760-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--51760-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 LIP cache replacement will be used
---42308:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (36 segments)
---42308:0: aspacem 3 segment names in 3 slots
---42308:0: aspacem freelist is empty
---42308:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---42308:0: aspacem (1,66,3) /home/tkloda/cortexsuite/vision/benchmarks/texture_synthesis/data/sim/texture_synthesis
---42308:0: aspacem (2,158,3) /lib/x86_64-linux-gnu/ld-2.27.so
---42308:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---42308:0: aspacem   1: file 0000108000-000010ffff   32768 r-x-- d=0x802 i=49680686 o=0       (1,66)
---42308:0: aspacem   2: RSVN 0000110000-000030efff 2093056 ----- SmFixed
---42308:0: aspacem   3: file 000030f000-0000310fff    8192 rw--- d=0x802 i=49680686 o=28672   (1,66)
---42308:0: aspacem   4: RSVN 0000311000-0003ffffff     60m ----- SmFixed
---42308:0: aspacem   5: file 0004000000-0004028fff  167936 r-x-- d=0x802 i=12583111 o=0       (2,158)
---42308:0: aspacem   6:      0004029000-0004228fff 2097152
---42308:0: aspacem   7: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,158)
---42308:0: aspacem   8: anon 000422b000-000422bfff    4096 rw---
---42308:0: aspacem   9: anon 000422c000-000422cfff    4096 rwx--
---42308:0: aspacem  10: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
---42308:0: aspacem  11:      0004a2c000-0057ffffff   1333m
---42308:0: aspacem  12: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---42308:0: aspacem  13: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---42308:0: aspacem  14: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---42308:0: aspacem  15:      0058259000-0058458fff 2097152
---42308:0: aspacem  16: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---42308:0: aspacem  17: ANON 005845f000-0058e56fff      9m rw---
---42308:0: aspacem  18:      0058e57000-1001ffffff  64145m
---42308:0: aspacem  19: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---42308:0: aspacem  20: ANON 1002001000-100278bfff 7909376 rwx--
---42308:0: aspacem  21:      100278c000-100288bfff 1048576
---42308:0: aspacem  22: ANON 100288c000-100298bfff 1048576 rwx--
---42308:0: aspacem  23:      100298c000-1002b80fff 2052096
---42308:0: aspacem  24: ANON 1002b81000-1002d9efff 2220032 rwx--
---42308:0: aspacem  25:      1002d9f000-1ffe800fff  65466m
---42308:0: aspacem  26: RSVN 1ffe801000-1ffeffefff 8380416 ----- SmUpper
---42308:0: aspacem  27: anon 1ffefff000-1fff000fff    8192 rw---
---42308:0: aspacem  28:      1fff001000-1fffffffff     15m
---42308:0: aspacem  29: RSVN 2000000000-7ffde003bfff 130935g ----- SmFixed
---42308:0: aspacem  30: ANON 7ffde003c000-7ffde005cfff  135168 rw---
---42308:0: aspacem  31: RSVN 7ffde005d000-7ffde006efff   73728 ----- SmFixed
---42308:0: aspacem  32: ANON 7ffde006f000-7ffde0071fff   12288 r----
---42308:0: aspacem  33: RSVN 7ffde0072000-ffffffffff5fffff  16383e ----- SmFixed
---42308:0: aspacem  34: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---42308:0: aspacem  35: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---42308:0: aspacem >>>
---42308-- core    :     4,194,304/    4,194,304 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      3,224,560/    3,150,640 max/curr,          62/   3313456 totalloc-blocks/bytes,          61 searches 8 rzB
---42308-- dinfo   :    11,395,072/    6,414,336 max/curr mmap'd, 1/1 unsplit/split sb unmmap'd,     10,364,192/    3,605,392 max/curr,       22905/  18001264 totalloc-blocks/bytes,       23436 searches 8 rzB
---42308-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---42308-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---42308-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---42308-- translate: 0 guest insns, 0 traces, 0 uncond chased, 0 cond chased
---42308-- translate: no SP updates identified
---42308-- translate: PX: SPonly 0,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---42308--     tt/tc: 0 tt lookups requiring 0 probes
---42308--     tt/tc: 0 fast-cache updates, 1 flushes
---42308--  transtab: new        0 (0 -> 0; ratio 0.0) [0 scs] avg tce size 0
---42308--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---42308--  transtab: discarded  0 (0 -> ??)
---42308-- scheduler: 0 event checks.
---42308-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
---42308-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
---42308-- scheduler: 0/0 major/minor sched events.
---42308--    sanity: 0 cheap, 0 expensive checks.
---42308--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
---42308--    exectx: 1 searches, 0 full compares (0 per 1000)
---42308--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
---42308--  errormgr: 0 supplist searches, 0 comparisons during search
---42308--  errormgr: 0 errlist searches, 0 comparisons during search
+==51760== 
+==51760== I   refs:      21,866,796
+==51760== I1  misses:       525,810
+==51760== LLi misses:         1,616
+==51760== I1  miss rate:       2.40%
+==51760== LLi miss rate:       0.01%
+==51760== 
+==51760== D   refs:       8,087,422  (5,550,426 rd   + 2,536,996 wr)
+==51760== D1  misses:       130,710  (  120,091 rd   +    10,619 wr)
+==51760== LLd misses:         5,970  (    2,330 rd   +     3,640 wr)
+==51760== D1  miss rate:        1.6% (      2.2%     +       0.4%  )
+==51760== LLd miss rate:        0.1% (      0.0%     +       0.1%  )
+==51760== 
+==51760== LL refs:          656,520  (  645,901 rd   +    10,619 wr)
+==51760== LL misses:          7,586  (    3,946 rd   +     3,640 wr)
+==51760== LL miss rate:         0.0% (      0.0%     +       0.1%  )

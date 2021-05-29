@@ -1,157 +1,26 @@
-==41535== Cachegrind, a cache and branch-prediction profiler
-==41535== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
-==41535== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
-==41535== Command: ./stitch .
-==41535== 
---41535-- warning: L3 cache found, using its data for the LL simulation.
---41535-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
---41535-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+==31707== Cachegrind, a cache and branch-prediction profiler
+==31707== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==31707== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==31707== Command: ./stitch .
+==31707== 
+--31707-- warning: L3 cache found, using its data for the LL simulation.
+--31707-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--31707-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
 BIP cache replacement will be used
 BIP Throttle parameter is set to 0.015625
---41535:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (49 segments)
---41535:0: aspacem 7 segment names in 7 slots
---41535:0: aspacem freelist is empty
---41535:0: aspacem (0,4,5) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---41535:0: aspacem (1,66,3) /home/tkloda/cortexsuite/vision/benchmarks/stitch/data/qcif/stitch
---41535:0: aspacem (2,137,3) /lib/x86_64-linux-gnu/ld-2.27.so
---41535:0: aspacem (3,174,1) /tmp/vgdb-pipe-shared-mem-vgdb-41535-by-tkloda-on-???
---41535:0: aspacem (4,232,4) /home/tkloda/valgrind/lib/valgrind/vgpreload_core-amd64-linux.so
---41535:0: aspacem (5,301,1) /etc/ld.so.cache
---41535:0: aspacem (6,322,4) /lib/x86_64-linux-gnu/libm-2.27.so
---41535:0: aspacem   0: RSVN 0000000000-0000107fff 1081344 ----- SmFixed
---41535:0: aspacem   1: file 0000108000-000010ffff   32768 r-x-- d=0x802 i=49682289 o=0       (1,66)
---41535:0: aspacem   2: RSVN 0000110000-000030efff 2093056 ----- SmFixed
---41535:0: aspacem   3: file 000030f000-0000310fff    8192 rw--- d=0x802 i=49682289 o=28672   (1,66)
---41535:0: aspacem   4: RSVN 0000311000-0003ffffff     60m ----- SmFixed
---41535:0: aspacem   5: file 0004000000-0004028fff  167936 r-xT- d=0x802 i=12583111 o=0       (2,137)
---41535:0: aspacem   6: file 0004029000-000405dfff  217088 r---- d=0x802 i=54001893 o=0       (5,301)
---41535:0: aspacem   7: anon 000405e000-000405ffff    8192 rw---
---41535:0: aspacem   8:      0004060000-0004228fff 1871872
---41535:0: aspacem   9: file 0004229000-000422afff    8192 rw--- d=0x802 i=12583111 o=167936  (2,137)
---41535:0: aspacem  10: anon 000422b000-000422bfff    4096 rw---
---41535:0: aspacem  11: anon 000422c000-000422cfff    4096 rwx--
---41535:0: aspacem  12: RSVN 000422d000-0004a2bfff 8384512 ----- SmLower
---41535:0: aspacem  13: file 0004a2c000-0004a2cfff    4096 r-x-- d=0x802 i=28344728 o=0       (4,232)
---41535:0: aspacem  14: file 0004a2d000-0004c2bfff 2093056 ----- d=0x802 i=28344728 o=4096    (4,232)
---41535:0: aspacem  15: file 0004c2c000-0004c2dfff    8192 rw--- d=0x802 i=28344728 o=0       (4,232)
---41535:0: aspacem  16: file 0004c2e000-0004dcafff 1691648 r-x-- d=0x802 i=12583362 o=0       (6,322)
---41535:0: aspacem  17: file 0004dcb000-0004fc9fff 2093056 ----- d=0x802 i=12583362 o=1691648 (6,322)
---41535:0: aspacem  18: file 0004fca000-0004fcbfff    8192 rw--- d=0x802 i=12583362 o=1687552 (6,322)
---41535:0: aspacem  19:      0004fcc000-0057ffffff   1328m
---41535:0: aspacem  20: FILE 0058000000-005809afff  634880 r-x-- d=0x802 i=28344876 o=0       (0,4)
---41535:0: aspacem  21: file 005809b000-005809bfff    4096 r-x-- d=0x802 i=28344876 o=634880  (0,4)
---41535:0: aspacem  22: FILE 005809c000-0058258fff 1822720 r-x-- d=0x802 i=28344876 o=638976  (0,4)
---41535:0: aspacem  23:      0058259000-0058458fff 2097152
---41535:0: aspacem  24: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---41535:0: aspacem  25: ANON 005845f000-0058e56fff      9m rw---
---41535:0: aspacem  26:      0058e57000-1001ffffff  64145m
---41535:0: aspacem  27: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---41535:0: aspacem  28: ANON 1002001000-100278bfff 7909376 rwx--
---41535:0: aspacem  29: FILE 100278c000-100278cfff    4096 rw--- d=0x802 i=29506497 o=0       (3,174)
---41535:0: aspacem  30: ANON 100278d000-10027bcfff  196608 rwx--
---41535:0: aspacem  31:      10027bd000-100288bfff  847872
---41535:0: aspacem  32: ANON 100288c000-100298bfff 1048576 rwx--
---41535:0: aspacem  33: ANON 100298c000-100298dfff    8192 -----
---41535:0: aspacem  34: ANON 100298e000-1002a8dfff 1048576 rwx--
---41535:0: aspacem  35: ANON 1002a8e000-1002a8ffff    8192 -----
---41535:0: aspacem  36:      1002a90000-1002b80fff  987136
---41535:0: aspacem  37: ANON 1002b81000-1004d44fff     33m rwx--
---41535:0: aspacem  38:      1004d45000-1ffe800fff  65434m
---41535:0: aspacem  39: RSVN 1ffe801000-1ffeffdfff 8376320 ----- SmUpper
---41535:0: aspacem  40: anon 1ffeffe000-1fff000fff   12288 rw---
---41535:0: aspacem  41:      1fff001000-1fffffffff     15m
---41535:0: aspacem  42: RSVN 2000000000-7ffeea686fff 130939g ----- SmFixed
---41535:0: aspacem  43: ANON 7ffeea687000-7ffeea6a7fff  135168 rw---
---41535:0: aspacem  44: RSVN 7ffeea6a8000-7ffeea7e3fff 1294336 ----- SmFixed
---41535:0: aspacem  45: ANON 7ffeea7e4000-7ffeea7e6fff   12288 r----
---41535:0: aspacem  46: RSVN 7ffeea7e7000-ffffffffff5fffff  16383e ----- SmFixed
---41535:0: aspacem  47: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---41535:0: aspacem  48: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---41535:0: aspacem >>>
---41535-- core    :     8,388,608/    8,388,608 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,      7,280,640/    7,280,640 max/curr,        2661/   7462592 totalloc-blocks/bytes,        2660 searches 8 rzB
---41535-- dinfo   :    11,395,072/    7,462,912 max/curr mmap'd, 1/1 unsplit/split sb unmmap'd,     10,363,632/    7,351,136 max/curr,       23701/  23646560 totalloc-blocks/bytes,       24966 searches 8 rzB
---41535-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---41535-- demangle:        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,            176/          128 max/curr,           7/       272 totalloc-blocks/bytes,           6 searches 8 rzB
---41535-- ttaux   :        65,536/       65,536 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,         31,936/       21,392 max/curr,         112/     58224 totalloc-blocks/bytes,         114 searches 8 rzB
---41535-- translate: 5,239 guest insns, 874 traces, 174 uncond chased, 23 cond chased
---41535-- translate: no SP updates identified
---41535-- translate: PX: SPonly 874,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---41535--     tt/tc: 1,909 tt lookups requiring 1,918 probes
---41535--     tt/tc: 1,019 fast-cache updates, 2 flushes
---41535--  transtab: new        874 (21,076 -> 265,873; ratio 12.6) [0 scs] avg tce size 304
---41535--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---41535--  transtab: discarded  0 (0 -> ??)
---41535-- scheduler: 2,551 event checks.
---41535-- scheduler: 317 indir transfers, 132 misses (1 in 2) ..
---41535-- scheduler: .. of which: 181 hit0, 2 hit1, 2 hit2, 0 hit3, 132 missed
---41535-- scheduler: 0/1,069 major/minor sched events.
---41535--    sanity: 0 cheap, 0 expensive checks.
---41535--    exectx: 769 lists, 1 contexts (avg 0.00 per list) (avg 1.00 IP per context)
---41535--    exectx: 1 searches, 0 full compares (0 per 1000)
---41535--    exectx: 0 cmp2, 0 cmp4, 0 cmpAll
---41535--  errormgr: 0 supplist searches, 0 comparisons during search
---41535--  errormgr: 0 errlist searches, 0 comparisons during search
-
-host stacktrace:
-==41535==    at 0x5801074A: show_sched_status_wrk (m_libcassert.c:406)
-==41535==    by 0x58018D75: vgPlain_out_of_memory_NORETURN (m_mallocfree.c:795)
-==41535==    by 0x58019193: newSuperblock (m_mallocfree.c:868)
-==41535==    by 0x58019767: vgPlain_arena_malloc (m_mallocfree.c:1806)
-==41535==    by 0x580A08DD: vgModuleLocal_dinfo_zalloc (misc.c:46)
-==41535==    by 0x580A4162: alloc_CEnt (image.c:504)
-==41535==    by 0x580A6D52: get_slowcase (image.c:722)
-==41535==    by 0x580A8044: vgModuleLocal_img_calc_gnu_debuglink_crc32 (image.c:814)
-==41535==    by 0x58001545: open_debug_file (readelf.c:1268)
-==41535==    by 0x5800183A: find_debug_file (readelf.c:1357)
-==41535==    by 0x58047340: vgModuleLocal_read_elf_debug_info (readelf.c:2752)
-==41535==    by 0x5803AA16: vgPlain_di_notify_mmap (debuginfo.c:969)
-==41535==    by 0x5806E385: vgModuleLocal_generic_PRE_sys_mmap (syswrap-generic.c:2400)
-==41535==    by 0x5807A904: vgSysWrap_amd64_linux_sys_mmap_before (syswrap-amd64-linux.c:413)
-==41535==    by 0x58069431: vgPlain_client_syscall (syswrap-main.c:1914)
-==41535==    by 0x58065D82: handle_syscall (scheduler.c:1208)
-==41535==    by 0x58067856: vgPlain_scheduler (scheduler.c:1526)
-==41535==    by 0x580D4340: run_a_thread_NORETURN (syswrap-linux.c:101)
-
-sched status:
-  running_tid=1
-
-Thread 1: status = VgTs_Runnable syscall 9 (lwpid 41535)
-==41535==    at 0x401D143: mmap (mmap64.c:59)
-==41535==    by 0x4006EC6: _dl_map_object_from_fd (dl-map-segments.h:94)
-==41535==    by 0x40091CB: _dl_map_object (dl-load.c:2461)
-==41535==    by 0x400E4E1: openaux (dl-deps.c:63)
-==41535==    by 0x401BE6A: _dl_catch_exception (dl-error-skeleton.c:196)
-==41535==    by 0x400E85A: _dl_map_object_deps (dl-deps.c:249)
-==41535==    by 0x4003EC5: dl_main (rtld.c:1726)
-==41535==    by 0x401AF6F: _dl_sysdep_start (dl-sysdep.c:253)
-==41535==    by 0x4002127: _dl_start (rtld.c:414)
-==41535==    by 0x4001097: ??? (in /lib/x86_64-linux-gnu/ld-2.27.so)
-==41535==    by 0x1: ???
-==41535==    by 0x1FFF000506: ???
-==41535==    by 0x1FFF00050F: ???
-client stack range: [0x1FFEFFE000 0x1FFF000FFF] client SP: 0x1FFEFFF5C8
-valgrind stack range: [0x100298E000 0x1002A8DFFF] top usage: 9368 of 1048576
-
-==41535== 
-==41535==     Valgrind's memory management: out of memory:
-==41535==        newSuperblock's request for 1048576 bytes failed.
-==41535==           56,258,560 bytes have already been mmap-ed ANONYMOUS.
-==41535==     Valgrind cannot continue.  Sorry.
-==41535== 
-==41535==     There are several possible reasons for this.
-==41535==     - You have some kind of memory limit in place.  Look at the
-==41535==       output of 'ulimit -a'.  Is there a limit on the size of
-==41535==       virtual memory or address space?
-==41535==     - You have run out of swap space.
-==41535==     - Valgrind has a bug.  If you think this is the case or you are
-==41535==     not sure, please let us know and we'll try to fix it.
-==41535==     Please note that programs can take substantially more memory than
-==41535==     normal when running under Valgrind tools, eg. up to twice or
-==41535==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==41535==     should be able to make use of up 32GB memory.  On a 32-bit
-==41535==     machine, Valgrind should be able to use all the memory available
-==41535==     to a single process, up to 4GB if that's how you have your
-==41535==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==41535==     3GB per process.
-==41535== 
-==41535==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==31707== 
+==31707== I   refs:      223,094,015
+==31707== I1  misses:      1,963,640
+==31707== LLi misses:          1,728
+==31707== I1  miss rate:        0.88%
+==31707== LLi miss rate:        0.00%
+==31707== 
+==31707== D   refs:       60,620,644  (44,316,440 rd   + 16,304,204 wr)
+==31707== D1  misses:     13,281,332  (10,856,397 rd   +  2,424,935 wr)
+==31707== LLd misses:         23,705  (     2,279 rd   +     21,426 wr)
+==31707== D1  miss rate:        21.9% (      24.5%     +       14.9%  )
+==31707== LLd miss rate:         0.0% (       0.0%     +        0.1%  )
+==31707== 
+==31707== LL refs:        15,244,972  (12,820,037 rd   +  2,424,935 wr)
+==31707== LL misses:          25,433  (     4,007 rd   +     21,426 wr)
+==31707== LL miss rate:          0.0% (       0.0%     +        0.1%  )

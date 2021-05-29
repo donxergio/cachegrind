@@ -1,63 +1,26 @@
---41835:0: aspacem <<< SHOW_SEGMENTS: out_of_memory (17 segments)
---41835:0: aspacem 1 segment names in 1 slots
---41835:0: aspacem freelist is empty
---41835:0: aspacem (0,4,3) /home/tkloda/valgrind/lib/valgrind/cachegrind-amd64-linux
---41835:0: aspacem   0: RSVN 0000000000-0003ffffff     64m ----- SmFixed
---41835:0: aspacem   1:      0004000000-0057ffffff   1344m
---41835:0: aspacem   2: FILE 0058000000-0058258fff 2461696 r-x-- d=0x802 i=28344876 o=0       (0,4)
---41835:0: aspacem   3:      0058259000-0058458fff 2097152
---41835:0: aspacem   4: FILE 0058459000-005845efff   24576 rw--- d=0x802 i=28344876 o=2461696 (0,4)
---41835:0: aspacem   5: ANON 005845f000-0058e56fff      9m rw---
---41835:0: aspacem   6:      0058e57000-1001ffffff  64145m
---41835:0: aspacem   7: RSVN 1002000000-1002000fff    4096 ----- SmFixed
---41835:0: aspacem   8:      1002001000-1fffffffff  65503m
---41835:0: aspacem   9: RSVN 2000000000-7fffa8198fff 130942g ----- SmFixed
---41835:0: aspacem  10: ANON 7fffa8199000-7fffa81b9fff  135168 rw---
---41835:0: aspacem  11: RSVN 7fffa81ba000-7fffa81eafff  200704 ----- SmFixed
---41835:0: aspacem  12: ANON 7fffa81eb000-7fffa81edfff   12288 r----
---41835:0: aspacem  13: ANON 7fffa81ee000-7fffa81effff    8192 r-x--
---41835:0: aspacem  14: RSVN 7fffa81f0000-ffffffffff5fffff  16383e ----- SmFixed
---41835:0: aspacem  15: ANON ffffffffff600000-ffffffffff600fff    4096 r-x--
---41835:0: aspacem  16: RSVN ffffffffff601000-ffffffffffffffff      9m ----- SmFixed
---41835:0: aspacem >>>
---41835-- core    :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---41835-- dinfo   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---41835-- (null)  :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 0 rzB
---41835-- demangle:             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---41835-- ttaux   :             0/            0 max/curr mmap'd, 0/0 unsplit/split sb unmmap'd,              0/            0 max/curr,           0/         0 totalloc-blocks/bytes,           0 searches 8 rzB
---41835-- translate: 0 guest insns, 0 traces, 0 uncond chased, 0 cond chased
---41835-- translate: no SP updates identified
---41835-- translate: PX: SPonly 0,  UnwRegs 0,  AllRegs 0,  AllRegsAllInsns 0
---41835--     tt/tc: 0 tt lookups requiring 0 probes
---41835--     tt/tc: 0 fast-cache updates, 0 flushes
---41835--  transtab: new        0 (0 -> 0; ratio 0.0) [0 scs] avg tce size 0
---41835--  transtab: dumped     0 (0 -> ??) (sectors recycled 0)
---41835--  transtab: discarded  0 (0 -> ??)
---41835-- scheduler: 0 event checks.
---41835-- scheduler: 0 indir transfers, 0 misses (1 in 0) ..
---41835-- scheduler: .. of which: 0 hit0, 0 hit1, 0 hit2, 0 hit3, 0 missed
---41835-- scheduler: 0/0 major/minor sched events.
---41835--    sanity: 0 cheap, 0 expensive checks.
-==41835== 
-==41835==     Valgrind's memory management: out of memory:
-==41835==        newSuperblock's request for 4194304 bytes failed.
-==41835==           10,612,736 bytes have already been mmap-ed ANONYMOUS.
-==41835==     Valgrind cannot continue.  Sorry.
-==41835== 
-==41835==     There are several possible reasons for this.
-==41835==     - You have some kind of memory limit in place.  Look at the
-==41835==       output of 'ulimit -a'.  Is there a limit on the size of
-==41835==       virtual memory or address space?
-==41835==     - You have run out of swap space.
-==41835==     - Valgrind has a bug.  If you think this is the case or you are
-==41835==     not sure, please let us know and we'll try to fix it.
-==41835==     Please note that programs can take substantially more memory than
-==41835==     normal when running under Valgrind tools, eg. up to twice or
-==41835==     more, depending on the tool.  On a 64-bit machine, Valgrind
-==41835==     should be able to make use of up 32GB memory.  On a 32-bit
-==41835==     machine, Valgrind should be able to use all the memory available
-==41835==     to a single process, up to 4GB if that's how you have your
-==41835==     kernel configured.  Most 32-bit Linux setups allow a maximum of
-==41835==     3GB per process.
-==41835== 
-==41835==     Whatever the reason, Valgrind cannot continue.  Sorry.
+==3685== Cachegrind, a cache and branch-prediction profiler
+==3685== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+==3685== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==3685== Command: ./disparity .
+==3685== 
+--3685-- warning: L3 cache found, using its data for the LL simulation.
+--3685-- warning: specified LL cache: line_size 64  assoc 11  total_size 25,952,256
+--3685-- warning: simulated LL cache: line_size 64  assoc 12  total_size 25,165,824
+BIP cache replacement will be used
+BIP Throttle parameter is set to 0.062500
+==3685== 
+==3685== I   refs:      7,590,565
+==3685== I1  misses:        1,541
+==3685== LLi misses:        1,511
+==3685== I1  miss rate:      0.02%
+==3685== LLi miss rate:      0.02%
+==3685== 
+==3685== D   refs:      3,072,795  (2,024,003 rd   + 1,048,792 wr)
+==3685== D1  misses:        7,838  (    3,849 rd   +     3,989 wr)
+==3685== LLd misses:        5,458  (    2,260 rd   +     3,198 wr)
+==3685== D1  miss rate:       0.3% (      0.2%     +       0.4%  )
+==3685== LLd miss rate:       0.2% (      0.1%     +       0.3%  )
+==3685== 
+==3685== LL refs:           9,379  (    5,390 rd   +     3,989 wr)
+==3685== LL misses:         6,969  (    3,771 rd   +     3,198 wr)
+==3685== LL miss rate:        0.1% (      0.0%     +       0.3%  )
