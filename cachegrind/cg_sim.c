@@ -40,8 +40,6 @@ typedef struct {
    Int          assoc;
    Int          line_size;              /* bytes */
    Int          sets;
-   Int          sets_lru;
-   Int          sets_bip;
    Int          sets_min_1;
    Int          line_size_bits;
    Int          tag_shift;
@@ -49,6 +47,8 @@ typedef struct {
    UWord*       tags;
 } cache_t2;
 
+cache_t2 cache_lru;
+cache_t2 cache_bip;
 
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lru(cache_t2* c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lip(cache_t2* c, UInt set_no, UWord tag);
@@ -61,6 +61,8 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_di
 Bool (*cachesim_setref_is_miss)(cache_t2*, UInt, UWord) = &cachesim_setref_is_miss_lip;
 
 
+
+
 /* By this point, the size/assoc/line_size has been checked. */
 static void cachesim_initcache(cache_t config, cache_t2* c)
 {
@@ -70,9 +72,7 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
    c->assoc     = config.assoc;
    c->line_size = config.line_size;
 
-   c->sets           = (c->size / c->line_size) / c->assoc;
-   //c->sets_lru           = (c->size / c->line_size) / c->assoc;
-   //c->sets_bip           = (c->size / c->line_size) / c->assoc;   
+   c->sets           = (c->size / c->line_size) / c->assoc;  
    c->sets_min_1     = c->sets - 1;
    c->line_size_bits = VG_(log2)(c->line_size);
    c->tag_shift      = c->line_size_bits + VG_(log2)(c->sets);
@@ -91,7 +91,60 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
 
    for (i = 0; i < c->sets * c->assoc; i++)
       c->tags[i] = 0;
+
+
+/* For cache_lru */
+   cache_lru.size      = config.size;
+   cache_lru.assoc     = config.assoc;
+   cache_lru.line_size = config.line_size;
+
+   cache_lru.sets           = (cache_lru.size / cache_lru.line_size) / cache_lru.assoc;  
+   cache_lru.sets_min_1     = cache_lru.sets - 1;
+   cache_lru.line_size_bits = VG_(log2)(cache_lru.line_size);
+   cache_lru.tag_shift      = cache_lru.line_size_bits + VG_(log2)(cache_lru.sets);
+
+   if (cache_lru.assoc == 1) {
+      VG_(sprintf)(cache_lru.desc_line, "%d B, %d B, direct-mapped", 
+                                 cache_lru.size, cache_lru.line_size);
+   } else {
+      VG_(sprintf)(cache_lru.desc_line, "%d B, %d B, %d-way associative",
+                                 cache_lru.size, cache_lru.line_size, cache_lru.assoc);
+   }
+
+
+   cache_lru.tags = VG_(malloc)("cg.sim.ci.1",
+                         sizeof(UWord) * cache_lru.sets * cache_lru.assoc);
+
+   for (i = 0; i < cache_lru.sets * cache_lru.assoc; i++)
+      cache_lru.tags[i] = 0;
+
+/* For cache_bip */
+   cache_bip.size      = config.size;
+   cache_bip.assoc     = config.assoc;
+   cache_bip.line_size = config.line_size;
+
+   cache_bip.sets           = (cache_bip.size / cache_bip.line_size) / cache_bip.assoc;  
+   cache_bip.sets_min_1     = cache_bip.sets - 1;
+   cache_bip.line_size_bits = VG_(log2)(cache_bip.line_size);
+   cache_bip.tag_shift      = cache_bip.line_size_bits + VG_(log2)(cache_bip.sets);
+
+   if (cache_bip.assoc == 1) {
+      VG_(sprintf)(cache_bip.desc_line, "%d B, %d B, direct-mapped", 
+                                 cache_bip.size, cache_bip.line_size);
+   } else {
+      VG_(sprintf)(cache_bip.desc_line, "%d B, %d B, %d-way associative",
+                                 cache_bip.size, cache_bip.line_size, cache_bip.assoc);
+   }
+
+
+   cache_bip.tags = VG_(malloc)("cg.sim.ci.1",
+                         sizeof(UWord) * cache_bip.sets * cache_bip.assoc);
+
+   for (i = 0; i < cache_bip.sets * cache_bip.assoc; i++)
+      cache_bip.tags[i] = 0;  
+
 }
+
 
 /* This attribute forces GCC to inline the function, getting rid of a
  * lot of indirection around the cache_t2 pointer, if it is known to be
@@ -312,182 +365,45 @@ Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag)
    return True;
 }
 
+
 __attribute__((always_inline))
 static __inline__
 Bool cachesim_setref_is_miss_dip(cache_t2* c, UInt set_no, UWord tag)
 {
-
-static int psel = 0;
-//bip_throttle_parameter == 0.7;
-
-int i, j;
-   UWord *set_lru;
-
-   set_lru = &(c->tags[set_no * c->assoc]);
-
-  
-   if (tag == set_lru[0])
-      return False;
-                                    
-   for (i = 1; i < c->assoc; i++) {
-      if (tag == set_lru[i]) {
-         for (j = i; j > 0; j--) {
-            set_lru[j] = set_lru[j - 1];
-         }
-         set_lru[0] = tag;
-
-         return False;
-      } 
-   }
-
-    for (j = c->assoc - 1; j > 0; j--) {
-        set_lru[j] = set_lru[j - 1];
-    
-   set_lru[0] = tag;
-   psel ++; // A miss at LRU sets increments psel
-   return True;
-    }
-
    
-   UWord *set_bip;
-
-   set_bip = &(c->tags[set_no * c->assoc]);
-
-
-   if (tag == set_bip[0])
-      return False;
-
-
-   for (i = 1; i < c->assoc; i++) {
-      if (tag == set_bip[i]) {
-         for (j = i; j > 0; j--) {
-            set_bip[j] = set_bip[j - 1];
-         }
-         set_bip[0] = tag;
-
-         return False;
-      }
-   } 
-
-
-   if(bip_throttle_parameter == 1.0) { 
-
-
-      set_bip[c->assoc -1] = tag;
-   } else { 
-
-      double prob = (double) (VG_(random)(NULL) % 100 + 1.0);
-
-      if(prob >= (bip_throttle_parameter * 100)) { 
-        
-         set_bip[c->assoc -1] = tag;
-
-      } else {
-         
-         for (j = c->assoc - 1; j > 0; j--) {
-            set_bip[j] = set_bip[j - 1];
-         }
-         set_bip[0] = tag;
-      }
+   static unsigned short int psel=0;
    
-   psel--; // A miss at BIP sets decrements psel
-   return True;
-   }
+   
+   Bool is_miss_lru = cachesim_setref_is_miss_lru(&cache_lru, set_no, tag);
 
- 
+   Bool is_miss_bip = cachesim_setref_is_miss_bip(&cache_bip, set_no, tag);
 
-if (psel >= 0) {
+/*   if (is_miss_lru){
+      psel++;
+   }else{  //Should I do like this?
+      if (is_miss_bip)
+      psel--;
+   }*/
+
+   //Or should I do this way
 
 
-   UWord *set;
-
-   set = &(c->tags[set_no * c->assoc]);
-
-   /* This loop is unrolled for just the first case, which is the most */
-   /* common.  We can't unroll any further because it would screw up   */
-   /* if we have a direct-mapped (1-way) cache.                        */
-   if (tag == set[0])
-      return False;
-
-   /* If the tag is one other than the MRU, move it into the MRU spot  */
-   /* and shuffle the rest down.                                       */
-   for (i = 1; i < c->assoc; i++) {
-      if (tag == set[i]) {
-         for (j = i; j > 0; j--) {
-            set[j] = set[j - 1];
-         }
-         set[0] = tag;
-
-         return False;
+   if (is_miss_lru){
+      if (psel < 16){
+         psel++;
+      }
+   }   
+   if (is_miss_bip){
+      if (psel > 0){
+         psel--;
       }
    }
 
-   /* A miss;  install this tag as MRU, shuffle rest down. */
-   for (j = c->assoc - 1; j > 0; j--) {
-      set[j] = set[j - 1];
+   if (psel & 0x08){ //apply BIP
+      return cachesim_setref_is_miss_bip(c, set_no, tag);
+   } else{
+      return cachesim_setref_is_miss_lru(c, set_no, tag);
    }
-   set[0] = tag;
-
-   return True;
-
-} else {
-
-    //int i, j;
-   UWord *set;
-
-   set = &(c->tags[set_no * c->assoc]);
-
-   /* This loop is unrolled for just the first case, which is the most */
-   /* common.  We can't unroll any further because it would screw up   */
-   /* if we have a direct-mapped (1-way) cache.                        */
-   if (tag == set[0])
-      return False;
-
-   /* If the tag is one other than the MRU, move it into the MRU spot  */
-   /* and shuffle the rest down.                                       */
-   for (i = 1; i < c->assoc; i++) {
-      if (tag == set[i]) {
-         for (j = i; j > 0; j--) {
-            set[j] = set[j - 1];
-         }
-         set[0] = tag;
-
-         return False;
-      }
-   }
-
-   //if bimodal throttle parameter is 1.0, behaves like LRU
-   if(bip_throttle_parameter == 1.0) { 
-
-      /* A miss;  install this tag as MRU, shuffle rest down. */
-      for (j = c->assoc - 1; j > 0; j--) {
-         set[j] = set[j - 1];
-      }
-      set[0] = tag;
-   } else if(bip_throttle_parameter == 0.0) { //if bimodal throttle parameter is 0.0, behaves like LIP
-
-      /* A miss;  install this tag as LRU. */
-      set[c->assoc -1] = tag;
-   } else { //uses the probability, either LRU or LIP
-
-      double prob = (double) (VG_(random)(NULL) % 100 + 1.0);
-
-      if(prob >= (bip_throttle_parameter * 100)) { //LIP
-         /* A miss;  install this tag as LRU. */
-         set[c->assoc -1] = tag;
-
-      } else { //LRU
-         /* A miss;  install this tag as MRU, shuffle rest down. */
-         for (j = c->assoc - 1; j > 0; j--) {
-            set[j] = set[j - 1];
-         }
-         set[0] = tag;
-      }
-   }
-   return True;
-}
-
-
 }
 
 
@@ -557,7 +473,6 @@ static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
       cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
     else if(cache_replacement_policy == DIP_POLICY) 
       cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
-
 }
 
 __attribute__((always_inline))
