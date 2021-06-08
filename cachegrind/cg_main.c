@@ -46,6 +46,7 @@
 #include "cg_sim.c"
 #include "cg_branchpred.c"
 
+
 /*------------------------------------------------------------*/
 /*--- Constants                                            ---*/
 /*------------------------------------------------------------*/
@@ -1880,8 +1881,12 @@ static void cg_post_clo_init(void)
       		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
    	} else {
       		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
    	}
    
+   } else {
+      VG_(printf)("None cache replacement policy has been chosen!\n");
+      VG_(exit)(1);
    }
   /* else if(VG_(strcmp)(clo_cache_policy,"dip") == 0) {
 	cache_replacement_policy = DIP_POLICY;
