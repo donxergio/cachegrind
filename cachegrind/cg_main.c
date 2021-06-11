@@ -1884,12 +1884,8 @@ static void cg_post_clo_init(void)
             VG_(exit)(1);
    	}
    
-   } else {
-      VG_(printf)("None cache replacement policy has been chosen!\n");
-      VG_(exit)(1);
-   }
-  /* else if(VG_(strcmp)(clo_cache_policy,"dip") == 0) {
-	cache_replacement_policy = DIP_POLICY;
+   } else if(VG_(strcmp)(clo_cache_policy,"bip") == 0) {
+	cache_replacement_policy = BIP_POLICY;
 	VG_(printf)("DIP cache replacement will be used\n");
 
    	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
@@ -1897,9 +1893,14 @@ static void cg_post_clo_init(void)
       		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
    	} else {
       		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
    	}
    
-   }*/
+   } else {
+      VG_(printf)("None cache replacement policy has been chosen!\n");
+      VG_(exit)(1);
+   }
+  /* */
 
    cachesim_initcaches(I1c, D1c, LLc);
 }
