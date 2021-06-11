@@ -1872,6 +1872,19 @@ static void cg_post_clo_init(void)
 	cache_replacement_policy = FIFO_POLICY;
 	VG_(printf)("FIFO cache replacement will be used\n");
    }
+   else if(VG_(strcmp)(clo_cache_policy,"bip") == 0) {
+	cache_replacement_policy = BIP_POLICY;
+	VG_(printf)("BIP cache replacement will be used\n");
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
+   	}
+   
+   }
    else if(VG_(strcmp)(clo_cache_policy,"dip") == 0) {
 	cache_replacement_policy = DIP_POLICY;
 	VG_(printf)("DIP cache replacement will be used\n");
