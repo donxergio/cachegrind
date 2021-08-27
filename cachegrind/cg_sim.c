@@ -371,37 +371,40 @@ static __inline__
 Bool cachesim_setref_is_miss_dip(cache_t2* c, UInt set_no, UWord tag)
 {
    
-   static unsigned short int psel=0;
+   //static unsigned int psel_size = 4; //number of bits of psel
+
+   //psel_msb = 2 << (psel_size - 1)
+   static unsigned int psel_msb = 8; // decimal value when there is 1 in the MSB of psel (1000)
+   
+   //psel_max = 2 << (psel_size) - 1
+   static unsigned int psel_max = 15; // maximum value of psel (1111)
+
+   static unsigned int psel = 8; // Policy selector, must be iniatialize in the middle of the range [0,psel_max]
    
    
    Bool is_miss_lru = cachesim_setref_is_miss_lru(&cache_lru, set_no, tag);
 
    Bool is_miss_bip = cachesim_setref_is_miss_bip(&cache_bip, set_no, tag);
 
-/*   if (is_miss_lru){
-      psel++;
-   }else{  //Should I do like this?
-      if (is_miss_bip)
-      psel--;
-   }*/
-
-   //Or should I do this way
-
 
    if (is_miss_lru){
-      if (psel < 16){
+      if (psel < psel_max){ 
          psel++;
+         //VG_(printf)("%u \n", psel);
       }
    }   
    if (is_miss_bip){
       if (psel > 0){
          psel--;
+         //VG_(printf)("%u \n", psel);
       }
    }
 
-   if (psel & 0x08){ //apply BIP
+   if (psel >= psel_msb){ //if there is 1 in the MSB apply BIP
+      //VG_(printf)("BIP used \n");
       return cachesim_setref_is_miss_bip(c, set_no, tag);
    } else{
+      //VG_(printf)("LRU used \n");
       return cachesim_setref_is_miss_lru(c, set_no, tag);
    }
 }
