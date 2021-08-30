@@ -48,6 +48,8 @@ typedef struct {
 } cache_t2;
 
 cache_t2 cache_lru;
+cache_t2 cache_fifo;
+cache_t2 cache_random;
 cache_t2 cache_bip;
 
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lru(cache_t2* c, UInt set_no, UWord tag);
@@ -56,12 +58,38 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_ra
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fifo(cache_t2* c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bip(cache_t2* c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip(cache_t2* c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_all(cache_t2* c, UInt set_no, UWord tag);
 
 
 Bool (*cachesim_setref_is_miss)(cache_t2*, UInt, UWord) = &cachesim_setref_is_miss_lip;
 
+__attribute__((always_inline))
+static __inline__
+void init_caches(cache_t2 *c, cache_t config)
+{
+   Int i;
+   c->size      = config.size;
+   c->assoc     = config.assoc;
+   c->line_size = config.line_size;
 
+   c->sets           = (c->size / c->line_size) / c->assoc;  
+   c->sets_min_1     = c->sets - 1;
+   c->line_size_bits = VG_(log2)(c->line_size);
+   c->tag_shift      = c->line_size_bits + VG_(log2)(c->sets);
 
+   if (c->assoc == 1) {
+      VG_(sprintf)(c->desc_line, "%d B, %d B, direct-mapped", 
+                                 c->size, c->line_size);
+   } else {
+      VG_(sprintf)(c->desc_line, "%d B, %d B, %d-way associative",
+                                 c->size, c->line_size, c->assoc);
+   }
+
+   c->tags = VG_(malloc)("cg.sim.ci.1", sizeof(UWord) * c->sets * c->assoc);
+
+   for (i = 0; i < c->sets * c->assoc; i++)
+      c->tags[i] = 0;
+}
 
 /* By this point, the size/assoc/line_size has been checked. */
 static void cachesim_initcache(cache_t config, cache_t2* c)
@@ -93,8 +121,13 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
       c->tags[i] = 0;
 
 
+   init_caches(&cache_lru, config);
+   init_caches(&cache_fifo, config);
+   init_caches(&cache_random, config);
+   init_caches(&cache_bip, config);
+
 /* For cache_lru */
-   cache_lru.size      = config.size;
+   /*cache_lru.size      = config.size;
    cache_lru.assoc     = config.assoc;
    cache_lru.line_size = config.line_size;
 
@@ -116,10 +149,10 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
                          sizeof(UWord) * cache_lru.sets * cache_lru.assoc);
 
    for (i = 0; i < cache_lru.sets * cache_lru.assoc; i++)
-      cache_lru.tags[i] = 0;
+      cache_lru.tags[i] = 0;*/
 
 /* For cache_bip */
-   cache_bip.size      = config.size;
+   /*cache_bip.size      = config.size;
    cache_bip.assoc     = config.assoc;
    cache_bip.line_size = config.line_size;
 
@@ -141,7 +174,7 @@ static void cachesim_initcache(cache_t config, cache_t2* c)
                          sizeof(UWord) * cache_bip.sets * cache_bip.assoc);
 
    for (i = 0; i < cache_bip.sets * cache_bip.assoc; i++)
-      cache_bip.tags[i] = 0;  
+      cache_bip.tags[i] = 0; */
 
 }
 
@@ -409,7 +442,25 @@ Bool cachesim_setref_is_miss_dip(cache_t2* c, UInt set_no, UWord tag)
    }
 }
 
+__attribute__((always_inline))
+static __inline__
+Bool cachesim_setref_is_miss_all(cache_t2* c, UInt set_no, UWord tag)
+{
+   
+   static unsigned int counter = 0;
+   
+   
+   Bool is_miss_lru = cachesim_setref_is_miss_lru(&cache_lru, set_no, tag);
+   Bool is_miss_fifo = cachesim_setref_is_miss_lru(&cache_fifo, set_no, tag);
+   Bool is_miss_random = cachesim_setref_is_miss_lru(&cache_random, set_no, tag);
+   Bool is_miss_bip = cachesim_setref_is_miss_bip(&cache_bip, set_no, tag);
 
+   //if (counter % 1000){
+      //VG_(printf)("%u \n", psel);
+   //}   
+
+   return cachesim_setref_is_miss_lru(c, set_no, tag);
+}
 
 
 __attribute__((always_inline))
@@ -474,8 +525,10 @@ static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
       cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
    else if(cache_replacement_policy == BIP_POLICY) 
       cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
-    else if(cache_replacement_policy == DIP_POLICY) 
+   else if(cache_replacement_policy == DIP_POLICY) 
       cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
+   else if(cache_replacement_policy == ALL_POLICY) 
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_all;
 }
 
 __attribute__((always_inline))
