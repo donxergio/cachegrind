@@ -449,10 +449,9 @@ Bool cachesim_setref_is_miss_all(cache_t2* c, UInt set_no, UWord tag)
    
    static unsigned int counter = 0;
    
-   
    Bool is_miss_lru = cachesim_setref_is_miss_lru(&cache_lru, set_no, tag);
-   Bool is_miss_fifo = cachesim_setref_is_miss_lru(&cache_fifo, set_no, tag);
-   Bool is_miss_random = cachesim_setref_is_miss_lru(&cache_random, set_no, tag);
+   Bool is_miss_fifo = cachesim_setref_is_miss_fifo(&cache_fifo, set_no, tag);
+   Bool is_miss_random = cachesim_setref_is_miss_random(&cache_random, set_no, tag);
    Bool is_miss_bip = cachesim_setref_is_miss_bip(&cache_bip, set_no, tag);
 
    //if (counter % 1000){
