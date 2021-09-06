@@ -50,6 +50,13 @@ void VG_(basic_tool_funcs)(
    VG_(tdict).tool_fini          = fini;
 }
 
+void VG_(basic_tools_funcs_cache_repl_policy)(
+   void(*cache_repl_policy)(Int)
+)
+{
+   VG_(tdict).change_cache_repl_policy          = cache_repl_policy;
+}
+
 
 /*--------------------------------------------------------------------*/
 /* Setting details */

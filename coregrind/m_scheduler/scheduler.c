@@ -93,6 +93,7 @@
 #include "pub_core_scheduler.h"     // self
 #include "pub_core_redir.h"
 #include "libvex_emnote.h"          // VexEmNote
+#include "cachegrind.h"
 
 
 /* ---------------------------------------------------------------------
@@ -1934,7 +1935,7 @@ void do_client_request ( ThreadId tid )
    UWord req_no = arg[0];
 
    if (0)
-      VG_(printf)("req no = 0x%lx, arg = %p\n", req_no, arg);
+      VG_(printf)("req no = 0x%lx, arg = %p, arg[1] = %lu\n", req_no, arg, arg[1]);
    switch (req_no) {
 
       case VG_USERREQ__CLIENT_CALL0: {
@@ -2177,6 +2178,17 @@ void do_client_request ( ThreadId tid )
          UWord ret;
          ret = (UWord) VG_(client_monitor_command) ((HChar*)arg[1]);
          SET_CLREQ_RETVAL(tid, ret);
+         break;
+      }
+      
+      // New remote client function to change the cache replacement policy during run-time
+      // Added by Giovani Gracioli - UFSC - September 2021
+      case CG_CHANGE_CACHE_REPL_POLICY: {
+         Cg_CachePolicy policy = (Cg_CachePolicy) arg[1];
+         //VG_(printf)( "client request: CG_CHANGE_CACHE_REPL_POLICY,"
+         //                " policy %lu - %lu - %lu - %lu - %lu - %d\n", arg[0], arg[1], arg[2], arg[3], arg[4], policy );
+         VG_(tdict).change_cache_repl_policy(policy);
+         SET_CLREQ_RETVAL( tid, 0 );     /* return value is meaningless */
          break;
       }
 

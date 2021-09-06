@@ -8,8 +8,8 @@ BENCHMARK_DIR=$1
 SIZES=(1024 2048 4096 8192 16384 32768 65536 131072 262144 524288 1048576 2097152 4194304 8388608)
 WAYS=(1 2 4 8 16 32)
 #POLICIES=('lru' 'lip' 'random' 'fifo' 'bip0.015625' 'bip0.03125' 'bip0.0625')
-BENCHMARKS=("kmeans-large" "kmeans-medium" "kmeans-small" "disparity-cif" "disparity-fullhd" "disparity-qcif" "disparity-vga" "lda-large" "lda-medium" "lda-small" "liblinear-tlarge" "liblinear-tmedium" "liblinear-tsmall" "me-large" "me-medium" "me-small" "mser-cif" "mser-fullhd" "mser-qcif" "multi_ncut-cif" "multi_ncut-fullhd" "multi_ncut-qcif" "pca-large" "pca-medium" "pca-small" "rbm-large" "rbm-medium" "rbm-small" "sift-cif" "sift-fullhd" "sift-qcif" "sift-vga" "spc-large" "spc-medium" "spc-small" "sphinx-large" "sphinx-medium" "sphinx-small" "stitch-cif" "stitch-fullhd" "stitch-vga" "svd3-large" "texture_synthesis-cif" "texture_synthesis-fullhd" "tracking-cif" "tracking-fullhd" "tracking-vga")
-#missing: "svd3-medium" "svd3-small" "srr-large" "srr-medium" "srr-small"
+BENCHMARKS=("kmeans-large" "kmeans-medium" "kmeans-small" "disparity-cif" "disparity-fullhd" "disparity-qcif" "disparity-vga" "lda-large" "lda-medium" "lda-small" "liblinear-tlarge" "liblinear-tmedium" "liblinear-tsmall" "me-large" "me-medium" "me-small" "mser-cif" "mser-fullhd" "mser-qcif" "multi_ncut-cif" "multi_ncut-fullhd" "multi_ncut-qcif" "pca-large" "pca-medium" "pca-small" "rbm-large" "rbm-medium" "rbm-small" "sift-cif" "sift-fullhd" "sift-qcif" "sift-vga" "spc-large" "spc-medium" "spc-small" "sphinx-large" "sphinx-medium" "sphinx-small" "stitch-cif" "stitch-fullhd" "stitch-vga" "svd3-large" "svd3-medium" "svd3-small" "srr-large" "srr-medium" "srr-small" "texture_synthesis-cif" "texture_synthesis-fullhd" "tracking-cif" "tracking-fullhd" "tracking-vga")
+#BENCHMARKS=("sphinx-large" "sphinx-medium" "sphinx-small" "mser-fullhd")
 
 cd $BENCHMARK_DIR
 

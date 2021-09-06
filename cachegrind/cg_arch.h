@@ -29,7 +29,7 @@
 #ifndef __CG_ARCH_H
 #define __CG_ARCH_H
 
-enum {
+typedef enum {
    LRU_POLICY,
    LIP_POLICY,
    RANDOM_POLICY,
@@ -37,10 +37,11 @@ enum {
    BIP_POLICY,
    DIP_POLICY,
    ALL_POLICY,
-};
+} Cg_CachePolicy;
 
 int cache_replacement_policy;
 double bip_throttle_parameter;
+int current_cache_replacement_policy;
 
 // For cache simulation
 typedef struct {

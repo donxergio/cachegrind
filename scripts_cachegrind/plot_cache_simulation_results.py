@@ -11,6 +11,7 @@ class Input_Files:
         self.ways = ""
 
 input_files = []
+
 input_files.append(Input_Files("kmeans-large")) #kmeans-large benchmark
 input_files.append(Input_Files("kmeans-medium")) 
 input_files.append(Input_Files("kmeans-small"))
@@ -66,6 +67,12 @@ input_files.append(Input_Files("stitch-fullhd"))
 input_files.append(Input_Files("stitch-vga"))
 
 input_files.append(Input_Files("svd3-large"))
+input_files.append(Input_Files("svd3-medium"))
+input_files.append(Input_Files("svd3-small"))
+
+input_files.append(Input_Files("srr-large"))
+input_files.append(Input_Files("srr-medium"))
+input_files.append(Input_Files("srr-small"))
 
 input_files.append(Input_Files("texture_synthesis-cif"))
 input_files.append(Input_Files("texture_synthesis-fullhd"))
@@ -73,7 +80,6 @@ input_files.append(Input_Files("texture_synthesis-fullhd"))
 input_files.append(Input_Files("tracking-cif"))
 input_files.append(Input_Files("tracking-fullhd"))
 input_files.append(Input_Files("tracking-vga"))
-
 
 #input_files = []
 #input_files.append("svd3-large_4ways_bip_paper.csv")
@@ -94,6 +100,24 @@ cache_parameters.append(Cache_Parameters("A8", 0.5, 11, 60)) #parameters for the
 cache_parameters.append(Cache_Parameters("x86", 0.5, 3, 44)) #parameters for the x86  processor in https://www.eecg.utoronto.ca/~jayar/pubs/wong/wongtrets16.pdf
 cache_parameters.append(Cache_Parameters("bip_paper", 0.25, 7, 270)) #parameters used in BIP/LIP paper
 
+def test_difference(data, i, size, input_file_info, cache_params):
+    if data.loc[i,'LIP'] != 0.0 and data.loc[i,'LIP'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'LIP']) > 0.15:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "\tLIP\t" + "{:.4f}%\t".format(round((1.0-data.loc[i,'LIP'])*100.0)) + cache_params.proc_name)
+
+    if data.loc[i,'RANDOM'] != 0.0 and data.loc[i,'RANDOM'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'RANDOM']) > 0.15:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "RANDOM\t" + "{:.4f}%\t".format(round((1.0-data.loc[i,'RANDOM'])*100.0)) + cache_params.proc_name)
+
+    if data.loc[i,'FIFO'] != 0.0 and data.loc[i,'FIFO'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'FIFO']) > 0.15:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "FIFO\t" + "{:.4f}%\t".format(round((1.0-data.loc[i,'FIFO'])*100.0)) + cache_params.proc_name)
+
+    if data.loc[i,'BIP0.015625'] != 0.0 and data.loc[i,'BIP0.015625'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'BIP0.015625']) > 0.15:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "BIP0.015625\t" + "{:.4f}%\t".format(round((1.0-data.loc[i,'BIP0.015625'])*100.0)) + cache_params.proc_name)
+
+    if data.loc[i,'BIP0.03125'] != 0.0 and data.loc[i,'BIP0.03125'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'BIP0.03125']) > 0.15:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "BIP0.03125\t" + "{:.4f}%\t".format(round((1.0-data.loc[i,'BIP0.03125'])*100.0)) + cache_params.proc_name)
+
+    if data.loc[i,'BIP0.0625'] != 0.0 and data.loc[i,'BIP0.0625'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'BIP0.0625']) > 0.15:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "BIP0.0625\t" + "{:.4f}%\t".format(round((1.0-data.loc[i,'BIP0.0625'])*100.0))+ cache_params.proc_name)
 
 def plot_graphs(input_file_info, cache_params, pp):
     data = pd.read_csv(input_file_info.filename)
@@ -107,21 +131,26 @@ def plot_graphs(input_file_info, cache_params, pp):
         data.loc[i,'BIP0.03125'] = float(data.loc[i,'BIP0.03125']) / lru
         data.loc[i,'BIP0.0625'] = float(data.loc[i,'BIP0.0625']) / lru
         data.loc[i,'LRU'] = 1.0
+
+        #if(input_file_info.ways != "1ways"):
+        #    test_difference(data, i, data.loc[i,'SIZE'], input_file_info, cache_params)
+
         
     data.plot.bar(0, [1, 2, 3, 4, 5, 6, 7])
     plt.title(input_file_info.benchmark_name + " " + f.ways + " " + cache_params.proc_name)
     plt.xlabel("Cache Partition Size (in bytes)")
     plt.ylabel("Execution Time (in cycles) - Normalized according to LRU")
-    plt.ylim([0.8, 1.5])
+    plt.ylim([0.7, 1.5])
     plt.legend(ncol=3)
     plt.tight_layout()
     #plt.show()
     plt.savefig(pp, format='pdf')
     plt.close()
+    
 
 if __name__ == '__main__':
 
-    ways = ["1ways", "2ways", "4ways", "8ways", "16ways", "32ways"]
+    ways = ["2ways", "4ways", "8ways", "16ways", "32ways"]
     old = ''
     for f in input_files:
         name = f.benchmark_name.partition("-")[0]

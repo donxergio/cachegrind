@@ -112,6 +112,8 @@ typedef struct {
                                const VexGuestLayout*, const VexGuestExtents*, 
                                const VexArchInfo*, IRType, IRType);
    void  (*tool_fini)         (Int);
+   
+   void  (*change_cache_repl_policy)         (Int);
 
    // VG_(needs).core_errors
    // (none)

@@ -1780,6 +1780,13 @@ static void cg_print_debug_usage(void)
    );
 }
 
+static void cg_set_cache_replacement_policy(int policy)
+{
+    /* TODO: add a sanity check for the policy argument */
+    VG_(printf)("cg_set_cache_replacement_policy() policy = %d\n", policy);
+    current_cache_replacement_policy = policy;
+}
+
 /*--------------------------------------------------------------------*/
 /*--- Setup                                                        ---*/
 /*--------------------------------------------------------------------*/
@@ -1803,6 +1810,8 @@ static void cg_pre_clo_init(void)
    VG_(basic_tool_funcs)          (cg_post_clo_init,
                                    cg_instrument,
                                    cg_fini);
+                                   
+   VG_(basic_tools_funcs_cache_repl_policy) (cg_set_cache_replacement_policy);
 
    VG_(needs_superblock_discards)(cg_discard_superblock_info);
    VG_(needs_command_line_options)(cg_process_cmd_line_option,
@@ -1927,8 +1936,10 @@ static void cg_post_clo_init(void)
    }
   /* */
 
+   current_cache_replacement_policy = cache_replacement_policy;
    cachesim_initcaches(I1c, D1c, LLc);
 }
+
 
 VG_DETERMINE_INTERFACE_VERSION(cg_pre_clo_init)
 

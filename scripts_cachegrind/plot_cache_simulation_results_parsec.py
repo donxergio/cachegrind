@@ -37,6 +37,26 @@ cache_parameters.append(Cache_Parameters("A8", 0.5, 11, 60)) #parameters for the
 cache_parameters.append(Cache_Parameters("x86", 0.5, 3, 44)) #parameters for the x86  processor in https://www.eecg.utoronto.ca/~jayar/pubs/wong/wongtrets16.pdf
 cache_parameters.append(Cache_Parameters("bip_paper", 0.25, 7, 270)) #parameters used in BIP/LIP paper
 
+def test_difference(data, i, size, input_file_info, cache_params):
+    if data.loc[i,'LIP'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'LIP']) > 0.01:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "\tLIP\t" + "{:.4f}%".format(round((1.0-data.loc[i,'LIP'])*100.0)))
+
+    if data.loc[i,'RANDOM'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'RANDOM']) > 0.01:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "RANDOM\t" + "{:.4f}%".format(round((1.0-data.loc[i,'RANDOM'])*100.0)))
+
+    if data.loc[i,'FIFO'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'FIFO']) > 0.01:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "FIFO\t" + "{:.4f}%".format(round((1.0-data.loc[i,'FIFO'])*100.0)))
+    '''
+    if data.loc[i,'BIP0.015625'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'BIP0.015625']) > 0.01:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "BIP0.015625\t" + "{:.4f}%".format(round((1.0-data.loc[i,'BIP0.015625'])*100.0)))
+
+    if data.loc[i,'BIP0.03125'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'BIP0.03125']) > 0.01:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "BIP0.03125\t" + "{:.4f}%".format(round((1.0-data.loc[i,'BIP0.03125'])*100.0)))
+
+    if data.loc[i,'BIP0.0625'] < data.loc[i,'LRU'] and (1.0 - data.loc[i,'BIP0.0625']) > 0.01:
+        print(input_file_info.benchmark_name + "\t" + str(size) + "\t" + input_file_info.ways  + "\t" + "BIP0.0625\t" + "{:.4f}%".format(round((1.0-data.loc[i,'BIP0.0625'])*100.0)))
+    '''
+
 
 def plot_graphs(input_file_info, cache_params, pp):
     data = pd.read_csv(input_file_info.filename)
@@ -50,7 +70,10 @@ def plot_graphs(input_file_info, cache_params, pp):
         #data.loc[i,'BIP0.03125'] = float(data.loc[i,'BIP0.03125']) / lru
         #data.loc[i,'BIP0.0625'] = float(data.loc[i,'BIP0.0625']) / lru
         data.loc[i,'LRU'] = 1.0
-        
+
+        if(input_file_info.ways != "1ways"):
+            test_difference(data, i, data.loc[i,'SIZE'], input_file_info, cache_params)
+    '''     
     data.plot.bar(0, [1, 2, 3, 4, 5, 6, 7])
     plt.title(input_file_info.benchmark_name + " " + f.ways + " " + cache_params.proc_name)
     plt.xlabel("Cache Partition Size (in bytes)")
@@ -61,6 +84,7 @@ def plot_graphs(input_file_info, cache_params, pp):
     #plt.show()
     plt.savefig(pp, format='pdf')
     plt.close()
+    '''
 
 if __name__ == '__main__':
 
@@ -75,7 +99,7 @@ if __name__ == '__main__':
                 pp.close()
                 pp = PdfPages(directory + name + "_normalized.pdf")
 
-        print("Generating graph for " + f.benchmark_name)
+        #print("Generating graph for " + f.benchmark_name)
        
         for c in cache_parameters:
             f.filename = directory+f.benchmark_name+"_"+c.proc_name+".csv"
