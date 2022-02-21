@@ -63,6 +63,9 @@ static Bool  clo_branch_sim = False; /* do branch simulation? */
 static const HChar* clo_cachegrind_out_file = "cachegrind.out.%p";
 static const HChar* clo_cache_policy = "lru";
 static float clo_cache_bip_throttle = -1.0;
+static int clo_online_threshold = 100;
+static const HChar* clo_c_file ="";
+static float clo_counter = 10000;
 
 /*------------------------------------------------------------*/
 /*--- Cachesim configuration                               ---*/
@@ -393,7 +396,13 @@ void log_1IrNoX_1Dr_cache_access(InstrInfo* n, Addr data_addr, Word data_size)
    cachesim_I1_doref_NoX(n->instr_addr, n->instr_len,
 			 &n->parent->Ir.m1, &n->parent->Ir.mL);
    n->parent->Ir.a++;
-
+   if(VG_(strstr)(n->parent->loc.file, clo_c_file) != NULL) {
+      //VG_(printf)("File: %s  Function: %s Line: %u \n", n->parent->loc.file, n->parent->loc.fn, n->parent->loc.line); //SAG
+      VG_(printf)("L %u\n", n->parent->loc.line); //SAG
+   }
+   //else{
+   //   VG_(printf)("*\n");
+   //}
    cachesim_D1_doref(data_addr, data_size, 
                      &n->parent->Dr.m1, &n->parent->Dr.mL);
    n->parent->Dr.a++;
@@ -408,7 +417,13 @@ void log_1IrNoX_1Dw_cache_access(InstrInfo* n, Addr data_addr, Word data_size)
    cachesim_I1_doref_NoX(n->instr_addr, n->instr_len,
 			 &n->parent->Ir.m1, &n->parent->Ir.mL);
    n->parent->Ir.a++;
-
+   if(VG_(strstr)(n->parent->loc.file, clo_c_file) != NULL) {
+      //VG_(printf)("File: %s  Function_w: %s Line: %u \n", n->parent->loc.file, n->parent->loc.fn, n->parent->loc.line); //SAG
+      VG_(printf)("Lw %u\n", n->parent->loc.line); //SAG
+   }
+   //else{
+   //   VG_(printf)("*\n");
+   //}
    cachesim_D1_doref(data_addr, data_size, 
                      &n->parent->Dw.m1, &n->parent->Dw.mL);
    n->parent->Dw.a++;
@@ -422,6 +437,13 @@ void log_0Ir_1Dr_cache_access(InstrInfo* n, Addr data_addr, Word data_size)
 {
    //VG_(printf)("0Ir_1Dr:  CCaddr=0x%010lx,  daddr=0x%010lx,  dsize=%lu\n",
    //            n, data_addr, data_size);
+   if(VG_(strstr)(n->parent->loc.file, clo_c_file) != NULL) {
+      //VG_(printf)("File: %s  Function: %s Line: %u \n", n->parent->loc.file, n->parent->loc.fn, n->parent->loc.line); //SAG
+      VG_(printf)("L %u\n", n->parent->loc.line); //SAG
+   }
+   //else{
+   //   VG_(printf)("*\n");
+   //}
    cachesim_D1_doref(data_addr, data_size, 
                      &n->parent->Dr.m1, &n->parent->Dr.mL);
    n->parent->Dr.a++;
@@ -433,6 +455,13 @@ void log_0Ir_1Dw_cache_access(InstrInfo* n, Addr data_addr, Word data_size)
 {
    //VG_(printf)("0Ir_1Dw:  CCaddr=0x%010lx,  daddr=0x%010lx,  dsize=%lu\n",
    //            n, data_addr, data_size);
+   if(VG_(strstr)(n->parent->loc.file, clo_c_file) != NULL) {
+      //VG_(printf)("File: %s  Function_w: %s Line: %u \n", n->parent->loc.file, n->parent->loc.fn, n->parent->loc.line); //SAG
+      VG_(printf)("Lw %u\n", n->parent->loc.line); //SAG
+   }
+   //else{
+   //   VG_(printf)("*\n");
+   //}
    cachesim_D1_doref(data_addr, data_size, 
                      &n->parent->Dw.m1, &n->parent->Dw.mL);
    n->parent->Dw.a++;
@@ -1548,6 +1577,9 @@ static void fprint_CC_table_and_calc_totals(void)
                         Ir_total.a);
    }
 
+         //Print stats of all policies
+      print_stats(fp);
+
    VG_(fclose)(fp);
 }
 
@@ -1572,6 +1604,84 @@ static void cg_fini(Int exitcode)
          LL_total, LL_total_r, LL_total_w;
    Int l1, l2, l3;
 
+if (current_cache_replacement_policy == ALL_POLICY){
+            blocks++;
+      if(print_output)
+         VG_(printf)("*-*-*\n");
+      //if(temp_hit_counter_LRU > temp_hit_counter_FIFO && temp_hit_counter_LRU > temp_hit_counter_RANDOM && temp_hit_counter_LRU > temp_hit_counter_BIP){
+      if(temp_D1_miss_counter_LRU <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_BIP){
+         current_adaptative_cache_replacement_policy = LRU_POLICY;
+         if(print_output)
+            VG_(printf)("LRU SELECTED\n");
+         blocks_LRU++;
+         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
+         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
+      }
+      //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
+      else if(temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_BIP){
+         current_adaptative_cache_replacement_policy = FIFO_POLICY;
+         if(print_output)
+            VG_(printf)("FIFO SELECTED\n");
+         blocks_FIFO++;
+         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
+         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
+      }
+      //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
+      else if(temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_BIP){
+         current_adaptative_cache_replacement_policy = RANDOM_POLICY;
+         if(print_output)
+            VG_(printf)("RANDOM SELECTED\n");
+         blocks_RANDOM++;
+         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
+         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
+      }
+      //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
+      else if(temp_D1_miss_counter_BIP <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_RANDOM){
+         current_adaptative_cache_replacement_policy = BIP_POLICY;
+         if(print_output)
+            VG_(printf)("BIP SELECTED\n");
+         blocks_BIP++;
+         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
+         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
+      }
+      else{
+         current_adaptative_cache_replacement_policy = LRU_POLICY;
+         if(print_output)
+            VG_(printf)("LRU_d SELECTED\n");
+         blocks_LRU++;
+         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
+         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
+      }
+
+      if (print_output)
+      {
+         VG_(printf)
+         ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
+         VG_(printf)
+         ("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
+         VG_(printf)
+         ("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
+         VG_(printf)
+         ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
+         VG_(printf)
+         ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
+      }
+   }
+if (current_cache_replacement_policy == EXHAUSTIVE_POLICY)
+   {
+      current_adaptative_cache_replacement_policy = LRU_POLICY;
+      if (print_output)
+         VG_(printf)
+      ("LRU_d SELECTED\n");
+      for (int i = CYCLES / 2; i < CYCLES; i++)
+      {
+         blocks_LRU++;
+         if (hits_lru[i] == 0)
+            hit_counter_ACTIVE = hit_counter_ACTIVE + 1;
+         else
+            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + 1;
+      }
+   }
    fprint_CC_table_and_calc_totals();
 
    if (VG_(clo_verbosity) == 0) 
@@ -1753,6 +1863,9 @@ static Bool cg_process_cmd_line_option(const HChar* arg)
    else if VG_BOOL_CLO(arg, "--branch-sim", clo_branch_sim) {}
    else if VG_STR_CLO( arg, "--cache-policy", clo_cache_policy) {}
    else if VG_DBL_CLO( arg, "--bip-throttle", clo_cache_bip_throttle) {}
+   else if VG_DBL_CLO( arg, "--online-threshold", clo_online_threshold) {}
+   else if VG_STR_CLO( arg, "--c-file", clo_c_file) {}
+   else if VG_INT_CLO( arg, "--density-block", clo_counter) {}
    else
       return False;
 
@@ -1783,8 +1896,8 @@ static void cg_print_debug_usage(void)
 static void cg_set_cache_replacement_policy(int policy)
 {
     /* TODO: add a sanity check for the policy argument */
-    VG_(printf)("cg_set_cache_replacement_policy() policy = %d\n", policy);
-    current_cache_replacement_policy = policy;
+    //VG_(printf)("cg_set_cache_replacement_policy() policy = %d\n", policy);
+    current_adaptative_cache_replacement_policy = policy;
 }
 
 /*--------------------------------------------------------------------*/
@@ -1929,14 +2042,61 @@ static void cg_post_clo_init(void)
       		VG_(printf)("BIP Throttle parameter is unset or negative\n");
             VG_(exit)(1);
    	}
+   } else if(VG_(strcmp)(clo_cache_policy,"exh") == 0) {
+	   cache_replacement_policy = EXHAUSTIVE_POLICY;
+	   VG_(printf)("EXHAUSTIVE cache replacement will be used\n");
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
+   	}
    
-   } else {
+   }else if(VG_(strcmp)(clo_cache_policy,"ada") == 0) {
+	   cache_replacement_policy = ADAPTATIVE_POLICY;
+	   VG_(printf)("ADAPTATIVE cache replacement will be used\n");
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
+   	}
+   
+   }else if(VG_(strcmp)(clo_cache_policy,"onl") == 0) {
+	   cache_replacement_policy = ONLINE_POLICY;
+	   VG_(printf)("ONLINE cache replacement will be used\n");
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
+   	}
+      if(clo_online_threshold >= 1 && clo_online_threshold <= 1024) {
+      		online_threshold_parameter = clo_online_threshold;
+      		VG_(printf)("Online threshold parameter is set to %f\n", online_threshold_parameter);
+   	} else {
+      		VG_(printf)("Online threshold is invalid or negative\n");
+            VG_(exit)(1);
+   	}
+   
+   }else {
       VG_(printf)("None cache replacement policy has been chosen!\n");
       VG_(exit)(1);
    }
   /* */
-
+   VG_(printf)("----------\n");
    current_cache_replacement_policy = cache_replacement_policy;
+   if(current_cache_replacement_policy == ALL_POLICY)
+      current_adaptative_cache_replacement_policy = EXHAUSTIVE_POLICY;
+   if(current_cache_replacement_policy == ONLINE_POLICY)
+      current_adaptative_cache_replacement_policy = LRU_POLICY;
+   density_access_counter = clo_counter;
    cachesim_initcaches(I1c, D1c, LLc);
 }
 

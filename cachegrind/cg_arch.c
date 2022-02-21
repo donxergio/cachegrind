@@ -42,11 +42,11 @@ static void configure_caches(cache_t* I1c, cache_t* D1c, cache_t* LLc,
 static const HChar* check_cache(cache_t* cache)
 {
    // Simulator requires set count to be a power of two.
-   if ((cache->size % (cache->line_size * cache->assoc) != 0) ||
+/*    if ((cache->size % (cache->line_size * cache->assoc) != 0) ||
        (-1 == VG_(log2)(cache->size/cache->line_size/cache->assoc)))
    {
       return "Cache set count is not a power of two.\n";
-   }
+   } */ //Commented to allow cache size not power of 2
 
    // Simulator requires line size to be a power of two.
    if (-1 == VG_(log2)(cache->line_size)) {
