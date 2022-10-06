@@ -36,18 +36,19 @@ typedef enum {
    FIFO_POLICY,
    BIP_POLICY,
    DIP_POLICY,
-   ALL_POLICY,
-   ADAPTATIVE_POLICY,
-   EXHAUSTIVE_POLICY,
-   ONLINE_POLICY
+   FIXED_WINDOW,
+   SLIDING_WINDOW,
+   ADAPTATIVE,   
+   ONLINE,
+   CACHE_DUELING
 } Cg_CachePolicy;
 
 int cache_replacement_policy;
 double bip_throttle_parameter;
-int online_threshold_parameter;
-int density_access_counter;
+int switching_threshold_parameter;
+int window_counter;
 int current_cache_replacement_policy;
-int current_adaptative_cache_replacement_policy;
+int current_adaptative_cache_replacement_policy; /*Policy received from code, NAIVE approach*/
 
 // For cache simulation
 typedef struct {

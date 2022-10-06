@@ -1,3 +1,4 @@
+#include "limits.h"
 /*--------------------------------------------------------------------*/
 /*--- Cache simulation                                    cg_sim.c ---*/
 /*--------------------------------------------------------------------*/
@@ -35,8 +36,7 @@
       - both blocks miss                 --> one miss (not two)
 */
 
-#define CYCLES 5000
-#define ONLINE_DIFERENCE 100
+#define POLICIES 4
 
 typedef struct
 {
@@ -51,104 +51,55 @@ typedef struct
    UWord *tags;
 } cache_t2;
 
-Bool status_lru;
-Bool status_fifo;
-Bool status_random;
-Bool status_bip;
-Bool status_active;
-Bool status_adaptative;
-Bool using_data = False;
-Bool print_output = False;
+typedef struct 
+{
+   cache_t2 I1;
+   cache_t2 D1;
+   cache_t2 LL;
+   int* array_misses; //Stores last misses
+   ULong uses ; //Number of times the policy was used
+   ULong misses_DL; //Total number of misses in last data level
+   ULong misses_IL; //Total number of misses in last instruction level
+   ULong misses_D1; //Total number of misses in first data level
+   ULong misses_I1; //Total number of misses in first instruction level
+   int average_misses; //Average of misses in the last accesses
+   int bit_result_counter;
+   Bool (*is_miss_func) (cache_t2 *, UInt, UWord);
+   char* name;
+} policy;
+
+static policy policies[POLICIES]; //TODO adapt the numer of policies with a parameter
+
 static cache_t2 LL;
 static cache_t2 I1;
 static cache_t2 D1;
-cache_t2 I1_lru;
-cache_t2 LL_lru;
-cache_t2 D1_lru;
-cache_t2 I1_fifo;
-cache_t2 LL_fifo;
-cache_t2 D1_fifo;
-cache_t2 I1_random;
-cache_t2 LL_random;
-cache_t2 D1_random;
-cache_t2 I1_bip;
-cache_t2 LL_bip;
-cache_t2 D1_bip;
-cache_t2 I1_best;
-cache_t2 LL_best;
-cache_t2 D1_best;
-cache_t2 LL_lru_temp;
-cache_t2 D1_lru_temp;
-cache_t2 LL_fifo_temp;
-cache_t2 D1_fifo_temp;
-cache_t2 LL_random_temp;
-cache_t2 D1_random_temp;
-cache_t2 LL_bip_temp;
-cache_t2 D1_bip_temp;
-int hits_lru[CYCLES];
-int hits_fifo[CYCLES];
-int hits_random[CYCLES];
-int hits_bip[CYCLES];
-unsigned long long access_counter = 0;
-unsigned long long hit_counter_LRU = 0;
-unsigned long long hit_counter_FIFO = 0;
-unsigned long long hit_counter_RANDOM = 0;
-unsigned long long hit_counter_BIP = 0;
-unsigned long long hit_counter_ADAPTATIVE = 0;
-unsigned long long hit_counter_ACTIVE = 0;
-unsigned long long temp_hit_counter_LRU = 0;
-unsigned long long temp_hit_counter_FIFO = 0;
-unsigned long long temp_hit_counter_RANDOM = 0;
-unsigned long long temp_hit_counter_BIP = 0;
-unsigned long long miss_counter_LRU = 0;
-unsigned long long miss_counter_FIFO = 0;
-unsigned long long miss_counter_RANDOM = 0;
-unsigned long long miss_counter_BIP = 0;
-unsigned long long miss_counter_ADAPTATIVE = 0;
-unsigned long long miss_counter_ACTIVE = 0;
-unsigned long long temp_D1_miss_counter_LRU = 0;
-unsigned long long temp_D1_miss_counter_FIFO = 0;
-unsigned long long temp_D1_miss_counter_RANDOM = 0;
-unsigned long long temp_D1_miss_counter_BIP = 0;
-unsigned long long temp_D1_miss_counter_ADAPTATIVE = 0;
-unsigned long long D1_miss_counter_LRU = 0;
-unsigned long long D1_miss_counter_FIFO = 0;
-unsigned long long D1_miss_counter_RANDOM = 0;
-unsigned long long D1_miss_counter_BIP = 0;
-unsigned long long D1_miss_counter_ADAPTATIVE = 0;
-unsigned long long D1_miss_counter_ACTIVE = 0;
-unsigned long long temp_counter = 0;
-unsigned long long D1_only_BIP_counter = 0;
-unsigned long long D1_only_LRU_counter = 0;
-unsigned long long D1_only_FIFO_counter = 0;
-unsigned long long D1_only_RANDOM_counter = 0;
-unsigned long long D1_all_misses_counter = 0;
-unsigned long long blocks = 0 ;
-unsigned long long blocks_LRU = 0 ;
-unsigned long long blocks_BIP = 0 ;
-unsigned long long blocks_FIFO = 0 ;
-unsigned long long blocks_RANDOM = 0 ;
-unsigned long long online_D1_miss_counter_LRU = 512;
-unsigned long long online_D1_miss_counter_FIFO = 512;
-unsigned long long online_D1_miss_counter_RANDOM = 512;
-unsigned long long online_D1_miss_counter_BIP = 512;
-unsigned long long average_miss_LRU;
-unsigned long long average_miss_FIFO;
-unsigned long long average_miss_RANDOM;
-unsigned long long average_miss_BIP;
+static ULong* missesIL;
+static ULong* missesI1; 
 
+static ULong access_counter = 0;
+static ULong data_blocks = 0 ;
+
+/*Add here the pointers to the functions of the different policies*/
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lru(cache_t2 *c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lip(cache_t2 *c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_random(cache_t2 *c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fifo(cache_t2 *c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bip(cache_t2 *c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip(cache_t2 *c, UInt set_no, UWord tag);
-__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_all(cache_t2 *c, UInt set_no, UWord tag);
-__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_runtime(cache_t2 *c, UInt set_no, UWord tag);
-__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_exhaustive(cache_t2 *c, UInt set_no, UWord tag);
-__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_online(cache_t2 *c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dueling(cache_t2 *c, UInt set_no, UWord tag);
 
-Bool (*cachesim_setref_is_miss)(cache_t2 *, UInt, UWord) = &cachesim_setref_is_miss_lip;
+static Bool (*miss_functions[POLICIES])(cache_t2 *, UInt, UWord) = {
+    &cachesim_setref_is_miss_lru,
+    &cachesim_setref_is_miss_fifo,
+    &cachesim_setref_is_miss_bip,
+    &cachesim_setref_is_miss_random};
+
+static const char *names[POLICIES] = {"LRU",
+                                      "FIFO",
+                                      "BIP",
+                                      "RANDOM"};
+
+Bool (*cachesim_setref_is_miss)(cache_t2 *, UInt, UWord) = &cachesim_setref_is_miss_lru;
 
 static Bool isInteger(double val)
 {
@@ -221,12 +172,7 @@ static void cachesim_initcache(cache_t config, cache_t2 *c)
    c->assoc = config.assoc;
    c->line_size = config.line_size;
 
-/*    c->sets = (c->size / c->line_size) / c->assoc;
-   c->sets_min_1 = c->sets - 1;
-   c->line_size_bits = VG_(log2)(c->line_size);
-   c->tag_shift = c->line_size_bits + VG_(log2)(c->sets); */
-
-      double sets = (c->size / c->line_size) / c->assoc;
+   double sets = (c->size / c->line_size) / c->assoc;
    if(isInteger(VG_(log2)(sets))){//Changed to allow set not power of 2  
       c->sets = (c->size / c->line_size) / c->assoc;
       c->sets_min_1 = c->sets - 1;  
@@ -259,56 +205,6 @@ static void cachesim_initcache(cache_t config, cache_t2 *c)
 
    for (i = 0; i < c->sets * c->assoc; i++)
       c->tags[i] = 0;
-
-   /* For cache_lru */
-   /*cache_lru.size      = config.size;
-   cache_lru.assoc     = config.assoc;
-   cache_lru.line_size = config.line_size;
-
-   cache_lru.sets           = (cache_lru.size / cache_lru.line_size) / cache_lru.assoc;  
-   cache_lru.sets_min_1     = cache_lru.sets - 1;
-   cache_lru.line_size_bits = VG_(log2)(cache_lru.line_size);
-   cache_lru.tag_shift      = cache_lru.line_size_bits + VG_(log2)(cache_lru.sets);
-
-   if (cache_lru.assoc == 1) {
-      VG_(sprintf)(cache_lru.desc_line, "%d B, %d B, direct-mapped", 
-                                 cache_lru.size, cache_lru.line_size);
-   } else {
-      VG_(sprintf)(cache_lru.desc_line, "%d B, %d B, %d-way associative",
-                                 cache_lru.size, cache_lru.line_size, cache_lru.assoc);
-   }
-
-
-   cache_lru.tags = VG_(malloc)("cg.sim.ci.1",
-                         sizeof(UWord) * cache_lru.sets * cache_lru.assoc);
-
-   for (i = 0; i < cache_lru.sets * cache_lru.assoc; i++)
-      cache_lru.tags[i] = 0;*/
-
-   /* For cache_bip */
-   /*cache_bip.size      = config.size;
-   cache_bip.assoc     = config.assoc;
-   cache_bip.line_size = config.line_size;
-
-   cache_bip.sets           = (cache_bip.size / cache_bip.line_size) / cache_bip.assoc;  
-   cache_bip.sets_min_1     = cache_bip.sets - 1;
-   cache_bip.line_size_bits = VG_(log2)(cache_bip.line_size);
-   cache_bip.tag_shift      = cache_bip.line_size_bits + VG_(log2)(cache_bip.sets);
-
-   if (cache_bip.assoc == 1) {
-      VG_(sprintf)(cache_bip.desc_line, "%d B, %d B, direct-mapped", 
-                                 cache_bip.size, cache_bip.line_size);
-   } else {
-      VG_(sprintf)(cache_bip.desc_line, "%d B, %d B, %d-way associative",
-                                 cache_bip.size, cache_bip.line_size, cache_bip.assoc);
-   }
-
-
-   cache_bip.tags = VG_(malloc)("cg.sim.ci.1",
-                         sizeof(UWord) * cache_bip.sets * cache_bip.assoc);
-
-   for (i = 0; i < cache_bip.sets * cache_bip.assoc; i++)
-      cache_bip.tags[i] = 0; */
 }
 
 /* This attribute forces GCC to inline the function, getting rid of a
@@ -327,11 +223,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lr
    /* if we have a direct-mapped (1-way) cache.                        */
    if (tag == set[0])
    {
-      if (using_data && print_output)
-      {
-         //VG_(printf)("LRU_Hit\n");
-         VG_(printf)("H");
-      }
       return False;
    }
 
@@ -346,11 +237,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lr
             set[j] = set[j - 1];
          }
          set[0] = tag;
-         if (using_data && print_output)
-         {
-            //VG_(printf)("LRU_Hit\n");
-            VG_(printf)("H");
-         }
          return False;
       }
    }
@@ -361,8 +247,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_lr
       set[j] = set[j - 1];
    }
    set[0] = tag;
-   if (using_data && print_output)
-      VG_(printf)("M");
    return True;
 }
 
@@ -423,11 +307,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_ra
    {
       if (tag == set[i])
       {
-         if (using_data && print_output)
-         {
-            //VG_(printf)("Random_Hit\n");
-            VG_(printf)("H");
-         }
          return False;
       }
    }
@@ -435,9 +314,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_ra
    /* A miss;  install this tag at random position */
    i = VG_(random)(NULL) % c->assoc;
    set[i] = tag;
-   if (using_data && print_output)
-      VG_(printf)("M");
-   //VG_(printf)("Random_Miss\n");
    return True;
 }
 
@@ -458,11 +334,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fi
    {
       if (tag == set[i])
       {
-         if (using_data && print_output)
-         {
-            //VG_(printf)("FIFO_Hit\n");
-            VG_(printf)("H");
-         }
          return False;
       }
    }
@@ -473,9 +344,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fi
       set[j] = set[j - 1];
    }
    set[0] = tag;
-   if (using_data && print_output)
-      VG_(printf)("M");
-   //VG_(printf)("FIFO_Miss\n");
    return True;
 }
 
@@ -491,12 +359,10 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fi
  */
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bip(cache_t2 *c, UInt set_no, UWord tag)
 {
-   //VG_(printf)("BIP Throttle parameter: %f\n", bip_throttle_parameter); //bip_throttle_parameter is correct here.
    /*
     TODO: from Giovani: the code below is a copy from the LIP Policy.
     Should modify to implement BIP instead.
    */
-
    int i, j;
    UWord *set;
 
@@ -507,9 +373,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bi
    /* if we have a direct-mapped (1-way) cache.                        */
    if (tag == set[0])
    {
-      if (using_data && print_output)
-         VG_(printf)("H");
-      //VG_(printf)("BIP_Hit\n");
       return False;
    }
 
@@ -524,11 +387,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bi
             set[j] = set[j - 1];
          }
          set[0] = tag;
-         if (using_data && print_output)
-         {
-            //VG_(printf)("BIP_Hit\n");
-            VG_(printf)("H");
-         }
          return False;
       }
    }
@@ -570,15 +428,11 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bi
          set[0] = tag;
       }
    }
-   if (using_data && print_output)
-      VG_(printf)("M");
-   //   VG_(printf)("BIP_Miss\n");
    return True;
 }
 
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip(cache_t2 *c, UInt set_no, UWord tag)
 {
-
    //static unsigned int psel_size = 4; //number of bits of psel
 
    //psel_msb = 2 << (psel_size - 1)
@@ -593,18 +447,18 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_di
    Bool is_miss_bip = False;
    if (c == &D1)
    {
-      is_miss_lru = cachesim_setref_is_miss_lru(&D1_lru, set_no, tag);
-      is_miss_bip = cachesim_setref_is_miss_bip(&D1_bip, set_no, tag);
+      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].D1, set_no, tag);
+      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].D1, set_no, tag);
    }
    else if (c == &LL)
    {
-      is_miss_lru = cachesim_setref_is_miss_lru(&LL_lru, set_no, tag);
-      is_miss_bip = cachesim_setref_is_miss_bip(&LL_bip, set_no, tag);
+      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].LL, set_no, tag);
+      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].LL, set_no, tag);
    }
    else
    {
-      is_miss_lru = cachesim_setref_is_miss_lru(&I1_lru, set_no, tag);
-      is_miss_bip = cachesim_setref_is_miss_bip(&I1_bip, set_no, tag);
+      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].I1, set_no, tag);
+      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].I1, set_no, tag);
    }
 
    if (is_miss_lru)
@@ -612,7 +466,6 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_di
       if (psel < psel_max)
       {
          psel++;
-         //VG_(printf)("%u \n", psel);
       }
    }
    if (is_miss_bip)
@@ -620,660 +473,184 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_di
       if (psel > 0)
       {
          psel--;
-         //VG_(printf)("%u \n", psel);
       }
    }
 
    if (psel >= psel_msb)
    { //if there is 1 in the MSB apply BIP
-      //VG_(printf)("BIP used \n");
       return cachesim_setref_is_miss_bip(c, set_no, tag);
    }
    else
    {
-      //VG_(printf)("LRU used \n");
       return cachesim_setref_is_miss_lru(c, set_no, tag);
    }
 }
 
-/*void calculate_ratio(unsigned int counter, unsigned int hits, float *ratio)
-{
-   if (counter >= CYCLES)
-   {
-      *ratio = (float)hits / (float)counter;
-   }
-   else{
-      *ratio = -1;
-   }
-}*/
-
 /*This function rotates the array provided and returns the sum of all the values inside it after the rotation and insertion of last_value
 */
-__attribute__((always_inline)) static __inline__ int rotate_array(int *array, int array_length, int last_value)
+__attribute__((always_inline)) static __inline__ int rotate_array(policy policy_, int last_value)
 {
+   //TODO optimize this....is delaying execution
    int temp = 0;
-   if (array_length == 1)
+   if (window_counter == 1)
    {
       return last_value;
    }
-   for (int i = 0; i < array_length - 1; i++)
+   if (last_value!=policy_.array_misses[policy_.bit_result_counter])
    {
-      array[i] = array[i + 1];
-      temp = temp + array[i];
-      //VG_(printf) ("%d", array[i]);
+      if (last_value == 1)
+      {
+         policy_.average_misses--;
+      }
+      else
+      {
+         policy_.average_misses++;
+      }
+      policy_.array_misses[policy_.bit_result_counter] = last_value;      
+   }   
+   policy_.bit_result_counter++;
+   if (policy_.bit_result_counter > window_counter)
+   {
+      policy_.bit_result_counter = 0;
    }
-   array[array_length - 1] = last_value;
-   temp = temp + last_value;
-   //VG_(printf) ("%d \n", array[array_length - 1]);
-   return temp;
-}
+   return policy_.average_misses;
 
-__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_all(cache_t2 *c, UInt set_no, UWord tag)
-{
+}
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dueling(cache_t2 *c, UInt set_no, UWord tag){
    Bool in_LL = (c == &LL);
-
-   if (status_lru == True)
+   Bool in_D1 = (c == &D1);
+   Bool in_I1 = (c == &I1);
+   /*Temp -> TODO create a struct to save the set configuration for each policy*/
+   int n = 5;
+   if (set_no == 1+(0*n)  || set_no == 1+(1*n)  || set_no == 1+(2*n)  || set_no == 1+(3*n)  || set_no == 1+(4*n)  || set_no == 1+(5*n)  || set_no == 1+(6*n)  || set_no == 1+(7*n)  || set_no == 1+(8*n)  || set_no == 2+(9*n)
+    || set_no == 1+(10*n) || set_no == 1+(11*n) || set_no == 1+(12*n) || set_no == 1+(13*n) || set_no == 1+(14*n) || set_no == 1+(15*n) || set_no == 1+(16*n) || set_no == 1+(17*n) || set_no == 1+(18*n) || set_no == 2+(19*n) 
+    || set_no == 1+(20*n) || set_no == 1+(21*n) || set_no == 1+(22*n) || set_no == 1+(23*n) || set_no == 1+(24*n) || set_no == 1+(25*n) || set_no == 1+(26*n) || set_no == 1+(27*n) || set_no == 1+(28*n) || set_no == 2+(29*n)
+    || set_no == 1+(30*n) || set_no == 1+(31*n) || set_no == 1+(32*n) || set_no == 1+(33*n) || set_no == 1+(34*n) || set_no == 1+(35*n) || set_no == 1+(36*n) || set_no == 1+(37*n) || set_no == 1+(38*n) || set_no == 2+(39*n)
+    || set_no == 1+(40*n) || set_no == 1+(41*n) || set_no == 1+(42*n) || set_no == 1+(43*n) || set_no == 1+(44*n) || set_no == 1+(45*n) || set_no == 1+(46*n) || set_no == 1+(47*n) || set_no == 1+(48*n) || set_no == 2+(49*n)
+    || set_no == 1+(50*n) || set_no == 1+(51*n) || set_no == 1+(52*n) || set_no == 1+(53*n) || set_no == 1+(54*n) || set_no == 1+(55*n) || set_no == 1+(56*n) || set_no == 1+(57*n) || set_no == 1+(58*n) || set_no == 2+(59*n)
+    || set_no == 1+(60*n) || set_no == 1+(61*n) || set_no == 1+(62*n) || set_no == 1+(63*n) )
    {
-      if (c == &I1)
-         status_lru = cachesim_setref_is_miss_lru(&I1_lru, set_no, tag);
-      if (c == &LL)
-         status_lru = cachesim_setref_is_miss_lru(&LL_lru, set_no, tag);
-      if (c == &D1){
-         status_lru = cachesim_setref_is_miss_lru(&D1_lru, set_no, tag);
-         if (status_lru){
-            temp_D1_miss_counter_LRU++;
-            D1_miss_counter_LRU++;
-            rotate_array(&hits_lru, CYCLES, 0);
-         }
-      }
-      if (!status_lru && using_data){
-         temp_hit_counter_LRU++;
-         rotate_array(&hits_lru, CYCLES, 1);
-      }
-
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_fifo == True)
-   {
-      if (c == &I1)
-         status_fifo = cachesim_setref_is_miss_fifo(&I1_fifo, set_no, tag);
-      if (c == &LL)
-         status_fifo = cachesim_setref_is_miss_fifo(&LL_fifo, set_no, tag);
-      if (c == &D1){
-         status_fifo = cachesim_setref_is_miss_fifo(&D1_fifo, set_no, tag);
-         if (status_fifo){
-            temp_D1_miss_counter_FIFO++;
-            D1_miss_counter_FIFO++;
-            rotate_array(&hits_fifo, CYCLES, 0);
-         }
-      }
-      if (!status_fifo && using_data)
+      policies[0].uses++;
+      data_blocks++;
+      if (cachesim_setref_is_miss_lru(c, set_no, tag))
       {
-         temp_hit_counter_FIFO++;
-         rotate_array(&hits_fifo, CYCLES, 0);
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_random == True)
-   {
-      if (c == &I1)
-         status_random = cachesim_setref_is_miss_random(&I1_random, set_no, tag);
-      if (c == &LL)
-         status_random = cachesim_setref_is_miss_random(&LL_random, set_no, tag);
-      if (c == &D1){
-         status_random = cachesim_setref_is_miss_random(&D1_random, set_no, tag);
-         if (status_random){
-            temp_D1_miss_counter_RANDOM++;
-            D1_miss_counter_RANDOM++;
-            rotate_array(&hits_random, CYCLES, 0);
+         if (in_D1)
+            (policies[0].misses_D1)++;
+         if (in_I1)
+            (policies[0].misses_I1)++;
+         if (in_LL){
+            policies[0].average_misses = rotate_array(policies[0], 1);
+            (policies[0].misses_DL)++; //TODO separate in DL and IL
          }
+         return True;
       }
-      if(!status_random && using_data){
-         temp_hit_counter_RANDOM++;
-         rotate_array(&hits_random, CYCLES, 1);
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_bip == True)
-   {
-      if (c == &I1)
-         status_bip = cachesim_setref_is_miss_bip(&I1_bip, set_no, tag);
-      if (c == &LL)
-         status_bip = cachesim_setref_is_miss_bip(&LL_bip, set_no, tag);
-      if (c == &D1){
-         status_bip = cachesim_setref_is_miss_bip(&D1_bip, set_no, tag);
-         if(status_bip){
-            D1_miss_counter_BIP++;
-            temp_D1_miss_counter_BIP++;
-            rotate_array(&hits_bip, CYCLES, 0);
-         }
-      }
-      if(!status_bip && using_data){
-         temp_hit_counter_BIP++;
-         rotate_array(&hits_bip, CYCLES, 1);
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_adaptative == True)
-   {
-      if (using_data && print_output){
-         VG_(printf)("%d",current_adaptative_cache_replacement_policy);
-         VG_(printf)("-");
-      }
-      switch (current_adaptative_cache_replacement_policy)
+      else
       {
-      case ALL_POLICY:         
-      status_adaptative = True;
-         break;
-      case EXHAUSTIVE_POLICY:
-         status_adaptative = True;
-         //Start searching
-         current_adaptative_cache_replacement_policy = ALL_POLICY;
-         break;
-      default:
-         break;
+         policies[0].average_misses = rotate_array(policies[0], 0);
       }
+      return False;
    }
-   else
-   {
-      if (using_data && print_output){
-         VG_(printf)("%d",current_adaptative_cache_replacement_policy);
-         VG_(printf)("-");
-      }
-   }
-
-   if(c == &D1 && (!status_bip && status_lru && status_fifo && status_random)){
-      D1_only_BIP_counter++;
-   }
-   if(c == &D1 && (status_bip && !status_lru && status_fifo && status_random)){
-      D1_only_LRU_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && !status_fifo && status_random)){
-      D1_only_FIFO_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && status_fifo && !status_random)){
-      D1_only_RANDOM_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && status_fifo && status_random)){
-      D1_all_misses_counter++;
-   }
-
-   return status_lru || status_fifo || status_random || status_bip || status_adaptative; 
-   
-}
-
-__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_exhaustive(cache_t2 *c, UInt set_no, UWord tag)
-{
-      Bool in_LL = (c == &LL);
-
-   if (status_lru == True)
-   {
-      if (c == &I1)
-         status_lru = cachesim_setref_is_miss_lru(&I1_lru, set_no, tag);
-      if (c == &LL)
-         status_lru = cachesim_setref_is_miss_lru(&LL_lru, set_no, tag);
-      if (c == &D1){
-         status_lru = cachesim_setref_is_miss_lru(&D1_lru, set_no, tag);
-         if (status_lru){
-            temp_D1_miss_counter_LRU++;
-            D1_miss_counter_LRU++;
-            average_miss_LRU = rotate_array(&hits_lru, CYCLES, 1);
-         }
-         else
-            average_miss_LRU = rotate_array(&hits_lru, CYCLES, 0);
-      }
-      if (!status_lru && using_data){
-         temp_hit_counter_LRU++;
-      }
-
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_fifo == True)
-   {
-      if (c == &I1)
-         status_fifo = cachesim_setref_is_miss_fifo(&I1_fifo, set_no, tag);
-      if (c == &LL)
-         status_fifo = cachesim_setref_is_miss_fifo(&LL_fifo, set_no, tag);
-      if (c == &D1){
-         status_fifo = cachesim_setref_is_miss_fifo(&D1_fifo, set_no, tag);
-         if (status_fifo){
-            temp_D1_miss_counter_FIFO++;
-            D1_miss_counter_FIFO++;
-            average_miss_FIFO = rotate_array(&hits_fifo, CYCLES, 1);
-         }
-         else
-            average_miss_FIFO = rotate_array(&hits_fifo, CYCLES, 0);
-      }
-      if (!status_fifo && using_data)
+   if (set_no == 2+(0*n)  || set_no == 2+(1*n)  || set_no == 2+(2*n)  || set_no == 2+(3*n)  || set_no == 2+(4*n)  || set_no == 2+(5*n)  || set_no == 2+(6*n)  || set_no == 2+(7*n)  || set_no == 2+(8*n)  || set_no == 2+(9*n)
+      || set_no == 2+(10*n) || set_no == 2+(11*n) || set_no == 2+(12*n) || set_no == 2+(13*n) || set_no == 2+(14*n) || set_no == 2+(15*n) || set_no == 2+(16*n) || set_no == 2+(17*n) || set_no == 2+(18*n) || set_no == 2+(19*n) 
+      || set_no == 2+(20*n) || set_no == 2+(21*n) || set_no == 2+(22*n) || set_no == 2+(23*n) || set_no == 2+(24*n) || set_no == 2+(25*n) || set_no == 2+(26*n) || set_no == 2+(27*n) || set_no == 2+(28*n) || set_no == 2+(29*n)
+      || set_no == 2+(30*n) || set_no == 2+(31*n) || set_no == 2+(32*n) || set_no == 2+(33*n) || set_no == 2+(34*n) || set_no == 2+(35*n) || set_no == 2+(36*n) || set_no == 2+(37*n) || set_no == 2+(38*n) || set_no == 2+(39*n)
+      || set_no == 2+(40*n) || set_no == 2+(41*n) || set_no == 2+(42*n) || set_no == 2+(43*n) || set_no == 2+(44*n) || set_no == 2+(45*n) || set_no == 2+(46*n) || set_no == 2+(47*n) || set_no == 2+(48*n) || set_no == 2+(49*n)
+      || set_no == 2+(50*n) || set_no == 2+(51*n) || set_no == 2+(52*n) || set_no == 2+(53*n) || set_no == 2+(54*n) || set_no == 2+(55*n) || set_no == 2+(56*n) || set_no == 2+(57*n) || set_no == 2+(58*n) || set_no == 2+(59*n)
+      || set_no == 2+(60*n) || set_no == 2+(61*n) || set_no == 2+(62*n) || set_no == 2+(63*n) )
       {
-         temp_hit_counter_FIFO++;
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_random == True)
-   {
-      if (c == &I1)
-         status_random = cachesim_setref_is_miss_random(&I1_random, set_no, tag);
-      if (c == &LL)
-         status_random = cachesim_setref_is_miss_random(&LL_random, set_no, tag);
-      if (c == &D1){
-         status_random = cachesim_setref_is_miss_random(&D1_random, set_no, tag);
-         if (status_random){
-            temp_D1_miss_counter_RANDOM++;
-            D1_miss_counter_RANDOM++;
-            average_miss_RANDOM = rotate_array(&hits_random, CYCLES, 1);
-         }
-         else
-            average_miss_RANDOM = rotate_array(&hits_random, CYCLES, 0);
-      }
-      if(!status_random && using_data){
-         temp_hit_counter_RANDOM++;
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_bip == True)
-   {
-      if (c == &I1)
-         status_bip = cachesim_setref_is_miss_bip(&I1_bip, set_no, tag);
-      if (c == &LL)
-         status_bip = cachesim_setref_is_miss_bip(&LL_bip, set_no, tag);
-      if (c == &D1){
-         status_bip = cachesim_setref_is_miss_bip(&D1_bip, set_no, tag);
-         if(status_bip){
-            D1_miss_counter_BIP++;
-            temp_D1_miss_counter_BIP++;
-            average_miss_BIP =  rotate_array(&hits_bip, CYCLES, 1);
-         }
-         else
-             average_miss_BIP =  rotate_array(&hits_bip, CYCLES, 0);
-      }
-      if(!status_bip && using_data){
-         temp_hit_counter_BIP++;
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_adaptative == True)
-   {
-      if (using_data && print_output){
-         VG_(printf)("%d",current_adaptative_cache_replacement_policy);
-         VG_(printf)("-");
-      }
-   }
-   else
-   {
-      if (using_data && print_output){
-         VG_(printf)("%d",current_adaptative_cache_replacement_policy);
-         VG_(printf)("-");
-      }
-   }
-
-   if(c == &D1 && (!status_bip && status_lru && status_fifo && status_random)){
-      D1_only_BIP_counter++;
-   }
-   if(c == &D1 && (status_bip && !status_lru && status_fifo && status_random)){
-      D1_only_LRU_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && !status_fifo && status_random)){
-      D1_only_FIFO_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && status_fifo && !status_random)){
-      D1_only_RANDOM_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && status_fifo && status_random)){
-      D1_all_misses_counter++;
-   }
-
-   return status_lru || status_fifo || status_random || status_bip || status_adaptative; 
-}
-__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_runtime(cache_t2 *c, UInt set_no, UWord tag)
-{
-   Bool in_LL = (c == &LL);
-
-   if (status_lru == True)
-   {
-      if (c == &I1)
-         status_lru = cachesim_setref_is_miss_lru(&I1_lru, set_no, tag);
-      if (c == &LL)
-         status_lru = cachesim_setref_is_miss_lru(&LL_lru, set_no, tag);
-      if (c == &D1){
-         status_lru = cachesim_setref_is_miss_lru(&D1_lru, set_no, tag);
-         if(status_lru){
-            temp_D1_miss_counter_LRU++;
-            D1_miss_counter_LRU++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_fifo == True)
-   {
-      if (c == &I1)
-         status_fifo = cachesim_setref_is_miss_fifo(&I1_fifo, set_no, tag);
-      if (c == &LL)
-         status_fifo = cachesim_setref_is_miss_fifo(&LL_fifo, set_no, tag);
-      if (c == &D1){
-         status_fifo = cachesim_setref_is_miss_fifo(&D1_fifo, set_no, tag);
-         if(status_fifo){
-            temp_D1_miss_counter_FIFO++;
-            D1_miss_counter_FIFO++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_random == True)
-   {
-      if (c == &I1)
-         status_random = cachesim_setref_is_miss_random(&I1_random, set_no, tag);
-      if (c == &LL)
-         status_random = cachesim_setref_is_miss_random(&LL_random, set_no, tag);
-      if (c == &D1){
-         status_random = cachesim_setref_is_miss_random(&D1_random, set_no, tag);
-         if(status_random){
-            temp_D1_miss_counter_RANDOM++;
-            D1_miss_counter_RANDOM++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_bip == True)
-   {
-      if (c == &I1)
-         status_bip = cachesim_setref_is_miss_bip(&I1_bip, set_no, tag);
-      if (c == &LL)
-         status_bip = cachesim_setref_is_miss_bip(&LL_bip, set_no, tag);
-      if (c == &D1){
-         status_bip = cachesim_setref_is_miss_bip(&D1_bip, set_no, tag);
-         if(status_bip){
-            temp_D1_miss_counter_BIP++;
-            D1_miss_counter_BIP++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_adaptative == True)
-   {
-      if (using_data && print_output)
-         VG_(printf)("%d",current_adaptative_cache_replacement_policy);
-      //Check better eviction policy
-      /*LRU_POLICY,
-         LIP_POLICY,
-         RANDOM_POLICY,
-         FIFO_POLICY,
-         BIP_POLICY,
-         DIP_POLICY,
-         ALL_POLICY,
-         ADAPTATIVE_POLICY*/
-      switch (current_adaptative_cache_replacement_policy)
+         policies[1].uses++;
+         data_blocks++;
+      if (cachesim_setref_is_miss_fifo(c, set_no, tag))
       {
-      case 0:
-         status_adaptative = cachesim_setref_is_miss_lru(c, set_no, tag);
-         break;
-      case 1:
-         status_adaptative = cachesim_setref_is_miss_lru(c, set_no, tag);
-         break;
-      case 2:
-         status_adaptative = cachesim_setref_is_miss_random(c, set_no, tag);
-         break;
-      case 3:
-         status_adaptative = cachesim_setref_is_miss_fifo(c, set_no, tag);
-         break;
-      case 4:
-         status_adaptative = cachesim_setref_is_miss_bip(c, set_no, tag);
-         break;
-      default:
-         status_adaptative = cachesim_setref_is_miss_lru(c, set_no, tag);
+         if (in_D1)
+            (policies[1].misses_D1)++;
+         if (in_I1)
+            (policies[1].misses_I1)++;
+         if (in_LL){
+            policies[1].average_misses = rotate_array(policies[1], 1);
+            (policies[1].misses_DL)++; //TODO separate in DL and IL
+         }
+         return True;
       }
-      if (c == &D1){
-         if (status_adaptative){\
-            temp_D1_miss_counter_ADAPTATIVE++;
-            D1_miss_counter_ADAPTATIVE++;
-            D1_miss_counter_ACTIVE++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output){
-         VG_(printf)("%d",current_adaptative_cache_replacement_policy);
-         VG_(printf)("-");
-      }
-   }
-
-   if(c == &D1 && (!status_bip && status_lru && status_fifo && status_random)){
-      D1_only_BIP_counter++;
-   }
-   if(c == &D1 && (status_bip && !status_lru && status_fifo && status_random)){
-      D1_only_LRU_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && !status_fifo && status_random)){
-      D1_only_FIFO_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && status_fifo && !status_random)){
-      D1_only_RANDOM_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && status_fifo && status_random)){
-      D1_all_misses_counter++;
-   }
-
-   return status_lru || status_fifo || status_random || status_bip || status_adaptative;
-}
-__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_online(cache_t2 *c, UInt set_no, UWord tag){
-      Bool in_LL = (c == &LL);
-
-   if (status_lru == True)
-   {
-      if (c == &I1)
-         status_lru = cachesim_setref_is_miss_lru(&I1_lru, set_no, tag);
-      if (c == &LL)
-         status_lru = cachesim_setref_is_miss_lru(&LL_lru, set_no, tag);
-      if (c == &D1){
-         status_lru = cachesim_setref_is_miss_lru(&D1_lru, set_no, tag);
-         if(status_lru){
-            temp_D1_miss_counter_LRU++;
-            D1_miss_counter_LRU++;
-            if(online_D1_miss_counter_LRU <1024)
-               online_D1_miss_counter_LRU++;
-         }
-         else{
-            if (online_D1_miss_counter_LRU > 0)
-               online_D1_miss_counter_LRU--;
-            temp_hit_counter_LRU++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_fifo == True)
-   {
-      if (c == &I1)
-         status_fifo = cachesim_setref_is_miss_fifo(&I1_fifo, set_no, tag);
-      if (c == &LL)
-         status_fifo = cachesim_setref_is_miss_fifo(&LL_fifo, set_no, tag);
-      if (c == &D1){
-         status_fifo = cachesim_setref_is_miss_fifo(&D1_fifo, set_no, tag);
-         if(status_fifo){
-            temp_D1_miss_counter_FIFO++;
-            D1_miss_counter_FIFO++;
-            if(online_D1_miss_counter_FIFO < 1024)
-               online_D1_miss_counter_FIFO++;
-         }
-         else{
-            if(online_D1_miss_counter_FIFO > 0)
-           online_D1_miss_counter_FIFO--; 
-           temp_hit_counter_FIFO++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_random == True)
-   {
-      if (c == &I1)
-         status_random = cachesim_setref_is_miss_random(&I1_random, set_no, tag);
-      if (c == &LL)
-         status_random = cachesim_setref_is_miss_random(&LL_random, set_no, tag);
-      if (c == &D1){
-         status_random = cachesim_setref_is_miss_random(&D1_random, set_no, tag);
-         if(status_random){
-            temp_D1_miss_counter_RANDOM++;
-            D1_miss_counter_RANDOM++;
-            if(online_D1_miss_counter_RANDOM < 1024)
-               online_D1_miss_counter_RANDOM++;
-         }
-         else{
-            if(online_D1_miss_counter_RANDOM > 0)
-            online_D1_miss_counter_RANDOM--;
-            temp_hit_counter_RANDOM++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_bip == True)
-   {
-      if (c == &I1)
-         status_bip = cachesim_setref_is_miss_bip(&I1_bip, set_no, tag);
-      if (c == &LL)
-         status_bip = cachesim_setref_is_miss_bip(&LL_bip, set_no, tag);
-      if (c == &D1){
-         status_bip = cachesim_setref_is_miss_bip(&D1_bip, set_no, tag);
-         if(status_bip){
-            temp_D1_miss_counter_BIP++;
-            D1_miss_counter_BIP++;
-            if(online_D1_miss_counter_BIP < 1024)
-               online_D1_miss_counter_BIP++;
-         }
-         else{
-            if(online_D1_miss_counter_BIP > 0)
-               online_D1_miss_counter_BIP--;
-            temp_hit_counter_BIP++;
-         }
-      }
-   }
-   else
-   {
-      if (using_data && print_output)
-         VG_(printf)("-");
-   }
-   if (status_adaptative == True)
-   {
-      if (using_data && print_output)
-         VG_(printf)("%d",current_adaptative_cache_replacement_policy);
-      //Check selected eviction policy
-      /*LRU_POLICY,
-         LIP_POLICY,
-         RANDOM_POLICY,
-         FIFO_POLICY,
-         BIP_POLICY,
-         DIP_POLICY,
-         ALL_POLICY,
-         ADAPTATIVE_POLICY*/
-      switch (current_adaptative_cache_replacement_policy)
+      else
       {
-      case 0:
-         status_adaptative = cachesim_setref_is_miss_lru(c, set_no, tag);
-         break;
-      case 1:
-         status_adaptative = cachesim_setref_is_miss_lru(c, set_no, tag);
-         break;
-      case 2:
-         status_adaptative = cachesim_setref_is_miss_random(c, set_no, tag);
-         break;
-      case 3:
-         status_adaptative = cachesim_setref_is_miss_fifo(c, set_no, tag);
-         break;
-      case 4:
-         status_adaptative = cachesim_setref_is_miss_bip(c, set_no, tag);
-         break;
-      default:
-         status_adaptative = cachesim_setref_is_miss_lru(c, set_no, tag);
+         policies[1].average_misses = rotate_array(policies[1], 0);
       }
-      if (c == &D1){
-         if (status_adaptative)
-            D1_miss_counter_ADAPTATIVE++;
+      return False;
       }
-   }
-   else
+   if (set_no == 3+(0*n)  || set_no == 3+(1*n)  || set_no == 3+(2*n)  || set_no == 3+(3*n)  || set_no == 3+(4*n)  || set_no == 3+(5*n)  || set_no == 3+(6*n)  || set_no == 3+(7*n)  || set_no == 3+(8*n)  || set_no == 2+(9*n)
+    || set_no == 3+(10*n) || set_no == 3+(11*n) || set_no == 3+(12*n) || set_no == 3+(13*n) || set_no == 3+(14*n) || set_no == 3+(15*n) || set_no == 3+(16*n) || set_no == 3+(17*n) || set_no == 3+(18*n) || set_no == 2+(19*n) 
+    || set_no == 3+(20*n) || set_no == 3+(21*n) || set_no == 3+(22*n) || set_no == 3+(23*n) || set_no == 3+(24*n) || set_no == 3+(25*n) || set_no == 3+(26*n) || set_no == 3+(27*n) || set_no == 3+(28*n) || set_no == 2+(29*n)
+    || set_no == 3+(30*n) || set_no == 3+(31*n) || set_no == 3+(32*n) || set_no == 3+(33*n) || set_no == 3+(34*n) || set_no == 3+(35*n) || set_no == 3+(36*n) || set_no == 3+(37*n) || set_no == 3+(38*n) || set_no == 2+(39*n)
+    || set_no == 3+(40*n) || set_no == 3+(41*n) || set_no == 3+(42*n) || set_no == 3+(43*n) || set_no == 3+(44*n) || set_no == 3+(45*n) || set_no == 3+(46*n) || set_no == 3+(47*n) || set_no == 3+(48*n) || set_no == 2+(49*n)
+    || set_no == 3+(50*n) || set_no == 3+(51*n) || set_no == 3+(52*n) || set_no == 3+(53*n) || set_no == 3+(54*n) || set_no == 3+(55*n) || set_no == 3+(56*n) || set_no == 3+(57*n) || set_no == 3+(58*n) || set_no == 2+(59*n)
+    || set_no == 3+(60*n) || set_no == 3+(61*n) || set_no == 3+(62*n) || set_no == 3+(63*n) )
+      {
+         policies[2].uses++;
+         data_blocks++;
+      if (cachesim_setref_is_miss_bip(c, set_no, tag))
+      {
+         if (in_D1)
+            (policies[2].misses_D1)++;
+         if (in_I1)
+            (policies[2].misses_I1)++;
+         if (in_LL){
+            policies[2].average_misses = rotate_array(policies[2], 1);
+            (policies[2].misses_DL)++; //TODO separate in DL and IL
+         }
+         return True;
+      }
+      else
+      {
+         policies[2].average_misses = rotate_array(policies[2], 0);
+      }
+      return False;
+      }
+   if (set_no == 4+(0*n)  || set_no == 4+(1*n)  || set_no == 4+(2*n)  || set_no == 4+(3*n)  || set_no == 4+(4*n)  || set_no == 4+(5*n)  || set_no == 4+(6*n)  || set_no == 4+(7*n)  || set_no == 4+(8*n)  || set_no == 2+(9*n)
+    || set_no == 4+(10*n) || set_no == 4+(11*n) || set_no == 4+(12*n) || set_no == 4+(13*n) || set_no == 4+(14*n) || set_no == 4+(15*n) || set_no == 4+(16*n) || set_no == 4+(17*n) || set_no == 4+(18*n) || set_no == 2+(19*n) 
+    || set_no == 4+(20*n) || set_no == 4+(21*n) || set_no == 4+(22*n) || set_no == 4+(23*n) || set_no == 4+(24*n) || set_no == 4+(25*n) || set_no == 4+(26*n) || set_no == 4+(27*n) || set_no == 4+(28*n) || set_no == 2+(29*n)
+    || set_no == 4+(30*n) || set_no == 4+(31*n) || set_no == 4+(32*n) || set_no == 4+(33*n) || set_no == 4+(34*n) || set_no == 4+(35*n) || set_no == 4+(36*n) || set_no == 4+(37*n) || set_no == 4+(38*n) || set_no == 2+(39*n)
+    || set_no == 4+(40*n) || set_no == 4+(41*n) || set_no == 4+(42*n) || set_no == 4+(43*n) || set_no == 4+(44*n) || set_no == 4+(45*n) || set_no == 4+(46*n) || set_no == 4+(47*n) || set_no == 4+(48*n) || set_no == 2+(49*n)
+    || set_no == 4+(50*n) || set_no == 4+(51*n) || set_no == 4+(52*n) || set_no == 4+(53*n) || set_no == 4+(54*n) || set_no == 4+(55*n) || set_no == 4+(56*n) || set_no == 4+(57*n) || set_no == 4+(58*n) || set_no == 2+(59*n)
+    || set_no == 4+(60*n) || set_no == 4+(61*n) || set_no == 4+(62*n) || set_no == 4+(63*n) )
+      {
+         policies[3].uses++;
+         data_blocks++;
+      if (cachesim_setref_is_miss_random(c, set_no, tag))
+      {
+         if (in_D1)
+            (policies[3].misses_D1)++;
+         if (in_I1)
+            (policies[3].misses_I1)++;
+         if (in_LL){
+            policies[3].average_misses = rotate_array(policies[3], 1);
+            (policies[3].misses_DL)++; //TODO separate in DL and IL
+         }
+         return True;
+      }
+      else
+      {
+         policies[3].average_misses = rotate_array(policies[3], 0);
+      }
+      return False;
+      }
+   if (policies[0].average_misses <= policies[1].average_misses && policies[0].average_misses >= policies[2].average_misses && policies[0].average_misses >= policies[3].average_misses)
    {
-      if (using_data && print_output){
-         VG_(printf)("%d",current_adaptative_cache_replacement_policy);
-         VG_(printf)("-");
-      }
+      return cachesim_setref_is_miss_lru(c,set_no, tag);
    }
-
-   if(c == &D1 && (!status_bip && status_lru && status_fifo && status_random)){
-      D1_only_BIP_counter++;
+   if (policies[1].average_misses >= policies[0].average_misses && policies[1].average_misses >= policies[2].average_misses && policies[1].average_misses >= policies[3].average_misses)
+   {
+      return cachesim_setref_is_miss_fifo(c,set_no, tag);
    }
-   if(c == &D1 && (status_bip && !status_lru && status_fifo && status_random)){
-      D1_only_LRU_counter++;
+   if (policies[2].average_misses >= policies[1].average_misses && policies[2].average_misses >= policies[0].average_misses && policies[2].average_misses >= policies[3].average_misses)
+   {
+      return cachesim_setref_is_miss_bip(c,set_no, tag);
    }
-   if(c == &D1 && (status_bip && status_lru && !status_fifo && status_random)){
-      D1_only_FIFO_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && status_fifo && !status_random)){
-      D1_only_RANDOM_counter++;
-   }
-   if(c == &D1 && (status_bip && status_lru && status_fifo && status_random)){
-      D1_all_misses_counter++;
-   }
-
-   return status_lru || status_fifo || status_random || status_bip || status_adaptative;
+   if (policies[3].average_misses >= policies[1].average_misses && policies[3].average_misses >= policies[2].average_misses && policies[3].average_misses >= policies[0].average_misses)
+   {
+      return cachesim_setref_is_miss_random(c,set_no, tag);
+   } 
+   return cachesim_setref_is_miss_lru(c,set_no, tag);    
 }
 __attribute__((always_inline)) static __inline__ Bool cachesim_ref_is_miss(cache_t2 *c, Addr a, UChar size)
 {
@@ -1319,195 +696,86 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_ref_is_miss(cache
 }
 
 static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
-{
-   if (cache_replacement_policy == LRU_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
-   else if (cache_replacement_policy == LIP_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_lip;
-   else if (cache_replacement_policy == RANDOM_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_random;
-   else if (cache_replacement_policy == FIFO_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
-   else if (cache_replacement_policy == BIP_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
-   else if (cache_replacement_policy == DIP_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
-   else if (cache_replacement_policy == ALL_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_all;
-   else if (cache_replacement_policy == ADAPTATIVE_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_runtime;
-   else if (cache_replacement_policy ==EXHAUSTIVE_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_exhaustive;
-   else if (cache_replacement_policy ==ONLINE_POLICY)
-      cachesim_setref_is_miss = &cachesim_setref_is_miss_online;
-      
-
+{  
+   /*Here we prepare all the policies data structs*/
    cachesim_initcache(I1c, &I1);
    cachesim_initcache(D1c, &D1);
    cachesim_initcache(LLc, &LL);
-   cachesim_initcache(D1c, &D1_lru);
-   cachesim_initcache(LLc, &LL_lru);
-   cachesim_initcache(I1c, &I1_lru);
-   cachesim_initcache(D1c, &D1_fifo);
-   cachesim_initcache(LLc, &LL_fifo);
-   cachesim_initcache(I1c, &I1_fifo);
-   cachesim_initcache(D1c, &D1_random);
-   cachesim_initcache(LLc, &LL_random);
-   cachesim_initcache(I1c, &I1_random);
-   cachesim_initcache(D1c, &D1_bip);
-   cachesim_initcache(LLc, &LL_bip);
-   cachesim_initcache(I1c, &I1_bip);
-   cachesim_initcache(D1c, &D1_best);
-   cachesim_initcache(LLc, &LL_best);
-   cachesim_initcache(I1c, &I1_best);
-   cachesim_initcache(LLc, &LL_lru_temp);
-   cachesim_initcache(D1c, &D1_lru_temp);
-   cachesim_initcache(LLc, &LL_fifo_temp);
-   cachesim_initcache(D1c, &D1_fifo_temp);
-   cachesim_initcache(LLc, &LL_random_temp);
-   cachesim_initcache(D1c, &D1_random_temp);
-   cachesim_initcache(LLc, &LL_bip_temp);
-   cachesim_initcache(D1c, &D1_bip_temp);
+   for (ULong i = 0; i < POLICIES; i++)
+   {
+      cachesim_initcache(I1c, &policies[i].I1);
+      cachesim_initcache(D1c, &policies[i].D1);
+      cachesim_initcache(LLc, &policies[i].LL);
+      policies[i].is_miss_func = miss_functions[i];
+      policies[i].name = names[i];
+      policies[i].array_misses = (int*) VG_(calloc)("array_misses", window_counter, sizeof(int));
+      policies[i].average_misses = 0;
+      policies[i].uses = 0;
+      policies[i].misses_DL =0;
+      policies[i].misses_IL =0;
+      policies[i].misses_D1 =0;
+      policies[i].misses_I1 =0;
+      policies[i].bit_result_counter =0;
+   }
+
+   /*  Here we choose the policy that will be used for the result */
+   if (cache_replacement_policy == LRU_POLICY)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
+   }
+   else if (cache_replacement_policy == LIP_POLICY)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_lip;
+   }
+   else if (cache_replacement_policy == RANDOM_POLICY)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_random;
+   }
+   else if (cache_replacement_policy == FIFO_POLICY)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
+   }
+   else if (cache_replacement_policy == BIP_POLICY)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
+   }
+   else if (cache_replacement_policy == DIP_POLICY)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
+   }
+   else if (cache_replacement_policy == CACHE_DUELING)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_dueling;
+   }
+   else
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_lru; // By default LRU is used for the result
+   }
 }
 
 __attribute__((always_inline)) static __inline__ void cachesim_I1_doref_Gen(Addr a, UChar size, ULong *m1, ULong *mL)
 {
-   status_lru = True;
-   status_fifo = True;
-   status_random = True;
-   status_bip = True;
-   status_active = True;
-   status_adaptative = True;
-   using_data = False;
+   /*PROCESS THE DIFFERENT APPROACHES*/
+   missesI1 = m1;
+   missesIL = mL;
+   if (current_cache_replacement_policy == FIXED_WINDOW ||
+       current_cache_replacement_policy == SLIDING_WINDOW ||
+       current_cache_replacement_policy == ONLINE)
 
-/*    if (current_cache_replacement_policy == ONLINE_POLICY)
    {
-      if(online_D1_miss_counter_LRU <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_LRU <= online_D1_miss_counter_RANDOM - online_threshold_parameter && online_D1_miss_counter_LRU <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-         }
-         //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-         else if(online_D1_miss_counter_FIFO <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_FIFO <= online_D1_miss_counter_RANDOM - online_threshold_parameter && online_D1_miss_counter_FIFO <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = FIFO_POLICY;
-            if(print_output)
-               VG_(printf)("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-         }
-         //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-         else if(online_D1_miss_counter_RANDOM <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_RANDOM <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_RANDOM <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-            if(print_output)
-               VG_(printf)("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-         }
-         //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-         else if(online_D1_miss_counter_BIP <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_RANDOM - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = BIP_POLICY;
-            if(print_output)
-               VG_(printf)("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n",temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-         }
-         else{
-            //current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-         }
-   } */
-/*    if (current_cache_replacement_policy == ADAPTATIVE_POLICY || current_cache_replacement_policy == EXHAUSTIVE_POLICY)
-   {
-      if (current_cache_replacement_policy == EXHAUSTIVE_POLICY && current_adaptative_cache_replacement_policy == ADAPTATIVE_POLICY){
-         if(print_output)
-            VG_(printf)("*-*-*\n");
-         //if(temp_hit_counter_LRU > temp_hit_counter_FIFO && temp_hit_counter_LRU > temp_hit_counter_RANDOM && temp_hit_counter_LRU > temp_hit_counter_BIP){
-         if(temp_D1_miss_counter_LRU <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_BIP){
-            current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-         }
-         //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-         else if(temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_BIP){
-            current_adaptative_cache_replacement_policy = FIFO_POLICY;
-            if(print_output)
-               VG_(printf)("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-         }
-         //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-         else if(temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_BIP){
-            current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-            if(print_output)
-               VG_(printf)("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-         }
-         //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-         else if(temp_D1_miss_counter_BIP <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_RANDOM){
-            current_adaptative_cache_replacement_policy = BIP_POLICY;
-            if(print_output)
-               VG_(printf)("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n",temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-         }
-         else{
-            current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-         }
-      }
-      switch (current_adaptative_cache_replacement_policy)
+      for (ULong i = 0; i < POLICIES; i++)
       {
-      case LRU_POLICY: 
-         copy_caches(&I1_lru, &I1);
-         copy_caches(&LL_lru, &LL);
-         break;
-      case LIP_POLICY:
-         copy_caches(&I1_lru, &I1);
-         copy_caches(&LL_lru, &LL);
-         break;
-      case RANDOM_POLICY:
-         copy_caches(&I1_random, &I1);
-         copy_caches(&LL_random, &LL);
-         break;
-      case FIFO_POLICY:
-         copy_caches(&I1_fifo, &I1);
-         copy_caches(&LL_fifo, &LL);
-         break;
-      case BIP_POLICY:
-         copy_caches(&I1_bip, &I1);
-         copy_caches(&LL_bip, &LL);
-         break;
-      case DIP_POLICY:
-         copy_caches(&I1_bip, &I1);
-         copy_caches(&LL_bip, &LL);
-         break;
-       case EXHAUSTIVE_POLICY:
-         temp_hit_counter_LRU = 0;
-         temp_hit_counter_BIP = 0;
-         temp_hit_counter_FIFO = 0;
-         temp_hit_counter_RANDOM =0;
-         temp_D1_miss_counter_LRU = 0;
-         temp_D1_miss_counter_BIP = 0;
-         temp_D1_miss_counter_FIFO = 0;
-         temp_D1_miss_counter_RANDOM =0;
-         temp_counter = 0;
-         break; 
-      default:
-         break;
+         cachesim_setref_is_miss = policies[i].is_miss_func;
+         if (cachesim_ref_is_miss(&policies[i].I1, a, size))
+         {
+            (policies[i].misses_I1)++;
+            if (cachesim_ref_is_miss(&policies[i].LL, a, size))
+            {
+               (policies[i].misses_IL)++;
+            }
+         }
       }
-   } */
-
+   }
    if (cachesim_ref_is_miss(&I1, a, size))
    {
       (*m1)++;
@@ -1519,157 +787,31 @@ __attribute__((always_inline)) static __inline__ void cachesim_I1_doref_Gen(Addr
 // common special case IrNoX
 __attribute__((always_inline)) static __inline__ void cachesim_I1_doref_NoX(Addr a, UChar size, ULong *m1, ULong *mL)
 {
-   status_lru = True;
-   status_fifo = True;
-   status_random = True;
-   status_bip = True;
-   status_active = True;
-   status_adaptative = True;
-   using_data = False;
-
-/*    if (current_cache_replacement_policy == ONLINE_POLICY)
-   {
-         if(online_D1_miss_counter_LRU <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_LRU <= online_D1_miss_counter_RANDOM - online_threshold_parameter && online_D1_miss_counter_LRU <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-         }
-         //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-         else if(online_D1_miss_counter_FIFO <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_FIFO <= online_D1_miss_counter_RANDOM - online_threshold_parameter && online_D1_miss_counter_FIFO <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = FIFO_POLICY;
-            if(print_output)
-               VG_(printf)("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-         }
-         //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-         else if(online_D1_miss_counter_RANDOM <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_RANDOM <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_RANDOM <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-            if(print_output)
-               VG_(printf)("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-         }
-         //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-         else if(online_D1_miss_counter_BIP <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_RANDOM - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = BIP_POLICY;
-            if(print_output)
-               VG_(printf)("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n",temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-         }
-         else{
-            //current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-         }
-   } */
-
-//    if (current_cache_replacement_policy == ADAPTATIVE_POLICY || current_cache_replacement_policy == EXHAUSTIVE_POLICY /* || current_cache_replacement_policy == ALL_POLICY  */)
-//    {
-//       if ((current_cache_replacement_policy == EXHAUSTIVE_POLICY || current_cache_replacement_policy == ALL_POLICY) && current_adaptative_cache_replacement_policy == ADAPTATIVE_POLICY)
-//       {
-//          if (print_output)
-//             VG_(printf)
-//             ("*-*-*\n");
-//          // if(temp_hit_counter_LRU > temp_hit_counter_FIFO && temp_hit_counter_LRU > temp_hit_counter_RANDOM && temp_hit_counter_LRU > temp_hit_counter_BIP){
-//          if (temp_D1_miss_counter_LRU <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_BIP)
-//          {
-//             current_adaptative_cache_replacement_policy = LRU_POLICY;
-//             if (print_output)
-//                VG_(printf)
-//                ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-//             hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-//             D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-//          }
-//          // else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-//          else if (temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_BIP)
-//             current_adaptative_cache_replacement_policy = FIFO_POLICY;
-//          if (print_output)
-//             VG_(printf)
-//             ("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-//          hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-//          D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-//       }
-//       // else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-//       else if (temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_BIP)
-//       {
-//          current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-//          if (print_output)
-//             VG_(printf)
-//             ("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-//          hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-//          D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-//       }
-//       // else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-//       else if (temp_D1_miss_counter_BIP <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_RANDOM)
-//       {
-//          current_adaptative_cache_replacement_policy = BIP_POLICY;
-//          if (print_output)
-//             VG_(printf)
-//             ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-//          hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-//          D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-//       }
-//       else
-//       {
-//          current_adaptative_cache_replacement_policy = LRU_POLICY;
-//          if (print_output)
-//             VG_(printf)
-//             ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-//          hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-//          D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-//       }
-   
-//    switch (current_adaptative_cache_replacement_policy)
-//    {
-//    case LRU_POLICY:
-//       copy_caches(&I1_lru, &I1);
-//       copy_caches(&LL_lru, &LL);
-//       break;
-//    case LIP_POLICY:
-//       copy_caches(&I1_lru, &I1);
-//       copy_caches(&LL_lru, &LL);
-//       break;
-//    case RANDOM_POLICY:
-//       copy_caches(&I1_random, &I1);
-//       copy_caches(&LL_random, &LL);
-//       break;
-//    case FIFO_POLICY:
-//       copy_caches(&I1_fifo, &I1);
-//       copy_caches(&LL_fifo, &LL);
-//       break;
-//    case BIP_POLICY:
-//       copy_caches(&I1_bip, &I1);
-//       copy_caches(&LL_bip, &LL);
-//       break;
-//    case DIP_POLICY:
-//       copy_caches(&I1_bip, &I1);
-//       copy_caches(&LL_bip, &LL);
-//       break;
-//    case EXHAUSTIVE_POLICY:
-//       temp_hit_counter_LRU = 0;
-//       temp_hit_counter_BIP = 0;
-//       temp_hit_counter_FIFO = 0;
-//       temp_hit_counter_RANDOM = 0;
-//       temp_D1_miss_counter_LRU = 0;
-//       temp_D1_miss_counter_BIP = 0;
-//       temp_D1_miss_counter_FIFO = 0;
-//       temp_D1_miss_counter_RANDOM = 0;
-//       temp_counter = 0;
-//       break;
-//    default:
-//       break;
-//    }
-// }
+   missesI1 = m1;
+   missesIL = mL;
    UWord block = a >> I1.line_size_bits;
    UInt I1_set = block & I1.sets_min_1;
 
    // use block as tag
+   /*PROCESS THE DIFFERENT APPROACHES*/
+   if (current_cache_replacement_policy == FIXED_WINDOW ||
+       current_cache_replacement_policy == SLIDING_WINDOW ||
+       current_cache_replacement_policy == ONLINE)
+
+   {
+      for (ULong i = 0; i < POLICIES; i++)
+      {
+         if (policies[i].is_miss_func(&policies[i].I1, I1_set, block))
+         {
+            UInt LL_set = block & LL.sets_min_1;
+            (policies[i].misses_I1)++;
+            if (policies[i].is_miss_func(&policies[i].LL, LL_set, block))
+            {
+               (policies[i].misses_IL)++;
+            }
+         }
+      }
+   }
    if (cachesim_setref_is_miss(&I1, I1_set, block))
    {
       UInt LL_set = block & LL.sets_min_1;
@@ -1682,509 +824,152 @@ __attribute__((always_inline)) static __inline__ void cachesim_I1_doref_NoX(Addr
 
 __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, UChar size, ULong *m1, ULong *mL)
 {
-   if(current_cache_replacement_policy == ALL_POLICY){
-      if (temp_counter >= density_access_counter)
-      {
-         current_adaptative_cache_replacement_policy = ADAPTATIVE_POLICY;
-      }
-   }
+   static ULong blocks = 0 ;
+   access_counter++;
+   blocks++;
+   ULong min_misses = ULLONG_MAX;
+   ULong min_misses_second = ULLONG_MAX;
+   static int index_selected_policy = 0;
+   // Avoid processing in case of ADAPTATIVE or single policy
+   if (current_cache_replacement_policy == FIXED_WINDOW ||
+       current_cache_replacement_policy == SLIDING_WINDOW ||
+       current_cache_replacement_policy == ONLINE)
 
-   if (current_cache_replacement_policy == ALL_POLICY && current_adaptative_cache_replacement_policy == ADAPTATIVE_POLICY){
-      blocks++;
-      if(print_output)
-         VG_(printf)("*-*-*\n");
-      //if(temp_hit_counter_LRU > temp_hit_counter_FIFO && temp_hit_counter_LRU > temp_hit_counter_RANDOM && temp_hit_counter_LRU > temp_hit_counter_BIP){
-      if(temp_D1_miss_counter_LRU <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_BIP){
-         current_adaptative_cache_replacement_policy = LRU_POLICY;
-         if(print_output)
-            VG_(printf)("LRU SELECTED\n");
-         blocks_LRU++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-      }
-      //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-      else if(temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_BIP){
-         current_adaptative_cache_replacement_policy = FIFO_POLICY;
-         if(print_output)
-            VG_(printf)("FIFO SELECTED\n");
-         blocks_FIFO++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-      }
-      //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-      else if(temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_BIP){
-         current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-         if(print_output)
-            VG_(printf)("RANDOM SELECTED\n");
-         blocks_RANDOM++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-      }
-      //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-      else if(temp_D1_miss_counter_BIP <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_RANDOM){
-         current_adaptative_cache_replacement_policy = BIP_POLICY;
-         if(print_output)
-            VG_(printf)("BIP SELECTED\n");
-         blocks_BIP++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-      }
-      else{
-         current_adaptative_cache_replacement_policy = LRU_POLICY;
-         if(print_output)
-            VG_(printf)("LRU_d SELECTED\n");
-         blocks_LRU++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-      }
-
-      if (print_output)
-      {
-         VG_(printf)
-         ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-         VG_(printf)
-         ("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-         VG_(printf)
-         ("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-         VG_(printf)
-         ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-         VG_(printf)
-         ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-      }
-      if (current_cache_replacement_policy == ALL_POLICY)
-      {
-         current_adaptative_cache_replacement_policy = EXHAUSTIVE_POLICY;
-         temp_hit_counter_LRU = 0;
-         temp_hit_counter_BIP = 0;
-         temp_hit_counter_FIFO = 0;
-         temp_hit_counter_RANDOM =0;
-         temp_D1_miss_counter_LRU = 0;
-         temp_D1_miss_counter_BIP = 0;
-         temp_D1_miss_counter_FIFO = 0;
-         temp_D1_miss_counter_RANDOM =0;
-         temp_counter = 0;
-      }
-   }
-   
-   if (current_cache_replacement_policy == EXHAUSTIVE_POLICY){
-      blocks++;
-      if (temp_counter >= CYCLES){
-         if(print_output)
-            VG_(printf)("*-*-*\n");
-         //if(temp_hit_counter_LRU > temp_hit_counter_FIFO && temp_hit_counter_LRU > temp_hit_counter_RANDOM && temp_hit_counter_LRU > temp_hit_counter_BIP){
-         if(average_miss_LRU <= average_miss_FIFO && average_miss_LRU <= average_miss_RANDOM && average_miss_LRU <= average_miss_BIP){
-            current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU SELECTED\n");
-            blocks_LRU++;
-            if (hits_lru[CYCLES/2] == 0)
-               hit_counter_ACTIVE = hit_counter_ACTIVE + 1;
-            else
-               D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + 1;
-         }
-         //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-         else if(average_miss_FIFO <= average_miss_LRU && average_miss_FIFO <= average_miss_RANDOM && average_miss_FIFO <= average_miss_BIP){
-            current_adaptative_cache_replacement_policy = FIFO_POLICY;
-            if(print_output)
-               VG_(printf)("FIFO SELECTED\n");
-            blocks_FIFO++;
-            if (hits_fifo[CYCLES/2] == 0)
-               hit_counter_ACTIVE = hit_counter_ACTIVE + 1;
-            else
-               D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + 1;
-         }
-         //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-         else if(average_miss_RANDOM <= average_miss_LRU && average_miss_RANDOM <= average_miss_FIFO && average_miss_RANDOM <= average_miss_BIP){
-            current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-            if(print_output)
-               VG_(printf)("RANDOM SELECTED\n");
-            blocks_RANDOM++;
-            if (hits_random[CYCLES/2] == 0)
-               hit_counter_ACTIVE = hit_counter_ACTIVE + 1;
-            else
-               D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + 1;
-         }
-         //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-         else if(average_miss_BIP <= average_miss_LRU && average_miss_BIP <= average_miss_FIFO && average_miss_BIP <= average_miss_RANDOM){
-            current_adaptative_cache_replacement_policy = BIP_POLICY;
-            if(print_output)
-               VG_(printf)("BIP SELECTED\n");
-            blocks_BIP++;
-            if (hits_bip[CYCLES/2] == 0)
-               hit_counter_ACTIVE = hit_counter_ACTIVE + 1;
-            else
-               D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + 1;
-         }
-         else{
-            current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU_d SELECTED\n");
-            blocks_LRU++;
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-         }
-
-         if (print_output)
-         {
-            VG_(printf)
-            ("LRU window MISSES D1 %lld\n", average_miss_LRU);
-            VG_(printf)
-            ("FIFO window MISSES D1 %lld\n", average_miss_FIFO);
-            VG_(printf)
-            ("RANDOM window MISSES D1 %lld\n", average_miss_RANDOM);
-            VG_(printf)
-            ("BIP window MISSES D1%lld\n", average_miss_BIP);
-            VG_(printf)
-            ("LRU window MISSES D1 %lld\n", temp_hit_counter_LRU);
-         }
-      }
-      else if (temp_counter < CYCLES/2){//By default LRU used at the begining and end
-            current_adaptative_cache_replacement_policy = LRU_POLICY;
-            if(print_output)
-               VG_(printf)("LRU SELECTED\n");
-            blocks_LRU++;
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-      }
-
-      temp_hit_counter_LRU = 0;
-      temp_hit_counter_BIP = 0;
-      temp_hit_counter_FIFO = 0;
-      temp_hit_counter_RANDOM =0;
-      temp_D1_miss_counter_LRU = 0;
-      temp_D1_miss_counter_BIP = 0;
-      temp_D1_miss_counter_FIFO = 0;
-      temp_D1_miss_counter_RANDOM =0;
-      //temp_counter = 0;
-      
-   }
-
-   if (current_cache_replacement_policy == ONLINE_POLICY)
    {
-      //VG_(printf)("LRU: %lld    FIFO: %lld    RANDOM: %lld     BIP: %lld\n", online_D1_miss_counter_LRU, online_D1_miss_counter_FIFO, online_D1_miss_counter_RANDOM, online_D1_miss_counter_BIP);
-      blocks++;
-      if(online_D1_miss_counter_LRU <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_LRU <= online_D1_miss_counter_RANDOM - online_threshold_parameter && online_D1_miss_counter_LRU <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = LRU_POLICY;            
-            if(print_output)
-               VG_(printf)("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-            blocks_LRU++;
-         }
-         //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-         else if(online_D1_miss_counter_FIFO <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_FIFO <= online_D1_miss_counter_RANDOM - online_threshold_parameter && online_D1_miss_counter_FIFO <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = FIFO_POLICY;
-            if(print_output)
-               VG_(printf)("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-            blocks_FIFO++;
-         }
-         //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-         else if(online_D1_miss_counter_RANDOM <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_RANDOM <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_RANDOM <= online_D1_miss_counter_BIP - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-            if(print_output)
-               VG_(printf)("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n",temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-            blocks_RANDOM++;
-         }
-         //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-         else if(online_D1_miss_counter_BIP <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_RANDOM - online_threshold_parameter){
-            current_adaptative_cache_replacement_policy = BIP_POLICY;
-            if (print_output)
-               VG_(printf)
-               ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-            hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-            blocks_BIP++;
+      //First copy status of best cache to result one, otherwise no miss will be counted on it
+      if (current_cache_replacement_policy == SLIDING_WINDOW)
+      {
+         // Select the policy that is performing better at the moment and copy its cache to the result
+         cachesim_setref_is_miss = policies[index_selected_policy].is_miss_func;
+         policies[index_selected_policy].uses++;
+         copy_caches(&policies[index_selected_policy].I1, &I1);
+         copy_caches(&policies[index_selected_policy].D1, &D1);
+         copy_caches(&policies[index_selected_policy].LL, &LL);
+      }
+      for (ULong i = 0; i < POLICIES; i++)
+      {
+         cachesim_setref_is_miss = policies[i].is_miss_func;
+         if (cachesim_ref_is_miss(&policies[i].D1, a, size))
+         {
+            (policies[i].misses_D1)++;            
+            if (cachesim_ref_is_miss(&policies[i].LL, a, size))
+            {
+               (policies[i].misses_DL)++;
+               policies[i].average_misses = rotate_array(policies[i], 1);
+            }
+            else
+               {
+                  policies[i].average_misses = rotate_array(policies[i], 0);
+               }
          }
          else
+            {
+               policies[i].average_misses = rotate_array(policies[i], 0);
+            }
+         if (policies[i].average_misses < min_misses)
          {
-            if (current_adaptative_cache_replacement_policy == LRU_POLICY)
+            if (current_cache_replacement_policy == ONLINE)
             {
-               if (online_D1_miss_counter_FIFO <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_FIFO < online_D1_miss_counter_RANDOM && online_D1_miss_counter_FIFO < online_D1_miss_counter_BIP)
+               // Apply the threshold of the ONLINE policy
+               if (policies[i].average_misses < policies[index_selected_policy].average_misses - switching_threshold_parameter)
                {
-                  current_adaptative_cache_replacement_policy = FIFO_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-                  blocks_FIFO++;
-               }
-               //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-               else if (online_D1_miss_counter_RANDOM <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_RANDOM < online_D1_miss_counter_FIFO && online_D1_miss_counter_RANDOM < online_D1_miss_counter_BIP)
-               {
-                  current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-                  blocks_RANDOM++;
-               }
-               //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-               else if (online_D1_miss_counter_BIP <= online_D1_miss_counter_LRU - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_FIFO && online_D1_miss_counter_BIP <= online_D1_miss_counter_RANDOM)
-               {
-                  current_adaptative_cache_replacement_policy = BIP_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-                  blocks_BIP++;
-               }
-               else
-               {
-                  if (print_output)
-                     VG_(printf)
-                  ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-                  blocks_LRU++;
+                  index_selected_policy = i;
                }
             }
-            if (current_adaptative_cache_replacement_policy == FIFO_POLICY)
+            else
             {
-               if (online_D1_miss_counter_LRU < online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_LRU <= online_D1_miss_counter_RANDOM && online_D1_miss_counter_LRU < online_D1_miss_counter_BIP)
-               {
-                  current_adaptative_cache_replacement_policy = LRU_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-                  blocks_LRU++;
-               }
-               //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-               else if (online_D1_miss_counter_RANDOM < online_D1_miss_counter_LRU && online_D1_miss_counter_RANDOM <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_RANDOM < online_D1_miss_counter_BIP)
-               {
-                  current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-                  blocks_RANDOM++;
-               }
-               //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-               else if (online_D1_miss_counter_BIP <= online_D1_miss_counter_LRU && online_D1_miss_counter_BIP <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_RANDOM)
-               {
-                  current_adaptative_cache_replacement_policy = BIP_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-                  blocks_BIP++;
-               }
-               else
-               {
-                  if (print_output)
-                     VG_(printf)
-                  ("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-                  blocks_FIFO++;
-               }
-            }
-            if (current_adaptative_cache_replacement_policy == RANDOM_POLICY)
-            {
-               if (online_D1_miss_counter_LRU <= online_D1_miss_counter_FIFO && online_D1_miss_counter_LRU <= online_D1_miss_counter_RANDOM - online_threshold_parameter && online_D1_miss_counter_LRU <= online_D1_miss_counter_BIP)
-               {
-                  current_adaptative_cache_replacement_policy = LRU_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-                  blocks_LRU++;
-               }
-               //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-               else if (online_D1_miss_counter_FIFO < online_D1_miss_counter_LRU && online_D1_miss_counter_FIFO <= online_D1_miss_counter_RANDOM - online_threshold_parameter && online_D1_miss_counter_FIFO < online_D1_miss_counter_BIP)
-               {
-                  current_adaptative_cache_replacement_policy = FIFO_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-                  blocks_FIFO++;
-               }
-               //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-               else if (online_D1_miss_counter_BIP <= online_D1_miss_counter_LRU && online_D1_miss_counter_BIP <= online_D1_miss_counter_FIFO - online_threshold_parameter && online_D1_miss_counter_BIP <= online_D1_miss_counter_RANDOM - online_threshold_parameter)
-               {
-                  current_adaptative_cache_replacement_policy = BIP_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                  ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-                  blocks_BIP++;
-               }
-               else
-               {
-                  if (print_output)
-                     VG_(printf)
-                  ("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-                  blocks_RANDOM++;
-               }
-            }
-            if (current_adaptative_cache_replacement_policy == BIP_POLICY)
-            {
-               if (online_D1_miss_counter_LRU < online_D1_miss_counter_FIFO && online_D1_miss_counter_LRU < online_D1_miss_counter_RANDOM && online_D1_miss_counter_LRU <= online_D1_miss_counter_BIP - online_threshold_parameter)
-               {
-                  current_adaptative_cache_replacement_policy = LRU_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                     ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-                  blocks_LRU++;
-               }
-               //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-               else if (online_D1_miss_counter_FIFO < online_D1_miss_counter_LRU && online_D1_miss_counter_FIFO < online_D1_miss_counter_RANDOM && online_D1_miss_counter_FIFO <= online_D1_miss_counter_BIP - online_threshold_parameter)
-               {
-                  current_adaptative_cache_replacement_policy = FIFO_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                     ("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-                  blocks_FIFO++;
-               }
-               //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-               else if (online_D1_miss_counter_RANDOM < online_D1_miss_counter_LRU && online_D1_miss_counter_RANDOM < online_D1_miss_counter_FIFO && online_D1_miss_counter_RANDOM <= online_D1_miss_counter_BIP - online_threshold_parameter)
-               {
-                  current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-                  if (print_output)
-                     VG_(printf)
-                     ("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-                  blocks_RANDOM++;
-               }
-               else
-               {
-                  if (print_output)
-                     VG_(printf)
-                     ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-                  hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-                  D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-                  blocks_BIP++;
-               }
+               min_misses = policies[i].average_misses;
+               index_selected_policy = i;
             }
          }
-
-         temp_hit_counter_LRU = 0;
-         temp_hit_counter_BIP = 0;
-         temp_hit_counter_FIFO = 0;
-         temp_hit_counter_RANDOM =0;
-         temp_D1_miss_counter_LRU = 0;
-         temp_D1_miss_counter_BIP = 0;
-         temp_D1_miss_counter_FIFO = 0;
-         temp_D1_miss_counter_RANDOM =0;
-         temp_counter = 0;
+      }
+      /*PROCESS THE DIFFERENT APPROACHES*/
+      if (current_cache_replacement_policy == FIXED_WINDOW)
+      {
+         // Check if the window was already processed
+         if (blocks >= window_counter)
+         {
+            /*Copy the best policy cache to all other caches*/
+            for (ULong i = 0; i < POLICIES; i++)
+            {
+               if (i != index_selected_policy)
+               {
+                  copy_caches(&policies[index_selected_policy].I1, &policies[i].I1);
+                  copy_caches(&policies[index_selected_policy].D1, &policies[i].D1);
+                  copy_caches(&policies[index_selected_policy].LL, &policies[i].LL);
+               }
+               else
+               {
+                  // Control how many times the policy was used
+                  policies[i].uses++;
+                  // Updates the counter of the result
+                  (*m1) += policies[i].misses_D1;
+                  (*mL) += policies[i].misses_DL;
+                  (*missesI1) += policies[i].misses_I1;
+                  (*missesIL) += policies[i].misses_IL;
+               }
+               // Clean last window to start a new one
+               VG_(free)(policies[i].array_misses);
+               policies[i].array_misses = (int *) VG_(calloc)("array_misses", window_counter, sizeof(int));
+               policies[i].average_misses = 0;
+               policies[i].misses_DL = 0;
+               policies[i].misses_IL = 0;
+               policies[i].misses_D1 = 0;
+               policies[i].misses_I1 = 0;
+            }
+            // Restart processing
+            blocks = 0;
+            data_blocks++;
+         }
+         return;
+      }
+      if (current_cache_replacement_policy == ONLINE)
+      {
+         // Select the policy that is performing better at the moment and copy its cache to the result
+         cachesim_setref_is_miss = policies[index_selected_policy].is_miss_func;
+         policies[index_selected_policy].uses++;
+      }      
    }
-
-   if (current_cache_replacement_policy == ADAPTATIVE_POLICY)
+   if (current_cache_replacement_policy == ADAPTATIVE)
    {
-      // VG_(printf)("LRU: %lld    FIFO: %lld    RANDOM: %lld     BIP: %lld\n", online_D1_miss_counter_LRU, online_D1_miss_counter_FIFO, online_D1_miss_counter_RANDOM, online_D1_miss_counter_BIP);
-      blocks++;
-      if (current_adaptative_cache_replacement_policy == LRU_POLICY)
+      // Use the policy selected in CODE
+      switch (current_adaptative_cache_replacement_policy)
       {
-         blocks_LRU++;
+      case LRU_POLICY:
+         cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
+         policies[0].uses++;
+         break;
+      case LIP_POLICY:         
+         cachesim_setref_is_miss = &cachesim_setref_is_miss_lip;
+         break;
+      case RANDOM_POLICY:
+         policies[3].uses++;
+         cachesim_setref_is_miss = &cachesim_setref_is_miss_random;
+         break;
+      case FIFO_POLICY:
+         policies[1].uses++;
+         cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
+         break;
+      case BIP_POLICY:
+         policies[2].uses++;
+         cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
+         break;
+      case DIP_POLICY:
+         cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
+         break;
+      default:
+         cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
+         break;
       }
-      // else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-      else if (current_adaptative_cache_replacement_policy == FIFO_POLICY)
-      {
-         blocks_FIFO++;
-      }
-      // else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-      else if (current_adaptative_cache_replacement_policy == RANDOM_POLICY)
-      {
-         blocks_RANDOM++;
-      }
-      // else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-      else if (current_adaptative_cache_replacement_policy == BIP_POLICY)
-      {
-         blocks_BIP++;
-      }
-      else
-      {
-         blocks_LRU++;
-      }
-
-      temp_hit_counter_LRU = 0;
-      temp_hit_counter_BIP = 0;
-      temp_hit_counter_FIFO = 0;
-      temp_hit_counter_RANDOM = 0;
-      temp_D1_miss_counter_LRU = 0;
-      temp_D1_miss_counter_BIP = 0;
-      temp_D1_miss_counter_FIFO = 0;
-      temp_D1_miss_counter_RANDOM = 0;
-      temp_counter = 0;
    }
-
-   status_lru = True;
-   status_fifo = True;
-   status_random = True;
-   status_bip = True;
-   status_active = True;
-   status_adaptative = True;
-   using_data = True;
-   //Saving caches before modifying them
-/*    copy_caches(&LL_lru, &LL_lru_temp);
-   copy_caches(&D1_lru, &D1_lru_temp);
-   copy_caches(&LL_fifo, &LL_fifo_temp);
-   copy_caches(&D1_fifo, &D1_fifo_temp);
-   copy_caches(&LL_random, &LL_random_temp);
-   copy_caches(&D1_random, &D1_random_temp);
-   copy_caches(&LL_bip, &LL_bip_temp);
-   copy_caches(&D1_bip, &D1_bip_temp); */
-
-   access_counter++;
-   temp_counter++;
-   if(print_output)
-      VG_(printf)("%lx ", a);
-   if (cachesim_ref_is_miss(&D1, a, size))
-   {
-      (*m1)++;
-      if (print_output)
-         VG_(printf)("|");
-      if (cachesim_ref_is_miss(&LL, a, size))
-         (*mL)++;
-   }
-   if (!status_lru)
-      hit_counter_LRU++;
-   else
-      miss_counter_LRU++;
-   if (!status_fifo)
-      hit_counter_FIFO++;
-   else
-      miss_counter_FIFO++;
-   if (!status_random)
-      hit_counter_RANDOM++;
-   else
-      miss_counter_RANDOM++;
-   if (!status_bip)
-      hit_counter_BIP++;
-   else
-      miss_counter_BIP++;
-   if (!status_adaptative){
-      hit_counter_ADAPTATIVE++;
-      if (current_cache_replacement_policy == ADAPTATIVE_POLICY)
-         hit_counter_ACTIVE++; //Not processed in the ADAPTATIVE BLOCK as other policies
-   }
-   else
-      miss_counter_ADAPTATIVE++;
-
-   using_data = False;
-   if(print_output)
-      VG_(printf)("\n");
+   data_blocks++;
+   //Execution for traditional policies and result cache in case of selection of best policy
+      if (cachesim_ref_is_miss(&D1, a, size))
+      {
+         (*m1)++;
+         if (cachesim_ref_is_miss(&LL, a, size))
+            (*mL)++;
+      }
 }
 
 /* Check for special case IrNoX. Called at instrumentation time.
@@ -2210,63 +995,75 @@ static Bool cachesim_is_IrNoX(Addr a, UChar size)
 
  __attribute__((always_inline)) static __inline__ void print_stats(VgFile* fp)
 {
-   if(current_cache_replacement_policy == ALL_POLICY){
-      VG_(fprintf)(fp, "\n...Density approach...\n");
-      VG_(fprintf)(fp, "\n...Block size: %llu...\n", density_access_counter);
+   if (current_cache_replacement_policy == FIXED_WINDOW)
+   {
+      VG_(fprintf)
+      (fp, "\n...Fixed-window approach...\n");
+      VG_(fprintf)
+      (fp, "\n...Block size: %llu...\n", window_counter);
    }
-   if(current_cache_replacement_policy == EXHAUSTIVE_POLICY)
-      VG_(fprintf)(fp, "\n...Exhaustive search approach...\n");
-   VG_(fprintf)(fp, "BIP Throttle parameter %f\n", bip_throttle_parameter);
-   VG_(fprintf)(fp,
-   "\n\nSummary hits with LL [Total accesses %llu]:\n"
-    " LRU %llu - %f \n"
-    " FIFO %llu - %f \n"
-    " RANDOM %llu - %f \n"
-    " BIP %llu - %f \n"
-    " ACTIVE %llu - %f \n \n",
-    access_counter,
-    hit_counter_LRU, (float)hit_counter_LRU * 100 / (float)access_counter,
-    hit_counter_FIFO, (float)hit_counter_FIFO * 100 / (float)access_counter,
-    hit_counter_RANDOM, (float)hit_counter_RANDOM * 100 / (float)access_counter,
-    hit_counter_BIP, (float)hit_counter_BIP * 100 / (float)access_counter,
-    hit_counter_ACTIVE, (float)hit_counter_ACTIVE * 100 / (float)access_counter);
-    VG_(fprintf)(fp,
-   "\n\nSummary misses considering only D1 [Total accesses %llu]:\n"
-    " LRU %llu - %f \n"
-    " FIFO %llu - %f \n"
-    " RANDOM %llu - %f \n"
-    " BIP %llu - %f \n"
-    " ACTIVE %llu - %f \n \n"
-    " ALL MISSES %llu - %f \n",
-    access_counter,
-    D1_miss_counter_LRU, (float)D1_miss_counter_LRU * 100 / (float)access_counter,
-    D1_miss_counter_FIFO, (float)D1_miss_counter_FIFO * 100 / (float)access_counter,
-    D1_miss_counter_RANDOM, (float)D1_miss_counter_RANDOM * 100 / (float)access_counter,
-    D1_miss_counter_BIP, (float)D1_miss_counter_BIP * 100 / (float)access_counter,
-    D1_miss_counter_ACTIVE, (float)D1_miss_counter_ACTIVE * 100 / (float)access_counter,
-    D1_all_misses_counter,(float)D1_all_misses_counter * 100 / (float)access_counter);
-   VG_(fprintf)(fp,
-   "\n\nSummary hits in only one policy considering only D1 [Total accesses %llu]:\n"
-    " LRU %llu - %f \n"
-    " FIFO %llu - %f \n"
-    " RANDOM %llu - %f \n"
-    " BIP %llu - %f \n",
-    access_counter,
-    D1_only_LRU_counter, (float)D1_only_LRU_counter * 100 / (float)access_counter,
-    D1_only_FIFO_counter, (float)D1_only_FIFO_counter * 100 / (float)access_counter,
-    D1_only_RANDOM_counter, (float)D1_only_RANDOM_counter * 100 / (float)access_counter,
-    D1_only_BIP_counter, (float)D1_only_BIP_counter * 100 / (float)access_counter);
-   VG_(fprintf)(fp,
-   "\n\nSummary policy used by blocks [Total blocks %llu]:\n"
-    " LRU %llu - %f \n"
-    " FIFO %llu - %f \n"
-    " RANDOM %llu - %f \n"
-    " BIP %llu - %f \n",
-    blocks,
-    blocks_LRU, (float)blocks_LRU * 100 / (float)blocks,
-    blocks_FIFO, (float)blocks_FIFO * 100 / (float)blocks,
-    blocks_RANDOM, (float)blocks_RANDOM * 100 / (float)blocks,
-    blocks_BIP, (float)blocks_BIP * 100 / (float)blocks);
+   if (current_cache_replacement_policy == SLIDING_WINDOW)
+      VG_(fprintf)
+      (fp, "\n...Sliding-window approach...\n");
+   if (current_cache_replacement_policy == ONLINE)
+      VG_(fprintf)
+      (fp, "\n...Online approach...\n");
+   if (current_cache_replacement_policy == ADAPTATIVE)
+      VG_(fprintf)
+      (fp, "\n...Naive approach...\n");
+   if (current_cache_replacement_policy == CACHE_DUELING)
+      VG_(fprintf)
+      (fp, "\n...Cache dueling approach...\n");
+   VG_(fprintf)
+   (fp, "BIP Throttle parameter %f\n", bip_throttle_parameter);
+   if (current_cache_replacement_policy == FIXED_WINDOW   ||
+       current_cache_replacement_policy == SLIDING_WINDOW ||
+       current_cache_replacement_policy == ONLINE         ||
+       current_cache_replacement_policy == CACHE_DUELING)
+   {
+      VG_(fprintf)
+      (fp,
+       "\n\nSummary policy used times [Total uses %llu]:\n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n \n",
+       data_blocks,
+       policies[0].name, policies[0].uses, (float)policies[0].uses * 100 / (float)data_blocks,
+       policies[1].name, policies[1].uses, (float)policies[1].uses * 100 / (float)data_blocks,
+       policies[2].name, policies[2].uses, (float)policies[2].uses * 100 / (float)data_blocks,
+       policies[3].name, policies[3].uses, (float)policies[3].uses * 100 / (float)data_blocks); 
+      //Rest of the info not relevant for fixed_window
+      if (current_cache_replacement_policy == FIXED_WINDOW)
+         return;
+      VG_(fprintf)
+      (fp,
+       "\n\nSummary misses with DL [Total accesses %llu]:\n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n \n",
+       access_counter,
+       policies[0].name, policies[0].misses_DL, (float)policies[0].misses_DL * 100 / (float)access_counter,
+       policies[1].name, policies[1].misses_DL, (float)policies[1].misses_DL * 100 / (float)access_counter,
+       policies[2].name, policies[2].misses_DL, (float)policies[2].misses_DL * 100 / (float)access_counter,
+       policies[3].name, policies[3].misses_DL, (float)policies[3].misses_DL * 100 / (float)access_counter);
+      VG_(fprintf)
+      (fp,
+       "\n\nSummary misses considering only D1 [Total accesses %llu]:\n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n"
+       " %s %llu - %f \n \n",
+       access_counter,
+       policies[0].name, policies[0].misses_D1, (float)policies[0].misses_D1 * 100 / (float)access_counter,
+       policies[1].name, policies[1].misses_D1, (float)policies[1].misses_D1 * 100 / (float)access_counter,
+       policies[2].name, policies[2].misses_D1, (float)policies[2].misses_D1 * 100 / (float)access_counter,
+       policies[3].name, policies[3].misses_D1, (float)policies[3].misses_D1 * 100 / (float)access_counter);
+  
+
+      }
+
 } 
 /*--------------------------------------------------------------------*/
 /*--- end                                                 cg_sim.c ---*/

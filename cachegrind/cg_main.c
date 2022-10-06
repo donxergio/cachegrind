@@ -47,6 +47,7 @@
 #include "cg_branchpred.c"
 
 
+
 /*------------------------------------------------------------*/
 /*--- Constants                                            ---*/
 /*------------------------------------------------------------*/
@@ -1604,84 +1605,6 @@ static void cg_fini(Int exitcode)
          LL_total, LL_total_r, LL_total_w;
    Int l1, l2, l3;
 
-if (current_cache_replacement_policy == ALL_POLICY){
-            blocks++;
-      if(print_output)
-         VG_(printf)("*-*-*\n");
-      //if(temp_hit_counter_LRU > temp_hit_counter_FIFO && temp_hit_counter_LRU > temp_hit_counter_RANDOM && temp_hit_counter_LRU > temp_hit_counter_BIP){
-      if(temp_D1_miss_counter_LRU <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_LRU <= temp_D1_miss_counter_BIP){
-         current_adaptative_cache_replacement_policy = LRU_POLICY;
-         if(print_output)
-            VG_(printf)("LRU SELECTED\n");
-         blocks_LRU++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-      }
-      //else if(temp_hit_counter_FIFO> temp_hit_counter_LRU && temp_hit_counter_FIFO > temp_hit_counter_RANDOM && temp_hit_counter_FIFO > temp_hit_counter_BIP){
-      else if(temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_RANDOM && temp_D1_miss_counter_FIFO <= temp_D1_miss_counter_BIP){
-         current_adaptative_cache_replacement_policy = FIFO_POLICY;
-         if(print_output)
-            VG_(printf)("FIFO SELECTED\n");
-         blocks_FIFO++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_FIFO;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_FIFO;
-      }
-      //else if(temp_hit_counter_RANDOM> temp_hit_counter_LRU && temp_hit_counter_RANDOM > temp_hit_counter_FIFO&& temp_hit_counter_RANDOM > temp_hit_counter_BIP){
-      else if(temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_RANDOM <= temp_D1_miss_counter_BIP){
-         current_adaptative_cache_replacement_policy = RANDOM_POLICY;
-         if(print_output)
-            VG_(printf)("RANDOM SELECTED\n");
-         blocks_RANDOM++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_RANDOM;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_RANDOM;
-      }
-      //else if(temp_hit_counter_BIP> temp_hit_counter_LRU && temp_hit_counter_BIP > temp_hit_counter_FIFO && temp_hit_counter_BIP > temp_hit_counter_RANDOM){
-      else if(temp_D1_miss_counter_BIP <= temp_D1_miss_counter_LRU && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_FIFO && temp_D1_miss_counter_BIP <= temp_D1_miss_counter_RANDOM){
-         current_adaptative_cache_replacement_policy = BIP_POLICY;
-         if(print_output)
-            VG_(printf)("BIP SELECTED\n");
-         blocks_BIP++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_BIP;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_BIP;
-      }
-      else{
-         current_adaptative_cache_replacement_policy = LRU_POLICY;
-         if(print_output)
-            VG_(printf)("LRU_d SELECTED\n");
-         blocks_LRU++;
-         hit_counter_ACTIVE = hit_counter_ACTIVE + temp_hit_counter_LRU;
-         D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + temp_D1_miss_counter_LRU;
-      }
-
-      if (print_output)
-      {
-         VG_(printf)
-         ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-         VG_(printf)
-         ("FIFO HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_FIFO, temp_counter, temp_D1_miss_counter_FIFO);
-         VG_(printf)
-         ("RANDOM HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_RANDOM, temp_counter, temp_D1_miss_counter_RANDOM);
-         VG_(printf)
-         ("BIP HITS: %lld COUNTER: %lld MISSES D1%lld\n", temp_hit_counter_BIP, temp_counter, temp_D1_miss_counter_BIP);
-         VG_(printf)
-         ("LRU HITS: %lld COUNTER: %lld MISSES D1 %lld\n", temp_hit_counter_LRU, temp_counter, temp_D1_miss_counter_LRU);
-      }
-   }
-if (current_cache_replacement_policy == EXHAUSTIVE_POLICY)
-   {
-      current_adaptative_cache_replacement_policy = LRU_POLICY;
-      if (print_output)
-         VG_(printf)
-      ("LRU_d SELECTED\n");
-      for (int i = CYCLES / 2; i < CYCLES; i++)
-      {
-         blocks_LRU++;
-         if (hits_lru[i] == 0)
-            hit_counter_ACTIVE = hit_counter_ACTIVE + 1;
-         else
-            D1_miss_counter_ACTIVE = D1_miss_counter_ACTIVE + 1;
-      }
-   }
    fprint_CC_table_and_calc_totals();
 
    if (VG_(clo_verbosity) == 0) 
@@ -1760,9 +1683,9 @@ if (current_cache_replacement_policy == EXHAUSTIVE_POLICY)
                      LL_total_m, LL_total_mr, LL_total_mw);
 
       VG_(umsg)("LL miss rate:  %*.1f%% (%*.1f%%     + %*.1f%%  )\n",
-                l1, LL_total_m  * 100.0 / (Ir_total.a + D_total.a),
-                l2, LL_total_mr * 100.0 / (Ir_total.a + Dr_total.a),
-                l3, LL_total_mw * 100.0 / Dw_total.a);
+                l1, LL_total_m  * 100.0 / LL_total,
+                l2, LL_total_mr * 100.0 / LL_total,
+                l3, LL_total_mw * 100.0 / LL_total);
    }
 
    /* If branch profiling is enabled, show branch overall results. */
@@ -1863,9 +1786,9 @@ static Bool cg_process_cmd_line_option(const HChar* arg)
    else if VG_BOOL_CLO(arg, "--branch-sim", clo_branch_sim) {}
    else if VG_STR_CLO( arg, "--cache-policy", clo_cache_policy) {}
    else if VG_DBL_CLO( arg, "--bip-throttle", clo_cache_bip_throttle) {}
-   else if VG_DBL_CLO( arg, "--online-threshold", clo_online_threshold) {}
+   else if VG_DBL_CLO( arg, "--change-threshold", clo_online_threshold) {}
    else if VG_STR_CLO( arg, "--c-file", clo_c_file) {}
-   else if VG_INT_CLO( arg, "--density-block", clo_counter) {}
+   else if VG_INT_CLO( arg, "--window", clo_counter) {}
    else
       return False;
 
@@ -1877,6 +1800,7 @@ static Bool cg_process_cmd_line_option(const HChar* arg)
 static void cg_print_usage(void)
 {
    VG_(print_cache_clo_opts)();
+   /*TODO fill this up with new parameters*/
    VG_(printf)(
 "    --cache-sim=yes|no                  collect cache stats? [yes]\n"
 "    --branch-sim=yes|no                 collect branch prediction stats? [no]\n"
@@ -2031,8 +1955,8 @@ static void cg_post_clo_init(void)
             VG_(exit)(1);
    	}
    
-   } else if(VG_(strcmp)(clo_cache_policy,"all") == 0) {
-	   cache_replacement_policy = ALL_POLICY;
+   } else if(VG_(strcmp)(clo_cache_policy,"fix") == 0) {
+	   cache_replacement_policy = FIXED_WINDOW;
 	   VG_(printf)("ALL cache replacement will be used\n");
 
    	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
@@ -2042,8 +1966,8 @@ static void cg_post_clo_init(void)
       		VG_(printf)("BIP Throttle parameter is unset or negative\n");
             VG_(exit)(1);
    	}
-   } else if(VG_(strcmp)(clo_cache_policy,"exh") == 0) {
-	   cache_replacement_policy = EXHAUSTIVE_POLICY;
+   } else if(VG_(strcmp)(clo_cache_policy,"slide") == 0) {
+	   cache_replacement_policy = SLIDING_WINDOW;
 	   VG_(printf)("EXHAUSTIVE cache replacement will be used\n");
 
    	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
@@ -2055,7 +1979,7 @@ static void cg_post_clo_init(void)
    	}
    
    }else if(VG_(strcmp)(clo_cache_policy,"ada") == 0) {
-	   cache_replacement_policy = ADAPTATIVE_POLICY;
+	   cache_replacement_policy = ADAPTATIVE;
 	   VG_(printf)("ADAPTATIVE cache replacement will be used\n");
 
    	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
@@ -2067,7 +1991,7 @@ static void cg_post_clo_init(void)
    	}
    
    }else if(VG_(strcmp)(clo_cache_policy,"onl") == 0) {
-	   cache_replacement_policy = ONLINE_POLICY;
+	   cache_replacement_policy = ONLINE;
 	   VG_(printf)("ONLINE cache replacement will be used\n");
 
    	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
@@ -2077,9 +2001,28 @@ static void cg_post_clo_init(void)
       		VG_(printf)("BIP Throttle parameter is unset or negative\n");
             VG_(exit)(1);
    	}
-      if(clo_online_threshold >= 1 && clo_online_threshold <= 1024) {
-      		online_threshold_parameter = clo_online_threshold;
-      		VG_(printf)("Online threshold parameter is set to %f\n", online_threshold_parameter);
+      if(clo_online_threshold >= 1) {
+      		switching_threshold_parameter = clo_online_threshold;
+      		VG_(printf)("Online threshold parameter is set to %f\n", switching_threshold_parameter);
+   	} else {
+      		VG_(printf)("Online threshold is invalid or negative\n");
+            VG_(exit)(1);
+   	}
+   
+   }else if(VG_(strcmp)(clo_cache_policy,"duel") == 0) {
+	   cache_replacement_policy = CACHE_DUELING;
+	   VG_(printf)("Cache dueling will be used\n");
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
+   	}
+      if(clo_online_threshold >= 1) {
+      		switching_threshold_parameter = clo_online_threshold;
+      		VG_(printf)("Online threshold parameter is set to %f\n", switching_threshold_parameter);
    	} else {
       		VG_(printf)("Online threshold is invalid or negative\n");
             VG_(exit)(1);
@@ -2092,11 +2035,7 @@ static void cg_post_clo_init(void)
   /* */
    VG_(printf)("----------\n");
    current_cache_replacement_policy = cache_replacement_policy;
-   if(current_cache_replacement_policy == ALL_POLICY)
-      current_adaptative_cache_replacement_policy = EXHAUSTIVE_POLICY;
-   if(current_cache_replacement_policy == ONLINE_POLICY)
-      current_adaptative_cache_replacement_policy = LRU_POLICY;
-   density_access_counter = clo_counter;
+   window_counter = clo_counter;
    cachesim_initcaches(I1c, D1c, LLc);
 }
 
