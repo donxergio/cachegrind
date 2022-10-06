@@ -30,15 +30,18 @@
 #define __CG_ARCH_H
 
 typedef enum {
-   LRU_POLICY,
-   LIP_POLICY,
+   //From here traditional policies
+   LRU_POLICY,   
    RANDOM_POLICY,
    FIFO_POLICY,
    BIP_POLICY,
+   LIP_POLICY,
    DIP_POLICY,
-   FIXED_WINDOW,
+   //From here the approaches
+   FIXED_WINDOW = 20,
    SLIDING_WINDOW,
-   ADAPTATIVE,   
+   ADAPTATIVE,
+   NAIVE,   
    ONLINE,
    CACHE_DUELING
 } Cg_CachePolicy;
