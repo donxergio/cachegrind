@@ -1957,7 +1957,7 @@ static void cg_post_clo_init(void)
    
    } else if(VG_(strcmp)(clo_cache_policy,"fix") == 0) {
 	   cache_replacement_policy = FIXED_WINDOW;
-	   VG_(printf)("ALL cache replacement will be used\n");
+	   VG_(printf)("FIXED-Window cache replacement will be used\n");
 
    	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
       		bip_throttle_parameter = clo_cache_bip_throttle;
@@ -1968,7 +1968,7 @@ static void cg_post_clo_init(void)
    	}
    } else if(VG_(strcmp)(clo_cache_policy,"slide") == 0) {
 	   cache_replacement_policy = SLIDING_WINDOW;
-	   VG_(printf)("EXHAUSTIVE cache replacement will be used\n");
+	   VG_(printf)("SLIDING-Window cache replacement will be used\n");
 
    	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
       		bip_throttle_parameter = clo_cache_bip_throttle;
