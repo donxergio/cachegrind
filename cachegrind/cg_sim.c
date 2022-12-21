@@ -49,6 +49,7 @@ typedef struct
    Int tag_shift;
    HChar desc_line[128]; /* large enough */
    UWord *tags;
+   ULong *tags_miss;
 } cache_t2;
 
 typedef struct 
@@ -56,14 +57,19 @@ typedef struct
    cache_t2 I1;
    cache_t2 D1;
    cache_t2 LL;
-   int* array_misses; //Stores last misses
+   int* array_misses_LL; //Stores last misses in LL
+   int* array_misses_D1; //Stores last misses in D1
    ULong uses ; //Number of times the policy was used
    ULong misses_DL; //Total number of misses in last data level
    ULong misses_IL; //Total number of misses in last instruction level
    ULong misses_D1; //Total number of misses in first data level
    ULong misses_I1; //Total number of misses in first instruction level
-   int historic_misses; //History of misses in the last accesses
-   int bit_result_counter;
+   int historic_misses_LL; //History of misses in the last accesses DL
+   int historic_misses_D1; //History of misses in the last accesses DL
+   int online_misses_LL;
+   int online_misses_D1;
+   int bit_result_counter_D1;
+   int bit_result_counter_LL;
    Bool (*is_miss_func) (cache_t2 *, UInt, UWord);
    char* name;
 } policy;
@@ -86,6 +92,8 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_ra
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_fifo(cache_t2 *c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_bip(cache_t2 *c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip(cache_t2 *c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip3(cache_t2 *c, UInt set_no, UWord tag);
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip3a(cache_t2 *c, UInt set_no, UWord tag);
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dueling(cache_t2 *c, UInt set_no, UWord tag);
 
 static Bool (*miss_functions[POLICIES])(cache_t2 *, UInt, UWord) = {
@@ -142,9 +150,12 @@ __attribute__((always_inline)) static __inline__ void init_caches(cache_t2 *c, c
    }
 
    c->tags = VG_(malloc)("cg.sim.ci.1", sizeof(UWord) * c->sets * c->assoc);
+   c->tags_miss = VG_(malloc)("cg.sim.ci.1", sizeof(ULong) * c->sets);
 
    for (i = 0; i < c->sets * c->assoc; i++)
       c->tags[i] = 0;
+   for (i = 0; i < c->sets; i++)
+      c->tags_miss[i] = 0;
 }
 
 __attribute__((always_inline)) static __inline__ void copy_caches(cache_t2 *c_ori, cache_t2 *c_dest)
@@ -161,6 +172,8 @@ __attribute__((always_inline)) static __inline__ void copy_caches(cache_t2 *c_or
 
    for (i = 0; i < c_dest->sets * c_dest->assoc; i++)
       c_dest->tags[i] = c_ori->tags[i];
+   for (i = 0; i < c_dest->sets; i++)
+      c_dest->tags_miss[i] = c_ori->tags_miss[i];
 }
 
 /* By this point, the size/assoc/line_size has been checked. */
@@ -202,9 +215,13 @@ static void cachesim_initcache(cache_t config, cache_t2 *c)
 
    c->tags = VG_(malloc)("cg.sim.ci.1",
                          sizeof(UWord) * c->sets * c->assoc);
+   c->tags_miss = VG_(malloc)("cg.sim.ci.1",
+                         sizeof(ULong) * c->sets);
 
    for (i = 0; i < c->sets * c->assoc; i++)
       c->tags[i] = 0;
+   for (i = 0; i < c->sets; i++)
+      c->tags_miss[i] = 0;
 }
 
 /* This attribute forces GCC to inline the function, getting rid of a
@@ -485,132 +502,341 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_di
       return cachesim_setref_is_miss_lru(c, set_no, tag);
    }
 }
-
-/*This function rotates the array provided and returns the sum of all the values inside it after the rotation and insertion of last_value
-*/
-__attribute__((always_inline)) static __inline__ int store_misses_history(policy policy_, int last_value)
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip3(cache_t2 *c, UInt set_no, UWord tag)
 {
-   //TODO optimize this....is delaying execution
+   //static unsigned int psel_size = 4; //number of bits of psel
+
+   //psel_msb = 2 << (psel_size - 1)
+   static unsigned int psel_msb = 8; // decimal value when there is 1 in the MSB of psel (1000)
+
+   //psel_max = 2 << (psel_size) - 1
+   static unsigned int psel_max = 15; // maximum value of psel (1111)
+
+   static unsigned int psel_1 = 8; // Policy selector, must be iniatialize in the middle of the range [0,psel_max] +lru vs fifo-
+   static unsigned int psel_2 = 8; // Policy selector, must be iniatialize in the middle of the range [0,psel_max] +lru vs bip-
+   static unsigned int psel_3 = 8; // Policy selector, must be iniatialize in the middle of the range [0,psel_max] +bip vs fifo-
+
+   Bool is_miss_lru = False;
+   Bool is_miss_fifo = False;
+   Bool is_miss_bip = False;
+   if (c == &D1)
+   {
+      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].D1, set_no, tag);
+      is_miss_fifo = cachesim_setref_is_miss_lru(&policies[1].D1, set_no, tag);
+      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].D1, set_no, tag);
+      if (is_miss_lru)
+      {
+         if (psel_1 < psel_max)
+         {
+            psel_1++;
+         }
+         if (psel_2 < psel_max)
+         {
+            psel_2++;
+         }
+      }
+      if (is_miss_bip)
+      {
+         if (psel_2 > 0)
+         {
+            psel_2--;
+         }
+
+         if (psel_3 < psel_max)
+         {
+            psel_3++;
+         }
+      }
+      if (is_miss_fifo)
+      {
+         if (psel_1 > 0)
+         {
+            psel_1--;
+         }
+         if (psel_3 > 0)
+         {
+            psel_3--;
+         }
+      }
+      if (psel_1 >= psel_msb)
+      {
+         if (psel_3 >= psel_msb)
+         {
+            // Fifo policy is the best
+            return cachesim_setref_is_miss_fifo(c, set_no, tag);
+         }
+      }
+      if (psel_1 < psel_msb)
+      {
+         if (psel_2 < psel_msb)
+         {
+            // Lru policy is the best
+            return cachesim_setref_is_miss_lru(c, set_no, tag);
+         }
+      }
+      if (psel_2 >= psel_msb)
+      {
+         if (psel_3 < psel_msb)
+         {
+            // Bip policy is the best
+            return cachesim_setref_is_miss_bip(c, set_no, tag);
+         }
+      }
+      //Not clear which one is better -> default LRU
+      return cachesim_setref_is_miss_lru(c, set_no, tag); 
+   }
+   else if (c == &LL)
+   {
+      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].LL, set_no, tag);
+      is_miss_fifo = cachesim_setref_is_miss_lru(&policies[1].LL, set_no, tag);
+      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].LL, set_no, tag);
+   }
+   else
+   {
+      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].I1, set_no, tag);
+      is_miss_fifo = cachesim_setref_is_miss_lru(&policies[1].I1, set_no, tag);
+      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].I1, set_no, tag);
+   }
+
+   return cachesim_setref_is_miss_lru(c, set_no, tag);
+
+}
+
+/**
+ * @brief Save the last result of policy (1= Miss, 0= Hit) in the array of results
+ * @param policy, struct that represent the policy
+ * @param last_value, 1=Miss, 0=Hit
+ * @return int, number of misses in the array
+ */
+
+__attribute__((always_inline)) static __inline__ int store_misses_history(policy* policy_, int last_value, Bool LL)
+{
+   //TODO remove window_counter from implementation and replace it by a parameter
    int temp = 0;
    if (window_counter == 1)
    {
       return last_value;
    }
-   if (last_value!=policy_.array_misses[policy_.bit_result_counter])
+   if (LL)
    {
-      if (last_value == 1)
+      if (last_value != policy_->array_misses_LL[policy_->bit_result_counter_LL])
       {
-         policy_.historic_misses--;
+         // The value to be returned should be updated
+         if (last_value == 1)
+         {
+            policy_->historic_misses_LL++; // New miss
+            policy_->online_misses_LL++;
+            policy_->misses_DL++;
+         }
+         else
+         {
+            policy_->historic_misses_LL--; // New hit
+            policy_->online_misses_LL--;
+         }
+         policy_->array_misses_LL[policy_->bit_result_counter_LL] = last_value;
+      }
+      policy_->bit_result_counter_LL++;
+      if (policy_->bit_result_counter_LL >= window_counter)
+      {
+         policy_->bit_result_counter_LL = 0;
+      }
+      if (policy_->historic_misses_LL > window_counter)
+         policy_->historic_misses_LL = window_counter;
+      if (policy_->historic_misses_LL < 0)
+         policy_->historic_misses_LL = 0;
+      if (policy_->online_misses_LL > window_counter)
+         policy_->online_misses_LL = window_counter;
+      if (policy_->online_misses_LL < 0)
+         policy_->online_misses_LL = 0;
+
+      return policy_->historic_misses_LL;
+   }
+   else
+   {
+      if (last_value != policy_->array_misses_D1[policy_->bit_result_counter_D1])
+      {
+         // The value to be returned should be updated
+         if (last_value == 1)
+         {
+            policy_->historic_misses_D1++; // New miss
+            policy_->online_misses_D1++;
+            policy_->misses_D1++;
+         }
+         else
+         {
+            policy_->historic_misses_D1--; // New hit
+            policy_->online_misses_D1--;
+         }
+         policy_->array_misses_D1[policy_->bit_result_counter_D1] = last_value;
+      }
+      policy_->bit_result_counter_D1++;
+      if (policy_->bit_result_counter_D1 >= window_counter)
+      {
+         policy_->bit_result_counter_D1 = 0;
+      }
+      if (policy_->historic_misses_D1 > window_counter)
+         policy_->historic_misses_D1 = window_counter;
+      if (policy_->historic_misses_D1 < 0)
+         policy_->historic_misses_D1 = 0;
+      if (policy_->online_misses_D1 > window_counter)
+         policy_->online_misses_D1 = window_counter;
+      if (policy_->online_misses_D1 < 0)
+         policy_->online_misses_D1 = 0;
+      return policy_->historic_misses_D1;
+   }
+}
+__attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dip3a(cache_t2 *c, UInt set_no, UWord tag)
+{
+   Bool is_miss_lru = False;
+   Bool is_miss_fifo = False;
+   Bool is_miss_bip = False;
+   if (c == &D1)
+   {
+      if (cachesim_setref_is_miss_lru(&policies[0].D1, set_no, tag))
+      {
+         store_misses_history(&policies[0], 1, False);
       }
       else
       {
-         policy_.historic_misses++;
+         store_misses_history(&policies[0], 0, False);
       }
-      policy_.array_misses[policy_.bit_result_counter] = last_value;      
-   }   
-   policy_.bit_result_counter++;
-   if (policy_.bit_result_counter >= window_counter)
-   {
-      policy_.bit_result_counter = 0;
+      if (cachesim_setref_is_miss_fifo(&policies[1].D1, set_no, tag))
+      {
+         store_misses_history(&policies[1], 1, False);
+      }
+      else
+      {
+         store_misses_history(&policies[1], 0, False);
+      }
+      if (cachesim_setref_is_miss_bip(&policies[2].D1, set_no, tag))
+      {
+         store_misses_history(&policies[2], 1, False);
+      }
+      else
+      {
+         store_misses_history(&policies[2], 0, False);
+      }      
+      if (policies[0].historic_misses_D1 <= policies[1].historic_misses_D1 && policies[0].historic_misses_D1 >= policies[2].historic_misses_D1)
+      {
+         return cachesim_setref_is_miss_lru(c, set_no, tag);
+      }
+      if (policies[1].historic_misses_D1 >= policies[0].historic_misses_D1 && policies[1].historic_misses_D1 >= policies[2].historic_misses_D1)
+      {
+         return cachesim_setref_is_miss_fifo(c, set_no, tag);
+      }
+      if (policies[2].historic_misses_D1 >= policies[1].historic_misses_D1 && policies[2].historic_misses_D1 >= policies[0].historic_misses_D1)
+      {
+         return cachesim_setref_is_miss_bip(c, set_no, tag);
+      }
+      return cachesim_setref_is_miss_lru(c, set_no, tag);
    }
-   if (policy_.historic_misses > window_counter)
-      policy_.historic_misses = window_counter;
-   if (policy_.historic_misses < 0)
-      policy_.historic_misses = 0;
-   return policy_.historic_misses;
+   else if (c == &LL)
+   {
+      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].LL, set_no, tag);
+      is_miss_fifo = cachesim_setref_is_miss_lru(&policies[1].LL, set_no, tag);
+      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].LL, set_no, tag);
+   }
+   else
+   {
+      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].I1, set_no, tag);
+      is_miss_fifo = cachesim_setref_is_miss_lru(&policies[1].I1, set_no, tag);
+      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].I1, set_no, tag);
+   }
+
+   return cachesim_setref_is_miss_lru(c, set_no, tag);
 
 }
+
 __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_dueling(cache_t2 *c, UInt set_no, UWord tag){
    Bool in_LL = (c == &LL);
    Bool in_D1 = (c == &D1);
    Bool in_I1 = (c == &I1);
+   if (in_I1)
+   {
+      //By default we apply LRU
+      return cachesim_setref_is_miss_lru(c, set_no, tag);
+   }
+   if (in_LL)
+   {
+      if(cachesim_setref_is_miss_lru(c, set_no, tag))
+      {
+         store_misses_history(&policies[0], 1, True);
+         return True;
+      }
+      else
+      {
+         store_misses_history(&policies[0], 0, True); 
+         return False;
+      }
+   }
+   
    /*Temp -> TODO create a struct to save the set configuration for each policy*/
    int n = 5;
    if (set_no == 1+(0*n)  || set_no == 1+(1*n)  || set_no == 1+(2*n)  || set_no == 1+(3*n)  || set_no == 1+(4*n)  || set_no == 1+(5*n)  || set_no == 1+(6*n)  || set_no == 1+(7*n)  || set_no == 1+(8*n)  || set_no == 2+(9*n)
     || set_no == 1+(10*n) || set_no == 1+(11*n) || set_no == 1+(12*n) || set_no == 1+(13*n) || set_no == 1+(14*n) || set_no == 1+(15*n) || set_no == 1+(16*n) || set_no == 1+(17*n) || set_no == 1+(18*n) || set_no == 2+(19*n) 
     || set_no == 1+(20*n) || set_no == 1+(21*n) || set_no == 1+(22*n) || set_no == 1+(23*n) || set_no == 1+(24*n) || set_no == 1+(25*n) || set_no == 1+(26*n) || set_no == 1+(27*n) || set_no == 1+(28*n) || set_no == 2+(29*n)
-    || set_no == 1+(30*n) || set_no == 1+(31*n) || set_no == 1+(32*n) || set_no == 1+(33*n) || set_no == 1+(34*n) || set_no == 1+(35*n) || set_no == 1+(36*n) || set_no == 1+(37*n) || set_no == 1+(38*n) || set_no == 2+(39*n)
+    || set_no == 1+(30*n) || set_no == 1+(31*n) /* || set_no == 1+(32*n) || set_no == 1+(33*n) || set_no == 1+(34*n) || set_no == 1+(35*n) || set_no == 1+(36*n) || set_no == 1+(37*n) || set_no == 1+(38*n) || set_no == 2+(39*n)
     || set_no == 1+(40*n) || set_no == 1+(41*n) || set_no == 1+(42*n) || set_no == 1+(43*n) || set_no == 1+(44*n) || set_no == 1+(45*n) || set_no == 1+(46*n) || set_no == 1+(47*n) || set_no == 1+(48*n) || set_no == 2+(49*n)
     || set_no == 1+(50*n) || set_no == 1+(51*n) || set_no == 1+(52*n) || set_no == 1+(53*n) || set_no == 1+(54*n) || set_no == 1+(55*n) || set_no == 1+(56*n) || set_no == 1+(57*n) || set_no == 1+(58*n) || set_no == 2+(59*n)
-    || set_no == 1+(60*n) || set_no == 1+(61*n) || set_no == 1+(62*n) || set_no == 1+(63*n) )
+    || set_no == 1+(60*n) || set_no == 1+(61*n) || set_no == 1+(62*n) || set_no == 1+(63*n) */ )
    {
       policies[0].uses++;
       data_blocks++;
       if (cachesim_setref_is_miss_lru(c, set_no, tag))
       {
-         if (in_D1)
-            (policies[0].misses_D1)++;
-         if (in_I1)
-            (policies[0].misses_I1)++;
-         if (in_LL){
-            policies[0].historic_misses = store_misses_history(policies[0], 1);
-            (policies[0].misses_DL)++; //TODO separate in DL and IL
-         }
+         store_misses_history(&policies[0], 1, False);
          return True;
       }
       else
       {
-         policies[0].historic_misses = store_misses_history(policies[0], 0);
+         store_misses_history(&policies[0], 0, False);
       }
       return False;
    }
    if (set_no == 2+(0*n)  || set_no == 2+(1*n)  || set_no == 2+(2*n)  || set_no == 2+(3*n)  || set_no == 2+(4*n)  || set_no == 2+(5*n)  || set_no == 2+(6*n)  || set_no == 2+(7*n)  || set_no == 2+(8*n)  || set_no == 2+(9*n)
       || set_no == 2+(10*n) || set_no == 2+(11*n) || set_no == 2+(12*n) || set_no == 2+(13*n) || set_no == 2+(14*n) || set_no == 2+(15*n) || set_no == 2+(16*n) || set_no == 2+(17*n) || set_no == 2+(18*n) || set_no == 2+(19*n) 
       || set_no == 2+(20*n) || set_no == 2+(21*n) || set_no == 2+(22*n) || set_no == 2+(23*n) || set_no == 2+(24*n) || set_no == 2+(25*n) || set_no == 2+(26*n) || set_no == 2+(27*n) || set_no == 2+(28*n) || set_no == 2+(29*n)
-      || set_no == 2+(30*n) || set_no == 2+(31*n) || set_no == 2+(32*n) || set_no == 2+(33*n) || set_no == 2+(34*n) || set_no == 2+(35*n) || set_no == 2+(36*n) || set_no == 2+(37*n) || set_no == 2+(38*n) || set_no == 2+(39*n)
+      || set_no == 2+(30*n) || set_no == 2+(31*n) /* || set_no == 2+(32*n) || set_no == 2+(33*n) || set_no == 2+(34*n) || set_no == 2+(35*n) || set_no == 2+(36*n) || set_no == 2+(37*n) || set_no == 2+(38*n) || set_no == 2+(39*n)
       || set_no == 2+(40*n) || set_no == 2+(41*n) || set_no == 2+(42*n) || set_no == 2+(43*n) || set_no == 2+(44*n) || set_no == 2+(45*n) || set_no == 2+(46*n) || set_no == 2+(47*n) || set_no == 2+(48*n) || set_no == 2+(49*n)
       || set_no == 2+(50*n) || set_no == 2+(51*n) || set_no == 2+(52*n) || set_no == 2+(53*n) || set_no == 2+(54*n) || set_no == 2+(55*n) || set_no == 2+(56*n) || set_no == 2+(57*n) || set_no == 2+(58*n) || set_no == 2+(59*n)
-      || set_no == 2+(60*n) || set_no == 2+(61*n) || set_no == 2+(62*n) || set_no == 2+(63*n) )
+      || set_no == 2+(60*n) || set_no == 2+(61*n) || set_no == 2+(62*n) || set_no == 2+(63*n) */ )
       {
          policies[1].uses++;
          data_blocks++;
       if (cachesim_setref_is_miss_fifo(c, set_no, tag))
       {
-         if (in_D1)
-            (policies[1].misses_D1)++;
-         if (in_I1)
-            (policies[1].misses_I1)++;
-         if (in_LL){
-            policies[1].historic_misses = store_misses_history(policies[1], 1);
-            (policies[1].misses_DL)++; //TODO separate in DL and IL
-         }
+         store_misses_history(&policies[1], 1, False);
          return True;
       }
       else
       {
-         policies[1].historic_misses = store_misses_history(policies[1], 0);
+         store_misses_history(&policies[1], 0, False);
       }
       return False;
       }
    if (set_no == 3+(0*n)  || set_no == 3+(1*n)  || set_no == 3+(2*n)  || set_no == 3+(3*n)  || set_no == 3+(4*n)  || set_no == 3+(5*n)  || set_no == 3+(6*n)  || set_no == 3+(7*n)  || set_no == 3+(8*n)  || set_no == 2+(9*n)
     || set_no == 3+(10*n) || set_no == 3+(11*n) || set_no == 3+(12*n) || set_no == 3+(13*n) || set_no == 3+(14*n) || set_no == 3+(15*n) || set_no == 3+(16*n) || set_no == 3+(17*n) || set_no == 3+(18*n) || set_no == 2+(19*n) 
     || set_no == 3+(20*n) || set_no == 3+(21*n) || set_no == 3+(22*n) || set_no == 3+(23*n) || set_no == 3+(24*n) || set_no == 3+(25*n) || set_no == 3+(26*n) || set_no == 3+(27*n) || set_no == 3+(28*n) || set_no == 2+(29*n)
-    || set_no == 3+(30*n) || set_no == 3+(31*n) || set_no == 3+(32*n) || set_no == 3+(33*n) || set_no == 3+(34*n) || set_no == 3+(35*n) || set_no == 3+(36*n) || set_no == 3+(37*n) || set_no == 3+(38*n) || set_no == 2+(39*n)
+    || set_no == 3+(30*n) || set_no == 3+(31*n) /* || set_no == 3+(32*n) || set_no == 3+(33*n) || set_no == 3+(34*n) || set_no == 3+(35*n) || set_no == 3+(36*n) || set_no == 3+(37*n) || set_no == 3+(38*n) || set_no == 2+(39*n)
     || set_no == 3+(40*n) || set_no == 3+(41*n) || set_no == 3+(42*n) || set_no == 3+(43*n) || set_no == 3+(44*n) || set_no == 3+(45*n) || set_no == 3+(46*n) || set_no == 3+(47*n) || set_no == 3+(48*n) || set_no == 2+(49*n)
     || set_no == 3+(50*n) || set_no == 3+(51*n) || set_no == 3+(52*n) || set_no == 3+(53*n) || set_no == 3+(54*n) || set_no == 3+(55*n) || set_no == 3+(56*n) || set_no == 3+(57*n) || set_no == 3+(58*n) || set_no == 2+(59*n)
-    || set_no == 3+(60*n) || set_no == 3+(61*n) || set_no == 3+(62*n) || set_no == 3+(63*n) )
+    || set_no == 3+(60*n) || set_no == 3+(61*n) || set_no == 3+(62*n) || set_no == 3+(63*n) */ )
       {
          policies[2].uses++;
          data_blocks++;
       if (cachesim_setref_is_miss_bip(c, set_no, tag))
       {
-         if (in_D1)
-            (policies[2].misses_D1)++;
-         if (in_I1)
-            (policies[2].misses_I1)++;
-         if (in_LL){
-            policies[2].historic_misses = store_misses_history(policies[2], 1);
-            (policies[2].misses_DL)++; //TODO separate in DL and IL
-         }
+         store_misses_history(&policies[2], 1, False);
          return True;
       }
       else
       {
-         policies[2].historic_misses = store_misses_history(policies[2], 0);
+         store_misses_history(&policies[2], 0, False);
+
       }
       return False;
       }
-   if (set_no == 4+(0*n)  || set_no == 4+(1*n)  || set_no == 4+(2*n)  || set_no == 4+(3*n)  || set_no == 4+(4*n)  || set_no == 4+(5*n)  || set_no == 4+(6*n)  || set_no == 4+(7*n)  || set_no == 4+(8*n)  || set_no == 2+(9*n)
+   /* if (set_no == 4+(0*n)  || set_no == 4+(1*n)  || set_no == 4+(2*n)  || set_no == 4+(3*n)  || set_no == 4+(4*n)  || set_no == 4+(5*n)  || set_no == 4+(6*n)  || set_no == 4+(7*n)  || set_no == 4+(8*n)  || set_no == 2+(9*n)
     || set_no == 4+(10*n) || set_no == 4+(11*n) || set_no == 4+(12*n) || set_no == 4+(13*n) || set_no == 4+(14*n) || set_no == 4+(15*n) || set_no == 4+(16*n) || set_no == 4+(17*n) || set_no == 4+(18*n) || set_no == 2+(19*n) 
     || set_no == 4+(20*n) || set_no == 4+(21*n) || set_no == 4+(22*n) || set_no == 4+(23*n) || set_no == 4+(24*n) || set_no == 4+(25*n) || set_no == 4+(26*n) || set_no == 4+(27*n) || set_no == 4+(28*n) || set_no == 2+(29*n)
     || set_no == 4+(30*n) || set_no == 4+(31*n) || set_no == 4+(32*n) || set_no == 4+(33*n) || set_no == 4+(34*n) || set_no == 4+(35*n) || set_no == 4+(36*n) || set_no == 4+(37*n) || set_no == 4+(38*n) || set_no == 2+(39*n)
@@ -622,39 +848,33 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_du
          data_blocks++;
       if (cachesim_setref_is_miss_random(c, set_no, tag))
       {
-         if (in_D1)
-            (policies[3].misses_D1)++;
-         if (in_I1)
-            (policies[3].misses_I1)++;
-         if (in_LL){
-            policies[3].historic_misses = store_misses_history(policies[3], 1);
-            (policies[3].misses_DL)++; //TODO separate in DL and IL
-         }
+         store_misses_history(&policies[3], 1, False);
          return True;
       }
       else
       {
-         policies[3].historic_misses = store_misses_history(policies[3], 0);
+         store_misses_history(&policies[3], 0, False);
       }
       return False;
+      } */
+      //Follower sets policy selection
+      if (policies[0].historic_misses_D1 <= policies[1].historic_misses_D1 && policies[0].historic_misses_D1 >= policies[2].historic_misses_D1 /* && policies[0].historic_misses_D1 >= policies[3].historic_misses_D1 */)
+      {
+         return cachesim_setref_is_miss_lru(c, set_no, tag);
       }
-   if (policies[0].historic_misses <= policies[1].historic_misses && policies[0].historic_misses >= policies[2].historic_misses && policies[0].historic_misses >= policies[3].historic_misses)
-   {
-      return cachesim_setref_is_miss_lru(c,set_no, tag);
-   }
-   if (policies[1].historic_misses >= policies[0].historic_misses && policies[1].historic_misses >= policies[2].historic_misses && policies[1].historic_misses >= policies[3].historic_misses)
-   {
-      return cachesim_setref_is_miss_fifo(c,set_no, tag);
-   }
-   if (policies[2].historic_misses >= policies[1].historic_misses && policies[2].historic_misses >= policies[0].historic_misses && policies[2].historic_misses >= policies[3].historic_misses)
-   {
-      return cachesim_setref_is_miss_bip(c,set_no, tag);
-   }
-   if (policies[3].historic_misses >= policies[1].historic_misses && policies[3].historic_misses >= policies[2].historic_misses && policies[3].historic_misses >= policies[0].historic_misses)
-   {
-      return cachesim_setref_is_miss_random(c,set_no, tag);
-   } 
-   return cachesim_setref_is_miss_lru(c,set_no, tag);    
+      if (policies[1].historic_misses_D1 >= policies[0].historic_misses_D1 && policies[1].historic_misses_D1 >= policies[2].historic_misses_D1 /* && policies[1].historic_misses_D1 >= policies[3].historic_misses_D1 */)
+      {
+         return cachesim_setref_is_miss_fifo(c, set_no, tag);
+      }
+      if (policies[2].historic_misses_D1 >= policies[1].historic_misses_D1 && policies[2].historic_misses_D1 >= policies[0].historic_misses_D1 /* && policies[2].historic_misses_D1 >= policies[3].historic_misses_D1 */)
+      {
+         return cachesim_setref_is_miss_bip(c, set_no, tag);
+      }
+/*       if (policies[3].historic_misses_D1 >= policies[1].historic_misses_D1 && policies[3].historic_misses_D1 >= policies[2].historic_misses_D1 && policies[3].historic_misses_D1 >= policies[0].historic_misses_D1)
+      {
+         return cachesim_setref_is_miss_random(c, set_no, tag);
+      } */
+      return cachesim_setref_is_miss_lru(c, set_no, tag);
 }
 __attribute__((always_inline)) static __inline__ Bool cachesim_ref_is_miss(cache_t2 *c, Addr a, UChar size)
 {
@@ -702,9 +922,17 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_ref_is_miss(cache
 static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
 {  
    /*Here we prepare all the policies data structs*/
+    if ((cache_replacement_policy == DIP3_POLICY || cache_replacement_policy == DIP3_AGEING_POLICY)&& overhead_allowed) {
+      D1c.size = D1c.size - (3*(32 * D1c.assoc * D1c.line_size));
+   } 
    cachesim_initcache(I1c, &I1);
    cachesim_initcache(D1c, &D1);
    cachesim_initcache(LLc, &LL);
+
+   if (cache_replacement_policy == DIP3_POLICY || cache_replacement_policy == DIP3_AGEING_POLICY) {
+      D1c.size = (32 * D1c.assoc * D1c.line_size);
+   }
+
    for (ULong i = 0; i < POLICIES; i++)
    {
       cachesim_initcache(I1c, &policies[i].I1);
@@ -712,8 +940,10 @@ static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
       cachesim_initcache(LLc, &policies[i].LL);
       policies[i].is_miss_func = miss_functions[i];
       policies[i].name = names[i];
-      policies[i].array_misses = (int*) VG_(calloc)("array_misses", window_counter, sizeof(int));
-      policies[i].historic_misses = 0;
+      policies[i].array_misses_D1 = (int*) VG_(calloc)("array_misses_D1", window_counter, sizeof(int));
+      policies[i].array_misses_LL = (int*) VG_(calloc)("array_misses_LL", window_counter, sizeof(int));
+      policies[i].historic_misses_D1 = 0;
+      policies[i].historic_misses_LL = 0;
       policies[i].uses = 0;
       if (cache_replacement_policy == ONLINE) //The online approach use this value for switching and starts in the 50% of the max value of misses of counter
          policies[i].misses_DL =(ULong) window_counter/2;
@@ -722,7 +952,8 @@ static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
       policies[i].misses_IL =0;
       policies[i].misses_D1 =0;
       policies[i].misses_I1 =0;
-      policies[i].bit_result_counter =0;
+      policies[i].bit_result_counter_D1 =0;
+      policies[i].bit_result_counter_LL =0;
    }
 
    /*  Here we choose the policy that will be used for the result */
@@ -749,6 +980,14 @@ static void cachesim_initcaches(cache_t I1c, cache_t D1c, cache_t LLc)
    else if (cache_replacement_policy == DIP_POLICY)
    {
       cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
+   }
+   else if (cache_replacement_policy == DIP3_POLICY)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_dip3;
+   }
+   else if (cache_replacement_policy == DIP3_AGEING_POLICY)
+   {
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_dip3a;
    }
    else if (cache_replacement_policy == CACHE_DUELING)
    {
@@ -859,35 +1098,30 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
          cachesim_setref_is_miss = policies[i].is_miss_func;
          if (cachesim_ref_is_miss(&policies[i].D1, a, size))
          {
-            (policies[i].misses_D1)++;
+            store_misses_history(&policies[i], 1, False);
             if (cachesim_ref_is_miss(&policies[i].LL, a, size))
             {
-               (policies[i].misses_DL)++;
-               policies[i].historic_misses = store_misses_history(policies[i], 1);
+               store_misses_history(&policies[i], 1, True);
             }
             else
             {
-               policies[i].historic_misses = store_misses_history(policies[i], 0);
-               if (current_cache_replacement_policy == ONLINE)
-                  (policies[i].misses_DL)--;
+               store_misses_history(&policies[i], 0, True);
             }
          }
          else
          {
-            policies[i].historic_misses = store_misses_history(policies[i], 0);
-            if (current_cache_replacement_policy == ONLINE)
-               (policies[i].misses_DL)--;
+            store_misses_history(&policies[i], 0, False);
          }
-         if ((policies[i].historic_misses < min_misses) && current_cache_replacement_policy != ONLINE)
+         if ((policies[i].historic_misses_D1 < min_misses) && current_cache_replacement_policy != ONLINE)
          {
             //Sliding window uses the historic values of the misses
-            min_misses = policies[i].historic_misses;
+            min_misses = policies[i].historic_misses_D1;
             index_min_misses_policy = i;
          }
-         if ((policies[i].misses_DL < min_misses) && current_cache_replacement_policy == ONLINE)
+         if ((policies[i].online_misses_D1 < min_misses) && current_cache_replacement_policy == ONLINE)
          {
             //Online uses just a counter of misses
-            min_misses = policies[i].misses_DL;
+            min_misses = policies[i].online_misses_D1;
             index_min_misses_policy = i;
          }
       }
@@ -917,9 +1151,12 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
                   (*missesIL) += policies[i].misses_IL;
                }
                // Clean last window to start a new one
-               VG_(free)(policies[i].array_misses);
-               policies[i].array_misses = (int *) VG_(calloc)("array_misses", window_counter, sizeof(int));
-               policies[i].historic_misses = 0;
+               VG_(free)(policies[i].array_misses_D1);
+               VG_(free)(policies[i].array_misses_LL);
+               policies[i].array_misses_D1 = (int *) VG_(calloc)("array_misses_D1", window_counter, sizeof(int));
+               policies[i].array_misses_LL = (int *) VG_(calloc)("array_misses_LL", window_counter, sizeof(int));
+               policies[i].historic_misses_D1 = 0;
+               policies[i].historic_misses_LL = 0;
                policies[i].misses_DL = 0;
                policies[i].misses_IL = 0;
                policies[i].misses_D1 = 0;
@@ -934,7 +1171,7 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
       if (current_cache_replacement_policy == ONLINE)
       {
          // Apply the threshold before switching
-         if (policies[index_min_misses_policy].misses_DL < policies[index_selected_policy].misses_DL - switching_threshold_parameter)
+         if (policies[index_min_misses_policy].online_misses_D1 < policies[index_selected_policy].online_misses_D1 - switching_threshold_parameter)
          {
             index_selected_policy = index_min_misses_policy;
          }
@@ -945,7 +1182,7 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
       if (current_cache_replacement_policy == SLIDING_WINDOW)
       {
          // Apply the threshold before switching
-         if (policies[index_min_misses_policy].historic_misses < policies[index_selected_policy].historic_misses - switching_threshold_parameter)
+         if (policies[index_min_misses_policy].historic_misses_D1 < policies[index_selected_policy].historic_misses_D1 - switching_threshold_parameter)
          {
             index_selected_policy = index_min_misses_policy;
          }
@@ -959,7 +1196,7 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
       // Use the policy selected in CODE
       if (current_cache_replacement_policy == NAIVE)
       {
-         //TODO adapt the number of policies to a parameter
+         //TODO: adapt the number of policies to a parameter
          current_adaptative_cache_replacement_policy = VG_(random)(NULL) % 4;
       }
       
@@ -989,6 +1226,7 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
          break;
       default:
          cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
+         policies[0].uses++;
          break;
       }
    }

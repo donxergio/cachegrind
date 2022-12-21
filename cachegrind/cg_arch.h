@@ -37,6 +37,8 @@ typedef enum {
    BIP_POLICY,
    LIP_POLICY,
    DIP_POLICY,
+   DIP3_POLICY,
+   DIP3_AGEING_POLICY,
    //From here the approaches
    FIXED_WINDOW = 20,
    SLIDING_WINDOW,
@@ -52,6 +54,7 @@ int switching_threshold_parameter;
 int window_counter;
 int current_cache_replacement_policy;
 int current_adaptative_cache_replacement_policy; /*Policy received from code, NAIVE approach*/
+Bool overhead_allowed;
 
 // For cache simulation
 typedef struct {

@@ -64,9 +64,10 @@ static Bool  clo_branch_sim = False; /* do branch simulation? */
 static const HChar* clo_cachegrind_out_file = "cachegrind.out.%p";
 static const HChar* clo_cache_policy = "lru";
 static float clo_cache_bip_throttle = -1.0;
-static int clo_online_threshold = 100;
+static int clo_online_threshold = 8;
 static const HChar* clo_c_file ="";
-static float clo_counter = 10000;
+static float clo_counter = 1024;
+static Bool clo_overhead = False;
 
 /*------------------------------------------------------------*/
 /*--- Cachesim configuration                               ---*/
@@ -1784,6 +1785,7 @@ static Bool cg_process_cmd_line_option(const HChar* arg)
    else if VG_STR_CLO( arg, "--cachegrind-out-file", clo_cachegrind_out_file) {}
    else if VG_BOOL_CLO(arg, "--cache-sim",  clo_cache_sim)  {}
    else if VG_BOOL_CLO(arg, "--branch-sim", clo_branch_sim) {}
+   else if VG_BOOL_CLO(arg, "--overhead", clo_overhead) {}
    else if VG_STR_CLO( arg, "--cache-policy", clo_cache_policy) {}
    else if VG_DBL_CLO( arg, "--bip-throttle", clo_cache_bip_throttle) {}
    else if VG_DBL_CLO( arg, "--change-threshold", clo_online_threshold) {}
@@ -1943,6 +1945,39 @@ static void cg_post_clo_init(void)
             VG_(exit)(1);
    	}
    
+   } else if(VG_(strcmp)(clo_cache_policy,"dip_3") == 0) {
+	cache_replacement_policy = DIP3_POLICY;
+	VG_(printf)("DIP_3 cache replacement will be used\n");
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
+   	}
+      if(clo_overhead == True){
+         VG_(printf)("Overhead enabled\n");
+         overhead_allowed = True;
+      }
+   
+   }else if(VG_(strcmp)(clo_cache_policy,"dip_3a") == 0) {
+	cache_replacement_policy = DIP3_AGEING_POLICY;
+	VG_(printf)("DIP_3 with ageing cache replacement will be used\n");
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
+   	}
+      if(clo_overhead == True){
+         VG_(printf)("Overhead enabled\n");
+         overhead_allowed = True;
+      }
+
+   
    } else if(VG_(strcmp)(clo_cache_policy,"bip") == 0) {
 	cache_replacement_policy = BIP_POLICY;
 	VG_(printf)("DIP cache replacement will be used\n");
@@ -1979,7 +2014,7 @@ static void cg_post_clo_init(void)
    	}
       if(clo_online_threshold >= 1) {
       		switching_threshold_parameter = clo_online_threshold;
-      		VG_(printf)("Online threshold parameter is set to %f\n", switching_threshold_parameter);
+      		VG_(printf)("Online threshold parameter is set to %d\n", switching_threshold_parameter);
    	} else {
       		VG_(printf)("Online threshold is invalid or negative\n");
             VG_(exit)(1);
@@ -2022,7 +2057,7 @@ static void cg_post_clo_init(void)
    	}
       if(clo_online_threshold >= 1) {
       		switching_threshold_parameter = clo_online_threshold;
-      		VG_(printf)("Online threshold parameter is set to %f\n", switching_threshold_parameter);
+      		VG_(printf)("Online threshold parameter is set to %d\n", switching_threshold_parameter);
    	} else {
       		VG_(printf)("Online threshold is invalid or negative\n");
             VG_(exit)(1);
@@ -2041,7 +2076,7 @@ static void cg_post_clo_init(void)
    	}
       if(clo_online_threshold >= 1) {
       		switching_threshold_parameter = clo_online_threshold;
-      		VG_(printf)("Online threshold parameter is set to %f\n", switching_threshold_parameter);
+      		VG_(printf)("Online threshold parameter is set to %d\n", switching_threshold_parameter);
    	} else {
       		VG_(printf)("Online threshold is invalid or negative\n");
             VG_(exit)(1);
