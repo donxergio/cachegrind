@@ -64,6 +64,8 @@ static Bool  clo_branch_sim = False; /* do branch simulation? */
 static const HChar* clo_cachegrind_out_file = "cachegrind.out.%p";
 static const HChar* clo_cache_policy = "lru";
 static float clo_cache_bip_throttle = -1.0;
+static long clo_cache_learning_start = 0; //Indicates how many accesses should happen before start learning output
+static long clo_cache_learning_end = 0; //Indicates how many accesses will be saved in learning output
 static int clo_online_threshold = 8;
 static const HChar* clo_c_file ="";
 static float clo_counter = 1024;
@@ -1791,6 +1793,8 @@ static Bool cg_process_cmd_line_option(const HChar* arg)
    else if VG_DBL_CLO( arg, "--change-threshold", clo_online_threshold) {}
    else if VG_STR_CLO( arg, "--c-file", clo_c_file) {}
    else if VG_INT_CLO( arg, "--window", clo_counter) {}
+   else if VG_INT_CLO( arg, "--startlearning", clo_cache_learning_start) {}
+   else if VG_INT_CLO( arg, "--endlearning", clo_cache_learning_end) {}
    else
       return False;
 
@@ -2082,6 +2086,22 @@ static void cg_post_clo_init(void)
             VG_(exit)(1);
    	}
    
+   } else if(VG_(strcmp)(clo_cache_policy,"learn") == 0) {
+	   cache_replacement_policy = LEARNING;
+	   VG_(printf)("Learning approach will be used\n");
+
+      if(clo_cache_learning_start >= 0 && clo_cache_learning_end >= 0){
+         start_learning = clo_cache_learning_start;
+         end_learning = clo_cache_learning_end;
+      }
+
+   	if(clo_cache_bip_throttle >= 0.0 && clo_cache_bip_throttle <= 1.0) {
+      		bip_throttle_parameter = clo_cache_bip_throttle;
+      		VG_(printf)("BIP Throttle parameter is set to %f\n", bip_throttle_parameter);
+   	} else {
+      		VG_(printf)("BIP Throttle parameter is unset or negative\n");
+            VG_(exit)(1);
+   	}
    }else {
       VG_(printf)("None cache replacement policy has been chosen!\n");
       VG_(exit)(1);

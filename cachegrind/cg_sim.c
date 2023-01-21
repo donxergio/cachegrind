@@ -83,6 +83,7 @@ static ULong* missesIL;
 static ULong* missesI1; 
 
 static ULong access_counter = 0;
+static ULong learning_counter = 0;
 static ULong data_blocks = 0 ;
 
 /*Add here the pointers to the functions of the different policies*/
@@ -619,19 +620,24 @@ __attribute__((always_inline)) static __inline__ int store_misses_history(policy
    }
    if (LL)
    {
+      if (last_value ==1){
+         policy_->misses_DL++;
+         policy_->online_misses_LL++; 
+      }
+      else{
+        policy_->online_misses_LL--; 
+      }
       if (last_value != policy_->array_misses_LL[policy_->bit_result_counter_LL])
       {
          // The value to be returned should be updated
          if (last_value == 1)
          {
             policy_->historic_misses_LL++; // New miss
-            policy_->online_misses_LL++;
-            policy_->misses_DL++;
+                       
          }
          else
          {
-            policy_->historic_misses_LL--; // New hit
-            policy_->online_misses_LL--;
+            policy_->historic_misses_LL--; // New hit            
          }
          policy_->array_misses_LL[policy_->bit_result_counter_LL] = last_value;
       }
@@ -653,19 +659,24 @@ __attribute__((always_inline)) static __inline__ int store_misses_history(policy
    }
    else
    {
+      if(last_value){
+         policy_->misses_D1++;
+         policy_->online_misses_D1++; 
+      }
+      else{
+         policy_->online_misses_D1--;
+      }
       if (last_value != policy_->array_misses_D1[policy_->bit_result_counter_D1])
       {
          // The value to be returned should be updated
          if (last_value == 1)
          {
             policy_->historic_misses_D1++; // New miss
-            policy_->online_misses_D1++;
-            policy_->misses_D1++;
+                       
          }
          else
          {
-            policy_->historic_misses_D1--; // New hit
-            policy_->online_misses_D1--;
+            policy_->historic_misses_D1--; // New hit            
          }
          policy_->array_misses_D1[policy_->bit_result_counter_D1] = last_value;
       }
@@ -716,15 +727,15 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_di
       {
          store_misses_history(&policies[2], 0, False);
       }      
-      if (policies[0].historic_misses_D1 <= policies[1].historic_misses_D1 && policies[0].historic_misses_D1 >= policies[2].historic_misses_D1)
+      if (policies[0].historic_misses_D1 <= policies[1].historic_misses_D1 && policies[0].historic_misses_D1 <= policies[2].historic_misses_D1)
       {
          return cachesim_setref_is_miss_lru(c, set_no, tag);
       }
-      if (policies[1].historic_misses_D1 >= policies[0].historic_misses_D1 && policies[1].historic_misses_D1 >= policies[2].historic_misses_D1)
+      if (policies[1].historic_misses_D1 <= policies[0].historic_misses_D1 && policies[1].historic_misses_D1 <= policies[2].historic_misses_D1)
       {
          return cachesim_setref_is_miss_fifo(c, set_no, tag);
       }
-      if (policies[2].historic_misses_D1 >= policies[1].historic_misses_D1 && policies[2].historic_misses_D1 >= policies[0].historic_misses_D1)
+      if (policies[2].historic_misses_D1 <= policies[1].historic_misses_D1 && policies[2].historic_misses_D1 <= policies[0].historic_misses_D1)
       {
          return cachesim_setref_is_miss_bip(c, set_no, tag);
       }
@@ -858,15 +869,15 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_du
       return False;
       } */
       //Follower sets policy selection
-      if (policies[0].historic_misses_D1 <= policies[1].historic_misses_D1 && policies[0].historic_misses_D1 >= policies[2].historic_misses_D1 /* && policies[0].historic_misses_D1 >= policies[3].historic_misses_D1 */)
+      if (policies[0].historic_misses_D1 <= policies[1].historic_misses_D1 && policies[0].historic_misses_D1 <= policies[2].historic_misses_D1 /* && policies[0].historic_misses_D1 >= policies[3].historic_misses_D1 */)
       {
          return cachesim_setref_is_miss_lru(c, set_no, tag);
       }
-      if (policies[1].historic_misses_D1 >= policies[0].historic_misses_D1 && policies[1].historic_misses_D1 >= policies[2].historic_misses_D1 /* && policies[1].historic_misses_D1 >= policies[3].historic_misses_D1 */)
+      if (policies[1].historic_misses_D1 <= policies[0].historic_misses_D1 && policies[1].historic_misses_D1 <= policies[2].historic_misses_D1 /* && policies[1].historic_misses_D1 >= policies[3].historic_misses_D1 */)
       {
          return cachesim_setref_is_miss_fifo(c, set_no, tag);
       }
-      if (policies[2].historic_misses_D1 >= policies[1].historic_misses_D1 && policies[2].historic_misses_D1 >= policies[0].historic_misses_D1 /* && policies[2].historic_misses_D1 >= policies[3].historic_misses_D1 */)
+      if (policies[2].historic_misses_D1 <= policies[1].historic_misses_D1 && policies[2].historic_misses_D1 <= policies[0].historic_misses_D1 /* && policies[2].historic_misses_D1 >= policies[3].historic_misses_D1 */)
       {
          return cachesim_setref_is_miss_bip(c, set_no, tag);
       }
@@ -1006,7 +1017,8 @@ __attribute__((always_inline)) static __inline__ void cachesim_I1_doref_Gen(Addr
    missesIL = mL;
    if (current_cache_replacement_policy == FIXED_WINDOW ||
        current_cache_replacement_policy == SLIDING_WINDOW ||
-       current_cache_replacement_policy == ONLINE)
+       current_cache_replacement_policy == ONLINE ||
+       current_cache_replacement_policy == LEARNING)
 
    {
       for (ULong i = 0; i < POLICIES; i++)
@@ -1042,7 +1054,8 @@ __attribute__((always_inline)) static __inline__ void cachesim_I1_doref_NoX(Addr
    /*PROCESS THE DIFFERENT APPROACHES*/
    if (current_cache_replacement_policy == FIXED_WINDOW ||
        current_cache_replacement_policy == SLIDING_WINDOW ||
-       current_cache_replacement_policy == ONLINE)
+       current_cache_replacement_policy == ONLINE ||
+       current_cache_replacement_policy == LEARNING)
 
    {
       for (ULong i = 0; i < POLICIES; i++)
@@ -1076,169 +1089,230 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
    ULong min_misses = ULLONG_MAX;
    ULong min_misses_second = ULLONG_MAX;
    static int index_selected_policy = 0;
+   static int prev_index_selected_policy = 0;
    static int index_min_misses_policy = 0;
-   // Avoid processing in case of ADAPTATIVE or single policy
-   if (current_cache_replacement_policy == FIXED_WINDOW ||
-       current_cache_replacement_policy == SLIDING_WINDOW ||
-       current_cache_replacement_policy == ONLINE)
-
+   static VgFile *fp = NULL;
+   
+   // If LEARNING approach is activated all policies will run and the result will be printed in a file
+   if (current_cache_replacement_policy == LEARNING)
    {
-      //First copy status of best cache to result one, otherwise no miss will be counted on it
-      if (current_cache_replacement_policy == SLIDING_WINDOW)
+      UShort result[POLICIES];
+      if (fp == NULL)
       {
-         // Select the policy that is performing better at the moment and copy its cache to the result
-         cachesim_setref_is_miss = policies[index_selected_policy].is_miss_func;
-         policies[index_selected_policy].uses++;
-         copy_caches(&policies[index_selected_policy].I1, &I1);
-         copy_caches(&policies[index_selected_policy].D1, &D1);
-         copy_caches(&policies[index_selected_policy].LL, &LL);
+         fp = VG_(fopen)("learning.dat", VKI_O_CREAT | VKI_O_TRUNC | VKI_O_WRONLY,
+                         VKI_S_IRUSR | VKI_S_IWUSR);
+         if (fp == NULL)
+         {
+            // If the file can't be opened for whatever reason (conflict
+            // between multiple cachegrinded processes?), give up now.
+            VG_(umsg)
+            ("error: can't open cache learning output file '%s'\n",
+             "learning.dat");
+            VG_(umsg)
+            ("       ... so learning results will be missing.\n");
+            return;
+         }
       }
+      if(start_learning > access_counter || end_learning < learning_counter)
+         return;
+      learning_counter++;
       for (ULong i = 0; i < POLICIES; i++)
       {
          cachesim_setref_is_miss = policies[i].is_miss_func;
          if (cachesim_ref_is_miss(&policies[i].D1, a, size))
          {
-            store_misses_history(&policies[i], 1, False);
             if (cachesim_ref_is_miss(&policies[i].LL, a, size))
             {
-               store_misses_history(&policies[i], 1, True);
+               result[i] = 2; // Miss in LL
             }
             else
             {
-               store_misses_history(&policies[i], 0, True);
+               result[i] = 1; // Hit in LL
             }
          }
          else
          {
-            store_misses_history(&policies[i], 0, False);
-         }
-         if ((policies[i].historic_misses_D1 < min_misses) && current_cache_replacement_policy != ONLINE)
-         {
-            //Sliding window uses the historic values of the misses
-            min_misses = policies[i].historic_misses_D1;
-            index_min_misses_policy = i;
-         }
-         if ((policies[i].online_misses_D1 < min_misses) && current_cache_replacement_policy == ONLINE)
-         {
-            //Online uses just a counter of misses
-            min_misses = policies[i].online_misses_D1;
-            index_min_misses_policy = i;
+            result[i] = 0; // Hit in D1
          }
       }
-      /*PROCESS THE DIFFERENT APPROACHES*/
-      if (current_cache_replacement_policy == FIXED_WINDOW)
-      {
-         // Check if the window was already processed
-         if (blocks >= window_counter)
-         {
-            /*Copy the best policy cache to all other caches*/
-            for (ULong i = 0; i < POLICIES; i++)
-            {
-               if (i != index_min_misses_policy)
-               {
-                  copy_caches(&policies[index_min_misses_policy].I1, &policies[i].I1);
-                  copy_caches(&policies[index_min_misses_policy].D1, &policies[i].D1);
-                  copy_caches(&policies[index_min_misses_policy].LL, &policies[i].LL);
-               }
-               else
-               {
-                  // Control how many times the policy was used
-                  policies[i].uses++;
-                  // Updates the counter of the result
-                  (*m1) += policies[i].misses_D1;
-                  (*mL) += policies[i].misses_DL;
-                  (*missesI1) += policies[i].misses_I1;
-                  (*missesIL) += policies[i].misses_IL;
-               }
-               // Clean last window to start a new one
-               VG_(free)(policies[i].array_misses_D1);
-               VG_(free)(policies[i].array_misses_LL);
-               policies[i].array_misses_D1 = (int *) VG_(calloc)("array_misses_D1", window_counter, sizeof(int));
-               policies[i].array_misses_LL = (int *) VG_(calloc)("array_misses_LL", window_counter, sizeof(int));
-               policies[i].historic_misses_D1 = 0;
-               policies[i].historic_misses_LL = 0;
-               policies[i].misses_DL = 0;
-               policies[i].misses_IL = 0;
-               policies[i].misses_D1 = 0;
-               policies[i].misses_I1 = 0;
-            }
-            // Restart processing
-            blocks = 0;
-            data_blocks++;
-         }
-         return;
-      }
-      if (current_cache_replacement_policy == ONLINE)
-      {
-         // Apply the threshold before switching
-         if (policies[index_min_misses_policy].online_misses_D1 < policies[index_selected_policy].online_misses_D1 - switching_threshold_parameter)
-         {
-            index_selected_policy = index_min_misses_policy;
-         }
-         // Select the policy that is performing better at the moment and copy its cache to the result
-         cachesim_setref_is_miss = policies[index_selected_policy].is_miss_func;
-         policies[index_selected_policy].uses++;
-      } 
-      if (current_cache_replacement_policy == SLIDING_WINDOW)
-      {
-         // Apply the threshold before switching
-         if (policies[index_min_misses_policy].historic_misses_D1 < policies[index_selected_policy].historic_misses_D1 - switching_threshold_parameter)
-         {
-            index_selected_policy = index_min_misses_policy;
-         }
-         // Select the policy that is performing better at the moment and copy its cache to the result
-         cachesim_setref_is_miss = policies[index_selected_policy].is_miss_func;
-         policies[index_selected_policy].uses++;
-      }      
-   }
-   if (current_cache_replacement_policy == ADAPTATIVE || current_cache_replacement_policy == NAIVE )
-   {
-      // Use the policy selected in CODE
-      if (current_cache_replacement_policy == NAIVE)
-      {
-         //TODO: adapt the number of policies to a parameter
-         current_adaptative_cache_replacement_policy = VG_(random)(NULL) % 4;
-      }
-      
-      switch (current_adaptative_cache_replacement_policy)
-      {
-      case LRU_POLICY:
-         cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
-         policies[0].uses++;
-         break;
-      case LIP_POLICY:         
-         cachesim_setref_is_miss = &cachesim_setref_is_miss_lip;
-         break;
-      case RANDOM_POLICY:
-         policies[3].uses++;
-         cachesim_setref_is_miss = &cachesim_setref_is_miss_random;
-         break;
-      case FIFO_POLICY:
-         policies[1].uses++;
-         cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
-         break;
-      case BIP_POLICY:
-         policies[2].uses++;
-         cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
-         break;
-      case DIP_POLICY:
-         cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
-         break;
-      default:
-         cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
-         policies[0].uses++;
-         break;
-      }
-   }
-   data_blocks++;
-   //Execution for traditional policies and result cache in case of selection of best policy
+      VG_(fprintf)
+      (fp, "%llu %d %d %d %d\n", a, result[0], result[1], result[2], result[3]);
       if (cachesim_ref_is_miss(&D1, a, size))
       {
          (*m1)++;
          if (cachesim_ref_is_miss(&LL, a, size))
             (*mL)++;
       }
-}
+      return;
+   }
+      // Avoid processing in case of ADAPTATIVE or single policy
+      if (current_cache_replacement_policy == FIXED_WINDOW ||
+          current_cache_replacement_policy == SLIDING_WINDOW ||
+          current_cache_replacement_policy == ONLINE)
+
+      {
+         // First copy status of best cache to result one, otherwise no miss will be counted on it
+         if (current_cache_replacement_policy == SLIDING_WINDOW)
+         {
+            // Select the policy that is performing better at the moment and copy its cache to the result
+            cachesim_setref_is_miss = policies[index_selected_policy].is_miss_func;
+            policies[index_selected_policy].uses++;
+            if (prev_index_selected_policy != index_selected_policy)
+            {
+               copy_caches(&policies[index_selected_policy].I1, &I1);
+               copy_caches(&policies[index_selected_policy].D1, &D1);
+               copy_caches(&policies[index_selected_policy].LL, &LL);
+               prev_index_selected_policy = index_selected_policy;
+            }
+         }
+         for (ULong i = 0; i < POLICIES; i++)
+         {
+            cachesim_setref_is_miss = policies[i].is_miss_func;
+            if (cachesim_ref_is_miss(&policies[i].D1, a, size))
+            {
+               store_misses_history(&policies[i], 1, False);
+               if (cachesim_ref_is_miss(&policies[i].LL, a, size))
+               {
+                  store_misses_history(&policies[i], 1, True);
+               }
+               else
+               {
+                  store_misses_history(&policies[i], 0, True);
+               }
+            }
+            else
+            {
+               store_misses_history(&policies[i], 0, False);
+            }
+            if ((policies[i].historic_misses_D1 < min_misses) && current_cache_replacement_policy != ONLINE)
+            {
+               // Sliding window uses the historic values of the misses
+               min_misses = policies[i].historic_misses_D1;
+               index_min_misses_policy = i;
+            }
+            if ((policies[i].online_misses_D1 < min_misses) && current_cache_replacement_policy == ONLINE)
+            {
+               // Online uses just a counter of misses
+               min_misses = policies[i].online_misses_D1;
+               index_min_misses_policy = i;
+            }
+         }
+         /*PROCESS THE DIFFERENT APPROACHES*/
+         if (current_cache_replacement_policy == FIXED_WINDOW)
+         {
+            // Check if the window was already processed
+            if (blocks >= window_counter)
+            {
+               /*Copy the best policy cache to all other caches*/
+               for (ULong i = 0; i < POLICIES; i++)
+               {
+                  if (i != index_min_misses_policy)
+                  {
+                     copy_caches(&policies[index_min_misses_policy].I1, &policies[i].I1);
+                     copy_caches(&policies[index_min_misses_policy].D1, &policies[i].D1);
+                     copy_caches(&policies[index_min_misses_policy].LL, &policies[i].LL);
+                  }
+                  else
+                  {
+                     // Control how many times the policy was used
+                     policies[i].uses++;
+                     // Updates the counter of the result
+                     (*m1) += policies[i].misses_D1;
+                     (*mL) += policies[i].misses_DL;
+                     (*missesI1) += policies[i].misses_I1;
+                     (*missesIL) += policies[i].misses_IL;
+                  }
+                  // Clean last window to start a new one
+                  VG_(free)
+                  (policies[i].array_misses_D1);
+                  VG_(free)
+                  (policies[i].array_misses_LL);
+                  policies[i].array_misses_D1 = (int *)VG_(calloc)("array_misses_D1", window_counter, sizeof(int));
+                  policies[i].array_misses_LL = (int *)VG_(calloc)("array_misses_LL", window_counter, sizeof(int));
+                  policies[i].historic_misses_D1 = 0;
+                  policies[i].historic_misses_LL = 0;
+                  policies[i].misses_DL = 0;
+                  policies[i].misses_IL = 0;
+                  policies[i].misses_D1 = 0;
+                  policies[i].misses_I1 = 0;
+               }
+               // Restart processing
+               blocks = 0;
+               data_blocks++;
+            }
+            return;
+         }
+         if (current_cache_replacement_policy == ONLINE)
+         {
+            // Apply the threshold before switching
+            if (policies[index_min_misses_policy].online_misses_D1 < policies[index_selected_policy].online_misses_D1 - switching_threshold_parameter)
+            {
+               index_selected_policy = index_min_misses_policy;
+            }
+            // Select the policy that is performing better at the moment and copy its cache to the result
+            cachesim_setref_is_miss = policies[index_selected_policy].is_miss_func;
+            policies[index_selected_policy].uses++;
+         }
+         if (current_cache_replacement_policy == SLIDING_WINDOW)
+         {
+            // Apply the threshold before switching
+            if (policies[index_min_misses_policy].historic_misses_D1 < policies[index_selected_policy].historic_misses_D1 - switching_threshold_parameter)
+            {
+               index_selected_policy = index_min_misses_policy;
+            }
+            // Select the policy that is performing better at the moment and copy its cache to the result
+            cachesim_setref_is_miss = policies[index_selected_policy].is_miss_func;
+            policies[index_selected_policy].uses++;
+         }
+      }
+      if (current_cache_replacement_policy == ADAPTATIVE || current_cache_replacement_policy == NAIVE)
+      {
+         // Use the policy selected in CODE
+         if (current_cache_replacement_policy == NAIVE)
+         {
+            // TODO: adapt the number of policies to a parameter
+            current_adaptative_cache_replacement_policy = VG_(random)(NULL) % 4;
+         }
+
+         switch (current_adaptative_cache_replacement_policy)
+         {
+         case LRU_POLICY:
+            cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
+            policies[0].uses++;
+            break;
+         case LIP_POLICY:
+            cachesim_setref_is_miss = &cachesim_setref_is_miss_lip;
+            break;
+         case RANDOM_POLICY:
+            policies[3].uses++;
+            cachesim_setref_is_miss = &cachesim_setref_is_miss_random;
+            break;
+         case FIFO_POLICY:
+            policies[1].uses++;
+            cachesim_setref_is_miss = &cachesim_setref_is_miss_fifo;
+            break;
+         case BIP_POLICY:
+            policies[2].uses++;
+            cachesim_setref_is_miss = &cachesim_setref_is_miss_bip;
+            break;
+         case DIP_POLICY:
+            cachesim_setref_is_miss = &cachesim_setref_is_miss_dip;
+            break;
+         default:
+            cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
+            policies[0].uses++;
+            break;
+         }
+      }
+      data_blocks++;
+      // Execution for traditional policies and result cache in case of selection of best policy
+      if (cachesim_ref_is_miss(&D1, a, size))
+      {
+         (*m1)++;
+         if (cachesim_ref_is_miss(&LL, a, size))
+            (*mL)++;
+      }
+   }
 
 /* Check for special case IrNoX. Called at instrumentation time.
  *

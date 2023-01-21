@@ -45,11 +45,14 @@ typedef enum {
    ADAPTATIVE,
    NAIVE,   
    ONLINE,
-   CACHE_DUELING
+   CACHE_DUELING, 
+   LEARNING //Executes all the policies and print to the screen the results M (Miss) or H (Hit) in First and Last level
 } Cg_CachePolicy;
 
 int cache_replacement_policy;
 double bip_throttle_parameter;
+double start_learning;
+double end_learning;
 int switching_threshold_parameter;
 int window_counter;
 int current_cache_replacement_policy;
