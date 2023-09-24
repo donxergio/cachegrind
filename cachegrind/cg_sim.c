@@ -175,6 +175,8 @@ __attribute__((always_inline)) static __inline__ void copy_caches(cache_t2 *c_or
       c_dest->tags[i] = c_ori->tags[i];
    for (i = 0; i < c_dest->sets; i++)
       c_dest->tags_miss[i] = c_ori->tags_miss[i];
+   //memcpy(c_dest->tags,c_ori->tags,sizeof(UWord) * c_ori->sets * c_ori->assoc);
+   //memcpy(c_dest->tags_miss,c_ori->tags_miss,sizeof(ULong) * c_ori->sets);
 }
 
 /* By this point, the size/assoc/line_size has been checked. */
@@ -470,13 +472,15 @@ __attribute__((always_inline)) static __inline__ Bool cachesim_setref_is_miss_di
    }
    else if (c == &LL)
    {
-      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].LL, set_no, tag);
-      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].LL, set_no, tag);
+      cachesim_setref_is_miss_lru(&policies[0].LL, set_no, tag);
+      cachesim_setref_is_miss_bip(&policies[2].LL, set_no, tag);
+      return cachesim_setref_is_miss_lru(c, set_no, tag);
    }
    else
    {
-      is_miss_lru = cachesim_setref_is_miss_lru(&policies[0].I1, set_no, tag);
-      is_miss_bip = cachesim_setref_is_miss_bip(&policies[2].I1, set_no, tag);
+      cachesim_setref_is_miss_lru(&policies[0].I1, set_no, tag);
+      cachesim_setref_is_miss_bip(&policies[2].I1, set_no, tag);
+      return cachesim_setref_is_miss_lru(c, set_no, tag);
    }
 
    if (is_miss_lru)
@@ -1084,6 +1088,8 @@ __attribute__((always_inline)) static __inline__ void cachesim_I1_doref_NoX(Addr
 __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, UChar size, ULong *m1, ULong *mL)
 {
    static ULong blocks = 0 ;
+   static unsigned long lastAddress=0;
+   static file_counter = 0;
    access_counter++;
    blocks++;
    ULong min_misses = ULLONG_MAX;
@@ -1096,13 +1102,24 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
    // If LEARNING approach is activated all policies will run and the result will be printed in a file
    if (current_cache_replacement_policy == LEARNING)
    {
-      UShort result[POLICIES];
-      if (fp == NULL)
+      cachesim_setref_is_miss = &cachesim_setref_is_miss_lru;
+      if (cachesim_ref_is_miss(&D1, a, size))
       {
-         fp = VG_(fopen)("learning.dat", VKI_O_CREAT | VKI_O_TRUNC | VKI_O_WRONLY,
+         (*m1)++;
+         if (cachesim_ref_is_miss(&LL, a, size))
+            (*mL)++;
+      }
+      UShort result[POLICIES];
+      if (fp == NULL || access_counter > 10000000)
+      {
+         access_counter = 0;         
+         HChar learn_filename [15];
+         VG_(sprintf)(learn_filename, "learning_%d.dat", file_counter);
+         file_counter ++;
+         fp = VG_(fopen)(learn_filename, VKI_O_CREAT | VKI_O_TRUNC | VKI_O_WRONLY,
                          VKI_S_IRUSR | VKI_S_IWUSR);
          if (fp == NULL)
-         {
+         {            
             // If the file can't be opened for whatever reason (conflict
             // between multiple cachegrinded processes?), give up now.
             VG_(umsg)
@@ -1113,9 +1130,8 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
             return;
          }
       }
-      if(start_learning > access_counter || end_learning < learning_counter)
-         return;
-      learning_counter++;
+      //if(start_learning > access_counter || end_learning < learning_counter)
+      //   return;
       for (ULong i = 0; i < POLICIES; i++)
       {
          cachesim_setref_is_miss = policies[i].is_miss_func;
@@ -1123,30 +1139,30 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
          {
             if (cachesim_ref_is_miss(&policies[i].LL, a, size))
             {
-               result[i] = 2; // Miss in LL
+               result[i] = 0; // Miss in LL
             }
             else
             {
-               result[i] = 1; // Hit in LL
+               result[i] = 0; // Hit in LL
             }
          }
          else
          {
-            result[i] = 0; // Hit in D1
+            result[i] = 1; // Hit in D1
          }
       }
-      VG_(fprintf)
-      (fp, "%llu %d %d %d %d\n", a, result[0], result[1], result[2], result[3]);
-      if (cachesim_ref_is_miss(&D1, a, size))
-      {
-         (*m1)++;
-         if (cachesim_ref_is_miss(&LL, a, size))
-            (*mL)++;
-      }
+      learning_counter++;
+      long long difAddress = a - lastAddress;
+      lastAddress = (a);
+      int resultBits = 1*result[0] + 2*result[1] + 4*result[2] + 8*result[3];
+      UWord block1 = a >> policies[0].D1.line_size_bits;
+      UInt set1 = block1 & policies[0].D1.sets_min_1;
+      VG_(fprintf)      
+      (fp, "%ld %d %d %lld\n", difAddress, set1 , resultBits, a);
       return;
    }
-      // Avoid processing in case of ADAPTATIVE or single policy
-      if (current_cache_replacement_policy == FIXED_WINDOW ||
+   // Avoid processing in case of ADAPTIVE or single policy
+   if (current_cache_replacement_policy == FIXED_WINDOW ||
           current_cache_replacement_policy == SLIDING_WINDOW ||
           current_cache_replacement_policy == ONLINE)
 
@@ -1159,9 +1175,10 @@ __attribute__((always_inline)) static __inline__ void cachesim_D1_doref(Addr a, 
             policies[index_selected_policy].uses++;
             if (prev_index_selected_policy != index_selected_policy)
             {
-               copy_caches(&policies[index_selected_policy].I1, &I1);
-               copy_caches(&policies[index_selected_policy].D1, &D1);
-               copy_caches(&policies[index_selected_policy].LL, &LL);
+               //NOT NEEDED TO COPY, this simulates a real use of the approach
+               //copy_caches(&policies[index_selected_policy].I1, &I1);
+               //copy_caches(&policies[index_selected_policy].D1, &D1);
+               //copy_caches(&policies[index_selected_policy].LL, &LL);
                prev_index_selected_policy = index_selected_policy;
             }
          }
